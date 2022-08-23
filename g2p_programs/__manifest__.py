@@ -7,7 +7,7 @@
     "author": "OpenG2P",
     "website": "https://github.com/openg2p/openg2p-program",
     "license": "Other OSI approved licence",
-    "development_status": "Beta",
+    "development_status": "Production/Stable",
     "maintainers": ["jeremi", "gonzalesedwin1123"],
     "depends": [
         "base",
