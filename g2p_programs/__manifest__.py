@@ -5,7 +5,7 @@
     "version": "15.0.0.0.1",
     "sequence": 1,
     "author": "OpenG2P",
-    "website": "https://github.com/openg2p/openg2p_program",
+    "website": "https://github.com/openg2p/openg2p-program",
     "license": "Other OSI approved licence",
     "development_status": "Beta",
     "maintainers": ["jeremi", "gonzalesedwin1123"],
