@@ -218,7 +218,7 @@ class IDDocumentDeduplication(models.Model):
 
     def _check_duplicate_by_group_with_individual(self, beneficiaries):
         """
-        This method is used to check if there are any duplicates among the individuals docs.
+        This method is used to check if there are any duplicates among the individuals ID docs.
         :param beneficiary_ids: The beneficiaries.
         :return:
         """
@@ -237,10 +237,13 @@ class IDDocumentDeduplication(models.Model):
         # Check ID Documents of each individual
         for i in group_memberships:
             for x in i.individual.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
-                ):
+                proceed = True
+                if x.id_type in self.supported_id_document_types:
+                    if x.expiry_date and x.expiry_date <= date.today():
+                        proceed = False
+                else:
+                    proceed = False
+                if proceed:
                     id_doc_id_with_id_type_and_value = {
                         x.id: x.id_type.name + "-" + x.value
                     }
@@ -249,10 +252,13 @@ class IDDocumentDeduplication(models.Model):
         # Check ID Docs of each group
         for ix in group:
             for x in ix.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
-                ):
+                proceed = True
+                if x.id_type in self.supported_id_document_types:
+                    if x.expiry_date and x.expiry_date <= date.today():
+                        proceed = False
+                else:
+                    proceed = False
+                if proceed:
                     id_doc_id_with_id_type_and_value = {
                         x.id: x.id_type.name + "-" + x.value
                     }
@@ -314,6 +320,7 @@ class IDDocumentDeduplication(models.Model):
                 duplicate_beneficiaries = duplicate_beneficiaries.filtered(
                     lambda rec: rec.state != "enrolled"
                 )
+
             duplicate_beneficiaries.filtered(
                 lambda rec: rec.state not in ["exited", "not_eligible", "duplicated"]
             ).write({"state": "duplicated"})
@@ -335,10 +342,13 @@ class IDDocumentDeduplication(models.Model):
         # Check ID Documents of each individual
         for i in individuals:
             for x in i.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
-                ):
+                proceed = True
+                if x.id_type in self.supported_id_document_types:
+                    if x.expiry_date and x.expiry_date <= date.today():
+                        proceed = False
+                else:
+                    proceed = False
+                if proceed:
                     id_doc_id_with_id_type_and_value = {
                         x.id: x.id_type.name + "-" + x.value
                     }
