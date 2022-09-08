@@ -6,13 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-09-09 01:25+0000\n"
+"Last-Translator: Corentin Madec <corentin@newlogic.com>\n"
+"Language-Team: French <https://translate.openspp.org/projects/openg2p/"
+"g2p_programs/fr/>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.14\n"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__members_count
@@ -190,7 +193,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_needaction
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Action nécessaire"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__active
@@ -382,7 +385,7 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_list_filter
 msgid "Archived"
-msgstr ""
+msgstr "Archivé"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.assign_to_program_wizard_form_view
@@ -403,7 +406,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_attachment_count
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Nombre de pièces jointes"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_cycle_manager__auto_approve_entitlements
@@ -693,7 +696,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
@@ -779,7 +782,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Créé par"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_registrants__create_date
@@ -811,7 +814,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Créé sur"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__currency_id
@@ -1096,7 +1099,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Afficher un nom"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__distributed
@@ -1170,7 +1173,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__end_date
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 msgid "End Date"
-msgstr ""
+msgstr "Date de fin"
 
 #. module: g2p_programs
 #: model:ir.actions.server,name:g2p_programs.end_program
@@ -1351,7 +1354,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_follower_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Abonnés"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_partner_ids
@@ -1362,7 +1365,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_partner_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Abonnés (Partenaires)"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_type_icon
@@ -1384,7 +1387,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program__target_type__group
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__target_type__group
 msgid "Group"
-msgstr ""
+msgstr "Groupe"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
@@ -1404,7 +1407,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_manager_default_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Group By"
-msgstr ""
+msgstr "Groupé par"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__has_message
@@ -1520,6 +1523,7 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
+"Si cette case est cochée, de nouveaux messages nécessitent votre attention."
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__message_has_error
@@ -1538,6 +1542,8 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
+"Si cette case est cochée, certains messages présentent une erreur de "
+"livraison."
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__state__step2
@@ -1549,7 +1555,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program__target_type__individual
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__target_type__individual
 msgid "Individual"
-msgstr ""
+msgstr "Individu"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__initial_amount
@@ -1566,7 +1572,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_is_follower
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Est Abonné"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_account_journal
@@ -1623,7 +1629,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms____last_update
 msgid "Last Modified on"
-msgstr ""
+msgstr "Modification le"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_registrants__write_uid
@@ -1655,7 +1661,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Mise à jour par"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_registrants__write_date
@@ -1687,7 +1693,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Mise à jour le"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_main_attachment_id
@@ -1698,7 +1704,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_main_attachment_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_main_attachment_id
 msgid "Main Attachment"
-msgstr ""
+msgstr "Pièce jointe principale"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__manager_ref_id
@@ -1774,7 +1780,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_has_error
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Erreur de livraison du message"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_ids
@@ -1785,7 +1791,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Messages"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_multi_entitlement_approval
@@ -1955,7 +1961,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_needaction_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Nombre d'actions"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_has_error_counter
@@ -1966,7 +1972,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_has_error_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Nombre d'erreurs"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__message_needaction_counter
@@ -1977,7 +1983,7 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_needaction_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_needaction_counter
 msgid "Number of messages which requires an action"
-msgstr ""
+msgstr "Nombre de messages nécessitant une action"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__message_has_error_counter
@@ -1988,7 +1994,7 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_has_error_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Nombre de messages avec erreur de livraison"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__message_unread_counter
@@ -1999,7 +2005,7 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_unread_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_unread_counter
 msgid "Number of unread messages"
-msgstr ""
+msgstr "Nombre de messages non lus"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_registrants__state__okay
@@ -2439,7 +2445,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_has_sms_error
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Erreur de livraison SMS"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_notification_manager_sms_form
@@ -2596,7 +2602,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__start_date
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 msgid "Start Date"
-msgstr ""
+msgstr "Date de début"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__state
@@ -2785,7 +2791,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_unread
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_unread
 msgid "Unread Messages"
-msgstr ""
+msgstr "Messages non lus"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_unread_counter
