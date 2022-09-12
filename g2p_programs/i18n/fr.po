@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-09-09 01:25+0000\n"
+"PO-Revision-Date: 2022-09-13 10:22+0000\n"
 "Last-Translator: Corentin Madec <corentin@newlogic.com>\n"
 "Language-Team: French <https://translate.openspp.org/projects/openg2p/"
 "g2p_programs/fr/>\n"
@@ -23,61 +23,61 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 msgid "# Beneficiaries"
-msgstr ""
+msgstr "# Bénéficiaires"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__cycles_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 msgid "# Cycles"
-msgstr ""
+msgstr "# Cycles"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__eligible_beneficiaries_count
 msgid "# Eligible Beneficiaries"
-msgstr ""
+msgstr "# Bénéficiaires éligibles"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__entitlements_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
 msgid "# Entitlements"
-msgstr ""
+msgstr "# Prestations"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_tree
 msgid "# IDs"
-msgstr ""
+msgstr "# IDs"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__duplicate_membership_count
 msgid "# Membership Duplicates"
-msgstr ""
+msgstr "# Doublons d'appartenance"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "%s Beneficiaries duplicate."
-msgstr ""
+msgstr "%s Bénéficiaires en double."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
-msgstr ""
+msgstr "%s Bénéficiaires inscrits."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "'Accounting'"
-msgstr ""
+msgstr "'Comptabilité'"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "'Configuration'"
-msgstr ""
+msgstr "'Configuration'"
 
 #. module: g2p_programs
 #: model:ir.actions.report,print_report_name:g2p_programs.action_print_entitlement
 msgid "'Entitlement Card'"
-msgstr ""
+msgstr "'Carte de droit'"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_create_wizard__max_individual_in_group
@@ -96,12 +96,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "<span class=\"o_stat_text\">Beneficiaries</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Bénéficiaires</span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "<span class=\"o_stat_text\">Cycles</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Cycles</span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
@@ -1418,7 +1418,7 @@ msgstr "Groupé par"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__has_message
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "A un message"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__have_members
@@ -1456,7 +1456,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_id_dedup_form
@@ -2802,7 +2802,7 @@ msgstr "Messages non lus"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_unread_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_unread_counter
 msgid "Unread Messages Counter"
-msgstr ""
+msgstr "Compteur de messages non lus"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__valid_from
