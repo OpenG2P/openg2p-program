@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-09-13 10:22+0000\n"
+"PO-Revision-Date: 2022-09-14 14:22+0000\n"
 "Last-Translator: Corentin Madec <corentin@newlogic.com>\n"
 "Language-Team: French <https://translate.openspp.org/projects/openg2p/"
 "g2p_programs/fr/>\n"
@@ -112,24 +112,25 @@ msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+#, fuzzy
 msgid "<span class=\"o_stat_text\">Duplicates</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Doublons</span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "<span class=\"o_stat_text\">Entitlements</span>"
-msgstr ""
+msgstr "<span class=\"o_stat_text\">Prestations</span>"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval__cycle_id
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval_wizard__cycle_id
 msgid "A Cycle"
-msgstr ""
+msgstr "Un cycle"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval__entitlement_id
 msgid "A Entitlement"
-msgstr ""
+msgstr "Une prestations"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval__wizard_id
