@@ -123,18 +123,19 @@ class DefaultCashEntitlementManager(models.Model):
         total = self.amount_per_cycle
         if beneficiary.is_group:
             num_individuals = beneficiary.count_individuals()
-            result_map = dict(num_individuals)
-            num_individuals = result_map.get(beneficiary.id, 0)
-            _logger.info(
-                "Default Entitlement Manager: _calculate_amount: %s - num_individuals:%s"
-                % (beneficiary.name, num_individuals)
-            )
-            if (
-                self.max_individual_in_group
-                and num_individuals > self.max_individual_in_group
-            ):
-                num_individuals = self.max_individual_in_group
-            total += self.amount_per_individual_in_group * float(num_individuals)
+            if num_individuals:
+                result_map = dict(num_individuals)
+                num_individuals = result_map.get(beneficiary.id, 0)
+                _logger.info(
+                    "Default Entitlement Manager: _calculate_amount: %s - num_individuals:%s"
+                    % (beneficiary.name, num_individuals)
+                )
+                if (
+                    self.max_individual_in_group
+                    and num_individuals > self.max_individual_in_group
+                ):
+                    num_individuals = self.max_individual_in_group
+                total += self.amount_per_individual_in_group * float(num_individuals)
         return total
 
     def validate_entitlements(self, cycle, cycle_memberships):
