@@ -87,10 +87,27 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </div>
                     <group colspan="4" col="4">
                         <field
+                            name="eligibility_kind"
+                            colspan="4"
+                            widget="radio"
+                            options="{'horizontal': true}"
+                            string="Eligibility Option"
+                        />
+                    </group>
+                    <group colspan="4" col="4" attrs="{'invisible':[('eligibility_kind','!=', 'domain')]}">
+                        <field
                             name="eligibility_domain"
                             colspan="4"
                             widget="domain"
                             options="{'model': 'res.partner'}"
+                        />
+                    </group>
+                    <group colspan="4" col="4" attrs="{'invisible':[('eligibility_kind','!=', 'formula')]}">
+                        <field
+                            name="eligibility_formula"
+                            colspan="4"
+                            widget="ace"
+                            options="{'mode': 'python'}"
                         />
                     </group>
                 </sheet>

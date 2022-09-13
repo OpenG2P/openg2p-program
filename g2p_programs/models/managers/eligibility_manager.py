@@ -71,7 +71,13 @@ class DefaultEligibilityManager(models.Model):
     # support_group = fields.Boolean(string="Support Group", default=False)
 
     # TODO: cache the parsed domain
+    eligibility_kind = fields.Selection(
+        [("domain", "Criteria"), ("formula", "Formula")],
+        "Eligibility Option",
+        default="domain",
+    )
     eligibility_domain = fields.Text(string="Domain", default="[]")
+    eligibility_formula = fields.Text(string="SQL Query")
 
     def _prepare_eligible_domain(self, membership):
         ids = membership.mapped("partner_id.id")

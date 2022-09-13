@@ -35,7 +35,13 @@ class G2PCreateNewProgramWiz(models.TransientModel):
     currency_id = fields.Many2one("res.currency", "Currency", required=True)
 
     # Eligibility Manager
+    eligibility_kind = fields.Selection(
+        [("domain", "Criteria"), ("formula", "Formula")],
+        "Eligibility Option",
+        default="domain",
+    )
     eligibility_domain = fields.Text(string="Domain", default="[]", required=True)
+    eligibility_formula = fields.Text(string="SQL Query")
 
     # Cycle Manager
     auto_approve_entitlements = fields.Boolean(
@@ -169,6 +175,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
                     "name": "Default",
                     "program_id": program_id,
                     "eligibility_domain": rec.eligibility_domain,
+                    "eligibility_formula": rec.eligibility_formula,
                 }
             )
             # Add a new record to eligibility manager parent model
@@ -213,9 +220,18 @@ class G2PCreateNewProgramWiz(models.TransientModel):
                     domain += [("is_group", "=", True)]
                 else:
                     domain += [("is_group", "=", False)]
-                domain += self._safe_eval(rec.eligibility_domain)
-                # Filter res.partner and get ids
-                partners = self.env["res.partner"].search(domain)
+                if rec.eligibility_kind == "domain":
+                    # Use defined criteria
+                    domain += self._safe_eval(rec.eligibility_domain)
+                    # Filter res.partner and get ids
+                    partners = self.env["res.partner"].search(domain)
+                else:
+                    # Use SQL query
+                    # try:
+
+                    # Filter res.partner and get ids
+                    partners = self.env["res.partner"].search(domain)
+
                 if partners:
                     partner_vals = []
                     for p in partners.ids:

@@ -24,12 +24,47 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <notebook colspan="4" attrs="{'invisible':[('state','=','step2')]}">
                         <page string="Configure the Default Eligibility Criteria" name="eligibility">
                             <group colspan="4" col="4">
-                                <label for="eligibility_domain" string="FILTER:" />
+                                <field
+                                    name="eligibility_kind"
+                                    colspan="4"
+                                    widget="radio"
+                                    options="{'horizontal': true}"
+                                    string="Eligibility Option"
+                                />
+                            </group>
+                            <group
+                                colspan="4"
+                                col="4"
+                                name="domain"
+                                attrs="{'invisible':[('eligibility_kind','!=', 'domain')]}"
+                            >
+                                <label
+                                    for="eligibility_domain"
+                                    string="Define criterias that will be used in enrolling qualified registrants:"
+                                />
                                 <field
                                     name="eligibility_domain"
                                     colspan="4"
                                     widget="domain"
                                     options="{'model': 'res.partner'}"
+                                    nolabel="1"
+                                />
+                            </group>
+                            <group
+                                colspan="4"
+                                col="4"
+                                name="formula"
+                                attrs="{'invisible':[('eligibility_kind','!=', 'formula')]}"
+                            >
+                                <label
+                                    for="eligibility_formula"
+                                    string="Enter a SQL Query that will calculate scores and enroll the top registrants:"
+                                />
+                                <field
+                                    name="eligibility_formula"
+                                    colspan="4"
+                                    widget="ace"
+                                    options="{'mode': 'python'}"
                                     nolabel="1"
                                 />
                             </group>
@@ -52,7 +87,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     colspan="4"
                                     widget="radio"
                                     options="{'horizontal': true}"
-                                    string="Entitlement manager"
+                                    string="Entitlement Manager"
                                 />
                             </group>
                             <group
