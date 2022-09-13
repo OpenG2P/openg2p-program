@@ -99,6 +99,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         />
                         <field name="max_individual_in_group" />
 
+                        <field name="transfer_fee_pct" />
+                        <field name="transfer_fee_amt" />
+
                         <field
                             name="entitlement_validation_group_id"
                             options="{'no_open':True,'no_create':True,'no_create_edit':True}"

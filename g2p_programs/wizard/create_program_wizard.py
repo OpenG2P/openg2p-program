@@ -71,6 +71,16 @@ class G2PCreateNewProgramWiz(models.TransientModel):
     entitlement_validation_group_id = fields.Many2one(
         "res.groups", string="Entitlement Validation Group"
     )
+    # Entitlement Transfer Fees
+    transfer_fee_pct = fields.Integer(
+        "Transfer Fee(%)", default=0, help="Transfer fee will be a percentage of amount"
+    )
+    transfer_fee_amt = fields.Monetary(
+        "Transfer Fee Amount",
+        default=0.0,
+        currency_field="currency_id",
+        help="Set fixed transfer fee amount",
+    )
 
     target_type = fields.Selection(
         [("group", "Group"), ("individual", "Individual")],
@@ -86,6 +96,16 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         default="step1",
         readonly=True,
     )
+
+    @api.onchange("transfer_fee_pct")
+    def on_transfer_fee_pct_change(self):
+        if self.transfer_fee_pct > 0:
+            self.transfer_fee_amt = 0.0
+
+    @api.onchange("transfer_fee_amt")
+    def on_transfer_fee_amt_change(self):
+        if self.transfer_fee_amt > 0.0:
+            self.transfer_fee_pct = 0
 
     def next_step(self):
         if self.state == "step1":
@@ -130,6 +150,8 @@ class G2PCreateNewProgramWiz(models.TransientModel):
                     "program_id": program_id,
                     "amount_per_cycle": self.amount_per_cycle,
                     "amount_per_individual_in_group": self.amount_per_individual_in_group,
+                    "transfer_fee_pct": self.transfer_fee_pct,
+                    "transfer_fee_amt": self.transfer_fee_amt,
                     "max_individual_in_group": self.max_individual_in_group,
                     "entitlement_validation_group_id": self.entitlement_validation_group_id.id,
                 }

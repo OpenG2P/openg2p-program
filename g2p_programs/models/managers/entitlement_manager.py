@@ -74,11 +74,32 @@ class DefaultCashEntitlementManager(models.Model):
         "res.currency", related="program_id.journal_id.currency_id", readonly=True
     )
 
+    # Transfer Fees
+    transfer_fee_pct = fields.Integer(
+        "Transfer Fee(%)", default=0, help="Transfer fee will be a percentage of amount"
+    )
+    transfer_fee_amt = fields.Monetary(
+        "Transfer Fee Amount",
+        default=0.0,
+        currency_field="currency_id",
+        help="Set fixed transfer fee amount",
+    )
+
     # Group able to validate the payment
     # Todo: Create a record rule for payment_validation_group
     entitlement_validation_group_id = fields.Many2one(
         "res.groups", string="Entitlement Validation Group"
     )
+
+    @api.onchange("transfer_fee_pct")
+    def on_transfer_fee_pct_change(self):
+        if self.transfer_fee_pct > 0:
+            self.transfer_fee_amt = 0.0
+
+    @api.onchange("transfer_fee_amt")
+    def on_transfer_fee_amt_change(self):
+        if self.transfer_fee_amt > 0.0:
+            self.transfer_fee_pct = 0
 
     def prepare_entitlements(self, cycle, beneficiaries):
         # TODO: create a Entitlement of `amount_per_cycle` for each member that do not have one yet for the cycle and
@@ -126,10 +147,6 @@ class DefaultCashEntitlementManager(models.Model):
             if num_individuals:
                 result_map = dict(num_individuals)
                 num_individuals = result_map.get(beneficiary.id, 0)
-                _logger.info(
-                    "Default Entitlement Manager: _calculate_amount: %s - num_individuals:%s"
-                    % (beneficiary.name, num_individuals)
-                )
                 if (
                     self.max_individual_in_group
                     and num_individuals > self.max_individual_in_group
