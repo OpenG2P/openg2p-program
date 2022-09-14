@@ -164,6 +164,54 @@ class DefaultDeduplication(models.Model):
         return group_with_duplicates
 
 
+class IDDocumentDeduplicationV2(models.Model):
+    _name = "g2p.deduplication.manager.id_dedup_v2"
+    _inherit = ["g2p.base.deduplication.manager", "g2p.manager.source.mixin"]
+    _description = "ID Deduplication Manager"
+
+    supported_id_document_types = fields.Many2many(
+        "g2p.id.type", string="Supported ID Document Types"
+    )
+
+    def deduplicate_beneficiaries(self, states):
+        self.ensure_one()
+        program = self.program_id
+
+        sql = f"""
+          SELECT * FROM
+          (SELECT g2p_reg_id.id as identity_id,
+              id_type,
+              value,
+              g2p_reg_id.partner_id as identity_partner_id,
+              g2p_group_membership.group as identity_group_id,
+              count(*)
+          OVER
+            (PARTITION BY
+              id_type,
+              value
+            ) AS count
+          FROM g2p_reg_id
+          -- Join to the group it belong to through the individual
+          LEFT join g2p_group_membership ON g2p_group_membership.individual = g2p_reg_id.partner_id
+          -- Join the group to the program
+          LEFT join g2p_program_membership as group_program_membership ON group_program_membership.partner_id = g2p_group_membership.group
+          -- Join the registrant to the program
+          LEFT join g2p_program_membership as program_membership ON program_membership.partner_id = g2p_reg_id.partner_id
+          where
+          (
+            group_program_membership.program_id = %s OR
+            program_membership.program_id = %s
+          ) AND (
+            group_program_membership.state IN %s OR
+            program_membership.state IN %s
+          )
+          ) tableWithCount
+          WHERE tableWithCount.count > 1;"""
+
+        self.env.cr.execute(sql, (program.id, program.id, states, states))
+        duplicates = self.env.cr.dictfetchall()
+
+
 class IDDocumentDeduplication(models.Model):
     _name = "g2p.deduplication.manager.id_dedup"
     _inherit = ["g2p.base.deduplication.manager", "g2p.manager.source.mixin"]
