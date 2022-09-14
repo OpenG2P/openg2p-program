@@ -137,13 +137,19 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 attrs="{'readonly':['|', ('state','=','ended'), ('have_members', '=', True)]}"
                                 widget="radio"
                             />
-                            <label for="company_id" string=" | Company: " groups="base.group_multi_company" />
+                            <label
+                                for="company_id"
+                                string=" | Company: "
+                                groups="base.group_multi_company"
+                                invisible="1"
+                            />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
                                 options="{'no_create': True}"
                                 force_save="1"
                                 attrs="{'readonly':[('state','=','ended')]}"
+                                invisible="1"
                             />
                         </div>
                     </div>

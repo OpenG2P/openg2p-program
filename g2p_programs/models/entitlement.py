@@ -46,6 +46,7 @@ class G2PEntitlement(models.Model):
         "res.currency", readonly=True, related="journal_id.currency_id"
     )
     initial_amount = fields.Monetary(required=True, currency_field="currency_id")
+    transfer_fee = fields.Monetary(currency_field="currency_id", default=0.0)
     balance = fields.Monetary(compute="_compute_balance")  # in company currency
     # TODO: implement transactions against this entitlement
 
@@ -164,38 +165,61 @@ class G2PEntitlement(models.Model):
         sw = 0
         for rec in self:
             if rec.state in ("draft", "pending_validation"):
-                fund_balance = self.check_fund_balance(rec.cycle_id.program_id.id) - amt
-                if fund_balance >= rec.initial_amount:
-                    amt += rec.initial_amount
-                    # Prepare journal entry (account.move) via account.payment
-                    payment = {
-                        "partner_id": rec.partner_id.id,
-                        "payment_type": "outbound",
-                        "amount": rec.initial_amount,
-                        "currency_id": rec.journal_id.currency_id.id,
-                        "journal_id": rec.journal_id.id,
-                        "partner_type": "supplier",
-                    }
-                    new_payment = self.env["account.payment"].create(payment)
-                    rec.update(
-                        {
-                            "disbursement_id": new_payment.id,
-                            "state": "approved",
-                            "date_approved": fields.Date.today(),
-                        }
+                if rec.is_cash_entitlement:  # For Cash Entitlements
+                    fund_balance = (
+                        self.check_fund_balance(rec.cycle_id.program_id.id) - amt
                     )
-                else:
-                    raise UserError(
-                        _(
-                            "The fund for the program: %(program)s [%(fund).2f] "
-                            + "is insufficient for the entitlement: %(entitlement)s"
+                    if fund_balance >= rec.initial_amount:
+                        amt += rec.initial_amount
+                        # Prepare journal entry (account.move) via account.payment
+                        amount = rec.initial_amount
+                        if rec.transfer_fee > 0.0:
+                            amount -= rec.transfer_fee
+                            # Incurred Fees (transfer fees)
+                            payment = {
+                                "partner_id": rec.partner_id.id,
+                                "payment_type": "outbound",
+                                "amount": rec.transfer_fee,
+                                "currency_id": rec.journal_id.currency_id.id,
+                                "journal_id": rec.journal_id.id,
+                                "partner_type": "supplier",
+                                "ref": "Service Fee: Code: %s" % rec.code,
+                            }
+                            self.env["account.payment"].create(payment)
+
+                        # Fund Disbursed (amount - transfer fees)
+                        payment = {
+                            "partner_id": rec.partner_id.id,
+                            "payment_type": "outbound",
+                            "amount": amount,
+                            "currency_id": rec.journal_id.currency_id.id,
+                            "journal_id": rec.journal_id.id,
+                            "partner_type": "supplier",
+                            "ref": "Fund disbursed to beneficiary: Code: %s" % rec.code,
+                        }
+                        new_payment = self.env["account.payment"].create(payment)
+
+                        rec.update(
+                            {
+                                "disbursement_id": new_payment.id,
+                                "state": "approved",
+                                "date_approved": fields.Date.today(),
+                            }
                         )
-                        % {
-                            "program": rec.cycle_id.program_id.name,
-                            "fund": fund_balance,
-                            "entitlement": rec.code,
-                        }
-                    )
+                    else:
+                        raise UserError(
+                            _(
+                                "The fund for the program: %(program)s [%(fund).2f] "
+                                + "is insufficient for the entitlement: %(entitlement)s"
+                            )
+                            % {
+                                "program": rec.cycle_id.program_id.name,
+                                "fund": fund_balance,
+                                "entitlement": rec.code,
+                            }
+                        )
+                # Todo: must be done in custom non-cash entitlements
+
             else:
                 state_err += 1
                 if sw == 0:

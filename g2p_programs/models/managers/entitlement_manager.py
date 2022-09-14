@@ -127,11 +127,18 @@ class DefaultCashEntitlementManager(models.Model):
         )
 
         for beneficiary_id in beneficiaries_with_entitlements_to_create:
+            amount = self._calculate_amount(beneficiary_id)
+            transfer_fee = 0.0
+            if self.transfer_fee_pct > 0:
+                transfer_fee = amount * (float(self.transfer_fee_pct) / 100.0)
+            elif self.transfer_fee_amt > 0.0:
+                transfer_fee = self.transfer_fee_amt
             self.env["g2p.entitlement"].create(
                 {
                     "cycle_id": cycle.id,
                     "partner_id": beneficiary_id.id,
-                    "initial_amount": self._calculate_amount(beneficiary_id),
+                    "initial_amount": amount,
+                    "transfer_fee": transfer_fee,
                     "currency_id": entitlement_currency,
                     "state": "draft",
                     "is_cash_entitlement": True,
