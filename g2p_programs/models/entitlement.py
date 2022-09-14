@@ -57,6 +57,9 @@ class G2PEntitlement(models.Model):
         compute="_compute_journal_id",
     )
     disbursement_id = fields.Many2one("account.payment", "Disbursement Journal Entry")
+    service_fee_disbursement_id = fields.Many2one(
+        "account.payment", "Service Fee Journal Entry"
+    )
 
     date_approved = fields.Date()
     state = fields.Selection(
@@ -173,6 +176,7 @@ class G2PEntitlement(models.Model):
                         amt += rec.initial_amount
                         # Prepare journal entry (account.move) via account.payment
                         amount = rec.initial_amount
+                        new_service_fee = None
                         if rec.transfer_fee > 0.0:
                             amount -= rec.transfer_fee
                             # Incurred Fees (transfer fees)
@@ -185,7 +189,9 @@ class G2PEntitlement(models.Model):
                                 "partner_type": "supplier",
                                 "ref": "Service Fee: Code: %s" % rec.code,
                             }
-                            self.env["account.payment"].create(payment)
+                            new_service_fee = self.env["account.payment"].create(
+                                payment
+                            )
 
                         # Fund Disbursed (amount - transfer fees)
                         payment = {
@@ -202,6 +208,9 @@ class G2PEntitlement(models.Model):
                         rec.update(
                             {
                                 "disbursement_id": new_payment.id,
+                                "service_fee_disbursement_id": new_service_fee
+                                and new_service_fee.id
+                                or None,
                                 "state": "approved",
                                 "date_approved": fields.Date.today(),
                             }
@@ -298,13 +307,21 @@ class G2PEntitlement(models.Model):
     def open_disb_form(self):
         for rec in self:
             if rec.disbursement_id:
-                res_id = rec.disbursement_id.id
+                res_ids = [rec.disbursement_id.id]
+                view_mode = "form"
+                view_id = self.env.ref("account.view_account_payment_form").id
+                if rec.service_fee_disbursement_id:
+                    res_ids.append(rec.service_fee_disbursement_id.id)
+                    view_mode = "tree"
+                    view_id = self.env.ref("account.view_account_payment_tree").id
+                domain = [("id", "in", res_ids)]
                 return {
                     "name": "Disbursement",
-                    "view_mode": "form",
+                    "view_mode": view_mode,
                     "res_model": "account.payment",
-                    "res_id": res_id,
-                    "view_id": self.env.ref("account.view_account_payment_form").id,
+                    # "res_id": res_id,
+                    "view_id": view_id,
                     "type": "ir.actions.act_window",
+                    "domain": domain,
                     "target": "current",
                 }

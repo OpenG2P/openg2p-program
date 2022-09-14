@@ -10,3 +10,4 @@ from . import managers
 from . import registrant
 from . import program_membership
 from . import cycle_membership
+from . import payment

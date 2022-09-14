@@ -21,6 +21,7 @@ class G2PProgram(models.Model):
     MANAGER_ENTITLEMENT = constants.MANAGER_ENTITLEMENT
     MANAGER_DEDUPLICATION = constants.MANAGER_DEDUPLICATION
     MANAGER_NOTIFICATION = constants.MANAGER_NOTIFICATION
+    MANAGER_PAYMENT = constants.MANAGER_PAYMENT
 
     MANAGER_MODELS = constants.MANAGER_MODELS
 
@@ -61,6 +62,8 @@ class G2PProgram(models.Model):
     # Cycle steps
     cycle_managers = fields.Many2many("g2p.cycle.manager")
     entitlement_managers = fields.Many2many("g2p.program.entitlement.manager")
+    # Payment management
+    payment_managers = fields.Many2many("g2p.program.payment.manager")
 
     reconciliation_managers = fields.Selection([])
 
@@ -191,6 +194,8 @@ class G2PProgram(models.Model):
                 managers = rec.program_managers
             elif kind == self.MANAGER_ENTITLEMENT:
                 managers = rec.entitlement_managers
+            elif kind == self.MANAGER_PAYMENT:
+                managers = rec.payment_managers
             else:
                 raise NotImplementedError("Manager not supported")
             if managers:

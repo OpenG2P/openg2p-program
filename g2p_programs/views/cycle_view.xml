@@ -57,13 +57,21 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         states="draft"
                         string="Prepare Entitlement"
                     />
-                    <button
+                    <!-- <button
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
                         name="mark_distributed"
                         states="approved"
                         string="Set as Distributed"
+                    /> -->
+                    <button
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-file-text-o"
+                        name="prepare_payment"
+                        states="approved"
+                        string="Issue Payments"
                     />
                     <button
                         type="object"
