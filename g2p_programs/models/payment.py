@@ -15,6 +15,7 @@ class G2PPayment(models.Model):
     _order = "id desc"
 
     name = fields.Many2one("g2p.entitlement", "Entitlement", required=True)
+    cycle_id = fields.Many2one("g2p.cycle", "Cycle", readonly=True)
     partner_id = fields.Many2one(
         "res.partner", related="name.partner_id", string="Beneficiary", readonly=True
     )

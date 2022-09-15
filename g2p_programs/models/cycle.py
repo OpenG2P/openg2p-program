@@ -53,6 +53,9 @@ class G2PCycle(models.Model):
     entitlements_count = fields.Integer(
         string="# Entitlements", compute="_compute_entitlements_count"
     )
+    payments_count = fields.Integer(
+        string="# Payments", compute="_compute_payments_count"
+    )
 
     @api.depends("cycle_membership_ids")
     def _compute_members_count(self):
@@ -71,6 +74,18 @@ class G2PCycle(models.Model):
             if rec.entitlement_ids:
                 entitlements_count = len(rec.entitlement_ids)
             rec.update({"entitlements_count": entitlements_count})
+
+    @api.depends("entitlement_ids")
+    def _compute_payments_count(self):
+        for rec in self:
+            payments_count = 0
+            if rec.entitlement_ids:
+                payments = self.env["g2p.payment"].search(
+                    [("name", "in", rec.entitlement_ids.ids)]
+                )
+                if payments:
+                    payments_count = len(payments)
+            rec.update({"payments_count": payments_count})
 
     @api.onchange("start_date")
     def on_start_date_change(self):
@@ -266,5 +281,20 @@ class G2PCycle(models.Model):
             },
             "view_mode": "list,form",
             "domain": [("cycle_id", "=", self.id)],
+        }
+        return action
+
+    def open_payments_form(self):
+        self.ensure_one()
+
+        action = {
+            "name": _("Payments"),
+            "type": "ir.actions.act_window",
+            "res_model": "g2p.payment",
+            "context": {
+                "create": False,
+            },
+            "view_mode": "list,form",
+            "domain": [("name", "in", self.entitlement_ids.ids)],
         }
         return action

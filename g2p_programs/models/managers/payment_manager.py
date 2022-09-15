@@ -63,7 +63,7 @@ class DefaultFilePaymentManager(models.Model):
         entitlements_with_payments = (
             self.env["g2p.payment"]
             .search([("name", "in", entitlements_ids)])
-            .mapped("id")
+            .mapped("name.id")
         )
 
         # Todo: fix issue with payments_to_create is generating list of list
@@ -79,7 +79,7 @@ class DefaultFilePaymentManager(models.Model):
         entitlements_with_payments_to_create = self.env["g2p.entitlement"].browse(
             payments_to_create
         )
-        #_logger.info("DEBUG! payments_to_create: %s", payments_to_create)
+        # _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
 
         # Create payment batch
         # batch = self.env["g2p.paymentbatch"].create()
@@ -89,7 +89,9 @@ class DefaultFilePaymentManager(models.Model):
             self.env["g2p.payment"].create(
                 {
                     "name": entitlement_id.id,
+                    "cycle_id": entitlement_id.cycle_id.id,
                     "amount_issued": entitlement_id.initial_amount,
+                    "payment_fee": entitlement_id.transfer_fee,
                     "state": "issued",
                     # "account_number": self._get_account_number(entitlement_id),
                     # "batch_id": batch.id,
@@ -100,14 +102,14 @@ class DefaultFilePaymentManager(models.Model):
             kind = "success"
             message = _("%s new payments was issued.") % ctr
             links = [
-                    {
-                        "label": "Refresh Page",
-                    }
-                ]
+                {
+                    "label": "Refresh Page",
+                }
+            ]
         else:
             kind = "danger"
-            message = _("There are no new payments issued.")
-            links = []
+            message = _("There are no new payments issued!")
+            links = [{}]
 
         return {
             "type": "ir.actions.client",

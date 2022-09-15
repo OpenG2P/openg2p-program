@@ -10,6 +10,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <tree create="0">
                 <field name="name" />
+                <field name="cycle_id" />
                 <field name="partner_id" />
                 <field name="account_number" />
                 <field name="amount_issued" />
@@ -74,6 +75,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </h2>
                     </div>
                     <group colspan="4" col="4">
+                        <field name="cycle_id" />
                         <field
                             name="account_number"
                             attrs="{'readonly':[('state','in',('paid','failed'))]}"
@@ -115,6 +117,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <search string="Search Payments">
                 <field name="name" />
                 <field name="account_number" />
+                <field name="cycle_id" />
                 <separator />
                 <filter name="filter_issuance_date" date="issuance_date" />
                 <filter name="filter_payment_datetime" date="payment_datetime" />
@@ -124,6 +127,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <filter name="paid_state" string="Paid" domain="[('state','=','paid')]" />
                 <filter name="failed_state" string="Failed" domain="[('state','=','failed')]" />
                 <group expand="0" string="Group By">
+                    <filter string="Cycle" name="grp_cycle" context="{'group_by': 'cycle_id'}" />
                     <separator orientation="vertical" />
                     <filter string="State" name="grp_state" context="{'group_by': 'state'}" />
                     <filter string="Company" name="grp_company_id" context="{'group_by': 'company_id'}" />
