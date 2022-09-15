@@ -1,7 +1,7 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -79,11 +79,12 @@ class DefaultFilePaymentManager(models.Model):
         entitlements_with_payments_to_create = self.env["g2p.entitlement"].browse(
             payments_to_create
         )
-        _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
+        #_logger.info("DEBUG! payments_to_create: %s", payments_to_create)
 
         # Create payment batch
         # batch = self.env["g2p.paymentbatch"].create()
 
+        ctr = 0
         for entitlement_id in entitlements_with_payments_to_create:
             self.env["g2p.payment"].create(
                 {
@@ -94,6 +95,31 @@ class DefaultFilePaymentManager(models.Model):
                     # "batch_id": batch.id,
                 }
             )
+            ctr += 1
+        if ctr > 0:
+            kind = "success"
+            message = _("%s new payments was issued.") % ctr
+            links = [
+                    {
+                        "label": "Refresh Page",
+                    }
+                ]
+        else:
+            kind = "danger"
+            message = _("There are no new payments issued.")
+            links = []
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Payment"),
+                "message": message + " %s",
+                "links": links,
+                "sticky": True,
+                "type": kind,
+            },
+        }
 
     def _get_account_number(self, entitlement):
         return entitlement.partner_id.get_payment_token(entitlement.program_id)
