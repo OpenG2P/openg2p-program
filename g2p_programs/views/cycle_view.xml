@@ -16,7 +16,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <field name="company_id" groups="base.group_multi_company" />
                 <field
                     name="state"
-                    decoration-primary="state=='to_approve'"
+                    decoration-primary="state=='draft'"
+                    decoration-warning="state=='to_approve'"
                     decoration-success="state in ('approved','distributed')"
                     decoration-danger="state in ('ended', 'cancelled')"
                     widget="badge"
@@ -210,7 +211,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <field name="cycle_id" />
                                     <field name="valid_from" />
                                     <field name="valid_until" />
-                                    <field name="state" />
+                                    <field
+                                        name="state"
+                                        decoration-primary="state=='pending_validation'"
+                                        decoration-success="state=='approved'"
+                                        decoration-warning="state=='cancelled'"
+                                        decoration-danger="state=='expired'"
+                                        widget="badge"
+                                        string="State"
+                                    />
                                     <field name="company_id" groups="base.group_multi_company" />
                                 </tree>
                                 <form>

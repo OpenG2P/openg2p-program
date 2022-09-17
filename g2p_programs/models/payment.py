@@ -77,7 +77,7 @@ class G2PPayment(models.Model):
         # Simple implementation will check if a account number has been set
         pass
 
-    def send_payment(self):
+    def issue_payment(self):
         pass
 
 

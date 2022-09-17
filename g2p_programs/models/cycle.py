@@ -177,8 +177,8 @@ class G2PCycle(models.Model):
                     ]
                 )
                 if entitlements:
-                    for e in entitlements:
-                        e.approve_entitlement()
+                    # for e in entitlements:
+                    entitlements.approve_entitlement()
 
             if rec.state == self.STATE_TO_APPROVE:
                 rec.update({"state": self.STATE_APPROVED})
