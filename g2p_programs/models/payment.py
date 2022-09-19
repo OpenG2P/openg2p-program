@@ -14,13 +14,22 @@ class G2PPayment(models.Model):
     _description = "Payment"
     _order = "id desc"
 
-    name = fields.Many2one("g2p.entitlement", "Entitlement", required=True)
+    name = fields.Char(
+        "Internal Reference #", default=str(uuid4()), readonly=True, copy=False
+    )
+    entitlement_id = fields.Many2one("g2p.entitlement", "Entitlement", required=True)
     cycle_id = fields.Many2one("g2p.cycle", "Cycle", readonly=True)
+    program_id = fields.Many2one(
+        "g2p.program", related="cycle_id.program_id", readonly=True
+    )
     partner_id = fields.Many2one(
-        "res.partner", related="name.partner_id", string="Beneficiary", readonly=True
+        "res.partner",
+        related="entitlement_id.partner_id",
+        string="Beneficiary",
+        readonly=True,
     )
 
-    # batch_id = fields.Many2one("g2p.payment.batch", "Payment Batch")
+    batch_id = fields.Many2one("g2p.payment.batch", "Payment Batch")
 
     state = fields.Selection(
         selection=[
@@ -60,15 +69,15 @@ class G2PPayment(models.Model):
     )
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company)
 
-    @api.depends("name.cycle_id.program_id.journal_id")
+    @api.depends("entitlement_id.cycle_id.program_id.journal_id")
     def _compute_journal_id(self):
         for record in self:
             record.journal_id = (
-                record.name
-                and record.name.cycle_id
-                and record.name.cycle_id.program_id
-                and record.name.cycle_id.program_id.journal_id
-                and record.name.cycle_id.program_id.journal_id.id
+                record.entitlement_id
+                and record.entitlement_id.cycle_id
+                and record.entitlement_id.cycle_id.program_id
+                and record.entitlement_id.cycle_id.program_id.journal_id
+                and record.entitlement_id.cycle_id.program_id.journal_id.id
                 or None
             )
 
@@ -90,21 +99,33 @@ class G2PPaymentBatch(models.Model):
     name = fields.Char(
         "Internal Batch Reference #", default=str(uuid4()), readonly=True, copy=False
     )
+    cycle_id = fields.Many2one("g2p.cycle", "Cycle", readonly=True)
+    program_id = fields.Many2one(
+        "g2p.program", related="cycle_id.program_id", string="Program", readonly=True
+    )
     external_batch_ref = fields.Char("External Batch Reference #")
 
     batch_has_completed = fields.Boolean()
 
-    payment_ids = fields.Many2many("g2p.payment", "Payments")
+    payment_ids = fields.Many2many("g2p.payment", string="Payments")
 
     # This set of fields hold the current statistics of the payment batch
     # We store this so that we can display this information without calling the payment system
-    stats_issued_transactions = fields.Integer("Issued Transaction Statistics")
-    stats_issued_amount = fields.Float("Issued Amount Statistics")
-    stats_sent_transactions = fields.Integer("Sent Transactions Statistics")
-    stats_sent_amount = fields.Float("Sent Amount Statistics")
-    stats_paid_transactions = fields.Integer("Paid Transactions Statistics")
-    stats_paid_amount = fields.Float("Paid Amount Statistics")
-    stats_failed_transactions = fields.Integer("Failed Transactions Statistics")
-    stats_failed_amount = fields.Float("Failed Amount Statistics")
+    stats_issued_transactions = fields.Integer(
+        "Issued Transaction Statistics", readonly=True
+    )
+    stats_issued_amount = fields.Float("Issued Amount Statistics", readonly=True)
+    stats_sent_transactions = fields.Integer(
+        "Sent Transactions Statistics", readonly=True
+    )
+    stats_sent_amount = fields.Float("Sent Amount Statistics", readonly=True)
+    stats_paid_transactions = fields.Integer(
+        "Paid Transactions Statistics", readonly=True
+    )
+    stats_paid_amount = fields.Float("Paid Amount Statistics", readonly=True)
+    stats_failed_transactions = fields.Integer(
+        "Failed Transactions Statistics", readonly=True
+    )
+    stats_failed_amount = fields.Float("Failed Amount Statistics", readonly=True)
 
     stats_datetime = fields.Datetime("Statistics Date/Time")

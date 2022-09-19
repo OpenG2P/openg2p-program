@@ -39,6 +39,9 @@ g2p_program_payment_manager_default_admin,Program Payment Manager Default Admin 
 
 g2p_assign_registrant_program_wizard_admin,Assign Registrant to Program Wizard Admin Access,g2p_programs.model_g2p_assign_program_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
 g2p_program_create_wizard_admin,Create Program Wizard Admin Access,g2p_programs.model_g2p_program_create_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
+g2p_multi_entitlement_approval_wizard_admin,Multi Entitlement Approval Wizard Admin Access,g2p_programs.model_g2p_multi_entitlement_approval_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
+g2p_multi_entitlement_approval_admin,Multi Entitlement Approval Admin Access,g2p_programs.model_g2p_multi_entitlement_approval,g2p_registry_base.group_g2p_admin,1,1,1,1
+g2p_assign_payments_batch_wizard_admin,Assign Payments to Batch Wizard Admin Access,g2p_programs.model_g2p_assign_payments_batch_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
 
 g2p_program_fund_admin,Program Fund Admin Access,g2p_programs.model_g2p_program_fund,g2p_registry_base.group_g2p_admin,1,1,1,1
 
@@ -88,8 +91,11 @@ g2p_payment_program_manager,Payment Program Manager Access,g2p_programs.model_g2
 g2p_payment_batch_program_manager,Payment Batch Program Manager Access,g2p_programs.model_g2p_payment_batch,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_program_fund_program_manager,Program Fund Program Manager Access,g2p_programs.model_g2p_program_fund,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_program_fund_report_view_program_manager,Program Fund Report View Program Manager Access,g2p_programs.model_g2p_program_fund_report_view,g2p_programs.g2p_program_manager,1,1,1,0
+
 g2p_program_create_wizard_program_manager,Create Program Wizard Program Manager Access,g2p_programs.model_g2p_program_create_wizard,g2p_programs.g2p_program_manager,1,1,1,1
-g2p_assign_program_wiz_program_manager,Assign Program Wiz Program Manager Access,g2p_programs.model_g2p_assign_program_wizard,g2p_programs.g2p_program_manager,1,1,1,0
+g2p_assign_program_wiz_program_manager,Assign Program Wiz Program Manager Access,g2p_programs.model_g2p_assign_program_wizard,g2p_programs.g2p_program_manager,1,1,1,1
+g2p_assign_payments_batch_wizard_program_manager,Assign Payments to Batch Wizard Program Manager Access,g2p_programs.model_g2p_assign_payments_batch_wizard,g2p_programs.g2p_program_manager,1,1,1,1
+
 g2p_assign_reg_id_program_manager,Reg ID Program Manager Access,g2p_registry_base.model_g2p_reg_id,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_phone_number_program_manager,Phone Number Program Manager Access,g2p_registry_base.model_g2p_phone_number,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_reg_rel_program_manager,Registrant Relation Program Manager Access,g2p_registry_base.model_g2p_reg_rel,g2p_programs.g2p_program_manager,1,1,1,0
@@ -125,6 +131,3 @@ g2p_program_fund_finance_validator,Program Fund Finance Validator Access,g2p_pro
 g2p_program_fund_report_view_finance_validator,Program Fund Report View Finance Validator Access,g2p_programs.model_g2p_program_fund_report_view,g2p_programs.g2p_finance_validator,1,1,1,0
 g2p_account_journal_finance_validator,Account Journal Finance Validator Access,account.model_account_journal,g2p_programs.g2p_finance_validator,1,1,1,0
 g2p_account_move_line_finance_validator,Account Move Line Finance Validator Access,account.model_account_move_line,g2p_programs.g2p_finance_validator,1,1,1,0
-
-g2p_multi_entitlement_approval_wizard_admin,Multi Entitlement Approval Wizard Admin Access,g2p_programs.model_g2p_multi_entitlement_approval_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
-g2p_multi_entitlement_approval_admin,Multi Entitlement Approval Admin Access,g2p_programs.model_g2p_multi_entitlement_approval,g2p_registry_base.group_g2p_admin,1,1,1,1

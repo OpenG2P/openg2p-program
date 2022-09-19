@@ -62,11 +62,11 @@ class DefaultFilePaymentManager(models.Model):
         # Filter out entitlements without payments
         entitlements_with_payments = (
             self.env["g2p.payment"]
-            .search([("name", "in", entitlements_ids)])
-            .mapped("name.id")
+            .search([("entitlement_id", "in", entitlements_ids)])
+            .mapped("entitlement_id.id")
         )
 
-        # Todo: fix issue with payments_to_create is generating list of list
+        # Todo: fix issue with variable payments_to_create is generating list of list
         if entitlements_with_payments:
             payments_to_create = [
                 entitlements_ids
@@ -81,14 +81,14 @@ class DefaultFilePaymentManager(models.Model):
         )
         # _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
 
-        # Create payment batch
+        # Todo: Create payment batch
         # batch = self.env["g2p.paymentbatch"].create()
 
         ctr = 0
         for entitlement_id in entitlements_with_payments_to_create:
             self.env["g2p.payment"].create(
                 {
-                    "name": entitlement_id.id,
+                    "entitlement_id": entitlement_id.id,
                     "cycle_id": entitlement_id.cycle_id.id,
                     "amount_issued": entitlement_id.initial_amount,
                     "payment_fee": entitlement_id.transfer_fee,

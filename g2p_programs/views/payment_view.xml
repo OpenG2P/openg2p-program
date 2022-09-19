@@ -10,8 +10,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <tree create="0">
                 <field name="name" />
-                <field name="cycle_id" />
                 <field name="partner_id" />
+                <field name="entitlement_id" />
+                <field name="program_id" />
+                <field name="cycle_id" />
+                <field name="batch_id" />
                 <field name="account_number" />
                 <field name="amount_issued" />
                 <field name="issuance_date" />
@@ -64,21 +67,34 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </button> -->
                     </div>
                     <div class="oe_title mb24">
-                        <label for="name" string="Entitlement:" />
-                        <h1>
-                            <field id="name" name="name" readonly="1" />
-                        </h1>
                         <label for="partner_id" string="Beneficiary:" />
+                        <h1>
+                            <field
+                                id="partner_id"
+                                name="partner_id"
+                                readonly="1"
+                                options="{'no_open':true}"
+                            />
+                        </h1>
+                        <label for="program_id" string="Program:" />
                         <h2>
-                            <field id="partner_id" name="partner_id" readonly="1" />
+                            <field
+                                id="program_id"
+                                name="program_id"
+                                readonly="1"
+                                options="{'no_open':true}"
+                            />
                         </h2>
                     </div>
                     <group colspan="4" col="4">
-                        <field name="cycle_id" />
+                        <field name="name" readonly="1" />
+                        <field name="entitlement_id" readonly="1" options="{'no_open':true}" />
                         <field
                             name="account_number"
                             attrs="{'readonly':[('state','in',('paid','failed'))]}"
                         />
+                        <field name="cycle_id" readonly="1" options="{'no_open':true}" />
+                        <field name="batch_id" readonly="1" options="{'no_open':true}" />
                         <field name="journal_id" string="Journal" options="{'no_open':True}" readonly="1" />
                         <field
                             name="company_id"
@@ -114,9 +130,10 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="priority" eval="1" />
         <field name="arch" type="xml">
             <search string="Search Payments">
-                <field name="name" />
+                <field name="entitlement_id" />
                 <field name="account_number" />
                 <field name="cycle_id" />
+                <field name="name" />
                 <separator />
                 <filter name="filter_issuance_date" date="issuance_date" />
                 <filter name="filter_payment_datetime" date="payment_datetime" />
@@ -169,14 +186,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="act_window_id" ref="action_payment" />
     </record>
 
-<!--    <record model="ir.actions.server" id="multiple_payment_issuance">
-      <field name="name">Issue Payments</field>
-      <field name="model_id" ref="g2p_programs.model_g2p_multi_payment_issuance_wizard" />
+    <record model="ir.actions.server" id="assign_payment_batch">
+      <field name="name">Assign Payments to Batch</field>
+      <field name="model_id" ref="g2p_programs.model_g2p_assign_payments_batch_wizard" />
       <field name="binding_model_id" ref="g2p_programs.model_g2p_payment" />
       <field name="binding_view_types">list,form</field>
       <field name="state">code</field>
       <field name="code">action = model.open_wizard()</field>
-    </record> -->
+    </record>
 
     <menuitem
         id="menu_payment"

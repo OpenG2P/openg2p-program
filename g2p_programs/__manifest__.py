@@ -32,6 +32,7 @@
         "views/cycle_membership_view.xml",
         "views/entitlement_view.xml",
         "views/payment_view.xml",
+        "views/payment_batch_view.xml",
         "views/registrant_view.xml",
         "views/managers/eligibility_manager_view.xml",
         "views/managers/deduplication_manager_view.xml",
@@ -48,6 +49,7 @@
         "wizard/assign_to_program_wizard.xml",
         "wizard/multi_entitlement_approval_wizard.xml",
         "wizard/create_program_wizard.xml",
+        "wizard/assign_payments_batch_wizard.xml",
     ],
     "assets": {
         "web.assets_backend": [

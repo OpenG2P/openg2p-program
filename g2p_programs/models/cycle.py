@@ -45,6 +45,9 @@ class G2PCycle(models.Model):
         "g2p.cycle.membership", "cycle_id", "Cycle Memberships"
     )
     entitlement_ids = fields.One2many("g2p.entitlement", "cycle_id", "Entitlements")
+    payment_batch_ids = fields.One2many(
+        "g2p.payment.batch", "cycle_id", "Payment Batches"
+    )
 
     # Statistics
     members_count = fields.Integer(
@@ -81,7 +84,7 @@ class G2PCycle(models.Model):
             payments_count = 0
             if rec.entitlement_ids:
                 payments = self.env["g2p.payment"].search(
-                    [("name", "in", rec.entitlement_ids.ids)]
+                    [("entitlement_id", "in", rec.entitlement_ids.ids)]
                 )
                 if payments:
                     payments_count = len(payments)
@@ -295,6 +298,6 @@ class G2PCycle(models.Model):
                 "create": False,
             },
             "view_mode": "list,form",
-            "domain": [("name", "in", self.entitlement_ids.ids)],
+            "domain": [("entitlement_id", "in", self.entitlement_ids.ids)],
         }
         return action
