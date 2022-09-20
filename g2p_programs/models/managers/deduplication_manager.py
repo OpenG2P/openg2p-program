@@ -272,14 +272,37 @@ class IDDocumentDeduplication(models.Model):
 
         _logger.info("Record duplicate: %s", beneficiary_ids)
         data = {
+            "program_id": manager.program_id.id,
             "beneficiary_ids": [(6, 0, beneficiary_ids)],
             "state": "duplicate",
             "reason": reason,
             "deduplication_manager_id": manager,
         }
-        _logger.info("Record duplicate: %s", data)
+        # Check if there are changes in beneficiary_ids.
+        # If there are, update the g2p.program.membership.duplicate record,
+        # otherwise, create a new record.
+        dup_rec = self.env["g2p.program.membership.duplicate"].search(
+            [("program_id", "=", manager.program_id.id)]
+        )
+        create_rec = True
+        if dup_rec:
+            for rec in dup_rec:
+                res = list(
+                    map(
+                        lambda r: 1 if r in beneficiary_ids else 0,
+                        rec.beneficiary_ids.ids,
+                    )
+                )
+                _logger.info("DEBUG! res: %s", res)
 
-        self.env["g2p.program.membership.duplicate"].create(data)
+                if 1 in res:
+                    _logger.info("DEBUG! Update the duplicate record: %s", data)
+                    rec.update(data)
+                    create_rec = False
+                    break
+        if create_rec:
+            _logger.info("DEBUG!Create a new duplicate record: %s", data)
+            self.env["g2p.program.membership.duplicate"].create(data)
 
 
 class PhoneNumberDeduplication(models.Model):
