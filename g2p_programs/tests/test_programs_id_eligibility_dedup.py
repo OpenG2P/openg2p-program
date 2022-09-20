@@ -288,6 +288,6 @@ class ProgramTestIDEligibilityDeduplicate(TransactionCase):
                 self.program_2.deduplicate_beneficiaries()
                 self.assertEqual(
                     self.program_2.duplicate_membership_count,
-                    0,
+                    2,
                     "Program Testing: Expected Duplicate count exceeded",
                 )
