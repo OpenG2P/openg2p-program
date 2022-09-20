@@ -164,54 +164,6 @@ class DefaultDeduplication(models.Model):
         return group_with_duplicates
 
 
-class IDDocumentDeduplicationV2(models.Model):
-    _name = "g2p.deduplication.manager.id_dedup_v2"
-    _inherit = ["g2p.base.deduplication.manager", "g2p.manager.source.mixin"]
-    _description = "ID Deduplication Manager"
-
-    supported_id_document_types = fields.Many2many(
-        "g2p.id.type", string="Supported ID Document Types"
-    )
-
-    def deduplicate_beneficiaries(self, states):
-        self.ensure_one()
-        program = self.program_id
-
-        sql = f"""
-          SELECT * FROM
-          (SELECT g2p_reg_id.id as identity_id,
-              id_type,
-              value,
-              g2p_reg_id.partner_id as identity_partner_id,
-              g2p_group_membership.group as identity_group_id,
-              count(*)
-          OVER
-            (PARTITION BY
-              id_type,
-              value
-            ) AS count
-          FROM g2p_reg_id
-          -- Join to the group it belong to through the individual
-          LEFT join g2p_group_membership ON g2p_group_membership.individual = g2p_reg_id.partner_id
-          -- Join the group to the program
-          LEFT join g2p_program_membership as group_program_membership ON group_program_membership.partner_id = g2p_group_membership.group
-          -- Join the registrant to the program
-          LEFT join g2p_program_membership as program_membership ON program_membership.partner_id = g2p_reg_id.partner_id
-          where
-          (
-            group_program_membership.program_id = %s OR
-            program_membership.program_id = %s
-          ) AND (
-            group_program_membership.state IN %s OR
-            program_membership.state IN %s
-          )
-          ) tableWithCount
-          WHERE tableWithCount.count > 1;"""
-
-        self.env.cr.execute(sql, (program.id, program.id, states, states))
-        duplicates = self.env.cr.dictfetchall()
-
-
 class IDDocumentDeduplication(models.Model):
     _name = "g2p.deduplication.manager.id_dedup"
     _inherit = ["g2p.base.deduplication.manager", "g2p.manager.source.mixin"]
@@ -222,21 +174,86 @@ class IDDocumentDeduplication(models.Model):
     )
 
     def deduplicate_beneficiaries(self, states):
-        for rec in self:
-            duplicate_beneficiaries = []
-            program = rec.program_id
-            beneficiaries = program.get_beneficiaries(states)
-            # duplicates
-            _logger.info("Deduplicate beneficiaries: %s", beneficiaries)
+        self.ensure_one()
+        program = self.program_id
+        beneficiaries = program.get_beneficiaries(states)
+        sql = """
+            SELECT * FROM
+            (SELECT g2p_reg_id.id as identity_id,
+                id_type,
+                value,
+                g2p_reg_id.partner_id as identity_partner_id,
+                g2p_group_membership.group as identity_group_id,
+                count(*)
+            OVER
+                (PARTITION BY
+                id_type,
+                value
+                ) AS count
+            FROM g2p_reg_id
+            -- Join to the group it belong to through the individual
+            LEFT join g2p_group_membership ON g2p_group_membership.individual = g2p_reg_id.partner_id
+            -- Join the group to the program
+            LEFT join g2p_program_membership as group_program_membership
+                ON group_program_membership.partner_id = g2p_group_membership.group
+            -- Join the registrant to the program
+            LEFT join g2p_program_membership as program_membership
+                ON program_membership.partner_id = g2p_reg_id.partner_id
+            where
+            (
+                group_program_membership.program_id = %s OR
+                program_membership.program_id = %s
+            ) AND (
+                group_program_membership.state IN %s OR
+                program_membership.state IN %s
+            ) AND (
+                g2p_reg_id.expiry_date IS NULL OR
+                g2p_reg_id.expiry_date > CURRENT_DATE
+            )
+            ) tableWithCount
+            WHERE tableWithCount.count > 1;"""
+
+        states = (*states,)
+        self.env.cr.execute(sql, (program.id, program.id, states, states))
+        duplicates = self.env.cr.dictfetchall()
+        duplicate_partner_ids = []
+        for rec in duplicates:
+            _logger.info("DEBUG: duplicate: %s", rec)
             if program.target_type == "group":
-                duplicate_beneficiaries = (
-                    self._check_duplicate_by_group_with_individual(beneficiaries)
-                )
+                if rec["identity_group_id"]:
+                    duplicate_partner_ids.append(rec["identity_group_id"])
+                else:
+                    duplicate_partner_ids.append(rec["identity_partner_id"])
             else:
-                duplicate_beneficiaries = self._check_duplicate_by_individual(
-                    beneficiaries
-                )
-            return len(duplicate_beneficiaries)
+                duplicate_partner_ids.append(rec["identity_partner_id"])
+
+        _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
+
+        duplicate_beneficiaries = beneficiaries.filtered(
+            lambda rec: rec.partner_id.id in duplicate_partner_ids
+        )
+        duplicate_beneficiariy_ids = duplicate_beneficiaries.mapped("id")
+
+        self._record_duplicate(
+            self, duplicate_beneficiariy_ids, "Duplicate ID Documents"
+        )
+
+        duplicated_enrolled = duplicate_beneficiaries.filtered(
+            lambda rec: rec.state == "enrolled"
+        )
+        if len(duplicated_enrolled) == 1:
+            # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
+            # otherwise if there is more than 1, then there is a problem!
+            # TODO: check how to handle this
+            duplicated_enrolled.write({"state": "enrolled"})
+            duplicate_beneficiaries = duplicate_beneficiaries.filtered(
+                lambda rec: rec.state != "enrolled"
+            )
+        duplicate_beneficiaries.filtered(
+            lambda rec: rec.state not in ["exited", "not_eligible", "duplicated"]
+        ).write({"state": "duplicated"})
+
+        return len(duplicate_beneficiaries)
 
     def _record_duplicate(self, manager, beneficiary_ids, reason):
         """
@@ -263,165 +280,6 @@ class IDDocumentDeduplication(models.Model):
         _logger.info("Record duplicate: %s", data)
 
         self.env["g2p.program.membership.duplicate"].create(data)
-
-    def _check_duplicate_by_group_with_individual(self, beneficiaries):
-        """
-        This method is used to check if there are any duplicates among the individuals docs.
-        :param beneficiary_ids: The beneficiaries.
-        :return:
-        """
-        _logger.info("-" * 100)
-        group_ids = beneficiaries.mapped("partner_id.id")
-        group_memberships = self.env["g2p.group.membership"].search(
-            [("group", "in", group_ids)]
-        )
-        group = self.env["res.partner"].search([("id", "in", group_ids)])
-        _logger.info("group_memberships: %s", group_memberships)
-
-        individuals_ids = [rec.individual.id for rec in group_memberships]
-        _logger.info("Checking ID Document Duplicates for: %s", individuals_ids)
-
-        individual_id_docs = {}
-        # Check ID Documents of each individual
-        for i in group_memberships:
-            for x in i.individual.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
-                ):
-                    id_doc_id_with_id_type_and_value = {
-                        x.id: x.id_type.name + "-" + x.value
-                    }
-                    individual_id_docs.update(id_doc_id_with_id_type_and_value)
-
-        # Check ID Docs of each group
-        for ix in group:
-            for x in ix.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
-                ):
-                    id_doc_id_with_id_type_and_value = {
-                        x.id: x.id_type.name + "-" + x.value
-                    }
-                    individual_id_docs.update(id_doc_id_with_id_type_and_value)
-
-        _logger.info("Individual ID Documents: %s", individual_id_docs)
-        rev_dict = {}
-        for key, value in individual_id_docs.items():
-            rev_dict.setdefault(value, set()).add(key)
-
-        duplicate_ids = filter(lambda x: len(x) > 1, rev_dict.values())
-        duplicate_ids = list(duplicate_ids)
-        duplicate_ids = list(itertools.chain.from_iterable(duplicate_ids))
-        _logger.info("Reg_id IDS with Duplicated ID Documents: %s", duplicate_ids)
-
-        duplicated_doc_ids = self.env["g2p.reg.id"].search(
-            [("id", "in", duplicate_ids)]
-        )
-        individual_ids = [x.partner_id.id for x in duplicated_doc_ids]
-        individual_ids = list(dict.fromkeys(individual_ids))
-
-        group_with_duplicates = self.env["g2p.group.membership"].search(
-            [("group", "in", group_ids), ("individual", "in", individual_ids)]
-        )
-
-        _logger.info("group_with_duplicates: %s", group_with_duplicates)
-        group_of_duplicates = {}
-        for group_membership in group_with_duplicates:
-            _logger.info(
-                "group_membership.individual.id: %s -> %s"
-                % (group_membership.individual.id, group_membership.group.id)
-            )
-            if group_membership.individual.id not in group_of_duplicates:
-                group_of_duplicates[group_membership.individual.id] = []
-            group_of_duplicates[group_membership.individual.id].append(
-                group_membership.group.id
-            )
-
-        _logger.info("group_of_duplicates: %s", group_of_duplicates)
-        for _individual, group_ids in group_of_duplicates.items():
-
-            duplicate_beneficiaries = beneficiaries.filtered(
-                lambda rec: rec.partner_id.id in group_ids
-            )
-            duplicate_beneficiariy_ids = duplicate_beneficiaries.mapped("id")
-
-            self._record_duplicate(
-                self, duplicate_beneficiariy_ids, "Duplicate ID Documents"
-            )
-
-            duplicated_enrolled = duplicate_beneficiaries.filtered(
-                lambda rec: rec.state == "enrolled"
-            )
-            if len(duplicated_enrolled) == 1:
-                # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
-                # otherwise if there is more than 1, then there is a problem!
-                # TODO: check how to handle this
-                duplicated_enrolled.write({"state": "enrolled"})
-                duplicate_beneficiaries = duplicate_beneficiaries.filtered(
-                    lambda rec: rec.state != "enrolled"
-                )
-            duplicate_beneficiaries.filtered(
-                lambda rec: rec.state not in ["exited", "not_eligible", "duplicated"]
-            ).write({"state": "duplicated"})
-
-        return group_with_duplicates
-
-    def _check_duplicate_by_individual(self, beneficiaries):
-        """
-        This method is used to check if there are any duplicates among the individuals id docs.
-        :param beneficiary_ids: The beneficiaries.
-        :return:
-        """
-        _logger.info("-" * 100)
-        individual_ids = beneficiaries.mapped("partner_id.id")
-        individuals = self.env["res.partner"].search([("id", "in", individual_ids)])
-        _logger.info("Checking ID Document Duplicates for: %s", individuals)
-
-        individual_id_docs = {}
-        # Check ID Documents of each individual
-        for i in individuals:
-            for x in i.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
-                ):
-                    id_doc_id_with_id_type_and_value = {
-                        x.id: x.id_type.name + "-" + x.value
-                    }
-                    individual_id_docs.update(id_doc_id_with_id_type_and_value)
-
-        _logger.info("Individual ID Documents: %s", individual_id_docs)
-        rev_dict = {}
-        for key, value in individual_id_docs.items():
-            rev_dict.setdefault(value, set()).add(key)
-
-        duplicate_ids = filter(lambda x: len(x) > 1, rev_dict.values())
-        duplicate_ids = list(duplicate_ids)
-        duplicate_ids = list(itertools.chain.from_iterable(duplicate_ids))
-        _logger.info("Reg_id IDS with Duplicated ID Documents: %s", duplicate_ids)
-
-        duplicated_doc_ids = self.env["g2p.reg.id"].search(
-            [("id", "in", duplicate_ids)]
-        )
-        individual_ids = [x.partner_id.id for x in duplicated_doc_ids]
-        individual_ids = list(dict.fromkeys(individual_ids))
-        _logger.info("Individual IDS with Duplicated ID Documents: %s", individual_ids)
-        individual_program_membership = self.env["g2p.program_membership"].search(
-            [("partner_id", "in", individual_ids)]
-        )
-
-        for duplicates in individual_program_membership:
-            duplicate_individuals = [duplicates.id]
-            self._record_duplicate(
-                self, duplicate_individuals, "Duplicate ID Documents"
-            )
-
-            if duplicates.state == "enrolled":
-                duplicates.write({"state": "duplicated"})
-
-        return individual_program_membership
 
 
 class PhoneNumberDeduplication(models.Model):

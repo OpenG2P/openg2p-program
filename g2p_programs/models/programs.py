@@ -302,6 +302,10 @@ class G2PProgram(models.Model):
                 if duplicates > 0:
                     message = _("%s Beneficiaries duplicate.") % duplicates
                     kind = "warning"
+                else:
+                    message = _("There are no duplicates found.")
+                    kind = "info"
+
             else:
                 message = _("No Deduplication Manager defined.")
                 kind = "danger"
