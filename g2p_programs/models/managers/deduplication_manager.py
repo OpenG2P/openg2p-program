@@ -1,12 +1,9 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import collections
-import itertools
 import logging
 from datetime import date
 
 from odoo import api, fields, models
-
-from odoo.addons.phone_validation.tools import phone_validation
 
 _logger = logging.getLogger(__name__)
 
@@ -187,8 +184,8 @@ class IDDocumentDeduplication(models.Model):
                 count(*)
             OVER
                 (PARTITION BY
-                id_type,
-                value
+                    id_type,
+                    value
                 ) AS count
             FROM g2p_reg_id
             -- Join to the group it belong to through the individual
@@ -239,7 +236,7 @@ class IDDocumentDeduplication(models.Model):
         )
 
         duplicated_enrolled = duplicate_beneficiaries.filtered(
-            lambda rec: rec.state == "enrolled"
+            lambda rec: rec.state in ("enrolled", "duplicated")
         )
         if len(duplicated_enrolled) == 1:
             # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
@@ -319,21 +316,83 @@ class PhoneNumberDeduplication(models.Model):
     # phone_regex = fields.Char(string="Phone Regex")
 
     def deduplicate_beneficiaries(self, states):
-        for rec in self:
-            duplicate_beneficiaries = []
-            program = rec.program_id
-            beneficiaries = program.get_beneficiaries(states)
-            # duplicates
-            _logger.info("Deduplicate beneficiaries: %s", beneficiaries)
+        self.ensure_one()
+        program = self.program_id
+        beneficiaries = program.get_beneficiaries(states)
+        sql = """
+            SELECT * FROM
+            (SELECT g2p_phone_number.id as phone_id,
+                phone_sanitized,
+                g2p_phone_number.partner_id as identity_partner_id,
+                g2p_group_membership.group as identity_group_id,
+                count(*)
+            OVER
+                (PARTITION BY
+                    phone_sanitized
+                ) AS count
+            FROM g2p_phone_number
+            -- Join to the group it belong to through the individual
+            LEFT join g2p_group_membership ON g2p_group_membership.individual = g2p_phone_number.partner_id
+            -- Join the group to the program
+            LEFT join g2p_program_membership as group_program_membership
+                ON group_program_membership.partner_id = g2p_group_membership.group
+            -- Join the registrant to the program
+            LEFT join g2p_program_membership as program_membership
+                ON program_membership.partner_id = g2p_phone_number.partner_id
+            where
+            (
+                group_program_membership.program_id = %s OR
+                program_membership.program_id = %s
+            ) AND (
+                group_program_membership.state IN %s OR
+                program_membership.state IN %s
+            ) AND (
+                g2p_phone_number.disabled IS NULL
+            )
+            ) tableWithCount
+            WHERE tableWithCount.count > 1;"""
+
+        states = (*states,)
+        self.env.cr.execute(sql, (program.id, program.id, states, states))
+        duplicates = self.env.cr.dictfetchall()
+        duplicate_partner_ids = []
+        for rec in duplicates:
+            _logger.info("DEBUG: duplicate: %s", rec)
             if program.target_type == "group":
-                duplicate_beneficiaries = (
-                    self._check_duplicate_by_group_with_individual(beneficiaries)
-                )
+                if rec["identity_group_id"]:
+                    duplicate_partner_ids.append(rec["identity_group_id"])
+                else:
+                    duplicate_partner_ids.append(rec["identity_partner_id"])
             else:
-                duplicate_beneficiaries = self._check_duplicate_by_individual(
-                    beneficiaries
-                )
-            return len(duplicate_beneficiaries)
+                duplicate_partner_ids.append(rec["identity_partner_id"])
+
+        _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
+
+        duplicate_beneficiaries = beneficiaries.filtered(
+            lambda rec: rec.partner_id.id in duplicate_partner_ids
+        )
+        duplicate_beneficiariy_ids = duplicate_beneficiaries.mapped("id")
+
+        self._record_duplicate(
+            self, duplicate_beneficiariy_ids, "Duplicate Phone Numbers"
+        )
+
+        duplicated_enrolled = duplicate_beneficiaries.filtered(
+            lambda rec: rec.state in ("enrolled", "duplicated")
+        )
+        if len(duplicated_enrolled) == 1:
+            # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
+            # otherwise if there is more than 1, then there is a problem!
+            # TODO: check how to handle this
+            duplicated_enrolled.write({"state": "enrolled"})
+            duplicate_beneficiaries = duplicate_beneficiaries.filtered(
+                lambda rec: rec.state != "enrolled"
+            )
+        duplicate_beneficiaries.filtered(
+            lambda rec: rec.state not in ["exited", "not_eligible", "duplicated"]
+        ).write({"state": "duplicated"})
+
+        return len(duplicate_beneficiaries)
 
     def _record_duplicate(self, manager, beneficiary_ids, reason):
         """
@@ -352,190 +411,37 @@ class PhoneNumberDeduplication(models.Model):
 
         _logger.info("Record duplicate: %s", beneficiary_ids)
         data = {
+            "program_id": manager.program_id.id,
             "beneficiary_ids": [(6, 0, beneficiary_ids)],
             "state": "duplicate",
             "reason": reason,
             "deduplication_manager_id": manager,
         }
-        _logger.info("Record duplicate: %s", data)
-
-        self.env["g2p.program.membership.duplicate"].create(data)
-
-    def _check_duplicate_by_group_with_individual(self, beneficiaries):
-        """
-        This method is used to check if there are any duplicates among the individuals docs.
-        :param beneficiary_ids: The beneficiaries.
-        :return:
-        """
-        _logger.info("-" * 100)
-        group_ids = beneficiaries.mapped("partner_id.id")
-        group_memberships = self.env["g2p.group.membership"].search(
-            [("group", "in", group_ids)]
+        # Check if there are changes in beneficiary_ids.
+        # If there are, update the g2p.program.membership.duplicate record,
+        # otherwise, create a new record.
+        dup_rec = self.env["g2p.program.membership.duplicate"].search(
+            [("program_id", "=", manager.program_id.id)]
         )
-        group = self.env["res.partner"].search([("id", "in", group_ids)])
-        _logger.info("group_memberships: %s", group_memberships)
-
-        individuals_ids = [rec.individual.id for rec in group_memberships]
-        _logger.info("individuals_ids: %s", individuals_ids)
-        individual_phone_numbers = {}
-        # Check Phone Numbers of each individual
-        for i in group_memberships:
-            for x in i.individual.phone_number_ids:
-                country_fname = "country_id"
-                number = x.phone_no
-                sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
-                        force_format="E164",
-                    )[number]["sanitized"]
+        create_rec = True
+        if dup_rec:
+            for rec in dup_rec:
+                res = list(
+                    map(
+                        lambda r: 1 if r in beneficiary_ids else 0,
+                        rec.beneficiary_ids.ids,
+                    )
                 )
-                phone_id_with_sanitized = {x.id: sanitized}
-                individual_phone_numbers.update(phone_id_with_sanitized)
+                _logger.info("DEBUG! res: %s", res)
 
-        # Check Phone Numbers of each group
-        for ix in group:
-            for x in ix.phone_number_ids:
-                country_fname = "country_id"
-                number = x.phone_no
-                sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
-                        force_format="E164",
-                    )[number]["sanitized"]
-                )
-                phone_id_with_sanitized = {x.id: sanitized}
-                individual_phone_numbers.update(phone_id_with_sanitized)
-
-        _logger.info("Individual Phone Numbers: %s", individual_phone_numbers)
-
-        rev_dict = {}
-        for key, value in individual_phone_numbers.items():
-            rev_dict.setdefault(value, set()).add(key)
-
-        duplicate_ids = filter(lambda x: len(x) > 1, rev_dict.values())
-        duplicate_ids = list(duplicate_ids)
-        duplicate_ids = list(itertools.chain.from_iterable(duplicate_ids))
-        _logger.info("PhoneNumber IDS with Duplicated Phone Numbers: %s", duplicate_ids)
-
-        duplicate_individuals_ids = self.env["g2p.phone.number"].search(
-            [("id", "in", duplicate_ids)]
-        )
-
-        duplicate_individuals = [x.partner_id.id for x in duplicate_individuals_ids]
-        duplicate_individuals = list(dict.fromkeys(duplicate_individuals))
-        _logger.info(
-            "Individual IDS with Duplicated Phone Numbers: %s", duplicate_individuals
-        )
-
-        group_with_duplicates = self.env["g2p.group.membership"].search(
-            [("group", "in", group_ids), ("individual", "in", duplicate_individuals)]
-        )
-
-        _logger.info("Group With Duplicates: %s", group_with_duplicates)
-
-        group_of_duplicates = {}
-        for group_membership in group_with_duplicates:
-            _logger.info(
-                "group_membership.individual.id: %s -> %s"
-                % (group_membership.individual.id, group_membership.group.id)
-            )
-            if group_membership.individual.id not in group_of_duplicates:
-                group_of_duplicates[group_membership.individual.id] = []
-            group_of_duplicates[group_membership.individual.id].append(
-                group_membership.group.id
-            )
-
-        _logger.info("group_of_duplicates: %s", group_of_duplicates)
-        for _individual, group_ids in group_of_duplicates.items():
-
-            duplicate_beneficiaries = beneficiaries.filtered(
-                lambda rec: rec.partner_id.id in group_ids
-            )
-            duplicate_beneficiariy_ids = duplicate_beneficiaries.mapped("id")
-
-            self._record_duplicate(
-                self, duplicate_beneficiariy_ids, "Duplicate Phone Numbers"
-            )
-
-            duplicated_enrolled = duplicate_beneficiaries.filtered(
-                lambda rec: rec.state == "enrolled"
-            )
-            if len(duplicated_enrolled) == 1:
-                # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
-                # otherwise if there is more than 1, then there is a problem!
-                # TODO: check how to handle this
-                duplicated_enrolled.write({"state": "enrolled"})
-                duplicate_beneficiaries = duplicate_beneficiaries.filtered(
-                    lambda rec: rec.state != "enrolled"
-                )
-            duplicate_beneficiaries.filtered(
-                lambda rec: rec.state not in ["exited", "not_eligible", "duplicated"]
-            ).write({"state": "duplicated"})
-
-        return group_with_duplicates
-
-    def _check_duplicate_by_individual(self, beneficiaries):
-        """
-        This method is used to check if there are any duplicates among the individuals docs.
-        :param beneficiary_ids: The beneficiaries.
-        :return:
-        """
-        _logger.info("-" * 100)
-        individual_ids = beneficiaries.mapped("partner_id.id")
-        individuals = self.env["res.partner"].search([("id", "in", individual_ids)])
-        _logger.info("Checking Phone Duplicates for: %s", individuals)
-
-        individual_phone_numbers = {}
-        # Check Phone Numbers of each individual
-        for i in individuals:
-            for x in i.phone_number_ids:
-                country_fname = "country_id"
-                number = x.phone_no
-                sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
-                        force_format="E164",
-                    )[number]["sanitized"]
-                )
-                phone_id_with_sanitized = {x.id: sanitized}
-                individual_phone_numbers.update(phone_id_with_sanitized)
-
-        _logger.info("Individual Phone Numbers: %s", individual_phone_numbers)
-        rev_dict = {}
-        for key, value in individual_phone_numbers.items():
-            rev_dict.setdefault(value, set()).add(key)
-
-        duplicate_ids = filter(lambda x: len(x) > 1, rev_dict.values())
-        duplicate_ids = list(duplicate_ids)
-        duplicate_ids = list(itertools.chain.from_iterable(duplicate_ids))
-        _logger.info("PhoneNumber IDS with Duplicated Phone Numbers: %s", duplicate_ids)
-
-        duplicated_phone_ids = self.env["g2p.phone.number"].search(
-            [("id", "in", duplicate_ids)]
-        )
-        individual_ids = [x.partner_id.id for x in duplicated_phone_ids]
-        individual_ids = list(dict.fromkeys(individual_ids))
-        _logger.info("Individual IDS with Duplicated Phone Numbers: %s", individual_ids)
-        individual_program_membership = self.env["g2p.program_membership"].search(
-            [("partner_id", "in", individual_ids)]
-        )
-
-        for duplicates in individual_program_membership:
-            duplicate_individuals = [duplicates.id]
-            self._record_duplicate(
-                self, duplicate_individuals, "Duplicate Phone Numbers"
-            )
-
-            if duplicates.state == "enrolled":
-                duplicates.write({"state": "duplicated"})
-
-        return individual_program_membership
+                if 1 in res:
+                    _logger.info("DEBUG! Update the duplicate record: %s", data)
+                    rec.update(data)
+                    create_rec = False
+                    break
+        if create_rec:
+            _logger.info("DEBUG!Create a new duplicate record: %s", data)
+            self.env["g2p.program.membership.duplicate"].create(data)
 
 
 class IDPhoneEligibilityManager(models.Model):
