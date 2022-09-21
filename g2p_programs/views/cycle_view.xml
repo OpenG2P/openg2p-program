@@ -331,8 +331,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     <field name="name" />
                                                     <field name="partner_id" />
                                                     <field name="entitlement_id" />
-                                                    <field name="program_id" />
-                                                    <field name="cycle_id" />
+                                                    <field name="program_id" invisible="1" />
+                                                    <field name="cycle_id" invisible="1" />
                                                     <field name="account_number" />
                                                     <field name="amount_issued" />
                                                     <field name="issuance_date" />
@@ -344,12 +344,18 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     />
                                                     <field
                                                         name="state"
-                                                        decoration-primary="state=='sent'"
-                                                        decoration-success="state=='paid'"
-                                                        decoration-warning="state=='issued'"
-                                                        decoration-danger="state=='failed'"
+                                                        decoration-primary="state=='issued'"
+                                                        decoration-warning="state=='sent'"
+                                                        decoration-success="state=='reconciled'"
                                                         widget="badge"
                                                         string="State"
+                                                    />
+                                                    <field
+                                                        name="status"
+                                                        decoration-success="state=='paid'"
+                                                        decoration-danger="state=='failed'"
+                                                        widget="badge"
+                                                        string="Payment Status"
                                                     />
                                                 </tree>
                                             </field>

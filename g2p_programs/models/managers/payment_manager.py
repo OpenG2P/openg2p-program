@@ -52,10 +52,12 @@ class DefaultFilePaymentManager(models.Model):
     _inherit = ["g2p.base.program.payment.manager", "g2p.manager.source.mixin"]
     _description = "Default Payment Manager"
 
+    create_batch = fields.Boolean("Automatically Create Batch")
     currency_id = fields.Many2one(
         "res.currency", related="program_id.journal_id.currency_id", readonly=True
     )
 
+    # TODO: optimize code to do in a single query.
     def prepare_payments(self, cycle):
         entitlements_ids = cycle.entitlement_ids.ids
 
@@ -81,12 +83,11 @@ class DefaultFilePaymentManager(models.Model):
         )
         # _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
 
-        # Todo: Create payment batch
-        # batch = self.env["g2p.paymentbatch"].create()
-
         ctr = 0
+        vals = []
+        payments_to_add_ids = []
         for entitlement_id in entitlements_with_payments_to_create:
-            self.env["g2p.payment"].create(
+            payment = self.env["g2p.payment"].create(
                 {
                     "entitlement_id": entitlement_id.id,
                     "cycle_id": entitlement_id.cycle_id.id,
@@ -94,11 +95,25 @@ class DefaultFilePaymentManager(models.Model):
                     "payment_fee": entitlement_id.transfer_fee,
                     "state": "issued",
                     # "account_number": self._get_account_number(entitlement_id),
-                    # "batch_id": batch.id,
                 }
             )
+            vals.append((4, payment.id))
+            payments_to_add_ids.append(payment.id)
             ctr += 1
         if ctr > 0:
+            # Create payment batch
+            if self.create_batch:
+                new_batch_vals = {
+                    "cycle_id": cycle.id,
+                    "payment_ids": vals,
+                    "stats_datetime": fields.Datetime.now(),
+                }
+                batch = self.env["g2p.payment.batch"].create(new_batch_vals)
+                # Update processed payments batch_id
+                self.env["g2p.payment"].browse(payments_to_add_ids).update(
+                    {"batch_id": batch.id}
+                )
+
             kind = "success"
             message = _("%s new payments was issued.") % ctr
             links = [

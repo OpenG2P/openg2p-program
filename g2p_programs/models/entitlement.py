@@ -3,7 +3,9 @@ import logging
 from uuid import uuid4
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
+
+from . import constants
 
 _logger = logging.getLogger(__name__)
 
@@ -163,26 +165,9 @@ class G2PEntitlement(models.Model):
             )
 
     def approve_entitlement(self):
-        amt = 0.0
-        state_err = 0
-        sw = 0
-        for rec in self:
-            if rec.state in ("draft", "pending_validation"):
-                if rec.is_cash_entitlement:  # For Cash Entitlements
-                    amt = self._process_cash_base_entitlement(rec, amt)
-                else:  # For Non-cash Entitlements
-                    self._process_noncash_base_entitlement(rec)
-            else:
-                state_err += 1
-                if sw == 0:
-                    sw = 1
-                    message = _(
-                        "<b>Entitle State Error! Entitlements not in 'pending validation' state:</b>\n"
-                    )
-                message += _("Program: %(prg)s, Beneficiary: %(partner)s.\n") % {
-                    "prg": rec.cycle_id.program_id.name,
-                    "partner": rec.partner_id.name,
-                }
+        state_err, message = self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).approve_entitlements(self)
 
         if state_err > 0:
             kind = "danger"
@@ -196,107 +181,6 @@ class G2PEntitlement(models.Model):
                     "type": kind,
                 },
             }
-
-    def _process_cash_base_entitlement(self, rec, amt):
-        # _logger.info("DEBUG: _process_cash_base_entitlement: amt1: %s", amt)
-        fund_balance = self.check_fund_balance(rec.cycle_id.program_id.id) - amt
-        if fund_balance >= rec.initial_amount:
-            amt += rec.initial_amount
-            # Prepare journal entry (account.move) via account.payment
-            amount = rec.initial_amount
-            new_service_fee = None
-            if rec.transfer_fee > 0.0:
-                amount -= rec.transfer_fee
-                # Incurred Fees (transfer fees)
-                payment = {
-                    "partner_id": rec.partner_id.id,
-                    "payment_type": "outbound",
-                    "amount": rec.transfer_fee,
-                    "currency_id": rec.journal_id.currency_id.id,
-                    "journal_id": rec.journal_id.id,
-                    "partner_type": "supplier",
-                    "ref": "Service Fee: Code: %s" % rec.code,
-                }
-                new_service_fee = self.env["account.payment"].create(payment)
-
-            # Fund Disbursed (amount - transfer fees)
-            payment = {
-                "partner_id": rec.partner_id.id,
-                "payment_type": "outbound",
-                "amount": amount,
-                "currency_id": rec.journal_id.currency_id.id,
-                "journal_id": rec.journal_id.id,
-                "partner_type": "supplier",
-                "ref": "Fund disbursed to beneficiary: Code: %s" % rec.code,
-            }
-            new_payment = self.env["account.payment"].create(payment)
-
-            rec.update(
-                {
-                    "disbursement_id": new_payment.id,
-                    "service_fee_disbursement_id": new_service_fee
-                    and new_service_fee.id
-                    or None,
-                    "state": "approved",
-                    "date_approved": fields.Date.today(),
-                }
-            )
-        else:
-            raise UserError(
-                _(
-                    "The fund for the program: %(program)s [%(fund).2f] "
-                    + "is insufficient for the entitlement: %(entitlement)s"
-                )
-                % {
-                    "program": rec.cycle_id.program_id.name,
-                    "fund": fund_balance,
-                    "entitlement": rec.code,
-                }
-            )
-        # _logger.info("DEBUG: _process_cash_base_entitlement: amt2: %s", amt)
-        return amt
-
-    def _process_noncash_base_entitlement(self, rec):
-        raise NotImplementedError()
-
-    def check_fund_balance(self, program_id):
-        company_id = self.env.user.company_id and self.env.user.company_id.id or None
-        retval = 0.0
-        if company_id:
-            params = (
-                company_id,
-                program_id,
-            )
-
-            # Get the current fund balance
-            fund_bal = 0.0
-            sql = """
-                select sum(amount) as total_fund
-                from g2p_program_fund
-                where company_id = %s
-                    AND program_id = %s
-                    AND state = 'posted'
-                """
-            self._cr.execute(sql, params)
-            program_funds = self._cr.dictfetchall()
-            fund_bal = program_funds[0]["total_fund"] or 0.0
-
-            # Get the current entitlement totals
-            total_entitlements = 0.0
-            sql = """
-                select sum(a.initial_amount) as total_entitlement
-                from g2p_entitlement a
-                    left join g2p_cycle b on b.id = a.cycle_id
-                where a.company_id = %s
-                    AND b.program_id = %s
-                    AND a.state = 'approved'
-                """
-            self._cr.execute(sql, params)
-            entitlements = self._cr.dictfetchall()
-            total_entitlements = entitlements[0]["total_entitlement"] or 0.0
-
-            retval = fund_bal - total_entitlements
-        return retval
 
     def open_entitlement_form(self):
         return {

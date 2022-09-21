@@ -51,6 +51,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <tree sample="1">
                 <field name="name" />
                 <field name="program_id" />
+                <field name="create_batch" />
                 <field name="currency_id" />
             </tree>
         </field>
@@ -87,6 +88,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </div>
                     </div>
                     <group colspan="4" col="4">
+                        <field name="create_batch" />
                         <field
                             name="currency_id"
                             options="{'no_open':True,'no_create':True,'no_create_edit':True}"

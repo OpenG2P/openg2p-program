@@ -35,12 +35,18 @@ class G2PPayment(models.Model):
         selection=[
             ("issued", "Issued"),
             ("sent", "Sent"),
-            ("paid", "Paid"),
-            ("failed", "Failed"),
+            ("reconciled", "Reconciled"),
         ],
         string="Status",
         required=True,
         default="issued",
+    )
+    status = fields.Selection(
+        selection=[
+            ("paid", "Paid"),
+            ("failed", "Failed"),
+        ],
+        string="Payment Status",
     )
     status_is_final = fields.Boolean("Is final payment status", default=False)
     status_datetime = fields.Datetime()

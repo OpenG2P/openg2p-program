@@ -83,11 +83,9 @@ class G2PCycle(models.Model):
         for rec in self:
             payments_count = 0
             if rec.entitlement_ids:
-                payments = self.env["g2p.payment"].search(
+                payments_count = self.env["g2p.payment"].search_count(
                     [("entitlement_id", "in", rec.entitlement_ids.ids)]
                 )
-                if payments:
-                    payments_count = len(payments)
             rec.update({"payments_count": payments_count})
 
     @api.onchange("start_date")
@@ -180,7 +178,6 @@ class G2PCycle(models.Model):
                     ]
                 )
                 if entitlements:
-                    # for e in entitlements:
                     entitlements.approve_entitlement()
 
             if rec.state == self.STATE_TO_APPROVE:

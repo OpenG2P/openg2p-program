@@ -23,12 +23,18 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <field name="company_id" groups="base.group_multi_company" />
                 <field
                     name="state"
-                    decoration-primary="state=='sent'"
-                    decoration-success="state=='paid'"
-                    decoration-warning="state=='issued'"
-                    decoration-danger="state=='failed'"
+                    decoration-primary="state=='issued'"
+                    decoration-warning="state=='sent'"
+                    decoration-success="state=='reconciled'"
                     widget="badge"
                     string="State"
+                />
+                <field
+                    name="status"
+                    decoration-success="state=='paid'"
+                    decoration-danger="state=='failed'"
+                    widget="badge"
+                    string="Payment Status"
                 />
             </tree>
         </field>
@@ -49,7 +55,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         states="issued"
                         string="Send Payment"
                     />
-                    <field name="state" widget="statusbar" statusbar_visible="issued,sent,paid,failed" />
+                    <field name="state" widget="statusbar" statusbar_visible="issued,sent,reconciled" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -66,6 +72,18 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </div>
                         </button> -->
                     </div>
+                    <widget
+                        name="web_ribbon"
+                        title="Paid"
+                        bg_color="bg-success"
+                        attrs="{'invisible': [('status', '!=', 'paid')]}"
+                    />
+                    <widget
+                        name="web_ribbon"
+                        title="Failed"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('status', '!=', 'failed')]}"
+                    />
                     <div class="oe_title mb24">
                         <label for="partner_id" string="Beneficiary:" />
                         <h1>
@@ -114,6 +132,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         />
                         <field name="payment_fee" attrs="{'readonly':[('state','in',('paid','failed'))]}" />
                         <field name="currency_id" invisible="1" />
+                        <field name="status" invisible="1" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
