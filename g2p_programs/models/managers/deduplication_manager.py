@@ -1,5 +1,4 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-import collections
 import logging
 from datetime import date
 
@@ -81,15 +80,15 @@ class BaseDeduplication(models.AbstractModel):
                         rec.beneficiary_ids.ids,
                     )
                 )
-                _logger.info("DEBUG! res: %s", res)
+                # _logger.info("DEBUG! res: %s", res)
 
                 if 1 in res:
-                    _logger.info("DEBUG! Update the duplicate record: %s", data)
+                    # _logger.info("DEBUG! Update the duplicate record: %s", data)
                     rec.update(data)
                     create_rec = False
                     break
         if create_rec:
-            _logger.info("DEBUG!Create a new duplicate record: %s", data)
+            # _logger.info("DEBUG!Create a new duplicate record: %s", data)
             self.env["g2p.program.membership.duplicate"].create(data)
 
 
@@ -102,98 +101,60 @@ class DefaultDeduplication(models.Model):
     _capability_group = True
 
     def deduplicate_beneficiaries(self, states):
-        for rec in self:
-            duplicate_beneficiaries = []
-            program = rec.program_id
-            beneficiaries = program.get_beneficiaries(states)
-            # duplicates
-            _logger.info("Deduplicate beneficiaries: %s", beneficiaries)
+        self.ensure_one()
+        program = self.program_id
+        sql = """
+            SELECT * FROM
+            (SELECT res_partner.id as partner_id,
+                g2p_group_membership.group as identity_group_id,
+                group_program_membership.id as group_program_membership_id,
+                count(*)
+            OVER
+                (PARTITION BY
+                    res_partner.id
+                ) AS count
+            FROM res_partner
+            -- Join to the group it belong to through the individual
+            LEFT join g2p_group_membership ON g2p_group_membership.individual = res_partner.id
+            -- Join the group to the program
+            LEFT join g2p_program_membership as group_program_membership
+                ON group_program_membership.partner_id = g2p_group_membership.group
+            where
+            (
+                group_program_membership.program_id = %s
+            ) AND (
+                group_program_membership.state IN %s
+            ) AND (
+                res_partner.active = True AND
+                res_partner.disabled IS NULL AND
+                res_partner.is_registrant = True
+            )
+            ) tableWithCount
+            WHERE tableWithCount.count > 1;"""
+
+        states = (*states,)
+        self.env.cr.execute(sql, (program.id, states))
+        duplicates = self.env.cr.dictfetchall()
+        duplicate_partner_ids = []
+        duplicate_beneficiariy_ids = []
+        for rec in duplicates:
+            # _logger.info("DEBUG: queried rec: %s", rec)
             if program.target_type == "group":
-                duplicate_beneficiaries = self._check_duplicate_by_individual_ids(
-                    beneficiaries
-                )
-            return len(duplicate_beneficiaries)
+                duplicate_partner_ids.append(rec["identity_group_id"])
+                duplicate_beneficiariy_ids.append(rec["group_program_membership_id"])
 
-    def _record_duplicate(self, manager, beneficiary_ids, reason):
-        """
-        This method is used to record a duplicate beneficiary.
-        :param beneficiary: The beneficiary.
-        :param reason: The reason.
-        :param comment: The comment.
-        :return:
-        """
+        # _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
 
-        # TODO: check this group does not exist already with the same manager and the same beneficiaries or
-        #  a subset of them.
-        #  1. If the state has been changed to no_duplicate, then we should not record it as duplicate unless there are
-        #  additional beneficiaries in the group.
-        #  2. Otherwise we update the record.
-
-        _logger.info("Record duplicate: %s", beneficiary_ids)
-        data = {
-            "beneficiary_ids": [(6, 0, beneficiary_ids)],
-            "state": "duplicate",
-            "reason": reason,
-            "deduplication_manager_id": manager,
-        }
-        _logger.info("Record duplicate: %s", data)
-
-        self.env["g2p.program.membership.duplicate"].create(data)
-
-    def _check_duplicate_by_individual_ids(self, beneficiaries):
-        """
-        This method is used to check if there are any duplicates among the individuals.
-        :param beneficiary_ids: The beneficiaries.
-        :return:
-        """
-        _logger.info("-" * 100)
-        group_ids = beneficiaries.mapped("partner_id.id")
-        group_memberships = self.env["g2p.group.membership"].search(
-            [("group", "in", group_ids)]
-        )
-        _logger.info("group_memberships: %s", group_memberships)
-
-        individuals_ids = [rec.individual.id for rec in group_memberships]
-        _logger.info("individuals_ids: %s", individuals_ids)
-
-        duplicate_individuals = [
-            item
-            for item, count in collections.Counter(individuals_ids).items()
-            if count > 1
-        ]
-        _logger.info("Duplicate individuals: %s", duplicate_individuals)
-
-        group_with_duplicates = self.env["g2p.group.membership"].search(
-            [("group", "in", group_ids), ("individual", "in", duplicate_individuals)]
-        )
-
-        _logger.info("group_with_duplicates: %s", group_with_duplicates)
-        group_of_duplicates = {}
-        for group_membership in group_with_duplicates:
-            _logger.info(
-                "group_membership.individual.id: %s -> %s"
-                % (group_membership.individual.id, group_membership.group.id)
-            )
-            if group_membership.individual.id not in group_of_duplicates:
-                group_of_duplicates[group_membership.individual.id] = []
-            group_of_duplicates[group_membership.individual.id].append(
-                group_membership.group.id
-            )
-
-        _logger.info("group_of_duplicates: %s", group_of_duplicates)
-        for _individual, group_ids in group_of_duplicates.items():
-
-            duplicate_beneficiaries = beneficiaries.filtered(
-                lambda rec: rec.partner_id.id in group_ids
-            )
-            duplicate_beneficiariy_ids = duplicate_beneficiaries.mapped("id")
-
+        if duplicate_beneficiariy_ids:
             self._record_duplicate(
                 self, duplicate_beneficiariy_ids, "Duplicate individuals"
             )
 
+            duplicate_beneficiaries = self.env["g2p.program_membership"].browse(
+                duplicate_beneficiariy_ids
+            )
             duplicated_enrolled = duplicate_beneficiaries.filtered(
-                lambda rec: rec.state == "enrolled"
+                lambda rec: rec.state in ("enrolled", "duplicated")
             )
             if len(duplicated_enrolled) == 1:
                 # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
@@ -207,7 +168,9 @@ class DefaultDeduplication(models.Model):
                 lambda rec: rec.state not in ["exited", "not_eligible", "duplicated"]
             ).write({"state": "duplicated"})
 
-        return group_with_duplicates
+            return len(duplicate_beneficiaries)
+        else:
+            return 0
 
 
 class IDDocumentDeduplication(models.Model):
@@ -366,7 +329,7 @@ class PhoneNumberDeduplication(models.Model):
         duplicate_partner_ids = []
         duplicate_beneficiariy_ids = []
         for rec in duplicates:
-            _logger.info("DEBUG: queried rec: %s", rec)
+            # _logger.info("DEBUG: queried rec: %s", rec)
             if program.target_type == "group":
                 if rec["identity_group_id"]:
                     duplicate_partner_ids.append(rec["identity_group_id"])
@@ -382,7 +345,7 @@ class PhoneNumberDeduplication(models.Model):
                 duplicate_partner_ids.append(rec["identity_partner_id"])
                 duplicate_beneficiariy_ids.append(rec["program_membership_id"])
 
-        _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
+        # _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
 
         self._record_duplicate(
             self, duplicate_beneficiariy_ids, "Duplicate Phone Numbers"
