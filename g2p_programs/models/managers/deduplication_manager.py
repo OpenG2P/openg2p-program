@@ -43,6 +43,55 @@ class BaseDeduplication(models.AbstractModel):
     def deduplicate_beneficiaries(self, states):
         raise NotImplementedError()
 
+    def _record_duplicate(self, manager, beneficiary_ids, reason):
+        """
+        This method is used to record a duplicate beneficiary.
+        :param beneficiary: The beneficiary.
+        :param reason: The reason.
+        :param comment: The comment.
+        :return:
+        """
+
+        # TODO: check this group does not exist already with the same manager and the same beneficiaries or
+        #  a subset of them.
+        #  1. If the state has been changed to no_duplicate, then we should not record it as duplicate unless there are
+        #  additional beneficiaries in the group.
+        #  2. Otherwise we update the record.
+
+        _logger.info("Record duplicate: %s", beneficiary_ids)
+        data = {
+            "program_id": manager.program_id.id,
+            "beneficiary_ids": [(6, 0, beneficiary_ids)],
+            "state": "duplicate",
+            "reason": reason,
+            "deduplication_manager_id": manager,
+        }
+        # Check if there are changes in beneficiary_ids.
+        # If there are, update the g2p.program.membership.duplicate record,
+        # otherwise, create a new record.
+        dup_rec = self.env["g2p.program.membership.duplicate"].search(
+            [("program_id", "=", manager.program_id.id)]
+        )
+        create_rec = True
+        if dup_rec:
+            for rec in dup_rec:
+                res = list(
+                    map(
+                        lambda r: 1 if r in beneficiary_ids else 0,
+                        rec.beneficiary_ids.ids,
+                    )
+                )
+                _logger.info("DEBUG! res: %s", res)
+
+                if 1 in res:
+                    _logger.info("DEBUG! Update the duplicate record: %s", data)
+                    rec.update(data)
+                    create_rec = False
+                    break
+        if create_rec:
+            _logger.info("DEBUG!Create a new duplicate record: %s", data)
+            self.env["g2p.program.membership.duplicate"].create(data)
+
 
 class DefaultDeduplication(models.Model):
     _name = "g2p.deduplication.manager.default"
@@ -173,7 +222,6 @@ class IDDocumentDeduplication(models.Model):
     def deduplicate_beneficiaries(self, states):
         self.ensure_one()
         program = self.program_id
-        beneficiaries = program.get_beneficiaries(states)
         sql = """
             SELECT * FROM
             (SELECT g2p_reg_id.id as identity_id,
@@ -181,6 +229,8 @@ class IDDocumentDeduplication(models.Model):
                 value,
                 g2p_reg_id.partner_id as identity_partner_id,
                 g2p_group_membership.group as identity_group_id,
+                program_membership.id as program_membership_id,
+                group_program_membership.id as group_program_membership_id,
                 count(*)
             OVER
                 (PARTITION BY
@@ -214,27 +264,33 @@ class IDDocumentDeduplication(models.Model):
         self.env.cr.execute(sql, (program.id, program.id, states, states))
         duplicates = self.env.cr.dictfetchall()
         duplicate_partner_ids = []
+        duplicate_beneficiariy_ids = []
         for rec in duplicates:
-            _logger.info("DEBUG: duplicate: %s", rec)
+            # _logger.info("DEBUG: queried rec: %s", rec)
             if program.target_type == "group":
                 if rec["identity_group_id"]:
                     duplicate_partner_ids.append(rec["identity_group_id"])
                 else:
                     duplicate_partner_ids.append(rec["identity_partner_id"])
+                if rec["group_program_membership_id"]:
+                    duplicate_beneficiariy_ids.append(
+                        rec["group_program_membership_id"]
+                    )
+                else:
+                    duplicate_beneficiariy_ids.append(rec["program_membership_id"])
             else:
                 duplicate_partner_ids.append(rec["identity_partner_id"])
+                duplicate_beneficiariy_ids.append(rec["program_membership_id"])
 
-        _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
-
-        duplicate_beneficiaries = beneficiaries.filtered(
-            lambda rec: rec.partner_id.id in duplicate_partner_ids
-        )
-        duplicate_beneficiariy_ids = duplicate_beneficiaries.mapped("id")
+        # _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
 
         self._record_duplicate(
             self, duplicate_beneficiariy_ids, "Duplicate ID Documents"
         )
 
+        duplicate_beneficiaries = self.env["g2p.program_membership"].browse(
+            duplicate_beneficiariy_ids
+        )
         duplicated_enrolled = duplicate_beneficiaries.filtered(
             lambda rec: rec.state in ("enrolled", "duplicated")
         )
@@ -251,55 +307,6 @@ class IDDocumentDeduplication(models.Model):
         ).write({"state": "duplicated"})
 
         return len(duplicate_beneficiaries)
-
-    def _record_duplicate(self, manager, beneficiary_ids, reason):
-        """
-        This method is used to record a duplicate beneficiary.
-        :param beneficiary: The beneficiary.
-        :param reason: The reason.
-        :param comment: The comment.
-        :return:
-        """
-
-        # TODO: check this group does not exist already with the same manager and the same beneficiaries or
-        #  a subset of them.
-        #  1. If the state has been changed to no_duplicate, then we should not record it as duplicate unless there are
-        #  additional beneficiaries in the group.
-        #  2. Otherwise we update the record.
-
-        _logger.info("Record duplicate: %s", beneficiary_ids)
-        data = {
-            "program_id": manager.program_id.id,
-            "beneficiary_ids": [(6, 0, beneficiary_ids)],
-            "state": "duplicate",
-            "reason": reason,
-            "deduplication_manager_id": manager,
-        }
-        # Check if there are changes in beneficiary_ids.
-        # If there are, update the g2p.program.membership.duplicate record,
-        # otherwise, create a new record.
-        dup_rec = self.env["g2p.program.membership.duplicate"].search(
-            [("program_id", "=", manager.program_id.id)]
-        )
-        create_rec = True
-        if dup_rec:
-            for rec in dup_rec:
-                res = list(
-                    map(
-                        lambda r: 1 if r in beneficiary_ids else 0,
-                        rec.beneficiary_ids.ids,
-                    )
-                )
-                _logger.info("DEBUG! res: %s", res)
-
-                if 1 in res:
-                    _logger.info("DEBUG! Update the duplicate record: %s", data)
-                    rec.update(data)
-                    create_rec = False
-                    break
-        if create_rec:
-            _logger.info("DEBUG!Create a new duplicate record: %s", data)
-            self.env["g2p.program.membership.duplicate"].create(data)
 
 
 class PhoneNumberDeduplication(models.Model):
@@ -318,13 +325,14 @@ class PhoneNumberDeduplication(models.Model):
     def deduplicate_beneficiaries(self, states):
         self.ensure_one()
         program = self.program_id
-        beneficiaries = program.get_beneficiaries(states)
         sql = """
             SELECT * FROM
             (SELECT g2p_phone_number.id as phone_id,
                 phone_sanitized,
                 g2p_phone_number.partner_id as identity_partner_id,
                 g2p_group_membership.group as identity_group_id,
+                program_membership.id as program_membership_id,
+                group_program_membership.id as group_program_membership_id,
                 count(*)
             OVER
                 (PARTITION BY
@@ -356,25 +364,32 @@ class PhoneNumberDeduplication(models.Model):
         self.env.cr.execute(sql, (program.id, program.id, states, states))
         duplicates = self.env.cr.dictfetchall()
         duplicate_partner_ids = []
+        duplicate_beneficiariy_ids = []
         for rec in duplicates:
-            _logger.info("DEBUG: duplicate: %s", rec)
+            _logger.info("DEBUG: queried rec: %s", rec)
             if program.target_type == "group":
                 if rec["identity_group_id"]:
                     duplicate_partner_ids.append(rec["identity_group_id"])
                 else:
                     duplicate_partner_ids.append(rec["identity_partner_id"])
+                if rec["group_program_membership_id"]:
+                    duplicate_beneficiariy_ids.append(
+                        rec["group_program_membership_id"]
+                    )
+                else:
+                    duplicate_beneficiariy_ids.append(rec["program_membership_id"])
             else:
                 duplicate_partner_ids.append(rec["identity_partner_id"])
+                duplicate_beneficiariy_ids.append(rec["program_membership_id"])
 
         _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
 
-        duplicate_beneficiaries = beneficiaries.filtered(
-            lambda rec: rec.partner_id.id in duplicate_partner_ids
-        )
-        duplicate_beneficiariy_ids = duplicate_beneficiaries.mapped("id")
-
         self._record_duplicate(
             self, duplicate_beneficiariy_ids, "Duplicate Phone Numbers"
+        )
+
+        duplicate_beneficiaries = self.env["g2p.program_membership"].browse(
+            duplicate_beneficiariy_ids
         )
 
         duplicated_enrolled = duplicate_beneficiaries.filtered(
@@ -393,55 +408,6 @@ class PhoneNumberDeduplication(models.Model):
         ).write({"state": "duplicated"})
 
         return len(duplicate_beneficiaries)
-
-    def _record_duplicate(self, manager, beneficiary_ids, reason):
-        """
-        This method is used to record a duplicate beneficiary.
-        :param beneficiary: The beneficiary.
-        :param reason: The reason.
-        :param comment: The comment.
-        :return:
-        """
-
-        # TODO: check this group does not exist already with the same manager and the same beneficiaries or
-        #  a subset of them.
-        #  1. If the state has been changed to no_duplicate, then we should not record it as duplicate unless there are
-        #  additional beneficiaries in the group.
-        #  2. Otherwise we update the record.
-
-        _logger.info("Record duplicate: %s", beneficiary_ids)
-        data = {
-            "program_id": manager.program_id.id,
-            "beneficiary_ids": [(6, 0, beneficiary_ids)],
-            "state": "duplicate",
-            "reason": reason,
-            "deduplication_manager_id": manager,
-        }
-        # Check if there are changes in beneficiary_ids.
-        # If there are, update the g2p.program.membership.duplicate record,
-        # otherwise, create a new record.
-        dup_rec = self.env["g2p.program.membership.duplicate"].search(
-            [("program_id", "=", manager.program_id.id)]
-        )
-        create_rec = True
-        if dup_rec:
-            for rec in dup_rec:
-                res = list(
-                    map(
-                        lambda r: 1 if r in beneficiary_ids else 0,
-                        rec.beneficiary_ids.ids,
-                    )
-                )
-                _logger.info("DEBUG! res: %s", res)
-
-                if 1 in res:
-                    _logger.info("DEBUG! Update the duplicate record: %s", data)
-                    rec.update(data)
-                    create_rec = False
-                    break
-        if create_rec:
-            _logger.info("DEBUG!Create a new duplicate record: %s", data)
-            self.env["g2p.program.membership.duplicate"].create(data)
 
 
 class IDPhoneEligibilityManager(models.Model):
