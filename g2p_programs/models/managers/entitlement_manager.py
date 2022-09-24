@@ -58,6 +58,9 @@ class BaseEntitlementManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def is_cash_entitlement(self):
+        return False
+
     def check_fund_balance(self, program_id):
         company_id = self.env.user.company_id and self.env.user.company_id.id or None
         retval = 0.0
@@ -222,6 +225,9 @@ class DefaultCashEntitlementManager(models.Model):
         # move the funds from the program's wallet to the wallet of each Beneficiary that are validated
         pass
 
+    def is_cash_entitlement(self):
+        return True
+
     def approve_entitlements(self, entitlements):
         amt = 0.0
         state_err = 0
@@ -298,3 +304,14 @@ class DefaultCashEntitlementManager(models.Model):
                 }
 
         return (state_err, message)
+
+    def open_entitlement_form(self, rec):
+        return {
+            "name": "Entitlement",
+            "view_mode": "form",
+            "res_model": "g2p.entitlement",
+            "res_id": rec.id,
+            "view_id": self.env.ref("g2p_programs.view_entitlement_form").id,
+            "type": "ir.actions.act_window",
+            "target": "new",
+        }

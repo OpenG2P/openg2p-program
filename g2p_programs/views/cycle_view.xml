@@ -58,14 +58,6 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         states="draft"
                         string="Prepare Entitlement"
                     />
-                    <!-- <button
-                        type="object"
-                        class="btn-primary"
-                        icon="fa-file-text-o"
-                        name="mark_distributed"
-                        states="approved"
-                        string="Set as Distributed"
-                    /> -->
                     <button
                         type="object"
                         class="btn-primary"
@@ -73,6 +65,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="prepare_payment"
                         states="approved"
                         string="Issue Payments"
+                        invisible="context.get('hide_cash')"
                     />
                     <button
                         type="object"
@@ -136,6 +129,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             class="oe_stat_button"
                             icon="fa-folder-open-o"
                             name="open_payments_form"
+                            invisible="context.get('hide_cash')"
                         >
                             <div class="o_form_field o_stat_info">
                                 <field name="payments_count" class="o_stat_value" />
@@ -266,7 +260,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 </form>
                             </field>
                         </page>
-                        <page string="Payment Batches">
+                        <page string="Payment Batches" invisible="context.get('hide_cash')">
                             <field name="payment_batch_ids" nolabel="1" readonly="1">
                                 <tree>
                                     <!-- <button

@@ -170,6 +170,7 @@ class G2PCycle(models.Model):
             if cycle_managers.auto_approve_entitlements:
                 auto_approve = True
 
+            retval = None
             if auto_approve:
                 entitlements = self.env["g2p.entitlement"].search(
                     [
@@ -178,14 +179,15 @@ class G2PCycle(models.Model):
                     ]
                 )
                 if entitlements:
-                    entitlements.approve_entitlement()
+                    retval = entitlements.approve_entitlement()
 
             if rec.state == self.STATE_TO_APPROVE:
                 rec.update({"state": self.STATE_APPROVED})
                 # Running on_state_change because it is not triggered automatically with rec.update above
                 rec.on_state_change()
+                return retval
             else:
-                message = _("Ony 'to approve' cycles can be approved.")
+                message = _("Only 'to approve' cycles can be approved.")
                 kind = "danger"
 
                 return {
@@ -239,6 +241,13 @@ class G2PCycle(models.Model):
         pass
 
     def open_cycle_form(self):
+        is_cash_entitlement = self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).is_cash_entitlement()
+        hide_cash = True
+        if is_cash_entitlement:
+            hide_cash = False
+
         return {
             "name": "Cycle",
             "view_mode": "form",
@@ -246,6 +255,7 @@ class G2PCycle(models.Model):
             "res_id": self.id,
             "view_id": self.env.ref("g2p_programs.view_cycle_form").id,
             "type": "ir.actions.act_window",
+            "context": {"hide_cash": hide_cash},
             "target": "current",
             "flags": {"mode": "readonly"},
         }

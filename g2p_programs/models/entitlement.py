@@ -183,15 +183,9 @@ class G2PEntitlement(models.Model):
             }
 
     def open_entitlement_form(self):
-        return {
-            "name": "Entitlement",
-            "view_mode": "form",
-            "res_model": "g2p.entitlement",
-            "res_id": self.id,
-            "view_id": self.env.ref("g2p_programs.view_entitlement_form").id,
-            "type": "ir.actions.act_window",
-            "target": "new",
-        }
+        return self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).open_entitlement_form(self)
 
     def open_disb_form(self):
         for rec in self:
