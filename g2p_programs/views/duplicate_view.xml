@@ -42,7 +42,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </h1>
                         <label for="comment" string="Comment:" />
                         <h1>
-                            <field name="comment" />
+                            <field name="comment" readonly="1" />
                         </h1>
                     </div>
                     <notebook>

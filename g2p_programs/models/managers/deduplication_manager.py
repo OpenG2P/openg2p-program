@@ -42,7 +42,9 @@ class BaseDeduplication(models.AbstractModel):
     def deduplicate_beneficiaries(self, states):
         raise NotImplementedError()
 
-    def _record_duplicate(self, manager, beneficiary_ids, reason):
+    def _record_duplicate(
+        self, manager, beneficiary_ids, reason, comment, check_comment=False
+    ):
         """
         This method is used to record a duplicate beneficiary.
         :param beneficiary: The beneficiary.
@@ -57,20 +59,26 @@ class BaseDeduplication(models.AbstractModel):
         #  additional beneficiaries in the group.
         #  2. Otherwise we update the record.
 
-        _logger.info("Record duplicate: %s", beneficiary_ids)
+        # _logger.info("Record duplicate: %s", beneficiary_ids)
         data = {
             "program_id": manager.program_id.id,
             "beneficiary_ids": [(6, 0, beneficiary_ids)],
             "state": "duplicate",
             "reason": reason,
+            "comment": comment,
             "deduplication_manager_id": manager,
         }
         # Check if there are changes in beneficiary_ids.
         # If there are, update the g2p.program.membership.duplicate record,
         # otherwise, create a new record.
-        dup_rec = self.env["g2p.program.membership.duplicate"].search(
-            [("program_id", "=", manager.program_id.id)]
-        )
+        if not check_comment:
+            domain = [("program_id", "=", manager.program_id.id)]
+        else:
+            domain = [
+                ("program_id", "=", manager.program_id.id),
+                ("comment", "=", comment),
+            ]
+        dup_rec = self.env["g2p.program.membership.duplicate"].search(domain)
         create_rec = True
         if dup_rec:
             for rec in dup_rec:
@@ -80,15 +88,15 @@ class BaseDeduplication(models.AbstractModel):
                         rec.beneficiary_ids.ids,
                     )
                 )
-                # _logger.info("DEBUG! res: %s", res)
+                _logger.info("DEBUG! res: %s", res)
 
                 if 1 in res:
-                    # _logger.info("DEBUG! Update the duplicate record: %s", data)
+                    _logger.info("DEBUG! Update the duplicate record: %s", data)
                     rec.update(data)
                     create_rec = False
                     break
         if create_rec:
-            # _logger.info("DEBUG!Create a new duplicate record: %s", data)
+            _logger.info("DEBUG!Create a new duplicate record: %s", data)
             self.env["g2p.program.membership.duplicate"].create(data)
 
 
@@ -106,6 +114,7 @@ class DefaultDeduplication(models.Model):
         sql = """
             SELECT * FROM
             (SELECT res_partner.id as partner_id,
+                res_partner.name as partner_name,
                 g2p_group_membership.group as identity_group_id,
                 group_program_membership.id as group_program_membership_id,
                 count(*)
@@ -136,22 +145,48 @@ class DefaultDeduplication(models.Model):
         self.env.cr.execute(sql, (program.id, states))
         duplicates = self.env.cr.dictfetchall()
         duplicate_partner_ids = []
-        duplicate_beneficiariy_ids = []
+        duplicate_beneficiary_ids = []
+        duplicate_beneficiary_recs = {}
         for rec in duplicates:
             # _logger.info("DEBUG: queried rec: %s", rec)
             if program.target_type == "group":
                 duplicate_partner_ids.append(rec["identity_group_id"])
-                duplicate_beneficiariy_ids.append(rec["group_program_membership_id"])
+                duplicate_beneficiary_id = rec["group_program_membership_id"]
 
-        # _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
+                duplicate_beneficiary_ids.append(duplicate_beneficiary_id)
+                # Separate duplicates by "partner_id"
+                dup_val = rec["partner_id"]
+                if not duplicate_beneficiary_recs.get(dup_val):
+                    duplicate_beneficiary_recs.update(
+                        {
+                            dup_val: {
+                                "rec_ids": [duplicate_beneficiary_id],
+                                "partner_id": rec["partner_id"],
+                                "name": rec["partner_name"],
+                            }
+                        }
+                    )
+                else:
+                    duplicate_beneficiary_recs[dup_val]["rec_ids"].append(
+                        duplicate_beneficiary_id
+                    )
 
-        if duplicate_beneficiariy_ids:
-            self._record_duplicate(
-                self, duplicate_beneficiariy_ids, "Duplicate individuals"
-            )
+        # _logger.info(
+        #    "DEBUG: duplicate_beneficiary_recs: %s", duplicate_beneficiary_recs
+        # )
+        if duplicate_beneficiary_ids:
+            duplicate_beneficiary_ids = list(set(duplicate_beneficiary_ids))
+            for dup in duplicate_beneficiary_recs:
+                self._record_duplicate(
+                    self,
+                    duplicate_beneficiary_recs[dup]["rec_ids"],
+                    "Duplicate individuals",
+                    "Registrant: %s" % duplicate_beneficiary_recs[dup]["name"],
+                    check_comment=True,
+                )
 
             duplicate_beneficiaries = self.env["g2p.program_membership"].browse(
-                duplicate_beneficiariy_ids
+                duplicate_beneficiary_ids
             )
             duplicated_enrolled = duplicate_beneficiaries.filtered(
                 lambda rec: rec.state in ("enrolled", "duplicated")
@@ -227,7 +262,8 @@ class IDDocumentDeduplication(models.Model):
         self.env.cr.execute(sql, (program.id, program.id, states, states))
         duplicates = self.env.cr.dictfetchall()
         duplicate_partner_ids = []
-        duplicate_beneficiariy_ids = []
+        duplicate_beneficiary_ids = []
+        duplicate_beneficiary_recs = {}
         for rec in duplicates:
             # _logger.info("DEBUG: queried rec: %s", rec)
             if program.target_type == "group":
@@ -236,23 +272,47 @@ class IDDocumentDeduplication(models.Model):
                 else:
                     duplicate_partner_ids.append(rec["identity_partner_id"])
                 if rec["group_program_membership_id"]:
-                    duplicate_beneficiariy_ids.append(
-                        rec["group_program_membership_id"]
-                    )
+                    duplicate_beneficiary_id = rec["group_program_membership_id"]
                 else:
-                    duplicate_beneficiariy_ids.append(rec["program_membership_id"])
+                    duplicate_beneficiary_id = rec["program_membership_id"]
             else:
                 duplicate_partner_ids.append(rec["identity_partner_id"])
-                duplicate_beneficiariy_ids.append(rec["program_membership_id"])
+                duplicate_beneficiary_id = rec["program_membership_id"]
+
+            duplicate_beneficiary_ids.append(duplicate_beneficiary_id)
+            # Separate duplicates by "id_type - value"
+            dup_val = str(rec["id_type"]) + "-" + str(rec["value"])
+            id_type_name = self.env["g2p.id.type"].browse([rec["id_type"]])[0].name
+            if not duplicate_beneficiary_recs.get(dup_val):
+                duplicate_beneficiary_recs.update(
+                    {
+                        dup_val: {
+                            "rec_ids": [duplicate_beneficiary_id],
+                            "id_type_name": id_type_name,
+                            "value": rec["value"],
+                        }
+                    }
+                )
+            else:
+                duplicate_beneficiary_recs[dup_val]["rec_ids"].append(
+                    duplicate_beneficiary_id
+                )
 
         # _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
-
-        self._record_duplicate(
-            self, duplicate_beneficiariy_ids, "Duplicate ID Documents"
-        )
+        for dup in duplicate_beneficiary_recs:
+            self._record_duplicate(
+                self,
+                duplicate_beneficiary_recs[dup]["rec_ids"],
+                "Duplicate ID Documents",
+                "ID Type: %s, Value: %s"
+                % (
+                    duplicate_beneficiary_recs[dup]["id_type_name"],
+                    duplicate_beneficiary_recs[dup]["value"],
+                ),
+            )
 
         duplicate_beneficiaries = self.env["g2p.program_membership"].browse(
-            duplicate_beneficiariy_ids
+            duplicate_beneficiary_ids
         )
         duplicated_enrolled = duplicate_beneficiaries.filtered(
             lambda rec: rec.state in ("enrolled", "duplicated")
@@ -327,7 +387,8 @@ class PhoneNumberDeduplication(models.Model):
         self.env.cr.execute(sql, (program.id, program.id, states, states))
         duplicates = self.env.cr.dictfetchall()
         duplicate_partner_ids = []
-        duplicate_beneficiariy_ids = []
+        duplicate_beneficiary_ids = []
+        duplicate_beneficiary_recs = {}
         for rec in duplicates:
             # _logger.info("DEBUG: queried rec: %s", rec)
             if program.target_type == "group":
@@ -336,23 +397,41 @@ class PhoneNumberDeduplication(models.Model):
                 else:
                     duplicate_partner_ids.append(rec["identity_partner_id"])
                 if rec["group_program_membership_id"]:
-                    duplicate_beneficiariy_ids.append(
-                        rec["group_program_membership_id"]
-                    )
+                    duplicate_beneficiary_id = rec["group_program_membership_id"]
                 else:
-                    duplicate_beneficiariy_ids.append(rec["program_membership_id"])
+                    duplicate_beneficiary_id = rec["program_membership_id"]
             else:
                 duplicate_partner_ids.append(rec["identity_partner_id"])
-                duplicate_beneficiariy_ids.append(rec["program_membership_id"])
+                duplicate_beneficiary_id = rec["program_membership_id"]
 
+            duplicate_beneficiary_ids.append(duplicate_beneficiary_id)
+            # Separate duplicates by "phone_sanitized"
+            dup_val = rec["phone_sanitized"]
+            if not duplicate_beneficiary_recs.get(dup_val):
+                duplicate_beneficiary_recs.update(
+                    {
+                        dup_val: {
+                            "rec_ids": [duplicate_beneficiary_id],
+                            "phone_sanitized": dup_val,
+                        }
+                    }
+                )
+            else:
+                duplicate_beneficiary_recs[dup_val]["rec_ids"].append(
+                    duplicate_beneficiary_id
+                )
         # _logger.info("DEBUG: duplicate partner ids: %s", duplicate_partner_ids)
 
-        self._record_duplicate(
-            self, duplicate_beneficiariy_ids, "Duplicate Phone Numbers"
-        )
+        for dup in duplicate_beneficiary_recs:
+            self._record_duplicate(
+                self,
+                duplicate_beneficiary_recs[dup]["rec_ids"],
+                "Duplicate Phone Numbers",
+                "Phone Number: %s" % duplicate_beneficiary_recs[dup]["phone_sanitized"],
+            )
 
         duplicate_beneficiaries = self.env["g2p.program_membership"].browse(
-            duplicate_beneficiariy_ids
+            duplicate_beneficiary_ids
         )
 
         duplicated_enrolled = duplicate_beneficiaries.filtered(

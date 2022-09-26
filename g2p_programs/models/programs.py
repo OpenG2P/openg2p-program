@@ -300,7 +300,7 @@ class G2PProgram(models.Model):
                     duplicates += el.deduplicate_beneficiaries(states)
 
                 if duplicates > 0:
-                    message = _("%s Beneficiaries duplicate.") % duplicates
+                    message = _("%s Duplicate beneficiaries.") % duplicates
                     kind = "warning"
                 else:
                     message = _("There are no duplicates found.")
