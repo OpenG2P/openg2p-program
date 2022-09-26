@@ -289,7 +289,6 @@ class DefaultCashEntitlementManager(models.Model):
                             "entitlement": rec.code,
                         }
                     )
-                # _logger.info("DEBUG: approve_entitlements: amt2: %s", amt)
 
             else:
                 state_err += 1
