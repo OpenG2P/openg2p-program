@@ -26,6 +26,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <form string="Payment Batch" create="0">
+                <header>
+                    <button
+                        type="object"
+                        class="btn-success"
+                        icon="fa-thumbs-o-up"
+                        name="send_payments"
+                        string="Send Payments"
+                    />
+                </header>
                 <sheet>
                     <div class="oe_title mb24">
                         <label for="cycle_id" string="Cycle:" />
