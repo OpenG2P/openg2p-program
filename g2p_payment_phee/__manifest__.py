@@ -1,12 +1,12 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
-    "name": "G2P Program Payment (Payment Hub EE)",
+    "name": "OpenG2P Program Payment (Payment Hub EE)",
     "category": "G2P",
     "version": "15.0.0.0.1",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://github.com/openg2p/openg2p-program",
-    "license": "LGPL-3",
+    "license": "Other OSI approved licence",
     "development_status": "Alpha",
     "maintainers": ["jeremi", "gonzalesedwin1123"],
     "depends": [
