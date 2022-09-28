@@ -211,7 +211,9 @@ class G2PCycle(models.Model):
 
     def prepare_payment(self):
         # 1. Issue the payment of the beneficiaries using payment_manager.prepare_payments()
-        self.program_id.get_manager(constants.MANAGER_PAYMENT).prepare_payments(self)
+        return self.program_id.get_manager(constants.MANAGER_PAYMENT).prepare_payments(
+            self
+        )
 
     def mark_distributed(self):
         # 1. Mark the cycle as distributed using the cycle manager

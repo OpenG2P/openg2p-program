@@ -1,5 +1,24 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-from odoo import _, api, fields, models
+import logging
+from http.client import HTTPConnection
+
+import requests
+from requests.exceptions import HTTPError
+
+from odoo import Command, _, api, fields, models
+
+log = logging.getLogger("urllib3")
+log.setLevel(logging.DEBUG)
+
+# logging from urllib3 to console
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+log.addHandler(ch)
+
+# print statements from `http.client.HTTPConnection` to console/stdout
+HTTPConnection.debuglevel = 1
+
+_logger = logging.getLogger(__name__)
 
 
 class PaymentManager(models.Model):
@@ -72,7 +91,6 @@ class G2PPaymentHubEEManager(models.Model):
         )
         # _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
 
-        ctr = 0
         vals = []
         payments_to_add_ids = []
         for entitlement_id in entitlements_with_payments_to_create:
@@ -86,10 +104,11 @@ class G2PPaymentHubEEManager(models.Model):
                     # "account_number": self._get_account_number(entitlement_id),
                 }
             )
-            vals.append((4, payment.id))
+            # Link the issued payment record to the many2many field payment_ids.
+            # vals.append((Command.LINK, payment.id))
+            vals.append(Command.link(payment.id))
             payments_to_add_ids.append(payment.id)
-            ctr += 1
-        if ctr > 0:
+        if payments_to_add_ids:
             # Create payment batch
             if self.create_batch:
                 new_batch_vals = {
@@ -104,7 +123,7 @@ class G2PPaymentHubEEManager(models.Model):
                 )
 
             kind = "success"
-            message = _("%s new payments was issued.") % ctr
+            message = _("%s new payments was issued.") % len(payments_to_add_ids)
             links = [
                 {
                     "label": "Refresh Page",
@@ -126,6 +145,47 @@ class G2PPaymentHubEEManager(models.Model):
                 "type": kind,
             },
         }
+
+    def send_payments(self, batches):
+        # Bulk Transfer to PHEE API
+        payment_endpoint_url = self.payment_endpoint_url
+        tenant_id = self.tenant_id
+        _logger.info(
+            f"DEBUG! send_payments Manager: PHEE - URL: {payment_endpoint_url} tenant: {tenant_id}"
+        )
+        for rec in batches:
+            # TODO: determine the appropriate filename
+            filename = "test-payload.csv"
+            bulk_trans_url = f"{payment_endpoint_url}/{rec.name}/{filename}"
+            headers = {
+                "Platform-TenantId": tenant_id,
+            }
+            data = "id,request_id,payment_mode,account_number,amount,currency,note\n"
+            for row in rec.payment_ids:
+                # TODO: Get data for payment_mode and account_number
+                payment_mode = "slcb"
+                account_number = "SE0000000000001234567890"
+                data += f"{row.id},{rec.name},{payment_mode},{account_number},"
+                data += f"{row.amount_issued},{row.currency_id.name},{row.partner_id.name}\n"
+
+            try:
+                res = requests.post(
+                    bulk_trans_url, headers=headers, data=data, verify=False
+                )
+                res.raise_for_status()
+                # access JSOn content
+                jsonResponse = res.json()
+                _logger.info(f"PHEE API: jsonResponse: {jsonResponse}")
+                for key, value in jsonResponse.items():
+                    _logger.info(f"PHEE API: key:value = {key}:{value}")
+
+            except HTTPError as http_err:
+                _logger.info(f"PHEE API: HTTP error occurred: {http_err}")
+            except Exception as err:
+                _logger.info(f"PHEE API: Other error occurred: {err}")
+
+            _logger.info("PHEE API: data: %s" % data)
+            _logger.info("PHEE API: res: %s - %s" % (res, res.content))
 
     def _get_account_number(self, entitlement):
         return entitlement.partner_id.get_payment_token(entitlement.program_id)

@@ -1,24 +1,9 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 
 import logging
-from http.client import HTTPConnection
 from uuid import uuid4
 
-import requests
-from requests.exceptions import HTTPError
-
 from odoo import api, fields, models
-
-log = logging.getLogger("urllib3")
-log.setLevel(logging.DEBUG)
-
-# logging from urllib3 to console
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-log.addHandler(ch)
-
-# print statements from `http.client.HTTPConnection` to console/stdout
-HTTPConnection.debuglevel = 1
 
 _logger = logging.getLogger(__name__)
 
@@ -107,7 +92,7 @@ class G2PPayment(models.Model):
         # Simple implementation will check if a account number has been set
         pass
 
-    def issue_payment(self):
+    def send_payment(self):
         pass
 
 
@@ -151,44 +136,8 @@ class G2PPaymentBatch(models.Model):
 
     stats_datetime = fields.Datetime("Statistics Date/Time")
 
-    def send_payments(self):
-        # Bulk Transfer to PHEE API
-        # data = io.StringIO("")
-        for rec in self:
-            payment_endpoint_url = rec.program_id.get_manager(
-                rec.program_id.MANAGER_PAYMENT
-            ).payment_endpoint_url
-            tenant_id = rec.program_id.get_manager(
-                rec.program_id.MANAGER_PAYMENT
-            ).tenant_id
-
-            bulk_trans_url = f"{payment_endpoint_url}/{rec.name}/test-payload.csv"
-            headers = {
-                "Platform-TenantId": tenant_id,
-            }
-            data = "id,request_id,payment_mode,account_number,amount,currency,note\n"
-            for row in rec.payment_ids:
-                # TODO: Get data for payment_mode and account_number
-                payment_mode = "slcb"
-                account_number = "SE0000000000001234567890"
-                data += f"{row.id},{rec.name},{payment_mode},{account_number},"
-                data += f"{row.amount_issued},{row.currency_id.name},{row.partner_id.name}\n"
-
-            try:
-                res = requests.post(
-                    bulk_trans_url, headers=headers, data=data, verify=False
-                )
-                res.raise_for_status()
-                # access JSOn content
-                jsonResponse = res.json()
-                _logger.info(f"PHEE API: jsonResponse: {jsonResponse}")
-                for key, value in jsonResponse.items():
-                    _logger.info(f"PHEE API: key:value = {key}:{value}")
-
-            except HTTPError as http_err:
-                _logger.info(f"PHEE API: HTTP error occurred: {http_err}")
-            except Exception as err:
-                _logger.info(f"PHEE API: Other error occurred: {err}")
-
-            _logger.info("PHEE API: data: %s" % data)
-            _logger.info("PHEE API: res: %s - %s" % (res, res.content))
+    def send_payment(self):
+        # 1. Issue the payment of the beneficiaries using payment_manager.send_payments()
+        return self.program_id.get_manager(
+            self.program_id.MANAGER_PAYMENT
+        ).send_payments(self)

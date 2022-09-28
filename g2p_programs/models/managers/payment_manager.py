@@ -1,7 +1,7 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
 
-from odoo import _, api, fields, models
+from odoo import Command, _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -34,6 +34,14 @@ class BasePaymentManager(models.AbstractModel):
         """
         This method is used to prepare the payment list of the entitlements.
         :param entitlements: The entitlements.
+        :return:
+        """
+        raise NotImplementedError()
+
+    def send_payments(self, batches):
+        """
+        This method is used to send the payment list by batch.
+        :param batches: The payment batches.
         :return:
         """
         raise NotImplementedError()
@@ -83,7 +91,6 @@ class DefaultFilePaymentManager(models.Model):
         )
         # _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
 
-        ctr = 0
         vals = []
         payments_to_add_ids = []
         for entitlement_id in entitlements_with_payments_to_create:
@@ -97,10 +104,11 @@ class DefaultFilePaymentManager(models.Model):
                     # "account_number": self._get_account_number(entitlement_id),
                 }
             )
-            vals.append((4, payment.id))
+            # Link the issued payment record to the many2many field payment_ids.
+            # vals.append((Command.LINK, payment.id))
+            vals.append(Command.link(payment.id))
             payments_to_add_ids.append(payment.id)
-            ctr += 1
-        if ctr > 0:
+        if payments_to_add_ids:
             # Create payment batch
             if self.create_batch:
                 new_batch_vals = {
@@ -115,7 +123,7 @@ class DefaultFilePaymentManager(models.Model):
                 )
 
             kind = "success"
-            message = _("%s new payments was issued.") % ctr
+            message = _("%s new payments was issued.") % len(payments_to_add_ids)
             links = [
                 {
                     "label": "Refresh Page",
@@ -138,10 +146,9 @@ class DefaultFilePaymentManager(models.Model):
             },
         }
 
+    def send_payments(self, batches):
+        # Create a payment list (CSV)
+        _logger.info("DEBUG! send_payments Manager: DEFAULT")
+
     def _get_account_number(self, entitlement):
         return entitlement.partner_id.get_payment_token(entitlement.program_id)
-
-    def validate_entitlements(self, cycle, cycle_memberships):
-        # TODO: Change the status of the entitlements to `validated` for this members.
-        # move the funds from the program's wallet to the wallet of each Beneficiary that are validated
-        pass

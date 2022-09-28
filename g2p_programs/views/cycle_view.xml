@@ -64,7 +64,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-file-text-o"
                         name="prepare_payment"
                         states="approved"
-                        string="Issue Payments"
+                        string="Prepare Payments"
                         invisible="context.get('hide_cash')"
                     />
                     <button
