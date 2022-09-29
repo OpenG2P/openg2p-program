@@ -28,6 +28,8 @@ class BaseEntitlementManager(models.AbstractModel):
     _inherit = "base.programs.manager"
     _description = "Base Entitlement Manager"
 
+    IS_CASH_ENTITLEMENT = True
+
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
@@ -57,9 +59,6 @@ class BaseEntitlementManager(models.AbstractModel):
         :return:
         """
         raise NotImplementedError()
-
-    def is_cash_entitlement(self):
-        return False
 
     def check_fund_balance(self, program_id):
         company_id = self.env.user.company_id and self.env.user.company_id.id or None
@@ -105,6 +104,9 @@ class DefaultCashEntitlementManager(models.Model):
     _name = "g2p.program.entitlement.manager.default"
     _inherit = ["g2p.base.program.entitlement.manager", "g2p.manager.source.mixin"]
     _description = "Default Entitlement Manager"
+
+    # Set to True so that the UI will display the payment management components
+    IS_CASH_ENTITLEMENT = True
 
     amount_per_cycle = fields.Monetary(
         currency_field="currency_id",
@@ -225,9 +227,6 @@ class DefaultCashEntitlementManager(models.Model):
         # move the funds from the program's wallet to the wallet of each Beneficiary that are validated
         pass
 
-    def is_cash_entitlement(self):
-        return True
-
     def approve_entitlements(self, entitlements):
         amt = 0.0
         state_err = 0
@@ -295,7 +294,7 @@ class DefaultCashEntitlementManager(models.Model):
                 if sw == 0:
                     sw = 1
                     message = _(
-                        "<b>Entitlement State Error! Entitlements not in 'pending validation' state:</b>\n"
+                        "Entitlement State Error! Entitlements not in 'pending validation' state:\n"
                     )
                 message += _("Program: %(prg)s, Beneficiary: %(partner)s.\n") % {
                     "prg": rec.cycle_id.program_id.name,

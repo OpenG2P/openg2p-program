@@ -165,8 +165,8 @@ class G2PPaymentHubEEManager(models.Model):
                 # TODO: Get data for payment_mode and account_number
                 payment_mode = "slcb"
                 account_number = "SE0000000000001234567890"
-                data += f"{row.id},{rec.name},{payment_mode},{account_number},"
-                data += f"{row.amount_issued},{row.currency_id.name},{row.partner_id.name}\n"
+                data += f"{row.id},{rec.name},{payment_mode},{account_number},{row.amount_issued},"
+                data += f"{row.currency_id.name},{row.cycle_id.name}/{row.partner_id.name}\n"
 
             try:
                 res = requests.post(

@@ -245,7 +245,7 @@ class G2PCycle(models.Model):
     def open_cycle_form(self):
         is_cash_entitlement = self.program_id.get_manager(
             constants.MANAGER_ENTITLEMENT
-        ).is_cash_entitlement()
+        ).IS_CASH_ENTITLEMENT
         hide_cash = True
         if is_cash_entitlement:
             hide_cash = False
