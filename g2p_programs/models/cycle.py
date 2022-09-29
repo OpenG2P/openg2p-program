@@ -280,21 +280,9 @@ class G2PCycle(models.Model):
         return action
 
     def open_entitlements_form(self):
-        self.ensure_one()
-
-        action = {
-            "name": _("Cycle Entitlements"),
-            "type": "ir.actions.act_window",
-            "res_model": "g2p.entitlement",
-            "context": {
-                "create": False,
-                "default_cycle_id": self.id,
-                # "search_default_approved_state": 1,
-            },
-            "view_mode": "list,form",
-            "domain": [("cycle_id", "=", self.id)],
-        }
-        return action
+        return self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).open_entitlements_form(self)
 
     def open_payments_form(self):
         self.ensure_one()

@@ -60,6 +60,22 @@ class BaseEntitlementManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def open_entitlements_form(self, cycle):
+        """
+        This method is used to open the list view of entitlements in a cycle.
+        :param cycle: The cycle.
+        :return:
+        """
+        raise NotImplementedError()
+
+    def open_entitlement_form(self, rec):
+        """
+        This method is used to open the form view of a selected entitlement.
+        :param rec: The entitlement.
+        :return:
+        """
+        raise NotImplementedError()
+
     def check_fund_balance(self, program_id):
         company_id = self.env.user.company_id and self.env.user.company_id.id or None
         retval = 0.0
@@ -302,6 +318,22 @@ class DefaultCashEntitlementManager(models.Model):
                 }
 
         return (state_err, message)
+
+    def open_entitlements_form(self, cycle):
+        self.ensure_one()
+        action = {
+            "name": _("Cycle Entitlements"),
+            "type": "ir.actions.act_window",
+            "res_model": "g2p.entitlement",
+            "context": {
+                "create": False,
+                "default_cycle_id": cycle.id,
+                # "search_default_approved_state": 1,
+            },
+            "view_mode": "list,form",
+            "domain": [("cycle_id", "=", cycle.id)],
+        }
+        return action
 
     def open_entitlement_form(self, rec):
         return {
