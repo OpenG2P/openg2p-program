@@ -14,7 +14,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     class="app_settings_block"
                     data-string="Payment Hub EE API"
                     string="Payment Hub EE API"
-                    data-key="pm_phee"
+                    id="g2p_payment_phee"
+                    data-key="g2p_payment_phee"
                     groups="base.group_system,g2p_registry_base.group_g2p_admin"
                 >
                     <h2>Payment Hub EE API Endpoint URLs</h2>
@@ -137,7 +138,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="view_id" ref="res_config_settings_view_form_g2p_payment_manager_phee" />
         <field name="view_mode">form</field>
         <field name="target">inline</field>
-        <field name="context">{'module' : 'g2p_payment_phee'}</field>
+        <field name="context">{'module' : 'g2p_payment_phee', 'bin_size': False}</field>
     </record>
 
     <menuitem
