@@ -331,6 +331,10 @@ class DefaultCashEntitlementManager(models.Model):
                 # "search_default_approved_state": 1,
             },
             "view_mode": "list,form",
+            "views": [
+                [self.env.ref("g2p_programs.view_entitlement_tree").id, "tree"],
+                [self.env.ref("g2p_programs.view_entitlement_form").id, "form"],
+            ],
             "domain": [("cycle_id", "=", cycle.id)],
         }
         return action
