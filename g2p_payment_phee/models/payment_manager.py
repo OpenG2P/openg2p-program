@@ -1,6 +1,8 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+import csv
 import logging
 from http.client import HTTPConnection
+from io import StringIO
 
 import requests
 from requests.exceptions import HTTPError
@@ -160,19 +162,41 @@ class G2PPaymentHubEEManager(models.Model):
             headers = {
                 "Platform-TenantId": tenant_id,
             }
-            data = "id,request_id,payment_mode,account_number,amount,currency,note\n"
-            for row in rec.payment_ids:
+            data = StringIO()
+            csv_writer = csv.writer(data, quoting=csv.QUOTE_MINIMAL)
+            header = [
+                "id",
+                "request_id",
+                "payment_mode",
+                "account_number",
+                "amount",
+                "currency",
+                "note",
+            ]
+            csv_writer.writerow(header)
+            for row, payment_id in enumerate(rec.payment_ids):
                 # TODO: Get data for payment_mode and account_number
                 payment_mode = "slcb"
                 account_number = "SE0000000000001234567890"
-                data += f"{row.id},{rec.name},{payment_mode},{account_number},{row.amount_issued},"
-                data += f"{row.currency_id.name},{row.cycle_id.name}/{row.partner_id.name}\n"
+                row = [
+                    row,
+                    rec.name,
+                    payment_mode,
+                    account_number,
+                    payment_id.amount_issued,
+                    payment_id.currency_id.name,
+                    payment_id.partner_id.name,
+                ]
+                csv_writer.writerow(row)
+
+            csv_data = data.getvalue()
 
             try:
                 res = requests.post(
-                    bulk_trans_url, headers=headers, data=data, verify=False
+                    bulk_trans_url, headers=headers, data=csv_data, verify=False
                 )
                 res.raise_for_status()
+                # TODO: Perform detailed parsing of jsonResponse
                 # access JSOn content
                 jsonResponse = res.json()
                 _logger.info(f"PHEE API: jsonResponse: {jsonResponse}")
@@ -184,7 +208,7 @@ class G2PPaymentHubEEManager(models.Model):
             except Exception as err:
                 _logger.info(f"PHEE API: Other error occurred: {err}")
 
-            _logger.info("PHEE API: data: %s" % data)
+            # _logger.info("PHEE API: data: %s" % csv_data)
             _logger.info("PHEE API: res: %s - %s" % (res, res.content))
 
     def _get_account_number(self, entitlement):

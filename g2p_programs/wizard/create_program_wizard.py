@@ -72,8 +72,11 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         "res.groups", string="Entitlement Validation Group"
     )
     # Entitlement Transfer Fees
-    transfer_fee_pct = fields.Integer(
-        "Transfer Fee(%)", default=0, help="Transfer fee will be a percentage of amount"
+    transfer_fee_pct = fields.Float(
+        "Transfer Fee(%)",
+        digits=(5, 2),
+        default=0,
+        help="Transfer fee will be a percentage of amount",
     )
     transfer_fee_amt = fields.Monetary(
         "Transfer Fee Amount",
@@ -99,13 +102,13 @@ class G2PCreateNewProgramWiz(models.TransientModel):
 
     @api.onchange("transfer_fee_pct")
     def on_transfer_fee_pct_change(self):
-        if self.transfer_fee_pct > 0:
+        if self.transfer_fee_pct > 0.0:
             self.transfer_fee_amt = 0.0
 
     @api.onchange("transfer_fee_amt")
     def on_transfer_fee_amt_change(self):
         if self.transfer_fee_amt > 0.0:
-            self.transfer_fee_pct = 0
+            self.transfer_fee_pct = 0.0
 
     def next_step(self):
         if self.state == "step1":

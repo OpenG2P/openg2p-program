@@ -131,7 +131,7 @@ class DefaultCashEntitlementManager(models.Model):
     # Transfer Fees
     transfer_fee_pct = fields.Float(
         "Transfer Fee(%)",
-        decimal=(5, 2),
+        digits=(5, 2),
         default=0.0,
         help="Transfer fee will be a percentage of amount",
     )
