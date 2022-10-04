@@ -70,79 +70,88 @@ class DefaultFilePaymentManager(models.Model):
 
     # TODO: optimize code to do in a single query.
     def prepare_payments(self, cycle):
-        entitlements_ids = cycle.entitlement_ids.ids
+        entitlements = cycle.entitlement_ids.filtered(lambda a: a.state == "approved")
+        if entitlements:
+            entitlements_ids = entitlements.ids
 
-        # Filter out entitlements without payments
-        entitlements_with_payments = (
-            self.env["g2p.payment"]
-            .search([("entitlement_id", "in", entitlements_ids)])
-            .mapped("entitlement_id.id")
-        )
-
-        # Todo: fix issue with variable payments_to_create is generating list of list
-        if entitlements_with_payments:
-            payments_to_create = [
-                entitlements_ids
-                for entitlement_id in entitlements_ids
-                if entitlement_id not in entitlements_with_payments
-            ]
-        else:
-            payments_to_create = entitlements_ids
-
-        entitlements_with_payments_to_create = self.env["g2p.entitlement"].browse(
-            payments_to_create
-        )
-        # _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
-
-        vals = []
-        payments_to_add_ids = []
-        for entitlement_id in entitlements_with_payments_to_create:
-            payment = self.env["g2p.payment"].create(
-                {
-                    "entitlement_id": entitlement_id.id,
-                    "cycle_id": entitlement_id.cycle_id.id,
-                    "amount_issued": entitlement_id.initial_amount,
-                    "payment_fee": entitlement_id.transfer_fee,
-                    "state": "issued",
-                    # "account_number": self._get_account_number(entitlement_id),
-                }
+            # Filter out entitlements without payments
+            entitlements_with_payments = (
+                self.env["g2p.payment"]
+                .search([("entitlement_id", "in", entitlements_ids)])
+                .mapped("entitlement_id.id")
             )
-            # Link the issued payment record to the many2many field payment_ids.
-            # vals.append((Command.LINK, payment.id))
-            vals.append(Command.link(payment.id))
-            payments_to_add_ids.append(payment.id)
-        if payments_to_add_ids:
-            # Create payment batch
-            if self.create_batch:
-                new_batch_vals = {
-                    "cycle_id": cycle.id,
-                    "payment_ids": vals,
-                    "stats_datetime": fields.Datetime.now(),
-                }
-                batch = self.env["g2p.payment.batch"].create(new_batch_vals)
-                # Update processed payments batch_id
-                self.env["g2p.payment"].browse(payments_to_add_ids).update(
-                    {"batch_id": batch.id}
-                )
 
-            kind = "success"
-            message = _("%s new payments was issued.") % len(payments_to_add_ids)
-            links = [
-                {
-                    "label": "Refresh Page",
-                }
-            ]
+            # Todo: fix issue with variable payments_to_create is generating list of list
+            if entitlements_with_payments:
+                payments_to_create = [
+                    entitlements_ids
+                    for entitlement_id in entitlements_ids
+                    if entitlement_id not in entitlements_with_payments
+                ]
+            else:
+                payments_to_create = entitlements_ids
+
+            entitlements_with_payments_to_create = self.env["g2p.entitlement"].browse(
+                payments_to_create
+            )
+            # _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
+
+            vals = []
+            payments_to_add_ids = []
+            for entitlement_id in entitlements_with_payments_to_create:
+                payment = self.env["g2p.payment"].create(
+                    {
+                        "entitlement_id": entitlement_id.id,
+                        "cycle_id": entitlement_id.cycle_id.id,
+                        "amount_issued": entitlement_id.initial_amount,
+                        "payment_fee": entitlement_id.transfer_fee,
+                        "state": "issued",
+                        # "account_number": self._get_account_number(entitlement_id),
+                    }
+                )
+                # Link the issued payment record to the many2many field payment_ids.
+                # vals.append((Command.LINK, payment.id))
+                vals.append(Command.link(payment.id))
+                payments_to_add_ids.append(payment.id)
+            if payments_to_add_ids:
+                # Create payment batch
+                if self.create_batch:
+                    new_batch_vals = {
+                        "cycle_id": cycle.id,
+                        "payment_ids": vals,
+                        "stats_datetime": fields.Datetime.now(),
+                    }
+                    batch = self.env["g2p.payment.batch"].create(new_batch_vals)
+                    # Update processed payments batch_id
+                    self.env["g2p.payment"].browse(payments_to_add_ids).update(
+                        {"batch_id": batch.id}
+                    )
+
+                kind = "success"
+                message = _("%s new payments was issued.") % len(payments_to_add_ids)
+                links = [
+                    {
+                        "label": "Refresh Page",
+                    }
+                ]
+                refresh = " %s"
+            else:
+                kind = "danger"
+                message = _("There are no new payments issued!")
+                links = []
+                refresh = ""
         else:
             kind = "danger"
-            message = _("There are no new payments issued!")
-            links = [{}]
+            message = _("All entitlements selected are not approved!")
+            links = []
+            refresh = ""
 
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
                 "title": _("Payment"),
-                "message": message + " %s",
+                "message": message + refresh,
                 "links": links,
                 "sticky": True,
                 "type": kind,
