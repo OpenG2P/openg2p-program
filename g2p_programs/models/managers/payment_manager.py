@@ -3,6 +3,7 @@ import base64
 import csv
 import logging
 from io import StringIO
+from uuid import uuid4
 
 from odoo import Command, _, api, fields, models
 
@@ -101,6 +102,7 @@ class DefaultFilePaymentManager(models.Model):
             for entitlement_id in entitlements_with_payments_to_create:
                 payment = self.env["g2p.payment"].create(
                     {
+                        "name": str(uuid4()),
                         "entitlement_id": entitlement_id.id,
                         "cycle_id": entitlement_id.cycle_id.id,
                         "amount_issued": entitlement_id.initial_amount,
