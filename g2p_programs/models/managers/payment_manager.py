@@ -168,27 +168,30 @@ class DefaultFilePaymentManager(models.Model):
             data = StringIO()
             csv_writer = csv.writer(data, quoting=csv.QUOTE_MINIMAL)
             header = [
-                "id",
-                "request_id",
-                "payment_mode",
+                "row_number",
+                "internal_payment_reference",
                 "account_number",
+                "beneficiary_name",
                 "amount",
                 "currency",
-                "note",
+                "details_of_payment",
             ]
             csv_writer.writerow(header)
             for row, payment_id in enumerate(rec.payment_ids):
-                # TODO: Get data for payment_mode and account_number
-                payment_mode = "slcb"
-                account_number = "SE0000000000001234567890"
+                account_number = ""
+                if payment_id.partner_id.bank_ids:
+                    account_number = payment_id.partner_id.bank_ids[0].iban
+                details_of_payment = (
+                    f"{payment_id.program_id.name} - {payment_id.cycle_id.name}"
+                )
                 row = [
                     row,
-                    rec.name,
-                    payment_mode,
+                    payment_id.name,
                     account_number,
+                    payment_id.partner_id.name,
                     payment_id.amount_issued,
                     payment_id.currency_id.name,
-                    payment_id.partner_id.name,
+                    details_of_payment,
                 ]
                 csv_writer.writerow(row)
             csv_data = base64.encodebytes(bytearray(data.getvalue(), "utf-8"))
