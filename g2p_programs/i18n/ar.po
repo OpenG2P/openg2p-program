@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-13 09:22+0000\n"
-"Last-Translator: Fawaz Nari <fawaz.t.nari@gmail.com>\n"
+"PO-Revision-Date: 2022-10-28 06:59+0000\n"
+"Last-Translator: Jeremi Joslin <jeremi@openspp.org>\n"
 "Language-Team: Arabic <https://translate.openspp.org/projects/openg2p/"
 "g2p_programs/ar/>\n"
 "Language: ar\n"
@@ -423,7 +423,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_attachment_count
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_attachment_count
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_attachment_count
-#, fuzzy
 msgid "Attachment Count"
 msgstr "عدد المرفقات"
 
@@ -529,7 +528,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.multi_entitlement_approval_wizard_form_view
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Cancel"
-msgstr ""
+msgstr "إلغاء"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__cancelled
@@ -715,7 +714,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "اتصال"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
@@ -803,7 +802,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "انشأ من قبل"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_registrants__create_date
@@ -835,7 +834,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__create_date
 msgid "Created on"
-msgstr ""
+msgstr "تم إنشاؤها على"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__currency_id
@@ -1122,7 +1121,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_phone_number__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__display_name
-#, fuzzy
 msgid "Display Name"
 msgstr "اسم المعروض"
 
@@ -1381,7 +1379,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_follower_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "متابع"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_partner_ids
@@ -1433,7 +1431,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_list_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_manager_default_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
-#, fuzzy
 msgid "Group By"
 msgstr "مجموعة بواسطة"
 
@@ -1446,7 +1443,7 @@ msgstr "مجموعة بواسطة"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__has_message
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "رسالة موجودة"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__have_members
@@ -1483,7 +1480,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_phone_number__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__id
-#, fuzzy
 msgid "ID"
 msgstr "بطاقة تعريف"
 
@@ -1550,7 +1546,6 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_unread
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_needaction
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_unread
-#, fuzzy
 msgid "If checked, new messages require your attention."
 msgstr "الرسائل الجديدة تتطلب انتباهك"
 
@@ -1687,7 +1682,6 @@ msgstr "تاريخ آخر تعديل"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_phone_number__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__write_uid
-#, fuzzy
 msgid "Last Updated by"
 msgstr "آخر تحديث بواسطة"
 
@@ -1989,7 +1983,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_needaction_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_needaction_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_needaction_counter
-#, fuzzy
 msgid "Number of Actions"
 msgstr "عدد الإجراءات"
 
@@ -2001,7 +1994,6 @@ msgstr "عدد الإجراءات"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_has_error_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_has_error_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_has_error_counter
-#, fuzzy
 msgid "Number of errors"
 msgstr "عدد الأخطاء"
 
@@ -2013,7 +2005,6 @@ msgstr "عدد الأخطاء"
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__message_needaction_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_needaction_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_needaction_counter
-#, fuzzy
 msgid "Number of messages which requires an action"
 msgstr "عدد الرسائل التي تتطلب اتخاذ إجراء"
 
@@ -2824,7 +2815,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_unread
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_unread
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_unread
-#, fuzzy
 msgid "Unread Messages"
 msgstr "الرسائل الغير مقروءة"
 
@@ -2836,7 +2826,6 @@ msgstr "الرسائل الغير مقروءة"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_unread_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_unread_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_unread_counter
-#, fuzzy
 msgid "Unread Messages Counter"
 msgstr "عداد الرسائل الغير المقروءة"
 
