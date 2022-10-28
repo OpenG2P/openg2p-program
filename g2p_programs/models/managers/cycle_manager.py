@@ -49,6 +49,12 @@ class BaseCycleManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def issue_payments(self, cycle):
+        """
+        Issue the payments based on entitlements for the cycle
+        """
+        raise NotImplementedError()
+
     def validate_entitlements(self, cycle, cycle_memberships):
         """
         Validate the entitlements for the cycle

@@ -3,10 +3,10 @@
 Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 -->
 <odoo>
-    <!-- Entitlement Manager -->
-    <record id="view_entitlement_manager_tree" model="ir.ui.view">
-        <field name="name">view_entitlement_manager_tree</field>
-        <field name="model">g2p.program.entitlement.manager</field>
+    <!-- Payment Manager -->
+    <record id="view_payment_manager_tree" model="ir.ui.view">
+        <field name="name">view_payment_manager_tree</field>
+        <field name="model">g2p.program.payment.manager</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree>
@@ -17,12 +17,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         </field>
     </record>
 
-    <record id="view_entitlement_manager_form" model="ir.ui.view">
-        <field name="name">view_entitlement_manager_form</field>
-        <field name="model">g2p.program.entitlement.manager</field>
+    <record id="view_payment_manager_form" model="ir.ui.view">
+        <field name="name">view_payment_manager_form</field>
+        <field name="model">g2p.program.payment.manager</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Entitlement Manager">
+            <form string="Payment Manager">
                 <sheet>
                     <group colspan="4" col="4">
                         <field
@@ -42,30 +42,27 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         </field>
     </record>
 
-    <!-- Default Entitlement Manager -->
-    <record id="view_entitlement_manager_default_tree" model="ir.ui.view">
-        <field name="name">view_entitlement_manager_default_tree</field>
-        <field name="model">g2p.program.entitlement.manager.default</field>
+    <!-- Default Payment Manager -->
+    <record id="view_payment_manager_default_tree" model="ir.ui.view">
+        <field name="name">view_payment_manager_default_tree</field>
+        <field name="model">g2p.program.payment.manager.default</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree sample="1">
                 <field name="name" />
                 <field name="program_id" />
-                <field name="amount_per_cycle" sum="total_amount_per_cycle" />
-                <field name="amount_per_individual_in_group" sum="total_amount_per_individual_in_group" />
+                <field name="create_batch" />
                 <field name="currency_id" />
-                <field name="max_individual_in_group" />
-                <field name="entitlement_validation_group_id" />
             </tree>
         </field>
     </record>
 
-    <record id="view_entitlement_manager_default_form" model="ir.ui.view">
-        <field name="name">view_entitlement_manager_default_form</field>
-        <field name="model">g2p.program.entitlement.manager.default</field>
+    <record id="view_payment_manager_default_form" model="ir.ui.view">
+        <field name="name">view_payment_manager_default_form</field>
+        <field name="model">g2p.program.payment.manager.default</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Default Entitlement Manager">
+            <form string="Default Payment Manager">
                 <sheet>
                     <div class="oe_button_box" name="button_box" />
                     <div class="oe_title mb24">
@@ -91,22 +88,10 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </div>
                     </div>
                     <group colspan="4" col="4">
-                        <field name="amount_per_cycle" />
-                        <field name="amount_per_individual_in_group" />
+                        <field name="create_batch" />
                         <field
                             name="currency_id"
                             options="{'no_open':True,'no_create':True,'no_create_edit':True}"
-                        />
-                        <field name="max_individual_in_group" />
-
-                        <field name="transfer_fee_pct" />
-                        <field name="transfer_fee_amt" />
-
-                        <field
-                            name="entitlement_validation_group_id"
-                            options="{'no_open':True,'no_create':True,'no_create_edit':True}"
-                            domain="[('category_id','=',%(g2p_registry_base.openg2p_module)d)]"
-                            colspan="4"
                         />
                     </group>
                 </sheet>
@@ -114,12 +99,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         </field>
     </record>
 
-    <record id="entitlement_manager_default_filter" model="ir.ui.view">
-        <field name="name">entitlement_manager_default_filter</field>
-        <field name="model">g2p.program.entitlement.manager.default</field>
+    <record id="payment_manager_default_filter" model="ir.ui.view">
+        <field name="name">payment_manager_default_filter</field>
+        <field name="model">g2p.program.payment.manager.default</field>
         <field name="priority" eval="1" />
         <field name="arch" type="xml">
-            <search string="Search Default Entitlement Manager">
+            <search string="Search Default Payment Manager">
                 <field name="name" />
                 <field name="program_id" />
                 <group expand="0" string="Group By">
@@ -132,43 +117,43 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         </field>
     </record>
 
-    <record id="action_entitlement_manager_default" model="ir.actions.act_window">
-        <field name="name">Entitlement Managers</field>
+    <record id="action_payment_manager_default" model="ir.actions.act_window">
+        <field name="name">Payment Managers</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">g2p.program.entitlement.manager.default</field>
+        <field name="res_model">g2p.program.payment.manager.default</field>
         <field name="view_mode">tree,form</field>
-        <field name="search_view_id" ref="entitlement_manager_default_filter" />
+        <field name="search_view_id" ref="payment_manager_default_filter" />
         <field name="context">{}</field>
         <field name="domain">[]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Add an Entitlement Manager!
+                Add a Payment Manager!
             </p><p>
-                Click the create button to enter a new entitlement manager.
+                Click the create button to enter a new payment manager.
             </p>
         </field>
     </record>
 
-    <record id="action_entitlement_manager_default_tree_view" model="ir.actions.act_window.view">
+    <record id="action_payment_manager_default_tree_view" model="ir.actions.act_window.view">
         <field name="sequence" eval="1" />
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="view_entitlement_manager_default_tree" />
-        <field name="act_window_id" ref="action_entitlement_manager_default" />
+        <field name="view_id" ref="view_payment_manager_default_tree" />
+        <field name="act_window_id" ref="action_payment_manager_default" />
     </record>
 
-    <record id="action_entitlement_manager_default_form_view" model="ir.actions.act_window.view">
+    <record id="action_payment_manager_default_form_view" model="ir.actions.act_window.view">
         <field name="sequence" eval="1" />
         <field name="view_mode">form</field>
-        <field name="view_id" ref="view_entitlement_manager_default_form" />
-        <field name="act_window_id" ref="action_entitlement_manager_default" />
+        <field name="view_id" ref="view_payment_manager_default_form" />
+        <field name="act_window_id" ref="action_payment_manager_default" />
     </record>
 
     <menuitem
-        id="menu_entitlement_manager_default"
-        name="Default Entitlement Managers"
-        action="action_entitlement_manager_default"
+        id="menu_payment_manager_default"
+        name="Default Payment Managers"
+        action="action_payment_manager_default"
         parent="g2p_programs.g2p_manager_menu_root"
-        sequence="600"
+        sequence="700"
         groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
     />
 

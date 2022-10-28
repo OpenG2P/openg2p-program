@@ -16,6 +16,7 @@
         "g2p_registry_individual",
         "g2p_registry_group",
         "g2p_registry_membership",
+        "g2p_bank",
         "l10n_generic_coa",
     ],
     "data": [
@@ -31,6 +32,8 @@
         "views/cycle_view.xml",
         "views/cycle_membership_view.xml",
         "views/entitlement_view.xml",
+        "views/payment_view.xml",
+        "views/payment_batch_view.xml",
         "views/registrant_view.xml",
         "views/managers/eligibility_manager_view.xml",
         "views/managers/deduplication_manager_view.xml",
@@ -38,6 +41,7 @@
         "views/managers/program_manager_view.xml",
         "views/managers/cycle_manager_view.xml",
         "views/managers/entitlement_manager_view.xml",
+        "views/managers/payment_manager_view.xml",
         "views/accounting/fund_management_view.xml",
         "views/accounting/account_journal_view.xml",
         "views/accounting/fund_report_view.xml",
@@ -46,6 +50,7 @@
         "wizard/assign_to_program_wizard.xml",
         "wizard/multi_entitlement_approval_wizard.xml",
         "wizard/create_program_wizard.xml",
+        "wizard/assign_payments_batch_wizard.xml",
     ],
     "assets": {
         "web.assets_backend": [

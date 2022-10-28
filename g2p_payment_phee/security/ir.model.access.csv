@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+g2p_program_payment_manager_phee_admin,Program Payment Manager PHEE Admin Access,g2p_payment_phee.model_g2p_program_payment_manager_phee,g2p_registry_base.group_g2p_admin,1,1,1,1
+g2p_program_payment_manager_phee_program_manager,Program Payment Manager PHEE Program Manager Access,g2p_payment_phee.model_g2p_program_payment_manager_phee,g2p_programs.g2p_program_manager,1,1,1,0
+g2p_program_payment_manager_phee_program_validator,Program Payment Manager PHEE Program Validator Access,g2p_payment_phee.model_g2p_program_payment_manager_phee,g2p_programs.g2p_program_validator,1,0,0,0

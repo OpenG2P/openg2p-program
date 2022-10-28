@@ -81,7 +81,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <group>
                             <field
                                 name="partner_id"
-                                attrs="{'readonly':[('state','!=','draft')]}"
+                                readonly="1"
                                 options="{'no_open':True,'no_quick_create':True,'no_create':True}"
                             />
                             <field
@@ -110,18 +110,27 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <group string="Disbursement" colspan="4" col="4">
                         <field name="is_cash_entitlement" colspan="4" invisible="1" />
                         <field name="initial_amount" attrs="{'readonly':[('state','!=','draft')]}" />
+                        <field name="transfer_fee" attrs="{'readonly':[('state','!=','draft')]}" />
                         <field
-                            name="currency_id"
-                            options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                            attrs="{'readonly':[('state','!=','draft')]}"
+                            name="journal_id"
+                            string="Journal"
+                            options="{'no_open':True}"
+                            colspan="4"
+                            readonly="1"
                         />
-                        <field name="journal_id" string="Journal" options="{'no_open':True}" readonly="1" />
                         <field
                             name="disbursement_id"
                             options="{'no_open':True}"
-                            string="Journal Entry"
+                            string="Disbursement Entry"
                             readonly="1"
                         />
+                        <field
+                            name="service_fee_disbursement_id"
+                            options="{'no_open':True}"
+                            string="Service Fee Entry"
+                            readonly="1"
+                        />
+                        <field name="currency_id" invisible="1" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">

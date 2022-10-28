@@ -16,7 +16,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <field name="company_id" groups="base.group_multi_company" />
                 <field
                     name="state"
-                    decoration-primary="state=='to_approve'"
+                    decoration-primary="state=='draft'"
+                    decoration-warning="state=='to_approve'"
                     decoration-success="state in ('approved','distributed')"
                     decoration-danger="state in ('ended', 'cancelled')"
                     widget="badge"
@@ -61,9 +62,10 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
-                        name="mark_distributed"
+                        name="prepare_payment"
                         states="approved"
-                        string="Set as Distributed"
+                        string="Prepare Payments"
+                        invisible="context.get('hide_cash')"
                     />
                     <button
                         type="object"
@@ -120,6 +122,18 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <div class="o_form_field o_stat_info">
                                 <field name="entitlements_count" class="o_stat_value" />
                                 <span class="o_stat_text">Entitlements</span>
+                            </div>
+                        </button>
+                        <button
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-folder-open-o"
+                            name="open_payments_form"
+                            invisible="context.get('hide_cash')"
+                        >
+                            <div class="o_form_field o_stat_info">
+                                <field name="payments_count" class="o_stat_value" />
+                                <span class="o_stat_text">Payments</span>
                             </div>
                         </button>
                     </div>
@@ -191,7 +205,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <field name="cycle_id" />
                                     <field name="valid_from" />
                                     <field name="valid_until" />
-                                    <field name="state" />
+                                    <field
+                                        name="state"
+                                        decoration-primary="state=='pending_validation'"
+                                        decoration-success="state=='approved'"
+                                        decoration-warning="state=='cancelled'"
+                                        decoration-danger="state=='expired'"
+                                        widget="badge"
+                                        string="State"
+                                    />
                                     <field name="company_id" groups="base.group_multi_company" />
                                 </tree>
                                 <form>
@@ -235,6 +257,104 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                             <field name="date_approved" />
                                         </group>
                                     </group>
+                                </form>
+                            </field>
+                        </page>
+                        <page string="Payment Batches" invisible="context.get('hide_cash')">
+                            <field name="payment_batch_ids" nolabel="1" readonly="1">
+                                <tree>
+                                    <!-- <button
+                                        name="open_entitlement_form"
+                                        type="object"
+                                        icon="fa-external-link"
+                                        class="btn-success"
+                                    /> -->
+                                    <field name="name" />
+                                    <field name="external_batch_ref" />
+                                    <field name="batch_has_completed" />
+                                    <field name="stats_datetime" />
+                                    <field name="payment_ids" string="# Payments" />
+                                </tree>
+                                <form>
+                                    <div class="oe_title mb24">
+                                        <label for="cycle_id" string="Cycle:" />
+                                        <h1>
+                                            <field
+                                                id="cycle_id"
+                                                name="cycle_id"
+                                                readonly="1"
+                                                options="{'no_open':true}"
+                                            />
+                                        </h1>
+                                    </div>
+                                    <group colspan="4" col="4">
+                                        <field name="name" readonly="1" />
+                                        <field name="program_id" readonly="1" options="{'no_open':true}" />
+                                        <field name="external_batch_ref" />
+                                        <field name="batch_has_completed" />
+                                    </group>
+                                    <notebook>
+                                        <page string="Statistics">
+                                            <group colspan="4" col="4">
+                                                <field name="stats_datetime" colspan="4" readonly="1" />
+                                                <field
+                                                    name="stats_issued_transactions"
+                                                    string="Issued Transaction"
+                                                />
+                                                <field name="stats_issued_amount" string="Issued Amount" />
+                                                <field
+                                                    name="stats_sent_transactions"
+                                                    string="Sent Transactions"
+                                                />
+                                                <field name="stats_sent_amount" string="Sent Amount" />
+                                                <field
+                                                    name="stats_paid_transactions"
+                                                    string="Paid Transactions"
+                                                />
+                                                <field name="stats_paid_amount" string="Paid Amount" />
+                                                <field
+                                                    name="stats_failed_transactions"
+                                                    string="Failed Transactions"
+                                                />
+                                                <field name="stats_failed_amount" string="Failed Amount" />
+                                            </group>
+                                        </page>
+                                        <page string="Payments">
+                                            <field name="payment_ids" nolabel="1" readonly="1">
+                                                <tree>
+                                                    <field name="name" />
+                                                    <field name="partner_id" />
+                                                    <field name="entitlement_id" />
+                                                    <field name="program_id" invisible="1" />
+                                                    <field name="cycle_id" invisible="1" />
+                                                    <field name="account_number" />
+                                                    <field name="amount_issued" />
+                                                    <field name="issuance_date" />
+                                                    <field name="amount_paid" />
+                                                    <field name="payment_datetime" />
+                                                    <field
+                                                        name="company_id"
+                                                        groups="base.group_multi_company"
+                                                    />
+                                                    <field
+                                                        name="state"
+                                                        decoration-primary="state=='issued'"
+                                                        decoration-warning="state=='sent'"
+                                                        decoration-success="state=='reconciled'"
+                                                        widget="badge"
+                                                        string="State"
+                                                    />
+                                                    <field
+                                                        name="status"
+                                                        decoration-success="state=='paid'"
+                                                        decoration-danger="state=='failed'"
+                                                        widget="badge"
+                                                        string="Payment Status"
+                                                    />
+                                                </tree>
+                                            </field>
+                                        </page>
+                                    </notebook>
                                 </form>
                             </field>
                         </page>

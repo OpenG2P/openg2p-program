@@ -9,3 +9,4 @@ from . import notification_manager
 from . import program_manager
 from . import cycle_manager
 from . import entitlement_manager
+from . import payment_manager

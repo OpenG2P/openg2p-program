@@ -45,6 +45,9 @@ class G2PCycle(models.Model):
         "g2p.cycle.membership", "cycle_id", "Cycle Memberships"
     )
     entitlement_ids = fields.One2many("g2p.entitlement", "cycle_id", "Entitlements")
+    payment_batch_ids = fields.One2many(
+        "g2p.payment.batch", "cycle_id", "Payment Batches"
+    )
 
     # Statistics
     members_count = fields.Integer(
@@ -52,6 +55,9 @@ class G2PCycle(models.Model):
     )
     entitlements_count = fields.Integer(
         string="# Entitlements", compute="_compute_entitlements_count"
+    )
+    payments_count = fields.Integer(
+        string="# Payments", compute="_compute_payments_count"
     )
 
     @api.depends("cycle_membership_ids")
@@ -71,6 +77,16 @@ class G2PCycle(models.Model):
             if rec.entitlement_ids:
                 entitlements_count = len(rec.entitlement_ids)
             rec.update({"entitlements_count": entitlements_count})
+
+    @api.depends("entitlement_ids")
+    def _compute_payments_count(self):
+        for rec in self:
+            payments_count = 0
+            if rec.entitlement_ids:
+                payments_count = self.env["g2p.payment"].search_count(
+                    [("entitlement_id", "in", rec.entitlement_ids.ids)]
+                )
+            rec.update({"payments_count": payments_count})
 
     @api.onchange("start_date")
     def on_start_date_change(self):
@@ -154,6 +170,7 @@ class G2PCycle(models.Model):
             if cycle_managers.auto_approve_entitlements:
                 auto_approve = True
 
+            retval = None
             if auto_approve:
                 entitlements = self.env["g2p.entitlement"].search(
                     [
@@ -162,15 +179,15 @@ class G2PCycle(models.Model):
                     ]
                 )
                 if entitlements:
-                    for e in entitlements:
-                        e.approve_entitlement()
+                    retval = entitlements.approve_entitlement()
 
             if rec.state == self.STATE_TO_APPROVE:
                 rec.update({"state": self.STATE_APPROVED})
                 # Running on_state_change because it is not triggered automatically with rec.update above
                 rec.on_state_change()
+                return retval
             else:
-                message = _("Ony 'to approve' cycles can be approved.")
+                message = _("Only 'to approve' cycles can be approved.")
                 kind = "danger"
 
                 return {
@@ -191,6 +208,12 @@ class G2PCycle(models.Model):
     def prepare_entitlement(self):
         # 1. Prepare the entitlement of the beneficiaries using entitlement_manager.prepare_entitlements()
         self.program_id.get_manager(constants.MANAGER_CYCLE).prepare_entitlements(self)
+
+    def prepare_payment(self):
+        # 1. Issue the payment of the beneficiaries using payment_manager.prepare_payments()
+        return self.program_id.get_manager(constants.MANAGER_PAYMENT).prepare_payments(
+            self
+        )
 
     def mark_distributed(self):
         # 1. Mark the cycle as distributed using the cycle manager
@@ -220,6 +243,13 @@ class G2PCycle(models.Model):
         pass
 
     def open_cycle_form(self):
+        is_cash_entitlement = self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).IS_CASH_ENTITLEMENT
+        hide_cash = True
+        if is_cash_entitlement:
+            hide_cash = False
+
         return {
             "name": "Cycle",
             "view_mode": "form",
@@ -227,6 +257,7 @@ class G2PCycle(models.Model):
             "res_id": self.id,
             "view_id": self.env.ref("g2p_programs.view_cycle_form").id,
             "type": "ir.actions.act_window",
+            "context": {"hide_cash": hide_cash},
             "target": "current",
             "flags": {"mode": "readonly"},
         }
@@ -249,18 +280,21 @@ class G2PCycle(models.Model):
         return action
 
     def open_entitlements_form(self):
+        return self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).open_entitlements_form(self)
+
+    def open_payments_form(self):
         self.ensure_one()
 
         action = {
-            "name": _("Cycle Entitlements"),
+            "name": _("Payments"),
             "type": "ir.actions.act_window",
-            "res_model": "g2p.entitlement",
+            "res_model": "g2p.payment",
             "context": {
                 "create": False,
-                "default_cycle_id": self.id,
-                # "search_default_approved_state": 1,
             },
             "view_mode": "list,form",
-            "domain": [("cycle_id", "=", self.id)],
+            "domain": [("entitlement_id", "in", self.entitlement_ids.ids)],
         }
         return action

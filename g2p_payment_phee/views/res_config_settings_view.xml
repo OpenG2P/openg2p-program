@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="res_config_settings_view_form_g2p_payment_manager_phee" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.g2p.payment.manager.phee</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="1000" />
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div
+                    class="app_settings_block"
+                    data-string="Payment Hub EE API"
+                    string="Payment Hub EE API"
+                    id="g2p_payment_phee"
+                    data-key="g2p_payment_phee"
+                    groups="base.group_system,g2p_registry_base.group_g2p_admin"
+                >
+                    <h2>Payment Hub EE API Endpoint URLs</h2>
+                    <div class="row mt16 o_settings_container" name="endpoint_url_container">
+                        <div
+                            class="col-12 col-lg-6 o_setting_box"
+                            id="endpoint_url"
+                            title="Configure the Payment Hub EE Endpoint URLs"
+                        >
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <div>
+                                    <field name="default_auth_endpoint_url" />
+                                    <div>
+                                        <label for="default_auth_endpoint_url" />
+                                    </div>
+                                    <span class="text-muted">Default authentication endpoint URL</span>
+                                </div>
+                                <div class="mt-3">
+                                    <field name="default_payment_endpoint_url" />
+                                    <div>
+                                        <label for="default_payment_endpoint_url" />
+                                    </div>
+                                    <span class="text-muted">Default payment endpoint URL</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <div>
+                                    <field name="default_status_endpoint_url" />
+                                    <div>
+                                        <label for="default_status_endpoint_url" />
+                                    </div>
+                                    <span class="text-muted">Default status endpoint URL</span>
+                                </div>
+                                <div class="mt-3">
+                                    <field name="default_details_endpoint_url" />
+                                    <div>
+                                        <label for="default_details_endpoint_url" />
+                                    </div>
+                                    <span class="text-muted">Default details endpoint URL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2>Authentication Parameters</h2>
+                    <div class="row mt16 o_settings_container" name="auth_params_container">
+                        <div
+                            class="col-12 col-lg-6 o_setting_box"
+                            id="auth_params"
+                            title="Configure the Payment Hub EE authentication paramaters"
+                        >
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <div>
+                                    <field name="default_tenant_id" />
+                                    <div>
+                                        <label for="default_tenant_id" />
+                                    </div>
+                                    <span class="text-muted">Default tenant ID</span>
+                                </div>
+                                <div class="mt-3">
+                                    <field name="default_username" />
+                                    <div>
+                                        <label for="default_username" />
+                                    </div>
+                                    <span class="text-muted">Default username</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <div>
+                                    <field name="default_password" password="True" />
+                                    <div>
+                                        <label for="default_password" />
+                                    </div>
+                                    <span class="text-muted">Default password</span>
+                                </div>
+                                <div class="mt-3">
+                                    <field name="default_grant_type" password="True" />
+                                    <div>
+                                        <label for="default_grant_type" />
+                                    </div>
+                                    <span class="text-muted">Default grant type</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <div>
+                                    <field name="default_authorization" />
+                                    <div>
+                                        <label for="default_authorization" />
+                                    </div>
+                                    <span class="text-muted">Default authorization</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_g2p_payment_manager_phee_configuration" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_config_settings_view_form_g2p_payment_manager_phee" />
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'g2p_payment_phee', 'bin_size': False}</field>
+    </record>
+
+    <menuitem
+        id="menu_g2p_payment_manager_phee_configuration_settings"
+        name="Payment Hub EE API Settings"
+        parent="g2p_programs.g2p_program_configuration_menu_root"
+        sequence="1000"
+        action="action_g2p_payment_manager_phee_configuration"
+        groups="base.group_system,g2p_registry_base.group_g2p_admin"
+    />
+</odoo>
