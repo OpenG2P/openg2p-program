@@ -1,0 +1,300 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_payment_phee
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_payment_phee
+#: code:addons/g2p_payment_phee/models/payment_manager.py:0
+#, python-format
+msgid "%s new payments was issued."
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default authentication endpoint URL</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default authorization</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default details endpoint URL</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default grant type</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default password</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default payment endpoint URL</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default status endpoint URL</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default tenant ID</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "<span class=\"text-muted\">Default username</span>"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.actions.act_window,help:g2p_payment_phee.action_payment_manager_phee
+msgid "Add a Payment Manager!"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: code:addons/g2p_payment_phee/models/payment_manager.py:0
+#, python-format
+msgid "All entitlements selected are not approved!"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__auth_endpoint_url
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_auth_endpoint_url
+msgid "Authentication Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.view_payment_manager_phee_form
+msgid "Authentication Parameters"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__auth_token
+msgid "Authentication Token"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__authorization
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_authorization
+msgid "Authorization"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__create_batch
+msgid "Automatically Create Batch"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.actions.act_window,help:g2p_payment_phee.action_payment_manager_phee
+msgid "Click the create button to enter a new Payment Hub EE payment manager."
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model,name:g2p_payment_phee.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "Configure the Payment Hub EE Endpoint URLs"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "Configure the Payment Hub EE authentication paramaters"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__details_endpoint_url
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_details_endpoint_url
+msgid "Details Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.view_payment_manager_phee_form
+msgid "Enter the Manager Name..."
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__file_name
+msgid "Filename"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__grant_type
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_grant_type
+msgid "Grant Type"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.payment_manager_phee_filter
+msgid "Group By"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__id
+msgid "ID"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__name
+msgid "Manager Name"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.view_payment_manager_phee_form
+msgid "Name:"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__password
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_password
+msgid "Password"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__payment_endpoint_url
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_payment_endpoint_url
+msgid "Payment Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: code:addons/g2p_payment_phee/models/payment_manager.py:0
+#, python-format
+msgid "Payment Hub EE"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "Payment Hub EE API"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.res_config_settings_view_form_g2p_payment_manager_phee
+msgid "Payment Hub EE API Endpoint URLs"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.ui.menu,name:g2p_payment_phee.menu_g2p_payment_manager_phee_configuration_settings
+msgid "Payment Hub EE API Settings"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model,name:g2p_payment_phee.model_g2p_program_payment_manager_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.view_payment_manager_phee_form
+msgid "Payment Hub EE Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.ui.menu,name:g2p_payment_phee.menu_payment_manager_phee
+msgid "Payment Hub EE Payment Managers"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model,name:g2p_payment_phee.model_g2p_program_payment_manager
+msgid "Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.actions.act_window,name:g2p_payment_phee.action_payment_manager_phee
+msgid "Payment Managers"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__program_id
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.payment_manager_phee_filter
+msgid "Program"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.view_payment_manager_phee_form
+msgid "Program:"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.payment_manager_phee_filter
+msgid "Search Payment Hub EE Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model_terms:ir.ui.view,arch_db:g2p_payment_phee.view_payment_manager_phee_form
+msgid "Select a program..."
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.actions.act_window,name:g2p_payment_phee.action_g2p_payment_manager_phee_configuration
+msgid "Settings"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__status_endpoint_url
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_status_endpoint_url
+msgid "Status Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__tenant_id
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_tenant_id
+msgid "Tenant ID"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: code:addons/g2p_payment_phee/models/payment_manager.py:0
+#, python-format
+msgid "There are no new payments issued!"
+msgstr ""
+
+#. module: g2p_payment_phee
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_g2p_program_payment_manager_phee__username
+#: model:ir.model.fields,field_description:g2p_payment_phee.field_res_config_settings__default_username
+msgid "Username"
+msgstr ""
