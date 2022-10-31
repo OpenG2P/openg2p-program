@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2022-10-28 06:59+0000\n"
-"Last-Translator: Jeremi Joslin <jeremi@openspp.org>\n"
+"PO-Revision-Date: 2022-11-01 07:22+0000\n"
+"Last-Translator: Fawaz Nari <fawaz.t.nari@gmail.com>\n"
 "Language-Team: Arabic <https://translate.openspp.org/projects/openg2p/"
 "g2p_programs/ar/>\n"
 "Language: ar\n"
@@ -23,9 +23,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__beneficiaries_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
-#, fuzzy
 msgid "# Beneficiaries"
-msgstr "# المستفيدون"
+msgstr "# المستفيدين"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__cycles_count
@@ -35,40 +34,36 @@ msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__eligible_beneficiaries_count
-#, fuzzy
 msgid "# Eligible Beneficiaries"
-msgstr "# المستفيدون المؤهلون"
+msgstr "# المستفيدين المستحقين"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__entitlements_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
-#, fuzzy
 msgid "# Entitlements"
 msgstr "# المستحقات"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_tree
-#, fuzzy
 msgid "# IDs"
 msgstr "# البطاقات التعريفية"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__duplicate_membership_count
-#, fuzzy
 msgid "# Membership Duplicates"
 msgstr "# عضوية مكررة"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
-#, fuzzy, python-format
+#, python-format
 msgid "%s Beneficiaries duplicate."
-msgstr "%s مستفيدون مكررون."
+msgstr "%s مستفيدين مكررين."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
-#, fuzzy, python-format
+#, python-format
 msgid "%s Beneficiaries enrolled."
-msgstr "%s المستفيدون المدرجون."
+msgstr "%s المستفيدين المدرجين."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -77,13 +72,11 @@ msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
-#, fuzzy
 msgid "'Configuration'"
 msgstr "الاعدادات"
 
 #. module: g2p_programs
 #: model:ir.actions.report,print_report_name:g2p_programs.action_print_entitlement
-#, fuzzy
 msgid "'Entitlement Card'"
 msgstr "&quot;بطاقة المستحقات&quot;"
 
@@ -104,9 +97,8 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
-#, fuzzy
 msgid "<span class=\"o_stat_text\">Beneficiaries</span>"
-msgstr "<span class=\"o_stat_text\"> المستفيدون </span>"
+msgstr "<span class=\"o_stat_text\"> المستفيدين </span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -115,7 +107,6 @@ msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
-#, fuzzy
 msgid ""
 "<span class=\"o_stat_text\">Disbursement</span>\n"
 "                                <span class=\"o_stat_text\">Form</span>"
@@ -125,13 +116,11 @@ msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
-#, fuzzy
 msgid "<span class=\"o_stat_text\">Duplicates</span>"
 msgstr "<span class=\"o_stat_text\"> تكرارات </span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
-#, fuzzy
 msgid "<span class=\"o_stat_text\">Entitlements</span>"
 msgstr "<span class=\"o_stat_text\"> المستحقات </span>"
 
@@ -143,7 +132,6 @@ msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval__entitlement_id
-#, fuzzy
 msgid "A Entitlement"
 msgstr "مستحقات"
 
@@ -173,7 +161,6 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_assign_program_wizard__program_id
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__program_id
-#, fuzzy
 msgid "A program"
 msgstr "برنامج"
 
@@ -216,7 +203,7 @@ msgstr "الإجراءات اللازمة"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__active
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program__state__active
 msgid "Active"
-msgstr ""
+msgstr "مفعل"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_ids
@@ -226,7 +213,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "أنشطة"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_exception_decoration
@@ -246,7 +233,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_state
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "حالة النشاط"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_type_icon
@@ -256,12 +243,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_type_icon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "رمز نوع النشاط"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_assign_program_wizard
 msgid "Add Registrants to Program Wizard"
-msgstr ""
+msgstr "إضافة المسجلين إلى معالج البرنامج"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_account_journal_conf
@@ -286,7 +273,7 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_program_manager_default
 msgid "Add a Program Manager!"
-msgstr ""
+msgstr "أضف مدير برنامج!"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_notification_manager_sms
@@ -306,7 +293,7 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_entitlement
 msgid "Add a new entitlement!"
-msgstr ""
+msgstr "أضف استحقاق جديد!"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_program_membership_duplicate
@@ -326,12 +313,12 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_eligibility_manager_default
 msgid "Add an Eligibility Manager!"
-msgstr ""
+msgstr "أضف مدير الاستحقاق!"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_entitlement_manager_default
 msgid "Add an Entitlement Manager!"
-msgstr ""
+msgstr "أضف مدير المستحقات!"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_eligibility_manager_id_dedup
@@ -401,7 +388,6 @@ msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_list_filter
-#, fuzzy
 msgid "Archived"
 msgstr "مؤرشف"
 
