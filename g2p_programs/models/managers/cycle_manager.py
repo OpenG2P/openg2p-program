@@ -5,6 +5,8 @@ from datetime import timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+from odoo.addons.queue_job.delay import group
+
 from .. import constants
 
 _logger = logging.getLogger(__name__)
@@ -241,34 +243,62 @@ class DefaultCycleManager(models.Model):
         """
         Add beneficiaries to the cycle
         """
+        self.ensure_one()
         self._ensure_can_edit_cycle(cycle)
         _logger.info("Adding beneficiaries to the cycle %s", cycle.name)
         _logger.info("Beneficiaries: %s", beneficiaries)
 
+        # Only add beneficiaries not added yet
         existing_ids = cycle.cycle_membership_ids.mapped("partner_id.id")
+        beneficiaries = list(set(beneficiaries) - set(existing_ids))
+        if len(beneficiaries) < 1000:
+            self._add_beneficiaries(cycle, beneficiaries, state)
+        else:
+            self._add_beneficiaries_async(cycle, beneficiaries, state)
+
+    def _add_beneficiaries_async(self, cycle, beneficiaries, state):
+        _logger.info("Adding beneficiaries asynchronously")
+        cycle.message_post(
+            body="Import of %s beneficiaries started" % len(beneficiaries)
+        )
+        cycle.write({"locked": True, "locked_reason": "Importing beneficiaries"})
+
+        jobs = []
+        for i in range(0, len(beneficiaries), 2000):
+            jobs.append(
+                self.delayable()._add_beneficiaries(
+                    cycle, beneficiaries[i : i + 2000], state
+                )
+            )
+        main_job = group(*jobs)
+        main_job.on_done(self.delayable().mark_import_as_done(cycle))
+        main_job.delay()
+
+    def _add_beneficiaries(self, cycle, beneficiaries, state="draft"):
         new_beneficiaries = []
         for r in beneficiaries:
-            if r not in existing_ids:
-                new_beneficiaries.append(
-                    [
-                        0,
-                        0,
-                        {
-                            "partner_id": r,
-                            "enrollment_date": fields.Date.today(),
-                            "state": state,
-                        },
-                    ]
-                )
-        if new_beneficiaries:
-            cycle.update({"cycle_membership_ids": new_beneficiaries})
-            return True
-        else:
-            return False
+            new_beneficiaries.append(
+                [
+                    0,
+                    0,
+                    {
+                        "partner_id": r,
+                        "enrollment_date": fields.Date.today(),
+                        "state": state,
+                    },
+                ]
+            )
+        cycle.update({"cycle_membership_ids": new_beneficiaries})
+
+    def mark_import_as_done(self, cycle):
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=_("Beneficiary import done"))
 
     def _ensure_can_edit_cycle(self, cycle):
         if cycle.state not in [cycle.STATE_DRAFT]:
-            raise ValidationError(_("The Cycle is not in Draft Mode"))
+            raise ValidationError(_("The Cycle is not in draft mode"))
 
     def on_state_change(self, cycle):
         if cycle.state == cycle.STATE_APPROVED:

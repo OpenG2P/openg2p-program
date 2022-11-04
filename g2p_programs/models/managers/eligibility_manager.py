@@ -118,6 +118,9 @@ class DefaultEligibilityManager(models.Model):
 
     def import_eligible_registrants(self):
         # TODO: this only take the first eligibility manager, no the others
+        # TODO: move this code to the program manager and use the eligibility manager
+        #  like done for enroll_eligible_registrants
+
         for rec in self:
             domain = rec._prepare_eligible_domain()
             new_beneficiaries = self.env["res.partner"].search(domain)
@@ -136,13 +139,13 @@ class DefaultEligibilityManager(models.Model):
                 rec._import_registrants_async(new_beneficiaries)
 
     def _import_registrants_async(self, new_beneficiaries):
+        self.ensure_one()
         logging.info("Importing %s beneficiaries async", len(new_beneficiaries))
         program = self.program_id
-        program.locked = True
-        program.locked_reason = "Importing beneficiaries"
         program.message_post(
             body="Import of %s beneficiaries started" % len(new_beneficiaries)
         )
+        program.write({"locked": True, "locked_reason": "Importing beneficiaries"})
 
         jobs = []
         for i in range(0, len(new_beneficiaries), 10000):
@@ -154,6 +157,7 @@ class DefaultEligibilityManager(models.Model):
         main_job.delay()
 
     def mark_import_as_done(self):
+        self.ensure_one()
         self.program_id.locked = False
         self.program_id.locked_reason = None
         self.program_id.message_post(body=_("Import Done"))

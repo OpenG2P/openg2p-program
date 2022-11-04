@@ -154,7 +154,7 @@ class G2PProgram(models.Model):
     @api.depends("program_membership_ids")
     def _compute_duplicate_membership_count(self):
         for rec in self:
-            count = rec.count_beneficiaries(["enrolled"])["value"]
+            count = rec.count_beneficiaries(["duplicated"])["value"]
             rec.update({"duplicate_membership_count": count})
 
     @api.depends("program_membership_ids")
@@ -233,59 +233,7 @@ class G2PProgram(models.Model):
     def enroll_eligible_registrants(self):
         # TODO: JJ - Think about how can we make it asynchronous.
         for rec in self:
-            members = rec.get_beneficiaries(state=["draft"])
-            _logger.info("members: %s", members)
-            eligibility_managers = rec.get_managers(self.MANAGER_ELIGIBILITY)
-            if len(eligibility_managers):
-                for el in eligibility_managers:
-                    members = el.enroll_eligible_registrants(members)
-                # list the one not already enrolled:
-                _logger.info("members filtered: %s", members)
-                not_enrolled = members.filtered(lambda m: m.state != "enrolled")
-                _logger.info("not_enrolled: %s", not_enrolled)
-                not_enrolled.write(
-                    {
-                        "state": "enrolled",
-                        "enrollment_date": fields.Datetime.now(),
-                    }
-                )
-                if len(not_enrolled) > 0:
-                    message = _("%s Beneficiaries enrolled.") % len(not_enrolled)
-                    kind = "success"
-                else:
-                    message = _("No Beneficiaries enrolled.")
-                    kind = "warning"
-            else:
-                message = _("No Eligibility Manager defined.")
-                kind = "danger"
-
-            if kind == "success":
-                return {
-                    "type": "ir.actions.client",
-                    "tag": "display_notification",
-                    "params": {
-                        "title": _("Enrollment"),
-                        "message": message + " %s",
-                        "links": [
-                            {
-                                "label": "Refresh Page",
-                            }
-                        ],
-                        "sticky": True,
-                        "type": kind,
-                    },
-                }
-            else:
-                return {
-                    "type": "ir.actions.client",
-                    "tag": "display_notification",
-                    "params": {
-                        "title": _("Enrollment"),
-                        "message": message,
-                        "sticky": True,
-                        "type": kind,
-                    },
-                }
+            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants()
 
     def deduplicate_beneficiaries(self):
         for rec in self:

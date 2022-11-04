@@ -2,7 +2,9 @@
 import logging
 from datetime import datetime, timedelta
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+
+from odoo.addons.queue_job.delay import group
 
 from ..programs import G2PProgram
 
@@ -50,6 +52,14 @@ class BaseProgramManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def enroll_eligible_registrants(self):
+        """
+        This method is used to enroll the beneficiaries in a program.
+        Returns:
+            bool: True if the beneficiaries were enrolled, False otherwise.
+        """
+        raise NotImplementedError()
+
 
 class DefaultProgramManager(models.Model):
     _name = "g2p.program.manager.default"
@@ -81,11 +91,12 @@ class DefaultProgramManager(models.Model):
         Returns:
             cycle: the newly created cycle
         """
+        self.ensure_one()
+
         for rec in self:
             cycles = self.env["g2p.cycle"].search(
                 [("program_id", "=", rec.program_id.id)]
             )
-            new_cycle = None
             _logger.info("cycles: %s", cycles)
             cm = rec.program_id.get_manager(G2PProgram.MANAGER_CYCLE)
             if len(cycles) == 0:
@@ -107,3 +118,80 @@ class DefaultProgramManager(models.Model):
                 ).mapped("partner_id.id")
                 cm.add_beneficiaries(new_cycle, program_beneficiaries, "enrolled")
             return new_cycle
+
+    def enroll_eligible_registrants(self):
+        self.ensure_one()
+
+        for rec in self:
+            program = rec.program_id
+            members = program.get_beneficiaries(state=["draft"])
+            _logger.info("members: %s", len(members))
+
+            eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
+            if len(eligibility_managers) == 0:
+                message = _("No Eligibility Manager defined.")
+                kind = "danger"
+            elif len(members) < 200:
+                count = self._enroll_eligible_registrants(members)
+                message = _("%s Beneficiaries enrolled.", count)
+                kind = "success"
+            else:
+                self._enroll_eligible_registrants_async(members)
+                message = _(
+                    "Eligibility check of %s beneficiaries started", len(members)
+                )
+                kind = "warning"
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Enrollment"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                },
+            }
+
+    def _enroll_eligible_registrants_async(self, members):
+        self.ensure_one()
+        _logger.info("members: %s", len(members))
+        program = self.program_id
+        program.message_post(
+            body="Eligibility check of %s beneficiaries started" % len(members)
+        )
+        program.write(
+            {"locked": True, "locked_reason": "Eligibility check of beneficiaries"}
+        )
+
+        jobs = []
+        for i in range(0, len(members), 10000):
+            jobs.append(
+                self.delayable()._enroll_eligible_registrants(members[i : i + 10000])
+            )
+        main_job = group(*jobs)
+        main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
+        main_job.delay()
+
+    def _enroll_eligible_registrants(self, members):
+        program = self.program_id
+
+        eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
+        for el in eligibility_managers:
+            members = el.enroll_eligible_registrants(members)
+        # list the one not already enrolled:
+        _logger.info("members filtered: %s", members)
+        not_enrolled = members.filtered(lambda m: m.state != "enrolled")
+        _logger.info("not_enrolled: %s", not_enrolled)
+        not_enrolled.write(
+            {
+                "state": "enrolled",
+                "enrollment_date": fields.Datetime.now(),
+            }
+        )
+        return len(not_enrolled)
+
+    def mark_enroll_eligible_as_done(self):
+        self.ensure_one()
+        self.program_id.locked = False
+        self.program_id.locked_reason = None
+        self.program_id.message_post(body=_("Eligibility check Done"))

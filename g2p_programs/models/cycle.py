@@ -60,6 +60,10 @@ class G2PCycle(models.Model):
         string="# Payments", compute="_compute_payments_count"
     )
 
+    # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
+    locked = fields.Boolean(default=False)
+    locked_reason = fields.Char()
+
     @api.depends("cycle_membership_ids")
     def _compute_members_count(self):
         for rec in self:
