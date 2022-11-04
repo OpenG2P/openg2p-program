@@ -3,16 +3,16 @@ from odoo import fields, models
 
 
 class G2PCycleMembership(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin"]
-    # TODO: rename "g2p.cycle.membership" to "g2p.cycle.beneficiaries"
     _name = "g2p.cycle.membership"
     _description = "Cycle Membership"
     _order = "id desc"
 
     partner_id = fields.Many2one(
-        "res.partner", "Registrant", help="A beneficiary", required=True
+        "res.partner", "Registrant", help="A beneficiary", required=True, auto_join=True
     )
-    cycle_id = fields.Many2one("g2p.cycle", "Cycle", help="A cycle", required=True)
+    cycle_id = fields.Many2one(
+        "g2p.cycle", "Cycle", help="A cycle", required=True, auto_join=True
+    )
     enrollment_date = fields.Date(default=lambda self: fields.Datetime.now())
     state = fields.Selection(
         selection=[

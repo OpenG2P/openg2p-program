@@ -9,7 +9,6 @@ _logger = logging.getLogger(__name__)
 
 
 class G2PPayment(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin"]
     _name = "g2p.payment"
     _description = "Payment"
     _order = "id desc"
@@ -97,7 +96,6 @@ class G2PPayment(models.Model):
 
 
 class G2PPaymentBatch(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin"]
     _name = "g2p.payment.batch"
     _description = "Payment Batch"
     _order = "id desc"

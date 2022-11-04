@@ -11,7 +11,6 @@ _logger = logging.getLogger(__name__)
 
 
 class G2PEntitlement(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin"]
     _name = "g2p.entitlement"
     _description = "Entitlement"
     _order = "id desc"

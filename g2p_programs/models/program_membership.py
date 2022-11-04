@@ -5,8 +5,6 @@ from odoo import fields, models
 
 
 class G2PProgramMembership(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin"]
-    # TODO: rename g2p.program_membership to g2p.program.beneficiaries
     _name = "g2p.program_membership"
     _description = "Program Membership"
     _order = "id desc"
@@ -16,9 +14,12 @@ class G2PProgramMembership(models.Model):
         "Registrant",
         help="A beneficiary",
         required=True,
+        auto_join=True,
         domain=[("is_registrant", "=", True)],
     )
-    program_id = fields.Many2one("g2p.program", "", help="A program", required=True)
+    program_id = fields.Many2one(
+        "g2p.program", "", help="A program", required=True, auto_join=True
+    )
 
     # TODO: When the state is changed from "exited", "not_eligible" or "duplicate" to something else
     #      then reset the deduplication date.
