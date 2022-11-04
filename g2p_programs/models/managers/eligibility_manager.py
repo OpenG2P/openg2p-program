@@ -1,7 +1,9 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+
+from odoo.addons.queue_job.delay import group
 
 _logger = logging.getLogger(__name__)
 
@@ -73,9 +75,12 @@ class DefaultEligibilityManager(models.Model):
     # TODO: cache the parsed domain
     eligibility_domain = fields.Text(string="Domain", default="[]")
 
-    def _prepare_eligible_domain(self, membership):
-        ids = membership.mapped("partner_id.id")
-        domain = [("id", "in", ids)]
+    def _prepare_eligible_domain(self, membership=None):
+        domain = []
+        if membership is not None:
+            ids = membership.mapped("partner_id.id")
+            domain += [("id", "in", ids)]
+
         # TODO: use the config of the program
         if self.program_id.target_type == "group":
             domain += [("is_group", "=", True)]
@@ -110,3 +115,52 @@ class DefaultEligibilityManager(models.Model):
         beneficiaries = self.env["res.partner"].search(domain).ids
         _logger.info("Beneficiaries: %s", beneficiaries)
         return beneficiaries
+
+    def import_eligible_registrants(self):
+        # TODO: this only take the first eligibility manager, no the others
+        for rec in self:
+            domain = rec._prepare_eligible_domain()
+            new_beneficiaries = self.env["res.partner"].search(domain)
+            logging.info("Found %s beneficiaries", len(new_beneficiaries))
+
+            # Exclude already added beneficiaries
+            beneficiary_ids = rec.program_id.get_beneficiaries().mapped("partner_id")
+
+            logging.info("Excluding %s beneficiaries", len(beneficiary_ids))
+            new_beneficiaries = new_beneficiaries - beneficiary_ids
+            logging.info("Finally %s beneficiaries", len(new_beneficiaries))
+
+            if len(new_beneficiaries) < 1000:
+                rec._import_registrants(new_beneficiaries)
+            else:
+                rec._import_registrants_async(new_beneficiaries)
+
+    def _import_registrants_async(self, new_beneficiaries):
+        logging.info("Importing %s beneficiaries async", len(new_beneficiaries))
+        program = self.program_id
+        program.locked = True
+        program.locked_reason = "Importing beneficiaries"
+        program.message_post(
+            body="Import of %s beneficiaries started" % len(new_beneficiaries)
+        )
+
+        jobs = []
+        for i in range(0, len(new_beneficiaries), 10000):
+            jobs.append(
+                self.delayable()._import_registrants(new_beneficiaries[i : i + 10000])
+            )
+        main_job = group(*jobs)
+        main_job.on_done(self.delayable().mark_import_as_done())
+        main_job.delay()
+
+    def mark_import_as_done(self):
+        self.program_id.locked = False
+        self.program_id.locked_reason = None
+        self.program_id.message_post(body=_("Import Done"))
+
+    def _import_registrants(self, new_beneficiaries):
+        logging.info("Importing %s beneficiaries", len(new_beneficiaries))
+        beneficiaries_val = []
+        for beneficiary in new_beneficiaries:
+            beneficiaries_val.append((0, 0, {"partner_id": beneficiary.id}))
+        self.program_id.update({"program_membership_ids": beneficiaries_val})

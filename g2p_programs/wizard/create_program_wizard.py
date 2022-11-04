@@ -231,25 +231,12 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             # Set Default Entitlement Manager
             vals.update(rec._get_entitlement_manager(program_id))
 
-            # Enroll beneficiaries
-            if rec.gen_benificiaries == "yes":
-                domain = [("is_registrant", "=", True)]
-                if rec.target_type == "group":
-                    domain += [("is_group", "=", True)]
-                else:
-                    domain += [("is_group", "=", False)]
-                domain += self._safe_eval(rec.eligibility_domain)
-                # Filter res.partner and get ids
-                partners = self.env["res.partner"].search(domain)
-                if partners:
-                    partner_vals = []
-                    for p in partners.ids:
-                        partner_vals.append((0, 0, {"partner_id": p}))
-                    vals.update({"program_membership_ids": partner_vals})
-                    _logger.info("DEBUG: %s" % partner_vals)
-
             # Complete the program data
             program.update(vals)
+
+            if rec.gen_benificiaries == "yes":
+                eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
+                eligibility_managers[0].import_eligible_registrants()
 
             # Open the newly created program
             action = {

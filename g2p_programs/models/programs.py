@@ -108,6 +108,10 @@ class G2PProgram(models.Model):
     )
     active = fields.Boolean(default=True)
 
+    # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
+    locked = fields.Boolean(default=False)
+    locked_reason = fields.Char()
+
     @api.depends("program_membership_ids")
     def _compute_have_members(self):
         if len(self.program_membership_ids) > 0:
@@ -150,26 +154,14 @@ class G2PProgram(models.Model):
     @api.depends("program_membership_ids")
     def _compute_duplicate_membership_count(self):
         for rec in self:
-            duplicate_membership_count = 0
-            if rec.program_membership_ids:
-                duplicate_membership_count = len(
-                    rec.program_membership_ids.filtered(
-                        lambda bn: bn.state == "duplicated"
-                    )
-                )
-            rec.update({"duplicate_membership_count": duplicate_membership_count})
+            count = rec.count_beneficiaries(["enrolled"])["value"]
+            rec.update({"duplicate_membership_count": count})
 
     @api.depends("program_membership_ids")
     def _compute_eligible_beneficiary_count(self):
         for rec in self:
-            eligible_beneficiaries_count = 0
-            if rec.program_membership_ids:
-                eligible_beneficiaries_count = len(
-                    rec.program_membership_ids.filtered(
-                        lambda bn: bn.state == "enrolled"
-                    )
-                )
-            rec.update({"eligible_beneficiaries_count": eligible_beneficiaries_count})
+            count = rec.count_beneficiaries(["enrolled"])["value"]
+            rec.update({"eligible_beneficiaries_count": count})
 
     @api.depends("program_membership_ids")
     def _compute_beneficiary_count(self):
@@ -218,19 +210,21 @@ class G2PProgram(models.Model):
             return [el.manager_ref_id for el in managers]
 
     @api.model
-    def get_beneficiaries(self, state):
+    def get_beneficiaries(self, state=None):
+        self.ensure_one()
         if isinstance(state, str):
             state = [state]
         for rec in self:
-            domain = [("state", "in", state), ("program_id", "=", rec.id)]
+            domain = [("program_id", "=", rec.id)]
+            if state is not None:
+                domain.append(("state", "in", state))
             return self.env["g2p.program_membership"].search(domain)
 
     # TODO: JJ - Review
     def count_beneficiaries(self, state=None):
-
-        domain = []
+        domain = [("program_id", "=", self.id)]
         if state is not None:
-            domain = [("state", "in", state)]
+            domain += [("state", "in", state)]
 
         return {"value": self.env["g2p.program_membership"].search_count(domain)}
 
