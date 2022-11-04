@@ -232,12 +232,13 @@ class DefaultCycleManager(models.Model):
 
     def copy_beneficiaries_from_program(self, cycle, state="enrolled"):
         self._ensure_can_edit_cycle(cycle)
+        self.ensure_one()
 
         for rec in self:
             beneficiary_ids = rec.program_id.get_beneficiaries(["enrolled"]).mapped(
                 "partner_id.id"
             )
-            rec.add_beneficiaries(cycle, beneficiary_ids, state)
+            return rec.add_beneficiaries(cycle, beneficiary_ids, state)
 
     def add_beneficiaries(self, cycle, beneficiaries, state="draft"):
         """
@@ -251,10 +252,28 @@ class DefaultCycleManager(models.Model):
         # Only add beneficiaries not added yet
         existing_ids = cycle.cycle_membership_ids.mapped("partner_id.id")
         beneficiaries = list(set(beneficiaries) - set(existing_ids))
-        if len(beneficiaries) < 1000:
+        if len(beneficiaries) == 0:
+            message = _("No beneficiaries to import.")
+            kind = "warning"
+        elif len(beneficiaries) < 1000:
             self._add_beneficiaries(cycle, beneficiaries, state)
+            message = _("%s beneficiaries imported.", len(beneficiaries))
+            kind = "success"
         else:
             self._add_beneficiaries_async(cycle, beneficiaries, state)
+            message = _("Import of %s beneficiaries started.", len(beneficiaries))
+            kind = "warning"
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Enrollment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+            },
+        }
 
     def _add_beneficiaries_async(self, cycle, beneficiaries, state):
         _logger.info("Adding beneficiaries asynchronously")

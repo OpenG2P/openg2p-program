@@ -117,7 +117,7 @@ class G2PCycle(models.Model):
     def copy_beneficiaries_from_program(self):
         # _logger.info("Copying beneficiaries from program, cycles: %s", cycles)
         self.ensure_one()
-        self.program_id.get_manager(
+        return self.program_id.get_manager(
             constants.MANAGER_CYCLE
         ).copy_beneficiaries_from_program(self)
 

@@ -138,7 +138,7 @@ class DefaultProgramManager(models.Model):
             else:
                 self._enroll_eligible_registrants_async(members)
                 message = _(
-                    "Eligibility check of %s beneficiaries started", len(members)
+                    "Eligibility check of %s beneficiaries started.", len(members)
                 )
                 kind = "warning"
             return {
