@@ -145,7 +145,7 @@ class DefaultCycleManager(models.Model):
         for rec in self:
             rec._ensure_can_edit_cycle(cycle)
 
-            # Get all the enrolled beneficiaries
+            # Get all the draft and enrolled beneficiaries
             if beneficiaries is None:
                 beneficiaries = cycle.get_beneficiaries(["draft", "enrolled"])
 

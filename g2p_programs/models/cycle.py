@@ -67,29 +67,22 @@ class G2PCycle(models.Model):
     @api.depends("cycle_membership_ids")
     def _compute_members_count(self):
         for rec in self:
-            members_count = 0
-            if rec.cycle_membership_ids:
-                members_count = len(
-                    rec.cycle_membership_ids.filtered(lambda mb: mb.state == "enrolled")
-                )
+            domain = rec._get_beneficiaries_domain(["enrolled"])
+            members_count = self.env["g2p.cycle.membership"].search_count(domain)
             rec.update({"members_count": members_count})
 
     @api.depends("entitlement_ids")
     def _compute_entitlements_count(self):
         for rec in self:
-            entitlements_count = 0
-            if rec.entitlement_ids:
-                entitlements_count = len(rec.entitlement_ids)
+            entitlements_count = len(rec.entitlement_ids)
             rec.update({"entitlements_count": entitlements_count})
 
     @api.depends("entitlement_ids")
     def _compute_payments_count(self):
         for rec in self:
-            payments_count = 0
-            if rec.entitlement_ids:
-                payments_count = self.env["g2p.payment"].search_count(
-                    [("entitlement_id", "in", rec.entitlement_ids.ids)]
-                )
+            payments_count = self.env["g2p.payment"].search_count(
+                [("entitlement_id", "in", rec.entitlement_ids.ids)]
+            )
             rec.update({"payments_count": payments_count})
 
     @api.onchange("start_date")
@@ -101,12 +94,19 @@ class G2PCycle(models.Model):
         # _logger.info("DEBUG! state change: %s", self.state)
         self.program_id.get_manager(constants.MANAGER_CYCLE).on_state_change(self)
 
+    def _get_beneficiaries_domain(self, states=None):
+        domain = [("cycle_id", "=", self.id)]
+        if states:
+            domain.append(("state", "in", states))
+        return domain
+
     @api.model
     def get_beneficiaries(self, state):
         if isinstance(state, str):
             state = [state]
         for rec in self:
-            domain = [("state", "in", state), ("cycle_id", "=", rec.id)]
+            # domain = [("state", "in", state), ("cycle_id", "=", rec.id)]
+            domain = rec._get_beneficiaries_domain(state)
             return self.env["g2p.cycle.membership"].search(domain)
 
     # TODO: JJ - Add a way to link reports/Dashboard about this cycle.
