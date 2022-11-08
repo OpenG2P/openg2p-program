@@ -105,6 +105,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         statusbar_visible="draft,to_approve,approved,distributed,ended,cancelled"
                     />
                 </header>
+                <div
+                    class="alert alert-warning text-center o_form_header"
+                    role="status"
+                    attrs="{'invisible': [('locked', '!=', True)]}"
+                >
+                    <span>Warning: Operation in progress: </span>
+                    <field name="locked_reason" class="o_stat_value" />
+                </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" class="oe_stat_button" icon="fa-users" name="open_members_form">
@@ -155,6 +163,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             invisible="context.get('default_program_id',False)"
                             readonly="1"
                         />
+                        <field name="locked" invisible="True" />
+                        <field name="locked_reason" invisible="True" />
                         <field name="start_date" attrs="{'readonly':[('state','!=','draft')]}" />
                         <field name="end_date" attrs="{'readonly':[('state','!=','draft')]}" />
                         <field
@@ -371,6 +381,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <field name="message_ids" />
                 </div>
             </form>
+
         </field>
     </record>
 

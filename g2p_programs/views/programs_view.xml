@@ -87,6 +87,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     />
                     button.
                 </div>
+                <div
+                    class="alert alert-warning text-center o_form_header"
+                    role="status"
+                    attrs="{'invisible': [('locked', '!=', True)]}"
+                >
+                    <span>Warning: Operation in progress: </span>
+                    <field name="locked_reason" class="o_stat_value" />
+                </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
@@ -120,6 +128,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 
                     </div>
                     <div class="oe_title mb24">
+
+                        <field name="locked" invisible="True" />
+                        <field name="locked_reason" invisible="True" />
                         <label for="name" string="Program:" />
                         <h1>
                             <field
