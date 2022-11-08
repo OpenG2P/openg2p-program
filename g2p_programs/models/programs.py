@@ -210,15 +210,18 @@ class G2PProgram(models.Model):
             return [el.manager_ref_id for el in managers]
 
     @api.model
-    def get_beneficiaries(self, state=None):
+    def get_beneficiaries(
+        self, state=None, offset=0, limit=None, order=None, count=False
+    ):
         self.ensure_one()
         if isinstance(state, str):
             state = [state]
-        for rec in self:
-            domain = [("program_id", "=", rec.id)]
-            if state is not None:
-                domain.append(("state", "in", state))
-            return self.env["g2p.program_membership"].search(domain)
+        domain = [("program_id", "=", self.id)]
+        if state is not None:
+            domain.append(("state", "in", state))
+        return self.env["g2p.program_membership"].search(
+            domain, offset=offset, limit=limit, order=order, count=count
+        )
 
     # TODO: JJ - Review
     def count_beneficiaries(self, state=None):
@@ -231,9 +234,14 @@ class G2PProgram(models.Model):
     # TODO: JJ - Add a way to link reports/Dashboard about this program.
 
     def enroll_eligible_registrants(self):
-        # TODO: JJ - Think about how can we make it asynchronous.
         for rec in self:
             return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants()
+
+    def verify_eligibility(self):
+        for rec in self:
+            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants(
+                ["enrolled", "not_eligible"]
+            )
 
     def deduplicate_beneficiaries(self):
         for rec in self:

@@ -52,7 +52,7 @@ class BaseProgramManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
-    def enroll_eligible_registrants(self):
+    def enroll_eligible_registrants(self, state=None):
         """
         This method is used to enroll the beneficiaries in a program.
         Returns:
@@ -119,66 +119,72 @@ class DefaultProgramManager(models.Model):
                 cm.add_beneficiaries(new_cycle, program_beneficiaries, "enrolled")
             return new_cycle
 
-    def enroll_eligible_registrants(self):
+    def enroll_eligible_registrants(self, state=None):
         self.ensure_one()
+        if state is None:
+            states = ["draft"]
+        elif isinstance(state, str):
+            states = [state]
+        else:
+            states = state
 
-        for rec in self:
-            program = rec.program_id
-            members = program.get_beneficiaries(state=["draft"])
-            _logger.info("members: %s", len(members))
+        program = self.program_id
+        members_count = program.get_beneficiaries(state=states, count=True)
+        _logger.info("members: %s", members_count)
 
-            eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
-            if len(eligibility_managers) == 0:
-                message = _("No Eligibility Manager defined.")
-                kind = "danger"
-            elif len(members) < 200:
-                count = self._enroll_eligible_registrants(members)
-                message = _("%s Beneficiaries enrolled.", count)
-                kind = "success"
-            else:
-                self._enroll_eligible_registrants_async(members)
-                message = _(
-                    "Eligibility check of %s beneficiaries started.", len(members)
-                )
-                kind = "warning"
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": _("Enrollment"),
-                    "message": message,
-                    "sticky": True,
-                    "type": kind,
-                },
-            }
+        eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
+        if len(eligibility_managers) == 0:
+            message = _("No Eligibility Manager defined.")
+            kind = "danger"
+        elif members_count < 200:
+            count = self._enroll_eligible_registrants(state)
+            message = _("%s Beneficiaries enrolled.", count)
+            kind = "success"
+        else:
+            self._enroll_eligible_registrants_async(state, members_count)
+            message = _("Eligibility check of %s beneficiaries started.", members_count)
+            kind = "warning"
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Enrollment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+            },
+        }
 
-    def _enroll_eligible_registrants_async(self, members):
+    def _enroll_eligible_registrants_async(self, states, members_count):
         self.ensure_one()
-        _logger.info("members: %s", len(members))
+        _logger.info("members: %s", members_count)
         program = self.program_id
         program.message_post(
-            body="Eligibility check of %s beneficiaries started" % len(members)
+            body=_("Eligibility check of %s beneficiaries started", members_count)
         )
         program.write(
             {"locked": True, "locked_reason": "Eligibility check of beneficiaries"}
         )
 
         jobs = []
-        for i in range(0, len(members), 10000):
-            jobs.append(
-                self.delayable()._enroll_eligible_registrants(members[i : i + 10000])
-            )
+        for i in range(0, members_count, 10000):
+            jobs.append(self.delayable()._enroll_eligible_registrants(states, i, 10000))
         main_job = group(*jobs)
         main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
         main_job.delay()
 
-    def _enroll_eligible_registrants(self, members):
+    def _enroll_eligible_registrants(self, states, offset=0, limit=None):
         program = self.program_id
+        members = program.get_beneficiaries(
+            state=states, offset=offset, limit=limit, order="id"
+        )
+
+        member_before = members
 
         eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
         for el in eligibility_managers:
             members = el.enroll_eligible_registrants(members)
-        # list the one not already enrolled:
+        # enroll the one not already enrolled:
         _logger.info("members filtered: %s", members)
         not_enrolled = members.filtered(lambda m: m.state != "enrolled")
         _logger.info("not_enrolled: %s", not_enrolled)
@@ -188,6 +194,18 @@ class DefaultProgramManager(models.Model):
                 "enrollment_date": fields.Datetime.now(),
             }
         )
+        # dis-enroll the one not eligible anymore:
+        enrolled_members_ids = members.ids
+        members_to_remove = member_before.filtered(
+            lambda m: m.state != "not_eligible" and m.id not in enrolled_members_ids
+        )
+        # _logger.info("members_to_remove: %s", members_to_remove)
+        members_to_remove.write(
+            {
+                "state": "not_eligible",
+            }
+        )
+
         return len(not_enrolled)
 
     def mark_enroll_eligible_as_done(self):
