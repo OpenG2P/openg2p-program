@@ -236,7 +236,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     />
                                     <field name="name" />
 <!--                                    <field name="cycle_membership_ids" string="Beneficiaries" />-->
-                                    <field name="entitlement_ids" string="Entitlements" />
+                                    <field name="entitlements_count" string="Entitlements" />
                                     <field
                                         name="state"
                                         decoration-primary="state=='draft'"

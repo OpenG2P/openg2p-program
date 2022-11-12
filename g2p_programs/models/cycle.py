@@ -74,14 +74,17 @@ class G2PCycle(models.Model):
     @api.depends("entitlement_ids")
     def _compute_entitlements_count(self):
         for rec in self:
-            entitlements_count = len(rec.entitlement_ids)
+            # entitlements_count = len(rec.entitlement_ids)
+            entitlements_count = self.env["g2p.entitlement"].search_count(
+                [("cycle_id", "=", rec.id)]
+            )
             rec.update({"entitlements_count": entitlements_count})
 
     @api.depends("entitlement_ids")
     def _compute_payments_count(self):
         for rec in self:
             payments_count = self.env["g2p.payment"].search_count(
-                [("entitlement_id", "in", rec.entitlement_ids.ids)]
+                [("cycle_id", "=", rec.id)]
             )
             rec.update({"payments_count": payments_count})
 

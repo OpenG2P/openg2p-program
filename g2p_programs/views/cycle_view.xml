@@ -200,76 +200,76 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </tree>
                           </field>
                         </page> -->
-                        <page string="Entitlement">
-                            <field name="entitlement_ids" nolabel="1" readonly="1">
-                                <tree>
-                                    <button
-                                        name="open_entitlement_form"
-                                        type="object"
-                                        icon="fa-external-link"
-                                        class="btn-success"
-                                    />
-                                    <field name="name" />
-                                    <field name="code" />
-                                    <field name="partner_id" />
-                                    <field name="cycle_id" />
-                                    <field name="valid_from" />
-                                    <field name="valid_until" />
-                                    <field
-                                        name="state"
-                                        decoration-primary="state=='pending_validation'"
-                                        decoration-success="state=='approved'"
-                                        decoration-warning="state=='cancelled'"
-                                        decoration-danger="state=='expired'"
-                                        widget="badge"
-                                        string="State"
-                                    />
-                                    <field name="company_id" groups="base.group_multi_company" />
-                                </tree>
-                                <form>
-                                    <div class="oe_title mb24">
-                                        <label for="name" string="Entitlement:" />
-                                        <h1>
-                                            <field
-                                                id="name"
-                                                name="name"
-                                                placeholder="Enter the program name..."
-                                            />
-                                        </h1>
-                                        <label for="code" string="Code:" />
-                                        <h2>
-                                            <field id="code" name="code" placeholder="code..." />
-                                        </h2>
-                                    </div>
-                                    <group>
-                                        <group>
-                                            <field
-                                                name="partner_id"
-                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                            />
-                                            <field
-                                                name="program_id"
-                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                            />
-                                            <field
-                                                name="cycle_id"
-                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                            />
-                                            <field
-                                                name="company_id"
-                                                groups="base.group_multi_company"
-                                                options="{'no_create': True}"
-                                            />
-                                        </group>
-                                        <group>
-                                            <field name="valid_from" />
-                                            <field name="valid_until" />
-                                            <field name="date_approved" />
-                                        </group>
-                                    </group>
-                                </form>
-                            </field>
-                        </page>
+<!--                        <page string="Entitlement">-->
+<!--                            <field name="entitlement_ids" nolabel="1" readonly="1">-->
+<!--                                <tree>-->
+<!--                                    <button-->
+<!--                                        name="open_entitlement_form"-->
+<!--                                        type="object"-->
+<!--                                        icon="fa-external-link"-->
+<!--                                        class="btn-success"-->
+<!--                                    />-->
+<!--                                    <field name="name" />-->
+<!--                                    <field name="code" />-->
+<!--                                    <field name="partner_id" />-->
+<!--                                    <field name="cycle_id" />-->
+<!--                                    <field name="valid_from" />-->
+<!--                                    <field name="valid_until" />-->
+<!--                                    <field-->
+<!--                                        name="state"-->
+<!--                                        decoration-primary="state=='pending_validation'"-->
+<!--                                        decoration-success="state=='approved'"-->
+<!--                                        decoration-warning="state=='cancelled'"-->
+<!--                                        decoration-danger="state=='expired'"-->
+<!--                                        widget="badge"-->
+<!--                                        string="State"-->
+<!--                                    />-->
+<!--                                    <field name="company_id" groups="base.group_multi_company" />-->
+<!--                                </tree>-->
+<!--                                <form>-->
+<!--                                    <div class="oe_title mb24">-->
+<!--                                        <label for="name" string="Entitlement:" />-->
+<!--                                        <h1>-->
+<!--                                            <field-->
+<!--                                                id="name"-->
+<!--                                                name="name"-->
+<!--                                                placeholder="Enter the program name..."-->
+<!--                                            />-->
+<!--                                        </h1>-->
+<!--                                        <label for="code" string="Code:" />-->
+<!--                                        <h2>-->
+<!--                                            <field id="code" name="code" placeholder="code..." />-->
+<!--                                        </h2>-->
+<!--                                    </div>-->
+<!--                                    <group>-->
+<!--                                        <group>-->
+<!--                                            <field-->
+<!--                                                name="partner_id"-->
+<!--                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"-->
+<!--                                            />-->
+<!--                                            <field-->
+<!--                                                name="program_id"-->
+<!--                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"-->
+<!--                                            />-->
+<!--                                            <field-->
+<!--                                                name="cycle_id"-->
+<!--                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"-->
+<!--                                            />-->
+<!--                                            <field-->
+<!--                                                name="company_id"-->
+<!--                                                groups="base.group_multi_company"-->
+<!--                                                options="{'no_create': True}"-->
+<!--                                            />-->
+<!--                                        </group>-->
+<!--                                        <group>-->
+<!--                                            <field name="valid_from" />-->
+<!--                                            <field name="valid_until" />-->
+<!--                                            <field name="date_approved" />-->
+<!--                                        </group>-->
+<!--                                    </group>-->
+<!--                                </form>-->
+<!--                            </field>-->
+<!--                        </page>-->
                         <page string="Payment Batches" invisible="context.get('hide_cash')">
                             <field name="payment_batch_ids" nolabel="1" readonly="1">
                                 <tree>

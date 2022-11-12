@@ -162,8 +162,8 @@ class DefaultCycleManager(models.Model):
 
             beneficiaries_ids = beneficiaries.ids
             filtered_beneficiaries_ids = filtered_beneficiaries.ids
-            _logger.info("Beneficiaries: %s", beneficiaries_ids)
-            _logger.info("Filtered beneficiaries: %s", filtered_beneficiaries_ids)
+            _logger.debug("Beneficiaries: %s", beneficiaries_ids)
+            _logger.debug("Filtered beneficiaries: %s", filtered_beneficiaries_ids)
             ids_to_remove = list(
                 set(beneficiaries_ids) - set(filtered_beneficiaries_ids)
             )
@@ -200,13 +200,13 @@ class DefaultCycleManager(models.Model):
         _logger.info("Prepare entitlement asynchronously")
         cycle.message_post(
             body=_(
-                "Prepare entitlement for %s beneficiaries started", beneficiaries_count
+                "Prepare entitlement for %s beneficiaries started.", beneficiaries_count
             )
         )
         cycle.write(
             {
                 "locked": True,
-                "locked_reason": _("Prepare entitlement for beneficiaries"),
+                "locked_reason": _("Prepare entitlement for beneficiaries."),
             }
         )
 
@@ -215,7 +215,7 @@ class DefaultCycleManager(models.Model):
             jobs.append(self.delayable()._prepare_entitlements(cycle, i, 2000))
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable().mark_import_as_done(cycle, _("Prepare entitlement done"))
+            self.delayable().mark_import_as_done(cycle, _("Entitlement Ready."))
         )
         main_job.delay()
 
