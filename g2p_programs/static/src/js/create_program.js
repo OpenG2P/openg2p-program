@@ -1,5 +1,4 @@
 odoo.define("g2p_programs.create_program_button", function (require) {
-    "use strict";
     var core = require("web.core");
     var ListController = require("web.ListController");
     var rpc = require("web.rpc");
