@@ -18,7 +18,7 @@
         "g2p_registry_membership",
         "g2p_bank",
         "l10n_generic_coa",
-        "event_sms"
+        "event_sms",
     ],
     "data": [
         "security/program_security.xml",
