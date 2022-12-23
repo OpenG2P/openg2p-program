@@ -143,7 +143,7 @@ class DefaultEligibilityManager(models.Model):
         logging.info("Importing %s beneficiaries async", len(new_beneficiaries))
         program = self.program_id
         program.message_post(
-            body="Import of %s beneficiaries started" % len(new_beneficiaries)
+            body="Import of %s beneficiaries started." % len(new_beneficiaries)
         )
         program.write({"locked": True, "locked_reason": "Importing beneficiaries"})
 
@@ -160,7 +160,7 @@ class DefaultEligibilityManager(models.Model):
         self.ensure_one()
         self.program_id.locked = False
         self.program_id.locked_reason = None
-        self.program_id.message_post(body=_("Import Done"))
+        self.program_id.message_post(body=_("Import finished."))
 
     def _import_registrants(self, new_beneficiaries):
         logging.info("Importing %s beneficiaries", len(new_beneficiaries))

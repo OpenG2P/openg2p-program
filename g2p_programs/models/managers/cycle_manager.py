@@ -309,7 +309,7 @@ class DefaultCycleManager(models.Model):
     def _add_beneficiaries_async(self, cycle, beneficiaries, state):
         _logger.info("Adding beneficiaries asynchronously")
         cycle.message_post(
-            body="Import of %s beneficiaries started" % len(beneficiaries)
+            body="Import of %s beneficiaries started." % len(beneficiaries)
         )
         cycle.write({"locked": True, "locked_reason": _("Importing beneficiaries.")})
 
@@ -322,7 +322,9 @@ class DefaultCycleManager(models.Model):
             )
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable().mark_import_as_done(cycle, _("Beneficiary import done."))
+            self.delayable().mark_import_as_done(
+                cycle, _("Beneficiary import finished.")
+            )
         )
         main_job.delay()
 

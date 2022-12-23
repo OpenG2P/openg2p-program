@@ -160,7 +160,7 @@ class DefaultProgramManager(models.Model):
         _logger.info("members: %s", members_count)
         program = self.program_id
         program.message_post(
-            body=_("Eligibility check of %s beneficiaries started", members_count)
+            body=_("Eligibility check of %s beneficiaries started.", members_count)
         )
         program.write(
             {"locked": True, "locked_reason": "Eligibility check of beneficiaries"}
@@ -212,4 +212,4 @@ class DefaultProgramManager(models.Model):
         self.ensure_one()
         self.program_id.locked = False
         self.program_id.locked_reason = None
-        self.program_id.message_post(body=_("Eligibility check Done"))
+        self.program_id.message_post(body=_("Eligibility check finished."))
