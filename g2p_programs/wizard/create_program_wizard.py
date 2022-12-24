@@ -89,8 +89,8 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         [("group", "Group"), ("individual", "Individual")],
         default="group",
     )
-    gen_benificiaries = fields.Selection(
-        [("yes", "Yes"), ("no", "No")], "Generate Beneficiaries", default="no"
+    import_beneficiaries = fields.Selection(
+        [("yes", "Yes"), ("no", "No")], default="no"
     )
 
     state = fields.Selection(
@@ -234,7 +234,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             # Complete the program data
             program.update(vals)
 
-            if rec.gen_benificiaries == "yes":
+            if rec.import_beneficiaries == "yes":
                 eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
                 eligibility_managers[0].import_eligible_registrants()
 

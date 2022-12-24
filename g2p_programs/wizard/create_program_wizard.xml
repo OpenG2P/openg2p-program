@@ -81,10 +81,10 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <!-- STEP 2 -->
                     <div attrs="{'invisible':[('state','=','step1')]}">
                         <label
-                            for="gen_benificiaries"
+                            for="import_beneficiaries"
                             string="Would you like to import the matching registrants to this program?"
                         />
-                        <field name="gen_benificiaries" widget="radio" options="{'horizontal': true}" />
+                        <field name="import_beneficiaries" widget="radio" options="{'horizontal': true}" />
                     </div>
                 </sheet>
                 <footer>
