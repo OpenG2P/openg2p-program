@@ -162,8 +162,6 @@ class DefaultCycleManager(models.Model):
 
             beneficiaries_ids = beneficiaries.ids
             filtered_beneficiaries_ids = filtered_beneficiaries.ids
-            _logger.debug("Beneficiaries: %s", beneficiaries_ids)
-            _logger.debug("Filtered beneficiaries: %s", filtered_beneficiaries_ids)
             ids_to_remove = list(
                 set(beneficiaries_ids) - set(filtered_beneficiaries_ids)
             )
@@ -197,7 +195,7 @@ class DefaultCycleManager(models.Model):
                 self._prepare_entitlements_async(cycle, beneficiaries_count)
 
     def _prepare_entitlements_async(self, cycle, beneficiaries_count):
-        _logger.info("Prepare entitlement asynchronously")
+        _logger.debug("Prepare entitlement asynchronously")
         cycle.message_post(
             body=_(
                 "Prepare entitlement for %s beneficiaries started.", beneficiaries_count

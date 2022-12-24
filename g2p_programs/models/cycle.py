@@ -74,7 +74,6 @@ class G2PCycle(models.Model):
     @api.depends("entitlement_ids")
     def _compute_entitlements_count(self):
         for rec in self:
-            # entitlements_count = len(rec.entitlement_ids)
             entitlements_count = self.env["g2p.entitlement"].search_count(
                 [("cycle_id", "=", rec.id)]
             )
@@ -94,7 +93,6 @@ class G2PCycle(models.Model):
 
     @api.onchange("state")
     def on_state_change(self):
-        # _logger.info("DEBUG! state change: %s", self.state)
         self.program_id.get_manager(constants.MANAGER_CYCLE).on_state_change(self)
 
     def _get_beneficiaries_domain(self, states=None):
@@ -108,15 +106,10 @@ class G2PCycle(models.Model):
         if isinstance(state, str):
             state = [state]
         for rec in self:
-            # domain = [("state", "in", state), ("cycle_id", "=", rec.id)]
             domain = rec._get_beneficiaries_domain(state)
             return self.env["g2p.cycle.membership"].search(
                 domain, offset=offset, limit=limit, order=order, count=count
             )
-
-    # TODO: JJ - Add a way to link reports/Dashboard about this cycle.
-
-    # TODO: Implement the method that will call the different managers
 
     # @api.model
     def copy_beneficiaries_from_program(self):

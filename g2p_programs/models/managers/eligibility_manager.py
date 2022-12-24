@@ -124,14 +124,14 @@ class DefaultEligibilityManager(models.Model):
         for rec in self:
             domain = rec._prepare_eligible_domain()
             new_beneficiaries = self.env["res.partner"].search(domain)
-            logging.info("Found %s beneficiaries", len(new_beneficiaries))
+            # logging.debug("Found %s beneficiaries", len(new_beneficiaries))
 
             # Exclude already added beneficiaries
             beneficiary_ids = rec.program_id.get_beneficiaries().mapped("partner_id")
 
-            logging.info("Excluding %s beneficiaries", len(beneficiary_ids))
+            # logging.debug("Excluding %s beneficiaries", len(beneficiary_ids))
             new_beneficiaries = new_beneficiaries - beneficiary_ids
-            logging.info("Finally %s beneficiaries", len(new_beneficiaries))
+            # logging.debug("Finally %s beneficiaries", len(new_beneficiaries))
 
             if len(new_beneficiaries) < 1000:
                 rec._import_registrants(new_beneficiaries)
@@ -140,7 +140,6 @@ class DefaultEligibilityManager(models.Model):
 
     def _import_registrants_async(self, new_beneficiaries):
         self.ensure_one()
-        logging.info("Importing %s beneficiaries async", len(new_beneficiaries))
         program = self.program_id
         program.message_post(
             body="Import of %s beneficiaries started." % len(new_beneficiaries)
