@@ -140,6 +140,9 @@ class G2PCycle(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -159,6 +162,9 @@ class G2PCycle(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -200,6 +206,9 @@ class G2PCycle(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -232,7 +241,9 @@ class G2PCycle(models.Model):
     def validate_entitlement(self):
         # 1. Make sure the user has the right to do this
         # 2. Validate the entitlement of the beneficiaries using entitlement_manager.validate_entitlements()
-        pass
+        self.program_id.get_manager(constants.MANAGER_CYCLE).validate_entitlements(
+            self, self.entitlement_ids
+        )
 
     def export_distribution_list(self):
         # Not sure if this should be here.

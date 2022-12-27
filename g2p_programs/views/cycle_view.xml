@@ -62,6 +62,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
+                        name="validate_entitlement"
+                        states="draft"
+                        string="Validate Entitlement"
+                    />
+                    <button
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-file-text-o"
                         name="prepare_payment"
                         states="approved"
                         string="Prepare Payments"

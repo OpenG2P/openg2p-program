@@ -233,14 +233,55 @@ class DefaultCycleManager(models.Model):
     def mark_cancelled(self, cycle):
         cycle.update({"state": constants.STATE_CANCELLED})
 
-    def validate_entitlements(self, cycle, cycle_memberships):
+    def validate_entitlements(self, cycle, entitlement_ids):
         # TODO: call the program's entitlement manager and validate the entitlements
         # TODO: Use a Job attached to the cycle
         # TODO: Implement validation workflow
         for rec in self:
-            rec.program_id.get_manager(
-                constants.MANAGER_ENTITLEMENT
-            ).validate_entitlements(cycle_memberships)
+            rec._ensure_can_edit_cycle(cycle)
+            rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+            if len(entitlement_ids) < 200:
+                self._validate_entitlements(entitlement_ids)
+            else:
+                self._validate_entitlements_async(cycle, entitlement_ids)
+
+    def _validate_entitlements_async(self, cycle, entitlement_ids):
+        _logger.debug("Validate entitlement asynchronously")
+        cycle.message_post(
+            body=_("Validation for %s entitlements started.", len(entitlement_ids))
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Validate entitlement for beneficiaries."),
+            }
+        )
+
+        jobs = []
+        max_jobs_per_batch = 100
+        ctr = 0
+        entitlements = []
+        max_rec = len(entitlement_ids)
+        for ctr_entitlements, entitlement in enumerate(entitlement_ids, 1):
+            ctr += 1
+            entitlements.append(entitlement.id)
+            if ctr == max_jobs_per_batch or ctr_entitlements == max_rec:
+                entitlements_ids = self.env["g2p.entitlement"].search(
+                    [("id", "in", entitlements)]
+                )
+                jobs.append(self.delayable()._validate_entitlements(entitlements_ids))
+                ctr = 0
+                entitlements = []
+
+        main_job = group(*jobs)
+        main_job.on_done(
+            self.delayable().mark_import_as_done(cycle, _("Entitlement Ready."))
+        )
+        main_job.delay()
+
+    def _validate_entitlements(self, entitlements):
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        entitlement_manager.approve_entitlements(entitlements)
 
     def new_cycle(self, name, new_start_date, sequence):
         _logger.info("Creating new cycle for program %s", self.program_id.name)
@@ -301,6 +342,9 @@ class DefaultCycleManager(models.Model):
                 "message": message,
                 "sticky": True,
                 "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
             },
         }
 

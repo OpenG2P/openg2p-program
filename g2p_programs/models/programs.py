@@ -270,6 +270,9 @@ class G2PProgram(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -301,6 +304,9 @@ class G2PProgram(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -321,6 +327,9 @@ class G2PProgram(models.Model):
                     ],
                     "sticky": True,
                     "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
                 },
             }
 
@@ -377,6 +386,9 @@ class G2PProgram(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -401,6 +413,9 @@ class G2PProgram(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
