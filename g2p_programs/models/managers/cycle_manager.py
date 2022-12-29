@@ -259,23 +259,22 @@ class DefaultCycleManager(models.Model):
 
         jobs = []
         max_jobs_per_batch = 100
-        ctr = 0
         entitlements = []
         max_rec = len(entitlement_ids)
         for ctr_entitlements, entitlement in enumerate(entitlement_ids, 1):
-            ctr += 1
             entitlements.append(entitlement.id)
-            if ctr == max_jobs_per_batch or ctr_entitlements == max_rec:
+            if (
+                ctr_entitlements % max_jobs_per_batch == 0
+            ) or ctr_entitlements == max_rec:
                 entitlements_ids = self.env["g2p.entitlement"].search(
                     [("id", "in", entitlements)]
                 )
                 jobs.append(self.delayable()._validate_entitlements(entitlements_ids))
-                ctr = 0
                 entitlements = []
 
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable().mark_import_as_done(cycle, _("Entitlement Ready."))
+            self.delayable().mark_import_as_done(cycle, _("Entitlement approved."))
         )
         main_job.delay()
 
