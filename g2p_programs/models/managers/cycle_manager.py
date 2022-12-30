@@ -233,8 +233,9 @@ class DefaultCycleManager(models.Model):
         # This prevents getting an end date that is less than the start date
         while True:
             end_date = next(occurences)[0]
+            end_date = end_date - timedelta(days=1)
 
-            if end_date > new_start_date:
+            if end_date >= new_start_date:
                 break
 
         for rec in self:
