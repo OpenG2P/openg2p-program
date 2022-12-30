@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -109,7 +109,11 @@ class BaseCycleManager(models.AbstractModel):
 
 class DefaultCycleManager(models.Model):
     _name = "g2p.cycle.manager.default"
-    _inherit = ["g2p.base.cycle.manager", "g2p.manager.source.mixin"]
+    _inherit = [
+        "g2p.base.cycle.manager",
+        "g2p.cycle.recurrence.mixin",
+        "g2p.manager.source.mixin",
+    ]
     _description = "Default Cycle Manager"
 
     cycle_duration = fields.Integer(default=30, required=True)
@@ -214,6 +218,25 @@ class DefaultCycleManager(models.Model):
     def new_cycle(self, name, new_start_date, sequence):
         _logger.info("Creating new cycle for program %s", self.program_id.name)
         _logger.info("New start date: %s", new_start_date)
+
+        # convert date to datetime
+        new_start_date = datetime.combine(new_start_date, datetime.min.time())
+
+        # get start date and end date
+        # Note:
+        # second argument is irrelevant but make sure it is in timedelta class
+        # and do not exceed to 24 hours
+        occurences = self._get_ranges(new_start_date, timedelta(seconds=1))
+
+        next(occurences)  # start_date
+
+        # This prevents getting an end date that is less than the start date
+        while True:
+            end_date = next(occurences)[0]
+
+            if end_date > new_start_date:
+                break
+
         for rec in self:
             cycle = self.env["g2p.cycle"].create(
                 {
@@ -222,7 +245,7 @@ class DefaultCycleManager(models.Model):
                     "state": "draft",
                     "sequence": sequence,
                     "start_date": new_start_date,
-                    "end_date": new_start_date + timedelta(days=rec.cycle_duration),
+                    "end_date": end_date,
                 }
             )
             _logger.info("New cycle created: %s", cycle.name)
@@ -282,3 +305,8 @@ class DefaultCycleManager(models.Model):
                     raise ValidationError(
                         _("You are not allowed to approve this cycle!")
                     )
+
+    @api.depends("cycle_duration")
+    def _compute_interval(self):
+        for rec in self:
+            rec.interval = rec.cycle_duration

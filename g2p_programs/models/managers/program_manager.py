@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from odoo import api, fields, models
 
@@ -96,7 +96,7 @@ class DefaultProgramManager(models.Model):
                 new_sequence = last_cycle.sequence + 1
                 new_cycle = cm.new_cycle(
                     f"Cycle {new_sequence}",
-                    last_cycle.start_date + timedelta(days=cm.cycle_duration),
+                    last_cycle.end_date,
                     new_sequence,
                 )
 
