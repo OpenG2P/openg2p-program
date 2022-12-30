@@ -199,8 +199,12 @@ class DefaultCashEntitlementManager(models.Model):
             entitlements_to_create
         )
 
+        individual_count = beneficiaries_with_entitlements_to_create.count_individuals()
+        individual_count_map = dict(individual_count)
         for beneficiary_id in beneficiaries_with_entitlements_to_create:
-            amount = self._calculate_amount(beneficiary_id)
+            amount = self._calculate_amount(
+                beneficiary_id, individual_count_map.get(beneficiary_id.id, 0)
+            )
             transfer_fee = 0.0
             if self.transfer_fee_pct > 0.0:
                 transfer_fee = amount * (self.transfer_fee_pct / 100.0)
@@ -220,18 +224,10 @@ class DefaultCashEntitlementManager(models.Model):
                 }
             )
 
-    def _calculate_amount(self, beneficiary):
+    def _calculate_amount(self, beneficiary, num_individuals):
         total = self.amount_per_cycle
         if beneficiary.is_group:
-            num_individuals = beneficiary.count_individuals()
             if num_individuals:
-                result_map = dict(num_individuals)
-                num_individuals = result_map.get(beneficiary.id, 0)
-                # if (
-                #    self.max_individual_in_group
-                #    and num_individuals > self.max_individual_in_group
-                # ):
-                #    num_individuals = self.max_individual_in_group
                 if self.max_individual_in_group:
                     num_individuals = min(num_individuals, self.max_individual_in_group)
 

@@ -108,6 +108,10 @@ class G2PProgram(models.Model):
     )
     active = fields.Boolean(default=True)
 
+    # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
+    locked = fields.Boolean(default=False)
+    locked_reason = fields.Char()
+
     @api.depends("program_membership_ids")
     def _compute_have_members(self):
         if len(self.program_membership_ids) > 0:
@@ -150,26 +154,14 @@ class G2PProgram(models.Model):
     @api.depends("program_membership_ids")
     def _compute_duplicate_membership_count(self):
         for rec in self:
-            duplicate_membership_count = 0
-            if rec.program_membership_ids:
-                duplicate_membership_count = len(
-                    rec.program_membership_ids.filtered(
-                        lambda bn: bn.state == "duplicated"
-                    )
-                )
-            rec.update({"duplicate_membership_count": duplicate_membership_count})
+            count = rec.count_beneficiaries(["duplicated"])["value"]
+            rec.update({"duplicate_membership_count": count})
 
     @api.depends("program_membership_ids")
     def _compute_eligible_beneficiary_count(self):
         for rec in self:
-            eligible_beneficiaries_count = 0
-            if rec.program_membership_ids:
-                eligible_beneficiaries_count = len(
-                    rec.program_membership_ids.filtered(
-                        lambda bn: bn.state == "enrolled"
-                    )
-                )
-            rec.update({"eligible_beneficiaries_count": eligible_beneficiaries_count})
+            count = rec.count_beneficiaries(["enrolled"])["value"]
+            rec.update({"eligible_beneficiaries_count": count})
 
     @api.depends("program_membership_ids")
     def _compute_beneficiary_count(self):
@@ -218,80 +210,38 @@ class G2PProgram(models.Model):
             return [el.manager_ref_id for el in managers]
 
     @api.model
-    def get_beneficiaries(self, state):
+    def get_beneficiaries(
+        self, state=None, offset=0, limit=None, order=None, count=False
+    ):
+        self.ensure_one()
         if isinstance(state, str):
             state = [state]
-        for rec in self:
-            domain = [("state", "in", state), ("program_id", "=", rec.id)]
-            return self.env["g2p.program_membership"].search(domain)
+        domain = [("program_id", "=", self.id)]
+        if state is not None:
+            domain.append(("state", "in", state))
+        return self.env["g2p.program_membership"].search(
+            domain, offset=offset, limit=limit, order=order, count=count
+        )
 
     # TODO: JJ - Review
     def count_beneficiaries(self, state=None):
-
-        domain = []
+        domain = [("program_id", "=", self.id)]
         if state is not None:
-            domain = [("state", "in", state)]
+            domain += [("state", "in", state)]
 
         return {"value": self.env["g2p.program_membership"].search_count(domain)}
 
     # TODO: JJ - Add a way to link reports/Dashboard about this program.
 
     def enroll_eligible_registrants(self):
-        # TODO: JJ - Think about how can we make it asynchronous.
         for rec in self:
-            members = rec.get_beneficiaries(state=["draft"])
-            _logger.info("members: %s", members)
-            eligibility_managers = rec.get_managers(self.MANAGER_ELIGIBILITY)
-            if len(eligibility_managers):
-                for el in eligibility_managers:
-                    members = el.enroll_eligible_registrants(members)
-                # list the one not already enrolled:
-                _logger.info("members filtered: %s", members)
-                not_enrolled = members.filtered(lambda m: m.state != "enrolled")
-                _logger.info("not_enrolled: %s", not_enrolled)
-                not_enrolled.write(
-                    {
-                        "state": "enrolled",
-                        "enrollment_date": fields.Datetime.now(),
-                    }
-                )
-                if len(not_enrolled) > 0:
-                    message = _("%s Beneficiaries enrolled.") % len(not_enrolled)
-                    kind = "success"
-                else:
-                    message = _("No Beneficiaries enrolled.")
-                    kind = "warning"
-            else:
-                message = _("No Eligibility Manager defined.")
-                kind = "danger"
+            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants()
 
-            if kind == "success":
-                return {
-                    "type": "ir.actions.client",
-                    "tag": "display_notification",
-                    "params": {
-                        "title": _("Enrollment"),
-                        "message": message + " %s",
-                        "links": [
-                            {
-                                "label": "Refresh Page",
-                            }
-                        ],
-                        "sticky": True,
-                        "type": kind,
-                    },
-                }
-            else:
-                return {
-                    "type": "ir.actions.client",
-                    "tag": "display_notification",
-                    "params": {
-                        "title": _("Enrollment"),
-                        "message": message,
-                        "sticky": True,
-                        "type": kind,
-                    },
-                }
+    def verify_eligibility(self):
+        for rec in self:
+            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants(
+                ["enrolled", "not_eligible"]
+            )
 
     def deduplicate_beneficiaries(self):
         for rec in self:
@@ -320,6 +270,9 @@ class G2PProgram(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -351,6 +304,9 @@ class G2PProgram(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -371,6 +327,9 @@ class G2PProgram(models.Model):
                     ],
                     "sticky": True,
                     "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
                 },
             }
 
@@ -427,6 +386,9 @@ class G2PProgram(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -451,6 +413,9 @@ class G2PProgram(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 

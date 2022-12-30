@@ -60,32 +60,31 @@ class G2PCycle(models.Model):
         string="# Payments", compute="_compute_payments_count"
     )
 
+    # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
+    locked = fields.Boolean(default=False)
+    locked_reason = fields.Char()
+
     @api.depends("cycle_membership_ids")
     def _compute_members_count(self):
         for rec in self:
-            members_count = 0
-            if rec.cycle_membership_ids:
-                members_count = len(
-                    rec.cycle_membership_ids.filtered(lambda mb: mb.state == "enrolled")
-                )
+            domain = rec._get_beneficiaries_domain(["enrolled"])
+            members_count = self.env["g2p.cycle.membership"].search_count(domain)
             rec.update({"members_count": members_count})
 
     @api.depends("entitlement_ids")
     def _compute_entitlements_count(self):
         for rec in self:
-            entitlements_count = 0
-            if rec.entitlement_ids:
-                entitlements_count = len(rec.entitlement_ids)
+            entitlements_count = self.env["g2p.entitlement"].search_count(
+                [("cycle_id", "=", rec.id)]
+            )
             rec.update({"entitlements_count": entitlements_count})
 
     @api.depends("entitlement_ids")
     def _compute_payments_count(self):
         for rec in self:
-            payments_count = 0
-            if rec.entitlement_ids:
-                payments_count = self.env["g2p.payment"].search_count(
-                    [("entitlement_id", "in", rec.entitlement_ids.ids)]
-                )
+            payments_count = self.env["g2p.payment"].search_count(
+                [("cycle_id", "=", rec.id)]
+            )
             rec.update({"payments_count": payments_count})
 
     @api.onchange("start_date")
@@ -94,26 +93,29 @@ class G2PCycle(models.Model):
 
     @api.onchange("state")
     def on_state_change(self):
-        # _logger.info("DEBUG! state change: %s", self.state)
         self.program_id.get_manager(constants.MANAGER_CYCLE).on_state_change(self)
 
+    def _get_beneficiaries_domain(self, states=None):
+        domain = [("cycle_id", "=", self.id)]
+        if states:
+            domain.append(("state", "in", states))
+        return domain
+
     @api.model
-    def get_beneficiaries(self, state):
+    def get_beneficiaries(self, state, offset=0, limit=None, order=None, count=False):
         if isinstance(state, str):
             state = [state]
         for rec in self:
-            domain = [("state", "in", state), ("cycle_id", "=", rec.id)]
-            return self.env["g2p.cycle.membership"].search(domain)
-
-    # TODO: JJ - Add a way to link reports/Dashboard about this cycle.
-
-    # TODO: Implement the method that will call the different managers
+            domain = rec._get_beneficiaries_domain(state)
+            return self.env["g2p.cycle.membership"].search(
+                domain, offset=offset, limit=limit, order=order, count=count
+            )
 
     # @api.model
     def copy_beneficiaries_from_program(self):
         # _logger.info("Copying beneficiaries from program, cycles: %s", cycles)
         self.ensure_one()
-        self.program_id.get_manager(
+        return self.program_id.get_manager(
             constants.MANAGER_CYCLE
         ).copy_beneficiaries_from_program(self)
 
@@ -138,6 +140,9 @@ class G2PCycle(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -157,6 +162,9 @@ class G2PCycle(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -198,6 +206,9 @@ class G2PCycle(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
 
@@ -230,7 +241,9 @@ class G2PCycle(models.Model):
     def validate_entitlement(self):
         # 1. Make sure the user has the right to do this
         # 2. Validate the entitlement of the beneficiaries using entitlement_manager.validate_entitlements()
-        pass
+        self.program_id.get_manager(constants.MANAGER_CYCLE).validate_entitlements(
+            self, self.entitlement_ids
+        )
 
     def export_distribution_list(self):
         # Not sure if this should be here.
