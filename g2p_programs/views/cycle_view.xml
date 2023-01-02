@@ -62,6 +62,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
+                        name="validate_entitlement"
+                        states="draft"
+                        string="Validate Entitlement"
+                    />
+                    <button
+                        type="object"
+                        class="btn-primary"
+                        icon="fa-file-text-o"
                         name="prepare_payment"
                         states="approved"
                         string="Prepare Payments"
@@ -105,6 +113,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         statusbar_visible="draft,to_approve,approved,distributed,ended,cancelled"
                     />
                 </header>
+                <div
+                    class="alert alert-warning text-center o_form_header"
+                    role="status"
+                    attrs="{'invisible': [('locked', '!=', True)]}"
+                >
+                    <span>Warning: Operation in progress: </span>
+                    <field name="locked_reason" class="o_stat_value" />
+                </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button type="object" class="oe_stat_button" icon="fa-users" name="open_members_form">
@@ -155,6 +171,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             invisible="context.get('default_program_id',False)"
                             readonly="1"
                         />
+                        <field name="locked" invisible="True" />
+                        <field name="locked_reason" invisible="True" />
                         <field name="start_date" attrs="{'readonly':[('state','!=','draft')]}" />
                         <field name="end_date" attrs="{'readonly':[('state','!=','draft')]}" />
                         <field
@@ -190,76 +208,6 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </tree>
                           </field>
                         </page> -->
-                        <page string="Entitlement">
-                            <field name="entitlement_ids" nolabel="1" readonly="1">
-                                <tree>
-                                    <button
-                                        name="open_entitlement_form"
-                                        type="object"
-                                        icon="fa-external-link"
-                                        class="btn-success"
-                                    />
-                                    <field name="name" />
-                                    <field name="code" />
-                                    <field name="partner_id" />
-                                    <field name="cycle_id" />
-                                    <field name="valid_from" />
-                                    <field name="valid_until" />
-                                    <field
-                                        name="state"
-                                        decoration-primary="state=='pending_validation'"
-                                        decoration-success="state=='approved'"
-                                        decoration-warning="state=='cancelled'"
-                                        decoration-danger="state=='expired'"
-                                        widget="badge"
-                                        string="State"
-                                    />
-                                    <field name="company_id" groups="base.group_multi_company" />
-                                </tree>
-                                <form>
-                                    <div class="oe_title mb24">
-                                        <label for="name" string="Entitlement:" />
-                                        <h1>
-                                            <field
-                                                id="name"
-                                                name="name"
-                                                placeholder="Enter the program name..."
-                                            />
-                                        </h1>
-                                        <label for="code" string="Code:" />
-                                        <h2>
-                                            <field id="code" name="code" placeholder="code..." />
-                                        </h2>
-                                    </div>
-                                    <group>
-                                        <group>
-                                            <field
-                                                name="partner_id"
-                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                            />
-                                            <field
-                                                name="program_id"
-                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                            />
-                                            <field
-                                                name="cycle_id"
-                                                options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                            />
-                                            <field
-                                                name="company_id"
-                                                groups="base.group_multi_company"
-                                                options="{'no_create': True}"
-                                            />
-                                        </group>
-                                        <group>
-                                            <field name="valid_from" />
-                                            <field name="valid_until" />
-                                            <field name="date_approved" />
-                                        </group>
-                                    </group>
-                                </form>
-                            </field>
-                        </page>
                         <page string="Payment Batches" invisible="context.get('hide_cash')">
                             <field name="payment_batch_ids" nolabel="1" readonly="1">
                                 <tree>
@@ -371,6 +319,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <field name="message_ids" />
                 </div>
             </form>
+
         </field>
     </record>
 

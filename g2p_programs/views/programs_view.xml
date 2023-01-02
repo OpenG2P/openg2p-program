@@ -40,6 +40,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-download"
                         class="btn-primary"
                         states="active"
+                    /><button
+                        name="verify_eligibility"
+                        type="object"
+                        string="Verify eligibility"
+                        icon="fa-download"
+                        class="btn-primary"
+                        states="active"
                     />
                     <button
                         name="notify_eligible_beneficiaries"
@@ -87,6 +94,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     />
                     button.
                 </div>
+                <div
+                    class="alert alert-warning text-center o_form_header"
+                    role="status"
+                    attrs="{'invisible': [('locked', '!=', True)]}"
+                >
+                    <span>Warning: Operation in progress: </span>
+                    <field name="locked_reason" class="o_stat_value" />
+                </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button
@@ -120,6 +135,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 
                     </div>
                     <div class="oe_title mb24">
+
+                        <field name="locked" invisible="True" />
+                        <field name="locked_reason" invisible="True" />
                         <label for="name" string="Program:" />
                         <h1>
                             <field
@@ -154,55 +172,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </div>
                     </div>
                     <notebook>
-                        <!-- <page string="Dashboard" name="dashboard">
-                        </page>
-                        <page string="Beneficiaries">
-                            <header>
-                                <button
-                                    name="enroll_eligible_registrants"
-                                    type="object"
-                                    string="Enroll Eligible Registrants"
-                                    icon="fa-download"
-                                    class="btn-primary"
-                                />
-                            </header>
-                            <field
-                                name="program_membership_ids"
-                                nolabel="1"
-                                context="{'target_type':target_type,'default_program_id':active_id}"
-                            >
-                                <tree>
-                                    <button
-                                        name="open_beneficiaries_form"
-                                        type="object"
-                                        icon="fa-external-link"
-                                        class="btn-success"
-                                    />
-                                    <field name="partner_id" />
-                                    <field
-                                        name="state"
-                                        widget="badge"
-                                        decoration-info="state == 'draft'"
-                                        decoration-warning="state == 'paused'"
-                                        decoration-success="state == 'enrolled'"
-                                        decoration-danger="state == 'exited'"
-                                        optional="show"
-                                    />
-                                    <field name="enrollment_date" />
-                                </tree>
-                            </field>
-                        </page> -->
-
                         <page string="Cycles">
-                            <!-- <header>
-                                <button
-                                    name="create_new_cycle"
-                                    type="object"
-                                    string="Create New Cycle"
-                                    icon="fa-undo"
-                                    class="btn-primary"
-                                />
-                            </header> -->
                             <field
                                 name="cycle_ids"
                                 nolabel="1"
@@ -217,8 +187,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         class="btn-success"
                                     />
                                     <field name="name" />
-                                    <field name="cycle_membership_ids" string="Beneficiaries" />
-                                    <field name="entitlement_ids" string="Entitlements" />
+                                    <field name="entitlements_count" string="Entitlements" />
                                     <field
                                         name="state"
                                         decoration-primary="state=='draft'"

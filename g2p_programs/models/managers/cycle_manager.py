@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+from odoo.addons.queue_job.delay import group
+
 from .. import constants
 
 _logger = logging.getLogger(__name__)
@@ -147,7 +149,7 @@ class DefaultCycleManager(models.Model):
         for rec in self:
             rec._ensure_can_edit_cycle(cycle)
 
-            # Get all the enrolled beneficiaries
+            # Get all the draft and enrolled beneficiaries
             if beneficiaries is None:
                 beneficiaries = cycle.get_beneficiaries(["draft", "enrolled"])
 
@@ -164,8 +166,6 @@ class DefaultCycleManager(models.Model):
 
             beneficiaries_ids = beneficiaries.ids
             filtered_beneficiaries_ids = filtered_beneficiaries.ids
-            _logger.info("Beneficiaries: %s", beneficiaries_ids)
-            _logger.info("Filtered beneficiaries: %s", filtered_beneficiaries_ids)
             ids_to_remove = list(
                 set(beneficiaries_ids) - set(filtered_beneficiaries_ids)
             )
@@ -191,11 +191,42 @@ class DefaultCycleManager(models.Model):
         for rec in self:
             rec._ensure_can_edit_cycle(cycle)
             # Get all the enrolled beneficiaries
-            beneficiaries = cycle.get_beneficiaries(["enrolled"])
+            beneficiaries_count = cycle.get_beneficiaries(["enrolled"], count=True)
+            rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+            if beneficiaries_count < 200:
+                self._prepare_entitlements(cycle)
+            else:
+                self._prepare_entitlements_async(cycle, beneficiaries_count)
 
-            rec.program_id.get_manager(
-                constants.MANAGER_ENTITLEMENT
-            ).prepare_entitlements(cycle, beneficiaries)
+    def _prepare_entitlements_async(self, cycle, beneficiaries_count):
+        _logger.debug("Prepare entitlement asynchronously")
+        cycle.message_post(
+            body=_(
+                "Prepare entitlement for %s beneficiaries started.", beneficiaries_count
+            )
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Prepare entitlement for beneficiaries."),
+            }
+        )
+
+        jobs = []
+        for i in range(0, beneficiaries_count, 2000):
+            jobs.append(self.delayable()._prepare_entitlements(cycle, i, 2000))
+        main_job = group(*jobs)
+        main_job.on_done(
+            self.delayable().mark_import_as_done(cycle, _("Entitlement Ready."))
+        )
+        main_job.delay()
+
+    def _prepare_entitlements(self, cycle, offset=0, limit=None):
+        beneficiaries = cycle.get_beneficiaries(
+            ["enrolled"], offset=offset, limit=limit, order="id"
+        )
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        entitlement_manager.prepare_entitlements(cycle, beneficiaries)
 
     def mark_distributed(self, cycle):
         cycle.update({"state": constants.STATE_DISTRIBUTED})
@@ -206,14 +237,54 @@ class DefaultCycleManager(models.Model):
     def mark_cancelled(self, cycle):
         cycle.update({"state": constants.STATE_CANCELLED})
 
-    def validate_entitlements(self, cycle, cycle_memberships):
+    def validate_entitlements(self, cycle, entitlement_ids):
         # TODO: call the program's entitlement manager and validate the entitlements
         # TODO: Use a Job attached to the cycle
         # TODO: Implement validation workflow
         for rec in self:
-            rec.program_id.get_manager(
-                constants.MANAGER_ENTITLEMENT
-            ).validate_entitlements(cycle_memberships)
+            rec._ensure_can_edit_cycle(cycle)
+            rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+            if len(entitlement_ids) < 200:
+                self._validate_entitlements(entitlement_ids)
+            else:
+                self._validate_entitlements_async(cycle, entitlement_ids)
+
+    def _validate_entitlements_async(self, cycle, entitlement_ids):
+        _logger.debug("Validate entitlement asynchronously")
+        cycle.message_post(
+            body=_("Validation for %s entitlements started.", len(entitlement_ids))
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Validate entitlement for beneficiaries."),
+            }
+        )
+
+        jobs = []
+        max_jobs_per_batch = 100
+        entitlements = []
+        max_rec = len(entitlement_ids)
+        for ctr_entitlements, entitlement in enumerate(entitlement_ids, 1):
+            entitlements.append(entitlement.id)
+            if (
+                ctr_entitlements % max_jobs_per_batch == 0
+            ) or ctr_entitlements == max_rec:
+                entitlements_ids = self.env["g2p.entitlement"].search(
+                    [("id", "in", entitlements)]
+                )
+                jobs.append(self.delayable()._validate_entitlements(entitlements_ids))
+                entitlements = []
+
+        main_job = group(*jobs)
+        main_job.on_done(
+            self.delayable().mark_import_as_done(cycle, _("Entitlement approved."))
+        )
+        main_job.delay()
+
+    def _validate_entitlements(self, entitlements):
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        entitlement_manager.approve_entitlements(entitlements)
 
     def new_cycle(self, name, new_start_date, sequence):
         _logger.info("Creating new cycle for program %s", self.program_id.name)
@@ -254,45 +325,99 @@ class DefaultCycleManager(models.Model):
 
     def copy_beneficiaries_from_program(self, cycle, state="enrolled"):
         self._ensure_can_edit_cycle(cycle)
+        self.ensure_one()
 
         for rec in self:
             beneficiary_ids = rec.program_id.get_beneficiaries(["enrolled"]).mapped(
                 "partner_id.id"
             )
-            rec.add_beneficiaries(cycle, beneficiary_ids, state)
+            return rec.add_beneficiaries(cycle, beneficiary_ids, state)
 
     def add_beneficiaries(self, cycle, beneficiaries, state="draft"):
         """
         Add beneficiaries to the cycle
         """
+        self.ensure_one()
         self._ensure_can_edit_cycle(cycle)
         _logger.info("Adding beneficiaries to the cycle %s", cycle.name)
         _logger.info("Beneficiaries: %s", beneficiaries)
 
+        # Only add beneficiaries not added yet
         existing_ids = cycle.cycle_membership_ids.mapped("partner_id.id")
+        beneficiaries = list(set(beneficiaries) - set(existing_ids))
+        if len(beneficiaries) == 0:
+            message = _("No beneficiaries to import.")
+            kind = "warning"
+        elif len(beneficiaries) < 1000:
+            self._add_beneficiaries(cycle, beneficiaries, state)
+            message = _("%s beneficiaries imported.", len(beneficiaries))
+            kind = "success"
+        else:
+            self._add_beneficiaries_async(cycle, beneficiaries, state)
+            message = _("Import of %s beneficiaries started.", len(beneficiaries))
+            kind = "warning"
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Enrollment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
+            },
+        }
+
+    def _add_beneficiaries_async(self, cycle, beneficiaries, state):
+        _logger.info("Adding beneficiaries asynchronously")
+        cycle.message_post(
+            body="Import of %s beneficiaries started." % len(beneficiaries)
+        )
+        cycle.write({"locked": True, "locked_reason": _("Importing beneficiaries.")})
+
+        jobs = []
+        for i in range(0, len(beneficiaries), 2000):
+            jobs.append(
+                self.delayable()._add_beneficiaries(
+                    cycle, beneficiaries[i : i + 2000], state
+                )
+            )
+        main_job = group(*jobs)
+        main_job.on_done(
+            self.delayable().mark_import_as_done(
+                cycle, _("Beneficiary import finished.")
+            )
+        )
+        main_job.delay()
+
+    def _add_beneficiaries(self, cycle, beneficiaries, state="draft"):
         new_beneficiaries = []
         for r in beneficiaries:
-            if r not in existing_ids:
-                new_beneficiaries.append(
-                    [
-                        0,
-                        0,
-                        {
-                            "partner_id": r,
-                            "enrollment_date": fields.Date.today(),
-                            "state": state,
-                        },
-                    ]
-                )
-        if new_beneficiaries:
-            cycle.update({"cycle_membership_ids": new_beneficiaries})
-            return True
-        else:
-            return False
+            new_beneficiaries.append(
+                [
+                    0,
+                    0,
+                    {
+                        "partner_id": r,
+                        "enrollment_date": fields.Date.today(),
+                        "state": state,
+                    },
+                ]
+            )
+        cycle.update({"cycle_membership_ids": new_beneficiaries})
+
+    def mark_import_as_done(self, cycle, msg):
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=msg)
 
     def _ensure_can_edit_cycle(self, cycle):
         if cycle.state not in [cycle.STATE_DRAFT]:
-            raise ValidationError(_("The Cycle is not in Draft Mode"))
+            raise ValidationError(_("The Cycle is not in draft mode"))
 
     def on_state_change(self, cycle):
         if cycle.state == cycle.STATE_APPROVED:
