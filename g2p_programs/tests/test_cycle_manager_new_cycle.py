@@ -1,114 +1,145 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 
-from dateutil.relativedelta import relativedelta
 from freezegun import freeze_time
 
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
-from odoo.addons.g2p_programs.models.constants import MANAGER_CYCLE
+from odoo.addons.g2p_programs.models.constants import MANAGER_PROGRAM
 
 
 @freeze_time("2022-12-15")
 @tagged("post_install", "-at_install")
 class DefaultCycleManagerTest(TransactionCase):
-    @classmethod
-    def setUpClass(cls):
-        super(DefaultCycleManagerTest, cls).setUpClass()
-
-        program_wizard = cls.env["g2p.program.create.wizard"].create(
+    def create_program_manager(self, **kwargs):
+        data = kwargs
+        data.update(
             {
-                "name": "My test program",
                 "amount_per_cycle": 1.0,
                 "amount_per_individual_in_group": 1.0,
-                "rrule_type": "daily",
-                "cycle_duration": 30,
             }
         )
-
+        program_wizard = self.env["g2p.program.create.wizard"].create(data)
         result = program_wizard.create_program()
 
-        program = cls.env[result["res_model"]].browse(result["res_id"])
-        cls.cycle_manager = program.get_manager(MANAGER_CYCLE)
+        program = self.env[result["res_model"]].browse(result["res_id"])
+        return program.get_manager(MANAGER_PROGRAM)
 
     def test_new_cycle_daily(self):
-        start_date = datetime.now()
-        end_date = (
-            start_date
-            + timedelta(days=self.cycle_manager.cycle_duration)
-            - timedelta(days=1)
-        )
-        sequence = 1
+        # create and test a 20 day cycle
+        program_manager_data = {
+            "name": "Daily",
+            "rrule_type": "daily",
+            "cycle_duration": 20,
+        }
 
-        cycle = self.cycle_manager.new_cycle("Cycle 1", start_date, sequence)
+        program_manager = self.create_program_manager(**program_manager_data)
+        first_cycle = program_manager.new_cycle()
 
-        self.assertEqual(cycle.start_date, start_date.date())
-        self.assertEqual(cycle.end_date, end_date.date())
-        self.assertEqual(cycle.sequence, sequence)
+        self.assertEqual(first_cycle.start_date, datetime.now().date())
+        self.assertEqual(first_cycle.end_date, datetime(2023, 1, 3).date())
+        self.assertEqual(first_cycle.sequence, 1)
+
+        second_cycle = program_manager.new_cycle()
+
+        self.assertEqual(second_cycle.start_date, datetime(2023, 1, 4).date())
+        self.assertEqual(second_cycle.end_date, datetime(2023, 1, 23).date())
+        self.assertEqual(second_cycle.sequence, 2)
 
     def test_new_cycle_yearly(self):
-        self.cycle_manager.rrule_type = "yearly"
-        self.cycle_manager.cycle_duration = 1
+        # create and test a yearly cycle with 1 cycle duration
 
-        start_date = datetime.now()
-        end_date = (
-            start_date
-            + relativedelta(years=self.cycle_manager.cycle_duration)
-            - timedelta(days=1)
-        )
-        sequence = 2
+        program_manager_data = {
+            "name": "Yearly",
+            "rrule_type": "yearly",
+            "cycle_duration": 1,
+        }
 
-        cycle = self.cycle_manager.new_cycle("Cycle 1", start_date, sequence)
+        program_manager = self.create_program_manager(**program_manager_data)
 
-        self.assertEqual(cycle.start_date, start_date.date())
-        self.assertEqual(cycle.end_date, end_date.date())
-        self.assertEqual(cycle.sequence, sequence)
+        first_cycle = program_manager.new_cycle()
+
+        self.assertEqual(first_cycle.start_date, datetime.now().date())
+        self.assertEqual(first_cycle.end_date, datetime(2023, 12, 14).date())
+        self.assertEqual(first_cycle.sequence, 1)
+
+        second_cycle = program_manager.new_cycle()
+
+        self.assertEqual(second_cycle.start_date, datetime(2023, 12, 15).date())
+        self.assertEqual(second_cycle.end_date, datetime(2024, 12, 14).date())
+        self.assertEqual(second_cycle.sequence, 2)
 
     def test_new_cycle_monthly_month_by_date(self):
-        self.cycle_manager.rrule_type = "monthly"
-        self.cycle_manager.cycle_duration = 1
-        self.cycle_manager.month_by = "date"
-        self.cycle_manager.day = 10
+        # create and test a monthly cycle with 1 cycle duration every 10th day of the month
 
-        start_date = datetime.now()
-        end_date = datetime(2023, 1, 9).date()
-        sequence = 3
+        program_manager_data = {
+            "name": "Monthly every 10th",
+            "rrule_type": "monthly",
+            "cycle_duration": 1,
+            "month_by": "date",
+            "day": 10,
+        }
 
-        cycle = self.cycle_manager.new_cycle("Cycle 1", start_date, sequence)
+        program_manager = self.create_program_manager(**program_manager_data)
 
-        self.assertEqual(cycle.start_date, start_date.date())
-        self.assertEqual(cycle.end_date, end_date)
-        self.assertEqual(cycle.sequence, sequence)
+        first_cycle = program_manager.new_cycle()
+
+        self.assertEqual(first_cycle.start_date, datetime.now().date())
+        self.assertEqual(first_cycle.end_date, datetime(2023, 1, 9).date())
+        self.assertEqual(first_cycle.sequence, 1)
+
+        second_cycle = program_manager.new_cycle()
+
+        self.assertEqual(second_cycle.start_date, datetime(2023, 1, 10).date())
+        self.assertEqual(second_cycle.end_date, datetime(2023, 2, 9).date())
+        self.assertEqual(second_cycle.sequence, 2)
 
     def test_new_cycle_monthly_month_by_day(self):
-        self.cycle_manager.rrule_type = "monthly"
-        self.cycle_manager.cycle_duration = 1
-        self.cycle_manager.month_by = "day"
-        self.cycle_manager.byday = "1"
-        self.cycle_manager.weekday = "MON"
+        # create and test a monthly cycle with 1 cycle duration every first monday of the month
 
-        start_date = datetime.now()
-        end_date = datetime(2023, 1, 1).date()
-        sequence = 3
+        program_manager_data = {
+            "name": "Monthly every first monday of the month",
+            "rrule_type": "monthly",
+            "cycle_duration": 1,
+            "month_by": "day",
+            "byday": "1",
+            "weekday": "MON",
+        }
 
-        cycle = self.cycle_manager.new_cycle("Cycle 1", start_date, sequence)
+        program_manager = self.create_program_manager(**program_manager_data)
 
-        self.assertEqual(cycle.start_date, start_date.date())
-        self.assertEqual(cycle.end_date, end_date)
-        self.assertEqual(cycle.sequence, sequence)
+        first_cycle = program_manager.new_cycle()
+
+        self.assertEqual(first_cycle.start_date, datetime.now().date())
+        self.assertEqual(first_cycle.end_date, datetime(2023, 1, 1).date())
+        self.assertEqual(first_cycle.sequence, 1)
+
+        second_cycle = program_manager.new_cycle()
+
+        self.assertEqual(second_cycle.start_date, datetime(2023, 1, 2).date())
+        self.assertEqual(second_cycle.end_date, datetime(2023, 2, 5).date())
+        self.assertEqual(second_cycle.sequence, 2)
 
     def test_new_cycle_weekly(self):
+        # create and test a weekly cycle with 1 cycle duration every monday
 
-        self.cycle_manager.rrule_type = "weekly"
-        self.cycle_manager.cycle_duration = 1
-        self.cycle_manager.mon = True
+        program_manager_data = {
+            "name": "Weekly every monday",
+            "rrule_type": "weekly",
+            "cycle_duration": 1,
+            "mon": True,
+        }
 
-        start_date = datetime.now()
-        end_date = datetime(2022, 12, 18).date()
-        sequence = 3
+        program_manager = self.create_program_manager(**program_manager_data)
 
-        cycle = self.cycle_manager.new_cycle("Cycle 1", start_date, sequence)
+        first_cycle = program_manager.new_cycle()
 
-        self.assertEqual(cycle.start_date, start_date.date())
-        self.assertEqual(cycle.end_date, end_date)
-        self.assertEqual(cycle.sequence, sequence)
+        self.assertEqual(first_cycle.start_date, datetime.now().date())
+        self.assertEqual(first_cycle.end_date, datetime(2022, 12, 18).date())
+        self.assertEqual(first_cycle.sequence, 1)
+
+        second_cycle = program_manager.new_cycle()
+
+        self.assertEqual(second_cycle.start_date, datetime(2022, 12, 19).date())
+        self.assertEqual(second_cycle.end_date, datetime(2022, 12, 25).date())
+        self.assertEqual(second_cycle.sequence, 2)
