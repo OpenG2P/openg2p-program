@@ -63,6 +63,12 @@
     },
     "demo": [],
     "images": [],
+    "external_dependencies": {
+        "python": [
+            "python-dateutil",
+            "freezegun",
+        ]
+    },
     "application": True,
     "installable": True,
     "auto_install": False,
