@@ -66,7 +66,6 @@
     "external_dependencies": {
         "python": [
             "python-dateutil",
-            "freezegun",
         ]
     },
     "application": True,
