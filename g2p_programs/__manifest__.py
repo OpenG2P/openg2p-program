@@ -19,6 +19,7 @@
         "g2p_bank",
         "l10n_generic_coa",
         "event_sms",
+        "calendar",
     ],
     "data": [
         "security/program_security.xml",
