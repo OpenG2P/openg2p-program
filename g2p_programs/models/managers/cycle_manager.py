@@ -299,15 +299,25 @@ class DefaultCycleManager(models.Model):
         # and do not exceed to 24 hours
         occurences = self._get_ranges(new_start_date, timedelta(seconds=1))
 
-        next(occurences)  # start_date
+        prev_occurence = next(occurences)
+        current_occurence = next(occurences)
+
+        start_date = None
+        end_date = None
 
         # This prevents getting an end date that is less than the start date
         while True:
-            end_date = next(occurences)[0]
-            end_date = end_date - timedelta(days=1)
 
-            if end_date >= new_start_date:
+            # get the date of occurences
+            start_date = prev_occurence[0]
+            end_date = current_occurence[0] - timedelta(days=1)
+
+            if start_date >= new_start_date:
                 break
+
+            # move current occurence to previous then get a new current occurence
+            prev_occurence = current_occurence
+            current_occurence = next(occurences)
 
         for rec in self:
             cycle = self.env["g2p.cycle"].create(
@@ -316,7 +326,7 @@ class DefaultCycleManager(models.Model):
                     "name": name,
                     "state": "draft",
                     "sequence": sequence,
-                    "start_date": new_start_date,
+                    "start_date": start_date,
                     "end_date": end_date,
                 }
             )
