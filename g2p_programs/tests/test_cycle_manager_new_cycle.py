@@ -11,6 +11,9 @@ from odoo.addons.g2p_programs.models.constants import MANAGER_PROGRAM
 @freeze_time("2022-12-15")
 @tagged("post_install", "-at_install")
 class DefaultCycleManagerTest(TransactionCase):
+
+    DATE_TODAY = datetime(2022, 12, 15).date()
+
     def create_program_manager(self, **kwargs):
         data = kwargs
         data.update(
@@ -36,7 +39,7 @@ class DefaultCycleManagerTest(TransactionCase):
         program_manager = self.create_program_manager(**program_manager_data)
         first_cycle = program_manager.new_cycle()
 
-        self.assertEqual(first_cycle.start_date, datetime.now().date())
+        self.assertEqual(first_cycle.start_date, self.DATE_TODAY)
         self.assertEqual(first_cycle.end_date, datetime(2023, 1, 3).date())
         self.assertEqual(first_cycle.sequence, 1)
 
@@ -59,7 +62,7 @@ class DefaultCycleManagerTest(TransactionCase):
 
         first_cycle = program_manager.new_cycle()
 
-        self.assertEqual(first_cycle.start_date, datetime.now().date())
+        self.assertEqual(first_cycle.start_date, self.DATE_TODAY)
         self.assertEqual(first_cycle.end_date, datetime(2023, 12, 14).date())
         self.assertEqual(first_cycle.sequence, 1)
 
@@ -84,14 +87,14 @@ class DefaultCycleManagerTest(TransactionCase):
 
         first_cycle = program_manager.new_cycle()
 
-        self.assertEqual(first_cycle.start_date, datetime.now().date())
-        self.assertEqual(first_cycle.end_date, datetime(2023, 1, 9).date())
+        self.assertEqual(first_cycle.start_date, datetime(2023, 1, 10).date())
+        self.assertEqual(first_cycle.end_date, datetime(2023, 2, 9).date())
         self.assertEqual(first_cycle.sequence, 1)
 
         second_cycle = program_manager.new_cycle()
 
-        self.assertEqual(second_cycle.start_date, datetime(2023, 1, 10).date())
-        self.assertEqual(second_cycle.end_date, datetime(2023, 2, 9).date())
+        self.assertEqual(second_cycle.start_date, datetime(2023, 2, 10).date())
+        self.assertEqual(second_cycle.end_date, datetime(2023, 3, 9).date())
         self.assertEqual(second_cycle.sequence, 2)
 
     def test_new_cycle_monthly_month_by_day(self):
@@ -110,14 +113,14 @@ class DefaultCycleManagerTest(TransactionCase):
 
         first_cycle = program_manager.new_cycle()
 
-        self.assertEqual(first_cycle.start_date, datetime.now().date())
-        self.assertEqual(first_cycle.end_date, datetime(2023, 1, 1).date())
+        self.assertEqual(first_cycle.start_date, datetime(2023, 1, 2).date())
+        self.assertEqual(first_cycle.end_date, datetime(2023, 2, 5).date())
         self.assertEqual(first_cycle.sequence, 1)
 
         second_cycle = program_manager.new_cycle()
 
-        self.assertEqual(second_cycle.start_date, datetime(2023, 1, 2).date())
-        self.assertEqual(second_cycle.end_date, datetime(2023, 2, 5).date())
+        self.assertEqual(second_cycle.start_date, datetime(2023, 2, 6).date())
+        self.assertEqual(second_cycle.end_date, datetime(2023, 3, 5).date())
         self.assertEqual(second_cycle.sequence, 2)
 
     def test_new_cycle_weekly(self):
@@ -134,12 +137,12 @@ class DefaultCycleManagerTest(TransactionCase):
 
         first_cycle = program_manager.new_cycle()
 
-        self.assertEqual(first_cycle.start_date, datetime.now().date())
-        self.assertEqual(first_cycle.end_date, datetime(2022, 12, 18).date())
+        self.assertEqual(first_cycle.start_date, datetime(2022, 12, 19).date())
+        self.assertEqual(first_cycle.end_date, datetime(2022, 12, 25).date())
         self.assertEqual(first_cycle.sequence, 1)
 
         second_cycle = program_manager.new_cycle()
 
-        self.assertEqual(second_cycle.start_date, datetime(2022, 12, 19).date())
-        self.assertEqual(second_cycle.end_date, datetime(2022, 12, 25).date())
+        self.assertEqual(second_cycle.start_date, datetime(2022, 12, 26).date())
+        self.assertEqual(second_cycle.end_date, datetime(2023, 1, 1).date())
         self.assertEqual(second_cycle.sequence, 2)
