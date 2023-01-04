@@ -4,6 +4,8 @@ import logging
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.queue_job.delay import group
+
 _logger = logging.getLogger(__name__)
 
 
@@ -29,6 +31,7 @@ class BaseEntitlementManager(models.AbstractModel):
     _description = "Base Entitlement Manager"
 
     IS_CASH_ENTITLEMENT = True
+    MIN_ROW_JOB_QUEUE = 2
 
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
@@ -59,6 +62,67 @@ class BaseEntitlementManager(models.AbstractModel):
         :return:
         """
         raise NotImplementedError()
+
+    def cancel_entitlements(self, cycle):
+        """Base Entitlement Manager :meth:`cancel_entitlements`
+        Cancel entitlements in a cycle
+        Override in entitlement manager
+
+        :param cycle: A recordset of cycle
+        :return:
+        """
+
+    def _cancel_entitlements_async(self, cycle, entitlements_count):
+        """Base Entitlement Manager :meth:`_cancel_entitlements_async`
+        Asynchronous cancellation of entitlements in a cycle using `job_queue`
+
+        :param cycle: A recordset of cycle
+        :param entitlements_count: Integer value of total entitlements to process
+        :return:
+        """
+        _logger.debug("Cancel entitlements asynchronously")
+        cycle.message_post(
+            body=_("Cancel %s entitlements started.", entitlements_count)
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Cancel entitlements for cycle."),
+            }
+        )
+
+        jobs = []
+        for i in range(0, entitlements_count, 2000):
+            jobs.append(self.delayable()._cancel_entitlements(cycle, i, 2000))
+        main_job = group(*jobs)
+        main_job.on_done(
+            self.delayable().mark_job_as_done(cycle, _("Entitlements Cancelled."))
+        )
+        main_job.delay()
+
+    def _cancel_entitlements(self, cycle, offset=0, limit=None):
+        """Base Entitlement Manager :meth:`_cancel_entitlements`
+        Synchronous cancellation of entitlements in a cycle
+        Override in entitlement manager
+
+        :param cycle: A recordset of cycle
+        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
+        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :return:
+        """
+
+    def mark_job_as_done(self, cycle, msg):
+        """Base :meth:`mark_job_as_done`
+        Post a message in the chatter
+
+        :param cycle: A recordset of cycle
+        :param msg: A string to be posted in the chatter
+        :return:
+        """
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=msg)
 
     def open_entitlements_form(self, cycle):
         """
@@ -223,6 +287,41 @@ class DefaultCashEntitlementManager(models.Model):
                     "valid_until": entitlement_end_validity,
                 }
             )
+
+    def cancel_entitlements(self, cycle):
+        """Default Entitlement Manager :meth:`cancel_entitlements`
+        Cancel entitlements in a cycle
+
+        :param cycle: A recordset of cycle
+        :return:
+        """
+        # Get the entitlements in cycle
+        entitlements_count = cycle.get_entitlements(
+            ["draft", "pending_validation"],
+            entitlement_model="g2p.entitlement",
+            count=True,
+        )
+        if entitlements_count < self.MIN_ROW_JOB_QUEUE:
+            self._cancel_entitlements(cycle)
+        else:
+            self._cancel_entitlements_async(cycle, entitlements_count)
+
+    def _cancel_entitlements(self, cycle, offset=0, limit=None):
+        """Default Entitlement Manager :meth:`_cancel_entitlements`
+        Synchronous cancellation of entitlements in a cycle
+
+        :param cycle: A recordset of cycle
+        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
+        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :return:
+        """
+        entitlements = cycle.get_entitlements(
+            ["draft", "pending_validation"],
+            entitlement_model="g2p.entitlement",
+            offset=offset,
+            limit=limit,
+        )
+        entitlements.update({"state": "cancelled"})
 
     def _calculate_amount(self, beneficiary, num_individuals):
         total = self.amount_per_cycle

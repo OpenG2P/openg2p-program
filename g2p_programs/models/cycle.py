@@ -111,6 +111,32 @@ class G2PCycle(models.Model):
                 domain, offset=offset, limit=limit, order=order, count=count
             )
 
+    def get_entitlements(
+        self,
+        state,
+        entitlement_model="g2p.entitlement",
+        offset=0,
+        limit=None,
+        order=None,
+        count=False,
+    ):
+        """
+        Query entitlements based on state
+        :param state: List of states
+        :param entitlement_model: String value of entitlement model to search
+        :param offset: Optional integer value for the ORM search offset
+        :param limit: Optional integer value for the ORM search limit
+        :param order: Optional string value for the ORM search order fields
+        :param count: Optional boolean for executing a search-count (if true) or search (if false: default)
+        :return:
+        """
+        if isinstance(state, str):
+            state = [state]
+        domain = [("state", "in", state)]
+        return self.env[entitlement_model].search(
+            domain, offset=offset, limit=limit, order=order, count=count
+        )
+
     # @api.model
     def copy_beneficiaries_from_program(self):
         # _logger.info("Copying beneficiaries from program, cycles: %s", cycles)

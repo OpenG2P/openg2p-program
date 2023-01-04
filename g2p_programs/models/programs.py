@@ -112,6 +112,31 @@ class G2PProgram(models.Model):
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 
+    def toggle_active(self):
+        """
+        Overrides the default :meth:`toggle_active` to cancel
+        all `draft` and `to_approve` associated cycles and
+        'draft' and 'pending_validation' entitlements.
+
+        :return: toggle_active function of parent class
+        """
+        for rec in self:
+            # Cancel cycles and entitlements only if the program is active (for archiving)
+            if rec.active:
+                _logger.info("Archive Program: cancel cycles and entitlements.")
+                if rec.cycle_ids:
+                    entitlement_manager = rec.get_manager(self.MANAGER_ENTITLEMENT)
+                    # Get only `draft` and `to_approve` cycles
+                    cycles = rec.cycle_ids.filtered(
+                        lambda a: a.state in ("draft", "to_approve")
+                    )
+                    if cycles:
+                        for cycle in cycles:
+                            entitlement_manager.cancel_entitlements(cycle)
+                        # Set the cycle_ids state to 'cancelled'
+                        cycles.update({"state": "cancelled"})
+        return super().toggle_active()
+
     @api.depends("program_membership_ids")
     def _compute_have_members(self):
         if len(self.program_membership_ids) > 0:
@@ -319,12 +344,7 @@ class G2PProgram(models.Model):
                 "tag": "display_notification",
                 "params": {
                     "title": _("Cycle"),
-                    "message": message + " %s",
-                    "links": [
-                        {
-                            "label": "Refresh Page",
-                        }
-                    ],
+                    "message": message,
                     "sticky": True,
                     "type": kind,
                     "next": {

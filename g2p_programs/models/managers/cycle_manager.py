@@ -108,6 +108,29 @@ class BaseCycleManager(models.AbstractModel):
 
         """
 
+    def _ensure_can_edit_cycle(self, cycle):
+        """Base :meth:'_ensure_can_edit_cycle`
+        Check if the cycle can be editted
+
+        :param cycle: A recordset of cycle
+        :return:
+        """
+        if cycle.state not in [cycle.STATE_DRAFT]:
+            raise ValidationError(_("The Cycle is not in draft mode"))
+
+    def mark_import_as_done(self, cycle, msg):
+        """Base :meth:`mark_import_as_done`
+        Post a message in the chatter
+
+        :param cycle: A recordset of cycle
+        :param msg: A string to be posted in the chatter
+        :return:
+        """
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=msg)
+
 
 class DefaultCycleManager(models.Model):
     _name = "g2p.cycle.manager.default"
@@ -123,6 +146,8 @@ class DefaultCycleManager(models.Model):
 
     def check_eligibility(self, cycle, beneficiaries=None):
         """
+        Default Cycle Manager eligibility checker
+
         :param cycle: The cycle that is being verified
         :type cycle: :class:`g2p_programs.models.cycle.G2PCycle`
         :param beneficiaries: the beneficiaries that need to be verified. By Default the one with the state ``draft``
@@ -384,16 +409,6 @@ class DefaultCycleManager(models.Model):
                 ]
             )
         cycle.update({"cycle_membership_ids": new_beneficiaries})
-
-    def mark_import_as_done(self, cycle, msg):
-        self.ensure_one()
-        cycle.locked = False
-        cycle.locked_reason = None
-        cycle.message_post(body=msg)
-
-    def _ensure_can_edit_cycle(self, cycle):
-        if cycle.state not in [cycle.STATE_DRAFT]:
-            raise ValidationError(_("The Cycle is not in draft mode"))
 
     def on_state_change(self, cycle):
         if cycle.state == cycle.STATE_APPROVED:
