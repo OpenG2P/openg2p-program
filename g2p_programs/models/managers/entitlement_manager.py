@@ -31,7 +31,7 @@ class BaseEntitlementManager(models.AbstractModel):
     _description = "Base Entitlement Manager"
 
     IS_CASH_ENTITLEMENT = True
-    MIN_ROW_JOB_QUEUE = 2
+    MIN_ROW_JOB_QUEUE = 200
 
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
@@ -73,7 +73,8 @@ class BaseEntitlementManager(models.AbstractModel):
         """
 
     def _cancel_entitlements_async(self, cycle, entitlements_count):
-        """Base Entitlement Manager :meth:`_cancel_entitlements_async`
+        """Cancel Entitlements
+        Base Entitlement Manager :meth:`_cancel_entitlements_async`
         Asynchronous cancellation of entitlements in a cycle using `job_queue`
 
         :param cycle: A recordset of cycle
@@ -101,7 +102,8 @@ class BaseEntitlementManager(models.AbstractModel):
         main_job.delay()
 
     def _cancel_entitlements(self, cycle, offset=0, limit=None):
-        """Base Entitlement Manager :meth:`_cancel_entitlements`
+        """
+        Base Entitlement Manager :meth:`_cancel_entitlements`
         Synchronous cancellation of entitlements in a cycle
         Override in entitlement manager
 
@@ -112,7 +114,8 @@ class BaseEntitlementManager(models.AbstractModel):
         """
 
     def mark_job_as_done(self, cycle, msg):
-        """Base :meth:`mark_job_as_done`
+        """
+        Base :meth:`mark_job_as_done`
         Post a message in the chatter
 
         :param cycle: A recordset of cycle
@@ -289,7 +292,8 @@ class DefaultCashEntitlementManager(models.Model):
             )
 
     def cancel_entitlements(self, cycle):
-        """Default Entitlement Manager :meth:`cancel_entitlements`
+        """Cancel Entitlements
+        Default Entitlement Manager :meth:`cancel_entitlements`
         Cancel entitlements in a cycle
 
         :param cycle: A recordset of cycle
@@ -307,7 +311,8 @@ class DefaultCashEntitlementManager(models.Model):
             self._cancel_entitlements_async(cycle, entitlements_count)
 
     def _cancel_entitlements(self, cycle, offset=0, limit=None):
-        """Default Entitlement Manager :meth:`_cancel_entitlements`
+        """
+        Default Entitlement Manager :meth:`_cancel_entitlements`
         Synchronous cancellation of entitlements in a cycle
 
         :param cycle: A recordset of cycle
