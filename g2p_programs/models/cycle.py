@@ -132,7 +132,7 @@ class G2PCycle(models.Model):
         """
         if isinstance(state, str):
             state = [state]
-        domain = [("state", "in", state)]
+        domain = [("cycle_id", "=", self.id), ("state", "in", state)]
         return self.env[entitlement_model].search(
             domain, offset=offset, limit=limit, order=order, count=count
         )

@@ -294,7 +294,7 @@ class DefaultCashEntitlementManager(models.Model):
             )
 
     def cancel_entitlements(self, cycle):
-        """Cancel Entitlements
+        """
         Default Entitlement Manager :meth:`cancel_entitlements`
         Cancel entitlements in a cycle
 
