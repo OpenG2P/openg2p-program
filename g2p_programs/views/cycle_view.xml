@@ -310,6 +310,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             string="Configuration"
                             name="configuration"
                             groups="g2p_registry_base.group_g2p_admin"
+                            invisible="1"
                         >
                         </page>
                     </notebook>

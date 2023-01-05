@@ -71,6 +71,7 @@ class BaseEntitlementManager(models.AbstractModel):
         :param cycle: A recordset of cycle
         :return:
         """
+        raise NotImplementedError()
 
     def _cancel_entitlements_async(self, cycle, entitlements_count):
         """Cancel Entitlements
@@ -112,6 +113,7 @@ class BaseEntitlementManager(models.AbstractModel):
         :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
         :return:
         """
+        raise NotImplementedError()
 
     def mark_job_as_done(self, cycle, msg):
         """
@@ -299,9 +301,9 @@ class DefaultCashEntitlementManager(models.Model):
         :param cycle: A recordset of cycle
         :return:
         """
-        # Get the entitlements in cycle
+        # Get the number of entitlements in cycle
         entitlements_count = cycle.get_entitlements(
-            ["draft", "pending_validation"],
+            ["draft", "pending_validation", "approved"],
             entitlement_model="g2p.entitlement",
             count=True,
         )
@@ -320,8 +322,9 @@ class DefaultCashEntitlementManager(models.Model):
         :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
         :return:
         """
+        # Get the entitlements in the cycle
         entitlements = cycle.get_entitlements(
-            ["draft", "pending_validation"],
+            ["draft", "pending_validation", "approved"],
             entitlement_model="g2p.entitlement",
             offset=offset,
             limit=limit,

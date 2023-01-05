@@ -115,7 +115,7 @@ class G2PProgram(models.Model):
     def toggle_active(self):
         """
         Overrides the default :meth:`toggle_active` to cancel
-        all `draft` and `to_approve` associated cycles and
+        all `draft`, `to_approve`, and `approved` associated cycles and
         'draft' and 'pending_validation' entitlements.
 
         :return: toggle_active function of parent class
@@ -126,9 +126,9 @@ class G2PProgram(models.Model):
                 _logger.info("Archive Program: cancel cycles and entitlements.")
                 if rec.cycle_ids:
                     entitlement_manager = rec.get_manager(self.MANAGER_ENTITLEMENT)
-                    # Get only `draft` and `to_approve` cycles
+                    # Get only `draft`, `to_approve`, and `approved` cycles
                     cycles = rec.cycle_ids.filtered(
-                        lambda a: a.state in ("draft", "to_approve")
+                        lambda a: a.state in ("draft", "to_approve", "approved")
                     )
                     if cycles:
                         for cycle in cycles:

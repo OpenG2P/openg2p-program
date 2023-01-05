@@ -97,6 +97,7 @@ class BaseCycleManager(models.AbstractModel):
         """
         Hook for when the start date change
         """
+        raise NotImplementedError()
 
     def on_state_change(self, cycle):
         """
@@ -107,6 +108,7 @@ class BaseCycleManager(models.AbstractModel):
         Returns:
 
         """
+        raise NotImplementedError()
 
     def _ensure_can_edit_cycle(self, cycle):
         """Base :meth:'_ensure_can_edit_cycle`
