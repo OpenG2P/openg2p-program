@@ -1,4 +1,5 @@
-from odoo import models
+from odoo import _, models
+from odoo.exceptions import ValidationError
 
 
 class JobRelateMixin(models.AbstractModel):
@@ -21,6 +22,8 @@ class JobRelateMixin(models.AbstractModel):
             _type_: dict
         """
         self.ensure_one()
+        if not self.user_has_groups("queue_job.group_queue_job_manager"):
+            raise ValidationError(_("Only Queue Job Manager can do this action!"))
         jobs = self.env["queue.job"].sudo().search([("model_name", "=", self._name)])
         related_jobs = jobs.filtered(lambda qj: self in qj.records)
         action = self.env.ref("queue_job.action_queue_job").read()[0]

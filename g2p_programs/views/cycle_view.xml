@@ -157,6 +157,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             class="oe_stat_button"
                             icon="fa-bars"
                             name="action_view_related_queue_jobs"
+                            groups="queue_job.group_queue_job_manager"
                         >
                             <div class="o_form_field o_stat_info">
                                 <span class="o_stat_text">Related Job(s)</span>
