@@ -105,9 +105,10 @@ class DefaultProgramManager(models.Model):
             else:
                 last_cycle = rec.last_cycle()
                 new_sequence = last_cycle.sequence + 1
+                start_date = last_cycle.end_date + timedelta(days=1)
                 new_cycle = cm.new_cycle(
                     f"Cycle {new_sequence}",
-                    last_cycle.start_date + timedelta(days=cm.cycle_duration),
+                    start_date,
                     new_sequence,
                 )
 

@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 
 class G2PCreateNewProgramWiz(models.TransientModel):
     _name = "g2p.program.create.wizard"
-    _inherit = "base.programs.manager"
+    _inherit = ["base.programs.manager", "g2p.cycle.recurrence.mixin"]
     _description = "Create a New Program Wizard"
 
     @api.model
@@ -218,6 +218,8 @@ class G2PCreateNewProgramWiz(models.TransientModel):
                     "approver_group_id": rec.approver_group_id.id or None,
                 }
             )
+            def_mgr.update(self._get_recurrent_field_values())
+
             # Add a new record to cycle manager parent model
             man_obj = self.env["g2p.cycle.manager"]
             mgr = man_obj.create(
@@ -284,3 +286,8 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             }
         )
         return new_journal.id
+
+    @api.depends("cycle_duration")
+    def _compute_interval(self):
+        for rec in self:
+            rec.interval = rec.cycle_duration
