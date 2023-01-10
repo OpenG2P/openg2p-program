@@ -151,6 +151,7 @@ class G2PCycle(models.Model):
         )
 
     def to_approve(self):
+        # TODO: Set entitlements to 'pending_validation'
         for rec in self:
             if rec.state == self.STATE_DRAFT:
                 rec.update({"state": self.STATE_TO_APPROVE})
@@ -198,45 +199,15 @@ class G2PCycle(models.Model):
         # 1. Make sure the user has the right to do this
         # 2. Approve the cycle using the cycle manager
         for rec in self:
-            cycle_managers = self.program_id.get_manager(constants.MANAGER_CYCLE)
-
-            auto_approve = False
-            if cycle_managers.auto_approve_entitlements:
-                auto_approve = True
-
-            retval = None
-            if auto_approve:
-                entitlements = self.env["g2p.entitlement"].search(
-                    [
-                        ("cycle_id", "=", rec.id),
-                        ("state", "=", "draft"),
-                    ]
-                )
-                if entitlements:
-                    retval = entitlements.approve_entitlement()
-
-            if rec.state == self.STATE_TO_APPROVE:
-                rec.update({"state": self.STATE_APPROVED})
-                # Running on_state_change because it is not triggered automatically with rec.update above
-                rec.on_state_change()
-                return retval
-            else:
-                message = _("Only 'to approve' cycles can be approved.")
-                kind = "danger"
-
-                return {
-                    "type": "ir.actions.client",
-                    "tag": "display_notification",
-                    "params": {
-                        "title": _("Cycle"),
-                        "message": message,
-                        "sticky": True,
-                        "type": kind,
-                        "next": {
-                            "type": "ir.actions.act_window_close",
-                        },
-                    },
-                }
+            cycle_manager = rec.program_id.get_manager(constants.MANAGER_CYCLE)
+            entitlement_manager = rec.program_id.get_manager(
+                constants.MANAGER_ENTITLEMENT
+            )
+            return cycle_manager.approve_cycle(
+                rec,
+                auto_approve=cycle_manager.auto_approve_entitlements,
+                entitlement_manager=entitlement_manager,
+            )
 
     def notify_cycle_started(self):
         # 1. Notify the beneficiaries using notification_manager.cycle_started()
@@ -267,9 +238,9 @@ class G2PCycle(models.Model):
     def validate_entitlement(self):
         # 1. Make sure the user has the right to do this
         # 2. Validate the entitlement of the beneficiaries using entitlement_manager.validate_entitlements()
-        self.program_id.get_manager(constants.MANAGER_CYCLE).validate_entitlements(
-            self, self.entitlement_ids
-        )
+        return self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).validate_entitlements(self)
 
     def export_distribution_list(self):
         # Not sure if this should be here.

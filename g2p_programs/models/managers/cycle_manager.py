@@ -99,16 +99,86 @@ class BaseCycleManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def approve_cycle(self, cycle, auto_approve=False, entitlement_manager=None):
+        """
+
+        :param cycle:
+        :param auto_approve:
+        :param entitlement_manager:
+        :return:
+        """
+        # Check if user is allowed to approve the cycle
+        if cycle.state == "to_approve":
+            cycle.update({"state": "approved"})
+            # Running on_state_change because it is not triggered automatically with rec.update above
+            self.on_state_change(cycle)
+        else:
+            message = _("Only 'to approve' cycles can be approved.")
+            kind = "danger"
+
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Cycle"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
+        # Approve entitlements
+        if auto_approve:
+            if entitlement_manager.IS_CASH_ENTITLEMENT:
+                entitlement_mdl = "g2p.entitlement"
+            else:
+                entitlement_mdl = "g2p.entitlement.inkind"
+            entitlements = cycle.get_entitlements(
+                ["draft"], entitlement_model=entitlement_mdl
+            )
+            if entitlements:
+                # TODO: Use the entitlement manager validate_entitlements() function
+                entitlements.approve_entitlement()
+                return
+            else:
+                message = _(
+                    "Auto-approve entitlements is set but there are no entitlements to process."
+                )
+                kind = "warning"
+
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Entitlements"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
+
     def on_state_change(self, cycle):
         """
-        Hook for when the state change
-        Args:
-            cycle:
 
-        Returns:
-
+        :param cycle:
+        :return:
         """
-        raise NotImplementedError()
+        if cycle.state == cycle.STATE_APPROVED:
+            if not self.approver_group_id:
+                raise ValidationError(_("The cycle approver group is not specified!"))
+            else:
+                if (
+                    self.env.user.id != 1
+                    and self.env.user.id not in self.approver_group_id.users.ids
+                ):
+                    raise ValidationError(
+                        _("You are not allowed to approve this cycle!")
+                    )
 
     def _ensure_can_edit_cycle(self, cycle):
         """Base :meth:'_ensure_can_edit_cycle`
@@ -260,55 +330,6 @@ class DefaultCycleManager(models.Model):
     def mark_cancelled(self, cycle):
         cycle.update({"state": constants.STATE_CANCELLED})
 
-    def validate_entitlements(self, cycle, entitlement_ids):
-        # TODO: call the program's entitlement manager and validate the entitlements
-        # TODO: Use a Job attached to the cycle
-        # TODO: Implement validation workflow
-        for rec in self:
-            rec._ensure_can_edit_cycle(cycle)
-            rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-            if len(entitlement_ids) < 200:
-                self._validate_entitlements(entitlement_ids)
-            else:
-                self._validate_entitlements_async(cycle, entitlement_ids)
-
-    def _validate_entitlements_async(self, cycle, entitlement_ids):
-        _logger.debug("Validate entitlement asynchronously")
-        cycle.message_post(
-            body=_("Validation for %s entitlements started.", len(entitlement_ids))
-        )
-        cycle.write(
-            {
-                "locked": True,
-                "locked_reason": _("Validate entitlement for beneficiaries."),
-            }
-        )
-
-        jobs = []
-        max_jobs_per_batch = 100
-        entitlements = []
-        max_rec = len(entitlement_ids)
-        for ctr_entitlements, entitlement in enumerate(entitlement_ids, 1):
-            entitlements.append(entitlement.id)
-            if (
-                ctr_entitlements % max_jobs_per_batch == 0
-            ) or ctr_entitlements == max_rec:
-                entitlements_ids = self.env["g2p.entitlement"].search(
-                    [("id", "in", entitlements)]
-                )
-                jobs.append(self.delayable()._validate_entitlements(entitlements_ids))
-                entitlements = []
-
-        main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable().mark_import_as_done(cycle, _("Entitlement approved."))
-        )
-        main_job.delay()
-
-    def _validate_entitlements(self, entitlements):
-        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-        entitlement_manager.approve_entitlements(entitlements)
-
     def new_cycle(self, name, new_start_date, sequence):
         _logger.info("Creating new cycle for program %s", self.program_id.name)
         _logger.info("New start date: %s", new_start_date)
@@ -411,16 +432,3 @@ class DefaultCycleManager(models.Model):
                 ]
             )
         cycle.update({"cycle_membership_ids": new_beneficiaries})
-
-    def on_state_change(self, cycle):
-        if cycle.state == cycle.STATE_APPROVED:
-            if not self.approver_group_id:
-                raise ValidationError(_("The cycle approver group is not specified!"))
-            else:
-                if (
-                    self.env.user.id != 1
-                    and self.env.user.id not in self.approver_group_id.users.ids
-                ):
-                    raise ValidationError(
-                        _("You are not allowed to approve this cycle!")
-                    )
