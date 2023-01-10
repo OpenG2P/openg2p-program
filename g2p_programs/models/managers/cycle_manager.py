@@ -136,10 +136,9 @@ class BaseCycleManager(models.AbstractModel):
             else:
                 entitlement_mdl = "g2p.entitlement.inkind"
             entitlements = cycle.get_entitlements(
-                ["draft"], entitlement_model=entitlement_mdl
+                ["draft", "pending_validation"], entitlement_model=entitlement_mdl
             )
             if entitlements:
-                # TODO: Use the entitlement manager validate_entitlements() function
                 return entitlement_manager.validate_entitlements(cycle)
             else:
                 message = _(

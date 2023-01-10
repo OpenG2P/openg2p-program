@@ -151,10 +151,12 @@ class G2PCycle(models.Model):
         )
 
     def to_approve(self):
-        # TODO: Set entitlements to 'pending_validation'
         for rec in self:
             if rec.state == self.STATE_DRAFT:
                 rec.update({"state": self.STATE_TO_APPROVE})
+                self.program_id.get_manager(
+                    constants.MANAGER_ENTITLEMENT
+                ).set_pending_validation_entitlements(self)
             else:
                 message = _("Ony 'draft' cycles can be set for approval.")
                 kind = "danger"
