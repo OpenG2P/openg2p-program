@@ -367,6 +367,24 @@ class DefaultCashEntitlementManager(models.Model):
                         "message": message,
                         "sticky": True,
                         "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                    },
+                }
+            else:
+                kind = "success"
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Entitlement"),
+                        "message": _("Entitlements are validated and approved."),
+                        "sticky": True,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
                 }
         else:

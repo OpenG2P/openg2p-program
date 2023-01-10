@@ -140,8 +140,7 @@ class BaseCycleManager(models.AbstractModel):
             )
             if entitlements:
                 # TODO: Use the entitlement manager validate_entitlements() function
-                entitlements.approve_entitlement()
-                return
+                return entitlement_manager.validate_entitlements(cycle)
             else:
                 message = _(
                     "Auto-approve entitlements is set but there are no entitlements to process."
