@@ -2,7 +2,8 @@
 import logging
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+
+from odoo.addons.queue_job.delay import group
 
 _logger = logging.getLogger(__name__)
 
@@ -29,6 +30,7 @@ class BaseEntitlementManager(models.AbstractModel):
     _description = "Base Entitlement Manager"
 
     IS_CASH_ENTITLEMENT = True
+    MIN_ROW_JOB_QUEUE = 200
 
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
@@ -42,23 +44,195 @@ class BaseEntitlementManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
-    def validate_entitlements(self, cycle, cycle_memberships):
-        """
-        This method is used to validate the entitlement list of the beneficiaries.
-        :param cycle: The cycle.
-        :param cycle_memberships: The beneficiaries.
+    def set_pending_validation_entitlements(self, cycle):
+        """Base Entitlement Manager :meth:`set_pending_validate_entitlements`
+        Set entitlements to pending_validation in a cycle
+        Override in entitlement manager
+
+        :param cycle: A recordset of cycle
         :return:
         """
         raise NotImplementedError()
 
-    def approve_entitlements(self, entitlements):
+    def _set_pending_validation_entitlements_async(self, cycle, entitlements_count):
+        """Set Entitlements to Pending Validation
+        Base Entitlement Manager :meth:`_set_pending_validation_entitlements_async`
+        Asynchronous setting of entitlements to pending_validation in a cycle using `job_queue`
+
+        :param cycle: A recordset of cycle
+        :param entitlements_count: Integer value of total entitlements to process
+        :return:
         """
-        This method is used to approve the entitlement list of the beneficiaries.
-        :param cycle: The cycle.
-        :param cycle_memberships: The beneficiaries.
+        _logger.debug("Set entitlements to pending validation asynchronously")
+        cycle.message_post(
+            body=_(
+                "Setting %s entitlements to pending validation has started.",
+                entitlements_count,
+            )
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Set entitlements to pending validation for cycle."),
+            }
+        )
+
+        jobs = []
+        for i in range(0, entitlements_count, 2000):
+            jobs.append(self.delayable()._cancel_entitlements(cycle, i, 2000))
+        main_job = group(*jobs)
+        main_job.on_done(
+            self.delayable().mark_job_as_done(
+                cycle, _("Entitlements Set to Pending Validation.")
+            )
+        )
+        main_job.delay()
+
+    def _set_pending_validation_entitlements(self, cycle, offset=0, limit=None):
+        """
+        Base Entitlement Manager :meth:`_set_pending_validation_entitlements`
+        Synchronous setting of entitlements to pending_validation in a cycle
+        Override in entitlement manager
+
+        :param cycle: A recordset of cycle
+        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
+        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
         :return:
         """
         raise NotImplementedError()
+
+    def validate_entitlements(self, cycle):
+        """Base Entitlement Manager :meth:`validate_entitlements`
+        Validate entitlements for a cycle
+        Override in entitlement manager
+
+        :param cycle: A recordset of cycle
+        :return:
+        """
+        raise NotImplementedError()
+
+    def _validate_entitlements_async(self, cycle, entitlements_count):
+        """Validate Entitlements
+        Base Entitlement Manager :meth:`_validate_entitlements_async`
+        Asynchronous validation of entitlements in a cycle using `job_queue`
+
+        :param cycle: A recordset of cycle
+        :param entitlements_count: Integer value of total entitlements to validate
+        :return:
+        """
+        _logger.debug("Validate entitlements asynchronously")
+        cycle.message_post(
+            body=_("Validate %s entitlements started.", entitlements_count)
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Validate and approve entitlements for cycle."),
+            }
+        )
+
+        jobs = []
+        for i in range(0, entitlements_count, 2000):
+            jobs.append(self.delayable()._validate_entitlements(cycle, i, 2000))
+        main_job = group(*jobs)
+        main_job.on_done(
+            self.delayable().mark_job_as_done(
+                cycle, _("Entitlements Validated and Approved.")
+            )
+        )
+        main_job.delay()
+
+    def _validate_entitlements(self, cycle, offset=0, limit=None):
+        """
+        Base Entitlement Manager :meth:`_validate_entitlements`
+        Synchronous validation of entitlements in a cycle
+        Override in entitlement manager
+
+        :param cycle: A recordset of cycle
+        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
+        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :return:
+        """
+        # Call the program's entitlement manager and validate the entitlements
+        # TODO: Use a Job attached to the cycle
+        # TODO: Implement validation workflow
+        raise NotImplementedError()
+
+    def approve_entitlements(self, entitlements):
+        """Base Entitlement Manager :meth:`_approve_entitlements`
+        Approve selected entitlements
+        Override in entitlement manager
+
+        :param entitlements: Selected entitlements to approve.
+        :return:
+        """
+        raise NotImplementedError()
+
+    def cancel_entitlements(self, cycle):
+        """Base Entitlement Manager :meth:`cancel_entitlements`
+        Cancel entitlements in a cycle
+        Override in entitlement manager
+
+        :param cycle: A recordset of cycle
+        :return:
+        """
+        raise NotImplementedError()
+
+    def _cancel_entitlements_async(self, cycle, entitlements_count):
+        """Cancel Entitlements
+        Base Entitlement Manager :meth:`_cancel_entitlements_async`
+        Asynchronous cancellation of entitlements in a cycle using `job_queue`
+
+        :param cycle: A recordset of cycle
+        :param entitlements_count: Integer value of total entitlements to process
+        :return:
+        """
+        _logger.debug("Cancel entitlements asynchronously")
+        cycle.message_post(
+            body=_("Cancel %s entitlements started.", entitlements_count)
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Cancel entitlements for cycle."),
+            }
+        )
+
+        jobs = []
+        for i in range(0, entitlements_count, 2000):
+            jobs.append(self.delayable()._cancel_entitlements(cycle, i, 2000))
+        main_job = group(*jobs)
+        main_job.on_done(
+            self.delayable().mark_job_as_done(cycle, _("Entitlements Cancelled."))
+        )
+        main_job.delay()
+
+    def _cancel_entitlements(self, cycle, offset=0, limit=None):
+        """
+        Base Entitlement Manager :meth:`_cancel_entitlements`
+        Synchronous cancellation of entitlements in a cycle
+        Override in entitlement manager
+
+        :param cycle: A recordset of cycle
+        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
+        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :return:
+        """
+        raise NotImplementedError()
+
+    def mark_job_as_done(self, cycle, msg):
+        """
+        Base :meth:`mark_job_as_done`
+        Post a message in the chatter
+
+        :param cycle: A recordset of cycle
+        :param msg: A string to be posted in the chatter
+        :return:
+        """
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=msg)
 
     def open_entitlements_form(self, cycle):
         """
@@ -224,6 +398,153 @@ class DefaultCashEntitlementManager(models.Model):
                 }
             )
 
+    def set_pending_validation_entitlements(self, cycle):
+        """
+        Default Entitlement Manager :meth:`set_pending_validation_entitlements`
+        Set entitlements to pending_validation in a cycle
+
+        :param cycle: A recordset of cycle
+        :return:
+        """
+        # Get the number of entitlements in cycle
+        entitlements_count = cycle.get_entitlements(
+            ["draft"],
+            entitlement_model="g2p.entitlement",
+            count=True,
+        )
+        if entitlements_count < self.MIN_ROW_JOB_QUEUE:
+            self._set_pending_validation_entitlements(cycle)
+
+        else:
+            self._set_pending_validation_entitlements_async(cycle, entitlements_count)
+
+    def _set_pending_validation_entitlements(self, cycle, offset=0, limit=None):
+        """
+        Default Entitlement Manager :meth:`_set_pending_validation_entitlements`
+        Synchronous setting of entitlements to pending_validation in a cycle
+
+        :param cycle: A recordset of cycle
+        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
+        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :return:
+        """
+        # Get the entitlements in the cycle
+        entitlements = cycle.get_entitlements(
+            ["draft"],
+            entitlement_model="g2p.entitlement",
+            offset=offset,
+            limit=limit,
+        )
+        entitlements.update({"state": "pending_validation"})
+
+    def validate_entitlements(self, cycle):
+        """
+        Default Entitlement Manager :meth:`validate_entitlements`
+        Validate entitlements in a cycle
+
+        :param cycle: A recordset of cycle
+        :return:
+        """
+        # Get the number of entitlements in cycle
+        entitlements_count = cycle.get_entitlements(
+            ["draft", "pending_validation"],
+            entitlement_model="g2p.entitlement",
+            count=True,
+        )
+        if entitlements_count < self.MIN_ROW_JOB_QUEUE:
+            err, message = self._validate_entitlements(cycle)
+            if err > 0:
+                kind = "danger"
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Entitlement"),
+                        "message": message,
+                        "sticky": True,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                    },
+                }
+            else:
+                kind = "success"
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Entitlement"),
+                        "message": _("Entitlements are validated and approved."),
+                        "sticky": True,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                    },
+                }
+        else:
+            self._validate_entitlements_async(cycle, entitlements_count)
+
+    def _validate_entitlements(self, cycle, offset=0, limit=None):
+        """
+        Default Entitlement Manager :meth:`_validate_entitlements`
+        Synchronous validation of entitlements in a cycle
+
+        :param cycle: A recordset of cycle
+        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
+        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :return err: Integer number of errors
+        :return message: String description of the error
+        """
+        # Get the entitlements in the cycle
+        entitlements = cycle.get_entitlements(
+            ["draft", "pending_validation"],
+            entitlement_model="g2p.entitlement",
+            offset=offset,
+            limit=limit,
+        )
+        err, message = self.approve_entitlements(entitlements)
+        return err, message
+
+    def cancel_entitlements(self, cycle):
+        """
+        Default Entitlement Manager :meth:`cancel_entitlements`
+        Cancel entitlements in a cycle
+
+        :param cycle: A recordset of cycle
+        :return:
+        """
+        # Get the number of entitlements in cycle
+        entitlements_count = cycle.get_entitlements(
+            ["draft", "pending_validation", "approved"],
+            entitlement_model="g2p.entitlement",
+            count=True,
+        )
+        if entitlements_count < self.MIN_ROW_JOB_QUEUE:
+            self._cancel_entitlements(cycle)
+        else:
+            self._cancel_entitlements_async(cycle, entitlements_count)
+
+    def _cancel_entitlements(self, cycle, offset=0, limit=None):
+        """
+        Default Entitlement Manager :meth:`_cancel_entitlements`
+        Synchronous cancellation of entitlements in a cycle
+
+        :param cycle: A recordset of cycle
+        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
+        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :return:
+        """
+        # Get the entitlements in the cycle
+        entitlements = cycle.get_entitlements(
+            ["draft", "pending_validation", "approved"],
+            entitlement_model="g2p.entitlement",
+            offset=offset,
+            limit=limit,
+        )
+        entitlements.update({"state": "cancelled"})
+
     def _calculate_amount(self, beneficiary, num_individuals):
         total = self.amount_per_cycle
         if beneficiary.is_group:
@@ -234,12 +555,15 @@ class DefaultCashEntitlementManager(models.Model):
                 total += self.amount_per_individual_in_group * float(num_individuals)
         return total
 
-    def validate_entitlements(self, cycle, cycle_memberships):
-        # TODO: Change the status of the entitlements to `validated` for this members.
-        # move the funds from the program's wallet to the wallet of each Beneficiary that are validated
-        pass
-
     def approve_entitlements(self, entitlements):
+        """
+        Default Entitlement Manager :meth:`_approve_entitlements`
+        Approve selected entitlements
+
+        :param entitlements: Selected entitlements to approve
+        :return state_err: Integer number of errors
+        :return message: String description of the errors
+        """
         amt = 0.0
         state_err = 0
         message = ""
@@ -289,18 +613,16 @@ class DefaultCashEntitlementManager(models.Model):
                         }
                     )
                 else:
-                    raise UserError(
-                        _(
-                            "The fund for the program: %(program)s [%(fund).2f] "
-                            + "is insufficient for the entitlement: %(entitlement)s"
-                        )
-                        % {
-                            "program": rec.cycle_id.program_id.name,
-                            "fund": fund_balance,
-                            "entitlement": rec.code,
-                        }
-                    )
-
+                    message = _(
+                        "The fund for the program: %(program)s [%(fund).2f] "
+                        + "is insufficient for the entitlement: %(entitlement)s"
+                    ) % {
+                        "program": rec.cycle_id.program_id.name,
+                        "fund": fund_balance,
+                        "entitlement": rec.code,
+                    }
+                    # Stop the process and return an error
+                    return (1, message)
             else:
                 state_err += 1
                 if sw == 0:

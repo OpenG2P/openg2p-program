@@ -10,9 +10,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="inherit_id" ref="g2p_registry_individual.view_individuals_list_tree" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='category_id']" position="after">
-                <field name="program_membership_ids" />
-                <field name="cycle_ids" />
-                <field name="entitlement_ids" />
+                <field name="program_membership_count" />
+                <field name="cycles_count" />
+                <field name="entitlements_count" />
             </xpath>
         </field>
     </record>
@@ -49,7 +49,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                       </tree>
                     </field>
                 </page>
-                <page string="Entitlements">
+                <page name="cash_entitlement" string="Cash Entitlements">
                     <field name="entitlement_ids" readonly="1" nolabel="1">
                       <tree>
                           <button
@@ -80,9 +80,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="inherit_id" ref="g2p_registry_group.view_groups_list_tree" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='category_id']" position="after">
-                <field name="program_membership_ids" />
-                <field name="cycle_ids" />
-                <field name="entitlement_ids" />
+                <field name="program_membership_count" />
+                <field name="cycles_count" />
+                <field name="entitlements_count" />
             </xpath>
         </field>
     </record>
@@ -119,7 +119,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </tree>
                   </field>
                 </page>
-                <page string="Entitlements">
+                <page name="cash_entitlement" string="Cash Entitlements">
                   <field name="entitlement_ids" readonly="1" nolabel="1">
                     <tree>
                         <button
