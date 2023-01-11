@@ -51,13 +51,13 @@ class G2PCycle(models.Model):
 
     # Statistics
     members_count = fields.Integer(
-        string="# Beneficiaries", compute="_compute_members_count"
+        string="# Beneficiaries", compute="_compute_members_count", store=True
     )
     entitlements_count = fields.Integer(
-        string="# Entitlements", compute="_compute_entitlements_count"
+        string="# Entitlements", compute="_compute_entitlements_count", store=True
     )
     payments_count = fields.Integer(
-        string="# Payments", compute="_compute_payments_count"
+        string="# Payments", compute="_compute_payments_count", store=True
     )
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries

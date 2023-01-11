@@ -96,13 +96,17 @@ class G2PProgram(models.Model):
 
     # Statistics
     eligible_beneficiaries_count = fields.Integer(
-        string="# Eligible Beneficiaries", compute="_compute_eligible_beneficiary_count"
+        string="# Eligible Beneficiaries",
+        compute="_compute_eligible_beneficiary_count",
+        store=True,
     )
     beneficiaries_count = fields.Integer(
-        string="# Beneficiaries", compute="_compute_beneficiary_count"
+        string="# Beneficiaries", compute="_compute_beneficiary_count", store=True
     )
 
-    cycles_count = fields.Integer(string="# Cycles", compute="_compute_cycle_count")
+    cycles_count = fields.Integer(
+        string="# Cycles", compute="_compute_cycle_count", store=True
+    )
     duplicate_membership_count = fields.Integer(
         string="# Membership Duplicates", compute="_compute_duplicate_membership_count"
     )
