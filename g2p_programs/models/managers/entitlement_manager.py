@@ -79,7 +79,9 @@ class BaseEntitlementManager(models.AbstractModel):
 
         jobs = []
         for i in range(0, entitlements_count, 2000):
-            jobs.append(self.delayable()._cancel_entitlements(cycle, i, 2000))
+            jobs.append(
+                self.delayable()._set_pending_validation_entitlements(cycle, i, 2000)
+            )
         main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_job_as_done(
