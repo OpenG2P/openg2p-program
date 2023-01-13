@@ -2,14 +2,12 @@ from datetime import datetime
 
 from freezegun import freeze_time
 
-from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.g2p_programs.models.constants import MANAGER_PROGRAM
 
 
 @freeze_time("2022-12-15")
-@tagged("post_install", "-at_install")
 class DefaultCycleManagerTest(TransactionCase):
 
     DATE_TODAY = datetime(2022, 12, 15).date()
