@@ -51,13 +51,13 @@ class G2PCycle(models.Model):
 
     # Statistics
     members_count = fields.Integer(
-        string="# Beneficiaries", compute="_compute_members_count"
+        string="# Beneficiaries", compute="_compute_members_count", store=True
     )
     entitlements_count = fields.Integer(
-        string="# Entitlements", compute="_compute_entitlements_count"
+        string="# Entitlements", compute="_compute_entitlements_count", store=True
     )
     payments_count = fields.Integer(
-        string="# Payments", compute="_compute_payments_count"
+        string="# Payments", compute="_compute_payments_count", store=True
     )
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
@@ -111,6 +111,32 @@ class G2PCycle(models.Model):
                 domain, offset=offset, limit=limit, order=order, count=count
             )
 
+    def get_entitlements(
+        self,
+        state,
+        entitlement_model="g2p.entitlement",
+        offset=0,
+        limit=None,
+        order=None,
+        count=False,
+    ):
+        """
+        Query entitlements based on state
+        :param state: List of states
+        :param entitlement_model: String value of entitlement model to search
+        :param offset: Optional integer value for the ORM search offset
+        :param limit: Optional integer value for the ORM search limit
+        :param order: Optional string value for the ORM search order fields
+        :param count: Optional boolean for executing a search-count (if true) or search (if false: default)
+        :return:
+        """
+        if isinstance(state, str):
+            state = [state]
+        domain = [("cycle_id", "=", self.id), ("state", "in", state)]
+        return self.env[entitlement_model].search(
+            domain, offset=offset, limit=limit, order=order, count=count
+        )
+
     # @api.model
     def copy_beneficiaries_from_program(self):
         # _logger.info("Copying beneficiaries from program, cycles: %s", cycles)
@@ -128,6 +154,9 @@ class G2PCycle(models.Model):
         for rec in self:
             if rec.state == self.STATE_DRAFT:
                 rec.update({"state": self.STATE_TO_APPROVE})
+                self.program_id.get_manager(
+                    constants.MANAGER_ENTITLEMENT
+                ).set_pending_validation_entitlements(self)
             else:
                 message = _("Ony 'draft' cycles can be set for approval.")
                 kind = "danger"
@@ -172,45 +201,15 @@ class G2PCycle(models.Model):
         # 1. Make sure the user has the right to do this
         # 2. Approve the cycle using the cycle manager
         for rec in self:
-            cycle_managers = self.program_id.get_manager(constants.MANAGER_CYCLE)
-
-            auto_approve = False
-            if cycle_managers.auto_approve_entitlements:
-                auto_approve = True
-
-            retval = None
-            if auto_approve:
-                entitlements = self.env["g2p.entitlement"].search(
-                    [
-                        ("cycle_id", "=", rec.id),
-                        ("state", "=", "draft"),
-                    ]
-                )
-                if entitlements:
-                    retval = entitlements.approve_entitlement()
-
-            if rec.state == self.STATE_TO_APPROVE:
-                rec.update({"state": self.STATE_APPROVED})
-                # Running on_state_change because it is not triggered automatically with rec.update above
-                rec.on_state_change()
-                return retval
-            else:
-                message = _("Only 'to approve' cycles can be approved.")
-                kind = "danger"
-
-                return {
-                    "type": "ir.actions.client",
-                    "tag": "display_notification",
-                    "params": {
-                        "title": _("Cycle"),
-                        "message": message,
-                        "sticky": True,
-                        "type": kind,
-                        "next": {
-                            "type": "ir.actions.act_window_close",
-                        },
-                    },
-                }
+            cycle_manager = rec.program_id.get_manager(constants.MANAGER_CYCLE)
+            entitlement_manager = rec.program_id.get_manager(
+                constants.MANAGER_ENTITLEMENT
+            )
+            return cycle_manager.approve_cycle(
+                rec,
+                auto_approve=cycle_manager.auto_approve_entitlements,
+                entitlement_manager=entitlement_manager,
+            )
 
     def notify_cycle_started(self):
         # 1. Notify the beneficiaries using notification_manager.cycle_started()
@@ -241,9 +240,9 @@ class G2PCycle(models.Model):
     def validate_entitlement(self):
         # 1. Make sure the user has the right to do this
         # 2. Validate the entitlement of the beneficiaries using entitlement_manager.validate_entitlements()
-        self.program_id.get_manager(constants.MANAGER_CYCLE).validate_entitlements(
-            self, self.entitlement_ids
-        )
+        return self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).validate_entitlements(self)
 
     def export_distribution_list(self):
         # Not sure if this should be here.

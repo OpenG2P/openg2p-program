@@ -96,13 +96,17 @@ class G2PProgram(models.Model):
 
     # Statistics
     eligible_beneficiaries_count = fields.Integer(
-        string="# Eligible Beneficiaries", compute="_compute_eligible_beneficiary_count"
+        string="# Eligible Beneficiaries",
+        compute="_compute_eligible_beneficiary_count",
+        store=True,
     )
     beneficiaries_count = fields.Integer(
-        string="# Beneficiaries", compute="_compute_beneficiary_count"
+        string="# Beneficiaries", compute="_compute_beneficiary_count", store=True
     )
 
-    cycles_count = fields.Integer(string="# Cycles", compute="_compute_cycle_count")
+    cycles_count = fields.Integer(
+        string="# Cycles", compute="_compute_cycle_count", store=True
+    )
     duplicate_membership_count = fields.Integer(
         string="# Membership Duplicates", compute="_compute_duplicate_membership_count"
     )
@@ -111,6 +115,31 @@ class G2PProgram(models.Model):
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
+
+    def toggle_active(self):
+        """
+        Overrides the default :meth:`toggle_active` to cancel
+        all `draft`, `to_approve`, and `approved` associated cycles and
+        'draft' and 'pending_validation' entitlements.
+
+        :return: toggle_active function of parent class
+        """
+        for rec in self:
+            # Cancel cycles and entitlements only if the program is active (for archiving)
+            if rec.active:
+                _logger.info("Archive Program: cancel cycles and entitlements.")
+                if rec.cycle_ids:
+                    entitlement_manager = rec.get_manager(self.MANAGER_ENTITLEMENT)
+                    # Get only `draft`, `to_approve`, and `approved` cycles
+                    cycles = rec.cycle_ids.filtered(
+                        lambda a: a.state in ("draft", "to_approve", "approved")
+                    )
+                    if cycles:
+                        for cycle in cycles:
+                            entitlement_manager.cancel_entitlements(cycle)
+                        # Set the cycle_ids state to 'cancelled'
+                        cycles.update({"state": "cancelled"})
+        return super().toggle_active()
 
     @api.depends("program_membership_ids")
     def _compute_have_members(self):
@@ -157,7 +186,7 @@ class G2PProgram(models.Model):
             count = rec.count_beneficiaries(["duplicated"])["value"]
             rec.update({"duplicate_membership_count": count})
 
-    @api.depends("program_membership_ids")
+    @api.depends("program_membership_ids", "program_membership_ids.state")
     def _compute_eligible_beneficiary_count(self):
         for rec in self:
             count = rec.count_beneficiaries(["enrolled"])["value"]
@@ -166,15 +195,15 @@ class G2PProgram(models.Model):
     @api.depends("program_membership_ids")
     def _compute_beneficiary_count(self):
         for rec in self:
-            rec.update({"beneficiaries_count": len(rec.program_membership_ids)})
+            count = rec.count_beneficiaries(None)["value"]
+            rec.update({"beneficiaries_count": count})
 
     @api.depends("cycle_ids")
     def _compute_cycle_count(self):
         for rec in self:
-            cycles_count = 0
-            if rec.cycle_ids:
-                cycles_count = len(rec.cycle_ids)
-            rec.update({"cycles_count": cycles_count})
+            domain = [("program_id", "=", rec.id)]
+            count = self.env["g2p.cycle"].search_count(domain)
+            rec.update({"cycles_count": count})
 
     @api.model
     def get_manager(self, kind):
@@ -319,12 +348,7 @@ class G2PProgram(models.Model):
                 "tag": "display_notification",
                 "params": {
                     "title": _("Cycle"),
-                    "message": message + " %s",
-                    "links": [
-                        {
-                            "label": "Refresh Page",
-                        }
-                    ],
+                    "message": message,
                     "sticky": True,
                     "type": kind,
                     "next": {
