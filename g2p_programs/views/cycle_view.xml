@@ -208,7 +208,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </tree>
                           </field>
                         </page> -->
-                        <page string="Payment Batches" invisible="context.get('hide_cash')">
+                        <page
+                            name="payment_batches"
+                            string="Payment Batches"
+                            invisible="context.get('hide_cash')"
+                        >
                             <field name="payment_batch_ids" nolabel="1" readonly="1">
                                 <tree>
                                     <!-- <button
