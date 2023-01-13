@@ -186,7 +186,7 @@ class G2PProgram(models.Model):
             count = rec.count_beneficiaries(["duplicated"])["value"]
             rec.update({"duplicate_membership_count": count})
 
-    @api.depends("program_membership_ids")
+    @api.depends("program_membership_ids", "program_membership_ids.state")
     def _compute_eligible_beneficiary_count(self):
         for rec in self:
             count = rec.count_beneficiaries(["enrolled"])["value"]
@@ -195,15 +195,15 @@ class G2PProgram(models.Model):
     @api.depends("program_membership_ids")
     def _compute_beneficiary_count(self):
         for rec in self:
-            rec.update({"beneficiaries_count": len(rec.program_membership_ids)})
+            count = rec.count_beneficiaries(None)["value"]
+            rec.update({"beneficiaries_count": count})
 
     @api.depends("cycle_ids")
     def _compute_cycle_count(self):
         for rec in self:
-            cycles_count = 0
-            if rec.cycle_ids:
-                cycles_count = len(rec.cycle_ids)
-            rec.update({"cycles_count": cycles_count})
+            domain = [("program_id", "=", rec.id)]
+            count = self.env["g2p.cycle"].search_count(domain)
+            rec.update({"cycles_count": count})
 
     @api.model
     def get_manager(self, kind):
