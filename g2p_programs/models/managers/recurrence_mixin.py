@@ -18,7 +18,7 @@ class RecurrenceMixin(models.Model):
     rrule_type = fields.Selection(
         RRULE_TYPE_SELECTION,
         string="Recurrence",
-        default="daily",
+        default="monthly",
         help="Let the event automatically repeat at that interval",
         readonly=False,
         required=True,
@@ -31,7 +31,7 @@ class RecurrenceMixin(models.Model):
     count = fields.Integer(default=10)
 
     # Overwrite field from calendar.recurrence to add compute argument, store = True, and re-define default value
-    interval = fields.Integer(default=30, compute="_compute_interval", store=True)
+    interval = fields.Integer(default=1, compute="_compute_interval", store=True)
 
     # Overwrite to always return False
     def _is_allday(self):

@@ -118,7 +118,7 @@ class DefaultCycleManager(models.Model):
     ]
     _description = "Default Cycle Manager"
 
-    cycle_duration = fields.Integer(default=30, required=True)
+    cycle_duration = fields.Integer(default=1, required=True, string="Recurrence")
     approver_group_id = fields.Many2one(
         comodel_name="res.groups",
         string="Approver Group",
@@ -311,6 +311,10 @@ class DefaultCycleManager(models.Model):
             # get the date of occurences
             start_date = prev_occurence[0]
             end_date = current_occurence[0] - timedelta(days=1)
+
+            # To handle DST (Daylight Saving Time) changes
+            start_date = start_date + timedelta(hours=11)
+            end_date = end_date + timedelta(hours=11)
 
             if start_date >= new_start_date:
                 break

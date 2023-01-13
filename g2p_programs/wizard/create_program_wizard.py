@@ -41,7 +41,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
     auto_approve_entitlements = fields.Boolean(
         string="Auto-approve Entitlements", default=False
     )
-    cycle_duration = fields.Integer(default=30, required=True)
+    cycle_duration = fields.Integer(default=1, required=True, string="Recurrence")
     approver_group_id = fields.Many2one(
         comodel_name="res.groups",
         string="Approver Group",
