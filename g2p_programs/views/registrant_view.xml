@@ -4,19 +4,6 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 -->
 <odoo>
     <!-- individuals view-->
-    <record id="view_registrant_ext_tree" model="ir.ui.view">
-        <field name="name">view_registrant_ext_tree</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="g2p_registry_individual.view_individuals_list_tree" />
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='category_id']" position="after">
-                <field name="program_membership_count" />
-                <field name="cycles_count" />
-                <field name="entitlements_count" />
-            </xpath>
-        </field>
-    </record>
-
     <record id="view_registrant_ext_form" model="ir.ui.view">
         <field name="name">view_registrant_ext_form</field>
         <field name="model">res.partner</field>
@@ -73,20 +60,6 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
     </record>
 
     <!-- groups view-->
-
-    <record id="view_group_ext_tree" model="ir.ui.view">
-        <field name="name">view_group_ext_tree</field>
-        <field name="model">res.partner</field>
-        <field name="inherit_id" ref="g2p_registry_group.view_groups_list_tree" />
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='category_id']" position="after">
-                <field name="program_membership_count" />
-                <field name="cycles_count" />
-                <field name="entitlements_count" />
-            </xpath>
-        </field>
-    </record>
-
     <record id="view_group_ext_form" model="ir.ui.view">
         <field name="name">view_group_ext_form</field>
         <field name="model">res.partner</field>
