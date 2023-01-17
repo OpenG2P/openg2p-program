@@ -74,6 +74,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                                     domain="[('category_id','=',%(g2p_registry_base.openg2p_module)d)]"
                                     colspan="4"
+                                    attrs="{'readonly':[('auto_approve_entitlements','=',True)]}"
                                 />
                             </group>
                         </page>
