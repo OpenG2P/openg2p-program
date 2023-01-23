@@ -68,13 +68,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 <field name="transfer_fee_pct" />
                                 <field name="transfer_fee_amt" />
                             </group>
-                            <group colspan="4" col="4">
+                            <group
+                                colspan="4"
+                                col="4"
+                                attrs="{'invisible':[('auto_approve_entitlements','=',True)]}"
+                            >
                                 <field
                                     name="entitlement_validation_group_id"
                                     options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                                     domain="[('category_id','=',%(g2p_registry_base.openg2p_module)d)]"
                                     colspan="4"
-                                    attrs="{'readonly':[('auto_approve_entitlements','=',True)]}"
                                 />
                             </group>
                         </page>
