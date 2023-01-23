@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -204,10 +204,14 @@ class BaseCycleManager(models.AbstractModel):
 
 class DefaultCycleManager(models.Model):
     _name = "g2p.cycle.manager.default"
-    _inherit = ["g2p.base.cycle.manager", "g2p.manager.source.mixin"]
+    _inherit = [
+        "g2p.base.cycle.manager",
+        "g2p.cycle.recurrence.mixin",
+        "g2p.manager.source.mixin",
+    ]
     _description = "Default Cycle Manager"
 
-    cycle_duration = fields.Integer(default=30, required=True)
+    cycle_duration = fields.Integer(default=1, required=True, string="Recurrence")
     approver_group_id = fields.Many2one(
         comodel_name="res.groups",
         string="Approver Group",
@@ -331,6 +335,40 @@ class DefaultCycleManager(models.Model):
     def new_cycle(self, name, new_start_date, sequence):
         _logger.info("Creating new cycle for program %s", self.program_id.name)
         _logger.info("New start date: %s", new_start_date)
+
+        # convert date to datetime
+        new_start_date = datetime.combine(new_start_date, datetime.min.time())
+
+        # get start date and end date
+        # Note:
+        # second argument is irrelevant but make sure it is in timedelta class
+        # and do not exceed to 24 hours
+        occurences = self._get_ranges(new_start_date, timedelta(seconds=1))
+
+        prev_occurence = next(occurences)
+        current_occurence = next(occurences)
+
+        start_date = None
+        end_date = None
+
+        # This prevents getting an end date that is less than the start date
+        while True:
+
+            # get the date of occurences
+            start_date = prev_occurence[0]
+            end_date = current_occurence[0] - timedelta(days=1)
+
+            # To handle DST (Daylight Saving Time) changes
+            start_date = start_date + timedelta(hours=11)
+            end_date = end_date + timedelta(hours=11)
+
+            if start_date >= new_start_date:
+                break
+
+            # move current occurence to previous then get a new current occurence
+            prev_occurence = current_occurence
+            current_occurence = next(occurences)
+
         for rec in self:
             cycle = self.env["g2p.cycle"].create(
                 {
@@ -338,8 +376,8 @@ class DefaultCycleManager(models.Model):
                     "name": name,
                     "state": "draft",
                     "sequence": sequence,
-                    "start_date": new_start_date,
-                    "end_date": new_start_date + timedelta(days=rec.cycle_duration),
+                    "start_date": start_date,
+                    "end_date": end_date,
                 }
             )
             _logger.info("New cycle created: %s", cycle.name)
@@ -430,3 +468,8 @@ class DefaultCycleManager(models.Model):
                 ]
             )
         cycle.update({"cycle_membership_ids": new_beneficiaries})
+
+    @api.depends("cycle_duration")
+    def _compute_interval(self):
+        for rec in self:
+            rec.interval = rec.cycle_duration
