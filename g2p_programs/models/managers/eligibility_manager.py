@@ -91,8 +91,8 @@ class DefaultEligibilityManager(models.Model):
 
     def enroll_eligible_registrants(self, program_memberships):
         # TODO: check if the beneficiary still match the criterias
-        _logger.info("-" * 100)
-        _logger.info("Checking eligibility for %s", program_memberships)
+        _logger.debug("-" * 100)
+        _logger.debug("Checking eligibility for %s", program_memberships)
         for rec in self:
             beneficiaries = rec._verify_eligibility(program_memberships)
             return self.env["g2p.program_membership"].search(
@@ -111,9 +111,9 @@ class DefaultEligibilityManager(models.Model):
 
     def _verify_eligibility(self, membership):
         domain = self._prepare_eligible_domain(membership)
-        _logger.info("Eligibility domain: %s", domain)
+        _logger.debug("Eligibility domain: %s", domain)
         beneficiaries = self.env["res.partner"].search(domain).ids
-        _logger.info("Beneficiaries: %s", beneficiaries)
+        _logger.debug("Beneficiaries: %s", beneficiaries)
         return beneficiaries
 
     def import_eligible_registrants(self):

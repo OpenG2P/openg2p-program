@@ -81,9 +81,7 @@ class G2PCycle(models.Model):
     )
 
     # Statistics
-    members_count = fields.Integer(
-        string="# Beneficiaries", compute="_compute_members_count", store=True
-    )
+    members_count = fields.Integer(string="# Beneficiaries")
     entitlements_count = fields.Integer(string="# Entitlements")
     payments_count = fields.Integer(string="# Payments")
 
@@ -91,7 +89,6 @@ class G2PCycle(models.Model):
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 
-    @api.depends("cycle_membership_ids")
     def _compute_members_count(self):
         for rec in self:
             domain = rec._get_beneficiaries_domain(["enrolled"])
@@ -164,7 +161,7 @@ class G2PCycle(models.Model):
 
     # @api.model
     def copy_beneficiaries_from_program(self):
-        # _logger.info("Copying beneficiaries from program, cycles: %s", cycles)
+        # _logger.debug("Copying beneficiaries from program, cycles: %s", cycles)
         self.ensure_one()
         return self.program_id.get_manager(
             constants.MANAGER_CYCLE

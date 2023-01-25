@@ -61,7 +61,7 @@ class DefaultDeduplication(models.Model):
             program = rec.program_id
             beneficiaries = program.get_beneficiaries(states)
             # duplicates
-            _logger.info("Deduplicate beneficiaries: %s", beneficiaries)
+            _logger.debug("Deduplicate beneficiaries: %s", beneficiaries)
             if program.target_type == "group":
                 duplicate_beneficiaries = self._check_duplicate_by_individual_ids(
                     beneficiaries
@@ -83,14 +83,14 @@ class DefaultDeduplication(models.Model):
         #  additional beneficiaries in the group.
         #  2. Otherwise we update the record.
 
-        _logger.info("Record duplicate: %s", beneficiary_ids)
+        _logger.debug("Record duplicate: %s", beneficiary_ids)
         data = {
             "beneficiary_ids": [(6, 0, beneficiary_ids)],
             "state": "duplicate",
             "reason": reason,
             "deduplication_manager_id": manager,
         }
-        _logger.info("Record duplicate: %s", data)
+        _logger.debug("Record duplicate: %s", data)
 
         self.env["g2p.program.membership.duplicate"].create(data)
 
@@ -100,31 +100,31 @@ class DefaultDeduplication(models.Model):
         :param beneficiary_ids: The beneficiaries.
         :return:
         """
-        _logger.info("-" * 100)
+        _logger.debug("-" * 100)
         group_ids = beneficiaries.mapped("partner_id.id")
         group_memberships = self.env["g2p.group.membership"].search(
             [("group", "in", group_ids)]
         )
-        _logger.info("group_memberships: %s", group_memberships)
+        _logger.debug("group_memberships: %s", group_memberships)
 
         individuals_ids = [rec.individual.id for rec in group_memberships]
-        _logger.info("individuals_ids: %s", individuals_ids)
+        _logger.debug("individuals_ids: %s", individuals_ids)
 
         duplicate_individuals = [
             item
             for item, count in collections.Counter(individuals_ids).items()
             if count > 1
         ]
-        _logger.info("Duplicate individuals: %s", duplicate_individuals)
+        _logger.debug("Duplicate individuals: %s", duplicate_individuals)
 
         group_with_duplicates = self.env["g2p.group.membership"].search(
             [("group", "in", group_ids), ("individual", "in", duplicate_individuals)]
         )
 
-        _logger.info("group_with_duplicates: %s", group_with_duplicates)
+        _logger.debug("group_with_duplicates: %s", group_with_duplicates)
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
-            _logger.info(
+            _logger.debug(
                 "group_membership.individual.id: %s -> %s"
                 % (group_membership.individual.id, group_membership.group.id)
             )
@@ -134,7 +134,7 @@ class DefaultDeduplication(models.Model):
                 group_membership.group.id
             )
 
-        _logger.info("group_of_duplicates: %s", group_of_duplicates)
+        _logger.debug("group_of_duplicates: %s", group_of_duplicates)
         for _individual, group_ids in group_of_duplicates.items():
 
             duplicate_beneficiaries = beneficiaries.filtered(
@@ -179,7 +179,7 @@ class IDDocumentDeduplication(models.Model):
             program = rec.program_id
             beneficiaries = program.get_beneficiaries(states)
             # duplicates
-            _logger.info("Deduplicate beneficiaries: %s", beneficiaries)
+            _logger.debug("Deduplicate beneficiaries: %s", beneficiaries)
             if program.target_type == "group":
                 duplicate_beneficiaries = (
                     self._check_duplicate_by_group_with_individual(beneficiaries)
@@ -205,14 +205,14 @@ class IDDocumentDeduplication(models.Model):
         #  additional beneficiaries in the group.
         #  2. Otherwise we update the record.
 
-        _logger.info("Record duplicate: %s", beneficiary_ids)
+        _logger.debug("Record duplicate: %s", beneficiary_ids)
         data = {
             "beneficiary_ids": [(6, 0, beneficiary_ids)],
             "state": "duplicate",
             "reason": reason,
             "deduplication_manager_id": manager,
         }
-        _logger.info("Record duplicate: %s", data)
+        _logger.debug("Record duplicate: %s", data)
 
         self.env["g2p.program.membership.duplicate"].create(data)
 
@@ -222,16 +222,16 @@ class IDDocumentDeduplication(models.Model):
         :param beneficiary_ids: The beneficiaries.
         :return:
         """
-        _logger.info("-" * 100)
+        _logger.debug("-" * 100)
         group_ids = beneficiaries.mapped("partner_id.id")
         group_memberships = self.env["g2p.group.membership"].search(
             [("group", "in", group_ids)]
         )
         group = self.env["res.partner"].search([("id", "in", group_ids)])
-        _logger.info("group_memberships: %s", group_memberships)
+        _logger.debug("group_memberships: %s", group_memberships)
 
         individuals_ids = [rec.individual.id for rec in group_memberships]
-        _logger.info("Checking ID Document Duplicates for: %s", individuals_ids)
+        _logger.debug("Checking ID Document Duplicates for: %s", individuals_ids)
 
         individual_id_docs = {}
         # Check ID Documents of each individual
@@ -258,7 +258,7 @@ class IDDocumentDeduplication(models.Model):
                     }
                     individual_id_docs.update(id_doc_id_with_id_type_and_value)
 
-        _logger.info("Individual ID Documents: %s", individual_id_docs)
+        _logger.debug("Individual ID Documents: %s", individual_id_docs)
         rev_dict = {}
         for key, value in individual_id_docs.items():
             rev_dict.setdefault(value, set()).add(key)
@@ -266,7 +266,7 @@ class IDDocumentDeduplication(models.Model):
         duplicate_ids = filter(lambda x: len(x) > 1, rev_dict.values())
         duplicate_ids = list(duplicate_ids)
         duplicate_ids = list(itertools.chain.from_iterable(duplicate_ids))
-        _logger.info("Reg_id IDS with Duplicated ID Documents: %s", duplicate_ids)
+        _logger.debug("Reg_id IDS with Duplicated ID Documents: %s", duplicate_ids)
 
         duplicated_doc_ids = self.env["g2p.reg.id"].search(
             [("id", "in", duplicate_ids)]
@@ -278,10 +278,10 @@ class IDDocumentDeduplication(models.Model):
             [("group", "in", group_ids), ("individual", "in", individual_ids)]
         )
 
-        _logger.info("group_with_duplicates: %s", group_with_duplicates)
+        _logger.debug("group_with_duplicates: %s", group_with_duplicates)
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
-            _logger.info(
+            _logger.debug(
                 "group_membership.individual.id: %s -> %s"
                 % (group_membership.individual.id, group_membership.group.id)
             )
@@ -291,7 +291,7 @@ class IDDocumentDeduplication(models.Model):
                 group_membership.group.id
             )
 
-        _logger.info("group_of_duplicates: %s", group_of_duplicates)
+        _logger.debug("group_of_duplicates: %s", group_of_duplicates)
         for _individual, group_ids in group_of_duplicates.items():
 
             duplicate_beneficiaries = beneficiaries.filtered(
@@ -326,10 +326,10 @@ class IDDocumentDeduplication(models.Model):
         :param beneficiary_ids: The beneficiaries.
         :return:
         """
-        _logger.info("-" * 100)
+        _logger.debug("-" * 100)
         individual_ids = beneficiaries.mapped("partner_id.id")
         individuals = self.env["res.partner"].search([("id", "in", individual_ids)])
-        _logger.info("Checking ID Document Duplicates for: %s", individuals)
+        _logger.debug("Checking ID Document Duplicates for: %s", individuals)
 
         individual_id_docs = {}
         # Check ID Documents of each individual
@@ -344,7 +344,7 @@ class IDDocumentDeduplication(models.Model):
                     }
                     individual_id_docs.update(id_doc_id_with_id_type_and_value)
 
-        _logger.info("Individual ID Documents: %s", individual_id_docs)
+        _logger.debug("Individual ID Documents: %s", individual_id_docs)
         rev_dict = {}
         for key, value in individual_id_docs.items():
             rev_dict.setdefault(value, set()).add(key)
@@ -352,14 +352,14 @@ class IDDocumentDeduplication(models.Model):
         duplicate_ids = filter(lambda x: len(x) > 1, rev_dict.values())
         duplicate_ids = list(duplicate_ids)
         duplicate_ids = list(itertools.chain.from_iterable(duplicate_ids))
-        _logger.info("Reg_id IDS with Duplicated ID Documents: %s", duplicate_ids)
+        _logger.debug("Reg_id IDS with Duplicated ID Documents: %s", duplicate_ids)
 
         duplicated_doc_ids = self.env["g2p.reg.id"].search(
             [("id", "in", duplicate_ids)]
         )
         individual_ids = [x.partner_id.id for x in duplicated_doc_ids]
         individual_ids = list(dict.fromkeys(individual_ids))
-        _logger.info("Individual IDS with Duplicated ID Documents: %s", individual_ids)
+        _logger.debug("Individual IDS with Duplicated ID Documents: %s", individual_ids)
         individual_program_membership = self.env["g2p.program_membership"].search(
             [("partner_id", "in", individual_ids)]
         )
@@ -395,7 +395,7 @@ class PhoneNumberDeduplication(models.Model):
             program = rec.program_id
             beneficiaries = program.get_beneficiaries(states)
             # duplicates
-            _logger.info("Deduplicate beneficiaries: %s", beneficiaries)
+            _logger.debug("Deduplicate beneficiaries: %s", beneficiaries)
             if program.target_type == "group":
                 duplicate_beneficiaries = (
                     self._check_duplicate_by_group_with_individual(beneficiaries)
@@ -421,14 +421,14 @@ class PhoneNumberDeduplication(models.Model):
         #  additional beneficiaries in the group.
         #  2. Otherwise we update the record.
 
-        _logger.info("Record duplicate: %s", beneficiary_ids)
+        _logger.debug("Record duplicate: %s", beneficiary_ids)
         data = {
             "beneficiary_ids": [(6, 0, beneficiary_ids)],
             "state": "duplicate",
             "reason": reason,
             "deduplication_manager_id": manager,
         }
-        _logger.info("Record duplicate: %s", data)
+        _logger.debug("Record duplicate: %s", data)
 
         self.env["g2p.program.membership.duplicate"].create(data)
 
@@ -438,16 +438,16 @@ class PhoneNumberDeduplication(models.Model):
         :param beneficiary_ids: The beneficiaries.
         :return:
         """
-        _logger.info("-" * 100)
+        _logger.debug("-" * 100)
         group_ids = beneficiaries.mapped("partner_id.id")
         group_memberships = self.env["g2p.group.membership"].search(
             [("group", "in", group_ids)]
         )
         group = self.env["res.partner"].search([("id", "in", group_ids)])
-        _logger.info("group_memberships: %s", group_memberships)
+        _logger.debug("group_memberships: %s", group_memberships)
 
         individuals_ids = [rec.individual.id for rec in group_memberships]
-        _logger.info("individuals_ids: %s", individuals_ids)
+        _logger.debug("individuals_ids: %s", individuals_ids)
         individual_phone_numbers = {}
         # Check Phone Numbers of each individual
         for i in group_memberships:
@@ -481,7 +481,7 @@ class PhoneNumberDeduplication(models.Model):
                 phone_id_with_sanitized = {x.id: sanitized}
                 individual_phone_numbers.update(phone_id_with_sanitized)
 
-        _logger.info("Individual Phone Numbers: %s", individual_phone_numbers)
+        _logger.debug("Individual Phone Numbers: %s", individual_phone_numbers)
 
         rev_dict = {}
         for key, value in individual_phone_numbers.items():
@@ -490,7 +490,9 @@ class PhoneNumberDeduplication(models.Model):
         duplicate_ids = filter(lambda x: len(x) > 1, rev_dict.values())
         duplicate_ids = list(duplicate_ids)
         duplicate_ids = list(itertools.chain.from_iterable(duplicate_ids))
-        _logger.info("PhoneNumber IDS with Duplicated Phone Numbers: %s", duplicate_ids)
+        _logger.debug(
+            "PhoneNumber IDS with Duplicated Phone Numbers: %s", duplicate_ids
+        )
 
         duplicate_individuals_ids = self.env["g2p.phone.number"].search(
             [("id", "in", duplicate_ids)]
@@ -498,7 +500,7 @@ class PhoneNumberDeduplication(models.Model):
 
         duplicate_individuals = [x.partner_id.id for x in duplicate_individuals_ids]
         duplicate_individuals = list(dict.fromkeys(duplicate_individuals))
-        _logger.info(
+        _logger.debug(
             "Individual IDS with Duplicated Phone Numbers: %s", duplicate_individuals
         )
 
@@ -506,11 +508,11 @@ class PhoneNumberDeduplication(models.Model):
             [("group", "in", group_ids), ("individual", "in", duplicate_individuals)]
         )
 
-        _logger.info("Group With Duplicates: %s", group_with_duplicates)
+        _logger.debug("Group With Duplicates: %s", group_with_duplicates)
 
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
-            _logger.info(
+            _logger.debug(
                 "group_membership.individual.id: %s -> %s"
                 % (group_membership.individual.id, group_membership.group.id)
             )
@@ -520,7 +522,7 @@ class PhoneNumberDeduplication(models.Model):
                 group_membership.group.id
             )
 
-        _logger.info("group_of_duplicates: %s", group_of_duplicates)
+        _logger.debug("group_of_duplicates: %s", group_of_duplicates)
         for _individual, group_ids in group_of_duplicates.items():
 
             duplicate_beneficiaries = beneficiaries.filtered(
@@ -555,10 +557,10 @@ class PhoneNumberDeduplication(models.Model):
         :param beneficiary_ids: The beneficiaries.
         :return:
         """
-        _logger.info("-" * 100)
+        _logger.debug("-" * 100)
         individual_ids = beneficiaries.mapped("partner_id.id")
         individuals = self.env["res.partner"].search([("id", "in", individual_ids)])
-        _logger.info("Checking Phone Duplicates for: %s", individuals)
+        _logger.debug("Checking Phone Duplicates for: %s", individuals)
 
         individual_phone_numbers = {}
         # Check Phone Numbers of each individual
@@ -577,7 +579,7 @@ class PhoneNumberDeduplication(models.Model):
                 phone_id_with_sanitized = {x.id: sanitized}
                 individual_phone_numbers.update(phone_id_with_sanitized)
 
-        _logger.info("Individual Phone Numbers: %s", individual_phone_numbers)
+        _logger.debug("Individual Phone Numbers: %s", individual_phone_numbers)
         rev_dict = {}
         for key, value in individual_phone_numbers.items():
             rev_dict.setdefault(value, set()).add(key)
@@ -585,14 +587,18 @@ class PhoneNumberDeduplication(models.Model):
         duplicate_ids = filter(lambda x: len(x) > 1, rev_dict.values())
         duplicate_ids = list(duplicate_ids)
         duplicate_ids = list(itertools.chain.from_iterable(duplicate_ids))
-        _logger.info("PhoneNumber IDS with Duplicated Phone Numbers: %s", duplicate_ids)
+        _logger.debug(
+            "PhoneNumber IDS with Duplicated Phone Numbers: %s", duplicate_ids
+        )
 
         duplicated_phone_ids = self.env["g2p.phone.number"].search(
             [("id", "in", duplicate_ids)]
         )
         individual_ids = [x.partner_id.id for x in duplicated_phone_ids]
         individual_ids = list(dict.fromkeys(individual_ids))
-        _logger.info("Individual IDS with Duplicated Phone Numbers: %s", individual_ids)
+        _logger.debug(
+            "Individual IDS with Duplicated Phone Numbers: %s", individual_ids
+        )
         individual_program_membership = self.env["g2p.program_membership"].search(
             [("partner_id", "in", individual_ids)]
         )
@@ -644,7 +650,7 @@ class IDDocumentDeduplicationEligibilityManager(models.Model):
     def _prepare_eligible_domain(self, membership):
         ids = membership.mapped("partner_id.id")
         registrant_ids = self.env["res.partner"].search([("id", "in", ids)])
-        _logger.info("Checking Registrants: %s", registrant_ids)
+        _logger.debug("Checking Registrants: %s", registrant_ids)
         registrant_ids_with_id = []
         for i in registrant_ids:
             if i.reg_ids:
@@ -654,15 +660,15 @@ class IDDocumentDeduplicationEligibilityManager(models.Model):
                     if x.expiry_date and x.expiry_date > date.today()
                 ]
         registrant_ids_with_id = list(dict.fromkeys(registrant_ids_with_id))
-        _logger.info("Eligible registrants with ID: %s", registrant_ids_with_id)
+        _logger.debug("Eligible registrants with ID: %s", registrant_ids_with_id)
         domain = [("id", "in", registrant_ids_with_id)]
         domain += self._safe_eval(self.eligibility_domain)
         return domain
 
     def enroll_eligible_registrants(self, program_memberships):
         # TODO: check if the beneficiary still match the criterias
-        _logger.info("-" * 100)
-        _logger.info("Checking eligibility for %s", program_memberships)
+        _logger.debug("-" * 100)
+        _logger.debug("Checking eligibility for %s", program_memberships)
         for rec in self:
             beneficiaries = rec._verify_eligibility(program_memberships)
             return self.env["g2p.program_membership"].search(
@@ -681,9 +687,9 @@ class IDDocumentDeduplicationEligibilityManager(models.Model):
 
     def _verify_eligibility(self, membership):
         domain = self._prepare_eligible_domain(membership)
-        _logger.info("Eligibility domain: %s", domain)
+        _logger.debug("Eligibility domain: %s", domain)
         beneficiaries = self.env["res.partner"].search(domain).ids
-        _logger.info("Beneficiaries: %s", beneficiaries)
+        _logger.debug("Beneficiaries: %s", beneficiaries)
         return beneficiaries
 
 
@@ -702,7 +708,7 @@ class PhoneNumberDeduplicationEligibilityManager(models.Model):
     def _prepare_eligible_domain(self, membership):
         ids = membership.mapped("partner_id.id")
         registrant_ids = self.env["res.partner"].search([("id", "in", ids)])
-        _logger.info("Checking Registrants: %s", registrant_ids)
+        _logger.debug("Checking Registrants: %s", registrant_ids)
         registrant_ids_with_phone = []
         for i in registrant_ids:
             if i.phone_number_ids:
@@ -710,7 +716,7 @@ class PhoneNumberDeduplicationEligibilityManager(models.Model):
                     i.id for x in i.phone_number_ids if not x.disabled
                 ]
         registrant_ids_with_phone = list(dict.fromkeys(registrant_ids_with_phone))
-        _logger.info("Eligible registrants with Phone: %s", registrant_ids_with_phone)
+        _logger.debug("Eligible registrants with Phone: %s", registrant_ids_with_phone)
 
         domain = [("id", "in", registrant_ids_with_phone)]
         domain += self._safe_eval(self.eligibility_domain)
@@ -718,8 +724,8 @@ class PhoneNumberDeduplicationEligibilityManager(models.Model):
 
     def enroll_eligible_registrants(self, program_memberships):
         # TODO: check if the beneficiary still match the criterias
-        _logger.info("-" * 100)
-        _logger.info("Checking eligibility for %s", program_memberships)
+        _logger.debug("-" * 100)
+        _logger.debug("Checking eligibility for %s", program_memberships)
         for rec in self:
             beneficiaries = rec._verify_eligibility(program_memberships)
             return self.env["g2p.program_membership"].search(
@@ -738,7 +744,7 @@ class PhoneNumberDeduplicationEligibilityManager(models.Model):
 
     def _verify_eligibility(self, membership):
         domain = self._prepare_eligible_domain(membership)
-        _logger.info("Eligibility domain: %s", domain)
+        _logger.debug("Eligibility domain: %s", domain)
         beneficiaries = self.env["res.partner"].search(domain).ids
-        _logger.info("Beneficiaries: %s", beneficiaries)
+        _logger.debug("Beneficiaries: %s", beneficiaries)
         return beneficiaries

@@ -365,8 +365,8 @@ class DefaultCycleManager(models.Model):
         cycle.update({"state": constants.STATE_CANCELLED})
 
     def new_cycle(self, name, new_start_date, sequence):
-        _logger.info("Creating new cycle for program %s", self.program_id.name)
-        _logger.info("New start date: %s", new_start_date)
+        _logger.debug("Creating new cycle for program %s", self.program_id.name)
+        _logger.debug("New start date: %s", new_start_date)
 
         # convert date to datetime
         new_start_date = datetime.combine(new_start_date, datetime.min.time())
@@ -412,7 +412,7 @@ class DefaultCycleManager(models.Model):
                     "end_date": end_date,
                 }
             )
-            _logger.info("New cycle created: %s", cycle.name)
+            _logger.debug("New cycle created: %s", cycle.name)
             return cycle
 
     def copy_beneficiaries_from_program(self, cycle, state="enrolled"):
@@ -431,8 +431,8 @@ class DefaultCycleManager(models.Model):
         """
         self.ensure_one()
         self._ensure_can_edit_cycle(cycle)
-        _logger.info("Adding beneficiaries to the cycle %s", cycle.name)
-        _logger.info("Beneficiaries: %s", beneficiaries)
+        _logger.debug("Adding beneficiaries to the cycle %s", cycle.name)
+        _logger.debug("Beneficiaries: %s", beneficiaries)
 
         # Only add beneficiaries not added yet
         existing_ids = cycle.cycle_membership_ids.mapped("partner_id.id")
@@ -464,7 +464,7 @@ class DefaultCycleManager(models.Model):
         }
 
     def _add_beneficiaries_async(self, cycle, beneficiaries, state):
-        _logger.info("Adding beneficiaries asynchronously")
+        _logger.debug("Adding beneficiaries asynchronously")
         cycle.message_post(
             body="Import of %s beneficiaries started." % len(beneficiaries)
         )

@@ -121,7 +121,7 @@ class G2PProgram(models.Model):
         for rec in self:
             # Cancel cycles and entitlements only if the program is active (for archiving)
             if rec.active:
-                _logger.info("Archive Program: cancel cycles and entitlements.")
+                _logger.debug("Archive Program: cancel cycles and entitlements.")
                 if rec.cycle_ids:
                     entitlement_manager = rec.get_manager(self.MANAGER_ENTITLEMENT)
                     # Get only `draft`, `to_approve`, and `approved` cycles
@@ -156,7 +156,7 @@ class G2PProgram(models.Model):
             for mgr_obj in self.MANAGER_MODELS[mgr_fld]:
                 # Add a new record to default manager models
                 def_mgr_obj = self.MANAGER_MODELS[mgr_fld][mgr_obj]
-                _logger.info("DEBUG: %s" % def_mgr_obj)
+                _logger.debug("DEBUG: %s" % def_mgr_obj)
                 def_mgr = self.env[def_mgr_obj].create(
                     {
                         "name": "Default",
@@ -331,8 +331,8 @@ class G2PProgram(models.Model):
                     },
                 }
 
-            _logger.info("-" * 80)
-            _logger.info("pm: %s", program_manager)
+            _logger.debug("-" * 80)
+            _logger.debug("pm: %s", program_manager)
             new_cycle = program_manager.new_cycle()
             message = _("New cycle %s created.", new_cycle.name)
             return {

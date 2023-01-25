@@ -95,7 +95,7 @@ class DefaultFilePaymentManager(models.Model):
             entitlements_with_payments_to_create = self.env["g2p.entitlement"].browse(
                 payments_to_create
             )
-            # _logger.info("DEBUG! payments_to_create: %s", payments_to_create)
+            # _logger.debug("DEBUG! payments_to_create: %s", payments_to_create)
 
             vals = []
             payments_to_add_ids = []
@@ -162,7 +162,7 @@ class DefaultFilePaymentManager(models.Model):
 
     def send_payments(self, batches):
         # Create a payment list (CSV)
-        # _logger.info("DEBUG! send_payments Manager: DEFAULT")
+        # _logger.debug("DEBUG! send_payments Manager: DEFAULT")
         for rec in batches:
             filename = f"{rec.name}.csv"
             data = StringIO()
@@ -208,7 +208,7 @@ class DefaultFilePaymentManager(models.Model):
                 }
             )
 
-            # _logger.info("DEFAULT Payment Manager: data: %s" % csv_data)
+            # _logger.debug("DEFAULT Payment Manager: data: %s" % csv_data)
 
     def _get_account_number(self, entitlement):
         return entitlement.partner_id.get_payment_token(entitlement.program_id)
