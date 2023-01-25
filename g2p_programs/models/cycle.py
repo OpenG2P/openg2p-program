@@ -80,6 +80,9 @@ class G2PCycle(models.Model):
         "g2p.payment.batch", "cycle_id", "Payment Batches"
     )
 
+    # Get the auto-approve entitlement setting from the cycle manager
+    auto_approve_entitlements = fields.Boolean("Auto-approve entitlements")
+
     # Statistics
     members_count = fields.Integer(string="# Beneficiaries")
     entitlements_count = fields.Integer(string="# Entitlements")

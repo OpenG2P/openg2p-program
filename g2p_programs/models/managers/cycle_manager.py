@@ -413,6 +413,7 @@ class DefaultCycleManager(models.Model):
                     "sequence": sequence,
                     "start_date": start_date,
                     "end_date": end_date,
+                    "auto_approve_entitlements": rec.auto_approve_entitlements,
                 }
             )
             _logger.debug("New cycle created: %s", cycle.name)
