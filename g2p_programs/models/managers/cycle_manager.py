@@ -440,7 +440,7 @@ class DefaultCycleManager(models.Model):
         if len(beneficiaries) == 0:
             message = _("No beneficiaries to import.")
             kind = "warning"
-        elif len(beneficiaries) < 1000:
+        elif len(beneficiaries) < self.MIN_ROW_JOB_QUEUE:
             self._add_beneficiaries(cycle, beneficiaries, state)
             message = _("%s beneficiaries imported.", len(beneficiaries))
             kind = "success"
@@ -470,13 +470,35 @@ class DefaultCycleManager(models.Model):
         )
         cycle.write({"locked": True, "locked_reason": _("Importing beneficiaries.")})
 
+        beneficiaries_count = len(beneficiaries)
         jobs = []
-        for i in range(0, len(beneficiaries), self.MAX_ROW_JOB_QUEUE):
-            jobs.append(
-                self.delayable()._add_beneficiaries(
-                    cycle, beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE], state
+        # Get the last iteration
+        last_iter = int(beneficiaries_count / self.MAX_ROW_JOB_QUEUE) + (
+            1 if (beneficiaries_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
+        )
+        ctr = 0
+        for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
+            ctr += 1
+            if ctr == last_iter:
+                # Last iteration, do not skip computing the total beneficiaries to update the total beneficiaries fields
+                jobs.append(
+                    self.delayable()._add_beneficiaries(
+                        cycle,
+                        beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
+                        state,
+                        skip_count=False,
+                    )
                 )
-            )
+            else:
+                jobs.append(
+                    self.delayable()._add_beneficiaries(
+                        cycle,
+                        beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
+                        state,
+                        skip_count=True,
+                    )
+                )
+
         main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_import_as_done(
@@ -485,7 +507,7 @@ class DefaultCycleManager(models.Model):
         )
         main_job.delay()
 
-    def _add_beneficiaries(self, cycle, beneficiaries, state="draft"):
+    def _add_beneficiaries(self, cycle, beneficiaries, state="draft", skip_count=False):
         new_beneficiaries = []
         for r in beneficiaries:
             new_beneficiaries.append(
@@ -500,6 +522,9 @@ class DefaultCycleManager(models.Model):
                 ]
             )
         cycle.update({"cycle_membership_ids": new_beneficiaries})
+        # Compute total cycle members
+        if not skip_count:
+            cycle._compute_members_count()
 
     @api.depends("cycle_duration")
     def _compute_interval(self):

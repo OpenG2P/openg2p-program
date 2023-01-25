@@ -182,7 +182,7 @@ class DefaultProgramManager(models.Model):
         for i in range(0, members_count, self.MAX_ROW_JOB_QUEUE):
             ctr += 1
             if ctr == last_iter:
-                # Last iteration, do not skip computing the total entitlements to update the total entitlement fields
+                # Last iteration, do not skip computing the total eligible registrants fields
                 jobs.append(
                     self.delayable()._enroll_eligible_registrants(
                         states, i, self.MAX_ROW_JOB_QUEUE, skip_count=False
