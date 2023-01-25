@@ -1,7 +1,7 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 from odoo import fields, models
 
-from odoo.addons.calendar.models.calendar_recurrence import BYDAY_SELECTION, RRULE_TYPE_SELECTION
+from odoo.addons.calendar.models import calendar_recurrence
 
 
 class RecurrenceMixin(models.Model):
@@ -16,7 +16,7 @@ class RecurrenceMixin(models.Model):
 
     # Overwrite field from calendar.recurrence to define string and re-define default value
     rrule_type = fields.Selection(
-        RRULE_TYPE_SELECTION,
+        calendar_recurrence.RRULE_TYPE_SELECTION,
         string="Recurrence",
         default="monthly",
         help="Let the event automatically repeat at that interval",
@@ -25,7 +25,9 @@ class RecurrenceMixin(models.Model):
     )
 
     # Overwrite field from calendar.recurrence to define default value
-    byday = fields.Selection(BYDAY_SELECTION, string="By day", default="1")
+    byday = fields.Selection(
+        calendar_recurrence.BYDAY_SELECTION, string="By day", default="1"
+    )
 
     # Overwrite field from calendar.recurrence to define default value
     count = fields.Integer(default=10)
