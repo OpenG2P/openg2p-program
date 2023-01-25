@@ -31,15 +31,17 @@ class BaseEntitlementManager(models.AbstractModel):
 
     IS_CASH_ENTITLEMENT = True
     MIN_ROW_JOB_QUEUE = 200
+    MAX_ROW_JOB_QUEUE = 2000
 
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
-    def prepare_entitlements(self, cycle, cycle_memberships):
+    def prepare_entitlements(self, cycle, beneficiaries, skip_count):
         """
         This method is used to prepare the entitlement list of the beneficiaries.
         :param cycle: The cycle.
-        :param cycle_memberships: The beneficiaries.
+        :param beneficiaries: The beneficiaries.
+        :param skip_count: Skip compute total entitlements
         :return:
         """
         raise NotImplementedError()
@@ -78,9 +80,11 @@ class BaseEntitlementManager(models.AbstractModel):
         )
 
         jobs = []
-        for i in range(0, entitlements_count, 2000):
+        for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable()._set_pending_validation_entitlements(cycle, i, 2000)
+                self.delayable()._set_pending_validation_entitlements(
+                    cycle, i, self.MAX_ROW_JOB_QUEUE
+                )
             )
         main_job = group(*jobs)
         main_job.on_done(
@@ -134,8 +138,12 @@ class BaseEntitlementManager(models.AbstractModel):
         )
 
         jobs = []
-        for i in range(0, entitlements_count, 2000):
-            jobs.append(self.delayable()._validate_entitlements(cycle, i, 2000))
+        for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
+            jobs.append(
+                self.delayable()._validate_entitlements(
+                    cycle, i, self.MAX_ROW_JOB_QUEUE
+                )
+            )
         main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_job_as_done(
@@ -201,8 +209,10 @@ class BaseEntitlementManager(models.AbstractModel):
         )
 
         jobs = []
-        for i in range(0, entitlements_count, 2000):
-            jobs.append(self.delayable()._cancel_entitlements(cycle, i, 2000))
+        for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
+            jobs.append(
+                self.delayable()._cancel_entitlements(cycle, i, self.MAX_ROW_JOB_QUEUE)
+            )
         main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_job_as_done(cycle, _("Entitlements Cancelled."))
@@ -350,8 +360,14 @@ class DefaultCashEntitlementManager(models.Model):
         if self.transfer_fee_amt > 0.0:
             self.transfer_fee_pct = 0.0
 
-    def prepare_entitlements(self, cycle, beneficiaries):
-        # TODO: create a Entitlement of `amount_per_cycle` for each member that do not have one yet for the cycle and
+    def prepare_entitlements(self, cycle, beneficiaries, skip_count=False):
+        """
+        This method is used to prepare the entitlement list of the beneficiaries.
+        :param cycle: The cycle.
+        :param beneficiaries: The beneficiaries.
+        :param skip_count: Skip compute total entitlements
+        :return:
+        """
         benecifiaries_ids = beneficiaries.mapped("partner_id.id")
 
         benecifiaries_with_entitlements = (
@@ -377,6 +393,8 @@ class DefaultCashEntitlementManager(models.Model):
 
         individual_count = beneficiaries_with_entitlements_to_create.count_individuals()
         individual_count_map = dict(individual_count)
+
+        entitlements = []
         for beneficiary_id in beneficiaries_with_entitlements_to_create:
             amount = self._calculate_amount(
                 beneficiary_id, individual_count_map.get(beneficiary_id.id, 0)
@@ -386,7 +404,7 @@ class DefaultCashEntitlementManager(models.Model):
                 transfer_fee = amount * (self.transfer_fee_pct / 100.0)
             elif self.transfer_fee_amt > 0.0:
                 transfer_fee = self.transfer_fee_amt
-            self.env["g2p.entitlement"].create(
+            entitlements.append(
                 {
                     "cycle_id": cycle.id,
                     "partner_id": beneficiary_id.id,
@@ -399,6 +417,12 @@ class DefaultCashEntitlementManager(models.Model):
                     "valid_until": entitlement_end_validity,
                 }
             )
+        if entitlements:
+            self.env["g2p.entitlement"].create(entitlements)
+
+        # Compute total entitlements
+        if not skip_count:
+            cycle._compute_entitlements_count()
 
     def set_pending_validation_entitlements(self, cycle):
         """

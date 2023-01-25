@@ -80,29 +80,24 @@ class G2PCycle(models.Model):
         "g2p.payment.batch", "cycle_id", "Payment Batches"
     )
 
+    # Get the auto-approve entitlement setting from the cycle manager
+    auto_approve_entitlements = fields.Boolean("Auto-approve entitlements")
+
     # Statistics
-    members_count = fields.Integer(
-        string="# Beneficiaries", compute="_compute_members_count", store=True
-    )
-    entitlements_count = fields.Integer(
-        string="# Entitlements", compute="_compute_entitlements_count", store=True
-    )
-    payments_count = fields.Integer(
-        string="# Payments", compute="_compute_payments_count", store=True
-    )
+    members_count = fields.Integer(string="# Beneficiaries")
+    entitlements_count = fields.Integer(string="# Entitlements")
+    payments_count = fields.Integer(string="# Payments")
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 
-    @api.depends("cycle_membership_ids")
     def _compute_members_count(self):
         for rec in self:
             domain = rec._get_beneficiaries_domain(["enrolled"])
             members_count = self.env["g2p.cycle.membership"].search_count(domain)
             rec.update({"members_count": members_count})
 
-    @api.depends("entitlement_ids")
     def _compute_entitlements_count(self):
         for rec in self:
             entitlements_count = self.env["g2p.entitlement"].search_count(
@@ -110,7 +105,6 @@ class G2PCycle(models.Model):
             )
             rec.update({"entitlements_count": entitlements_count})
 
-    @api.depends("entitlement_ids")
     def _compute_payments_count(self):
         for rec in self:
             payments_count = self.env["g2p.payment"].search_count(
@@ -170,7 +164,7 @@ class G2PCycle(models.Model):
 
     # @api.model
     def copy_beneficiaries_from_program(self):
-        # _logger.info("Copying beneficiaries from program, cycles: %s", cycles)
+        # _logger.debug("Copying beneficiaries from program, cycles: %s", cycles)
         self.ensure_one()
         return self.program_id.get_manager(
             constants.MANAGER_CYCLE

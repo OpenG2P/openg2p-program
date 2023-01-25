@@ -31,6 +31,9 @@ class BaseProgramManager(models.AbstractModel):
     _name = "g2p.base.program.manager"
     _description = "Base Program Manager"
 
+    MIN_ROW_JOB_QUEUE = 200
+    MAX_ROW_JOB_QUEUE = 10000
+
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
@@ -97,10 +100,10 @@ class DefaultProgramManager(models.Model):
             cycles = self.env["g2p.cycle"].search(
                 [("program_id", "=", rec.program_id.id)]
             )
-            _logger.info("cycles: %s", cycles)
+            _logger.debug("cycles: %s", cycles)
             cm = rec.program_id.get_manager(G2PProgram.MANAGER_CYCLE)
             if len(cycles) == 0:
-                _logger.info("cycle manager: %s", cm)
+                _logger.debug("cycle manager: %s", cm)
                 new_cycle = cm.new_cycle("Cycle 1", datetime.now(), 1)
             else:
                 last_cycle = rec.last_cycle()
@@ -131,13 +134,13 @@ class DefaultProgramManager(models.Model):
 
         program = self.program_id
         members_count = program.get_beneficiaries(state=states, count=True)
-        _logger.info("members: %s", members_count)
+        _logger.debug("members: %s", members_count)
 
         eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
         if len(eligibility_managers) == 0:
             message = _("No Eligibility Manager defined.")
             kind = "danger"
-        elif members_count < 200:
+        elif members_count < self.MIN_ROW_JOB_QUEUE:
             count = self._enroll_eligible_registrants(state)
             message = _("%s Beneficiaries enrolled.", count)
             kind = "success"
@@ -161,7 +164,7 @@ class DefaultProgramManager(models.Model):
 
     def _enroll_eligible_registrants_async(self, states, members_count):
         self.ensure_one()
-        _logger.info("members: %s", members_count)
+        _logger.debug("members: %s", members_count)
         program = self.program_id
         program.message_post(
             body=_("Eligibility check of %s beneficiaries started.", members_count)
@@ -171,13 +174,33 @@ class DefaultProgramManager(models.Model):
         )
 
         jobs = []
-        for i in range(0, members_count, 10000):
-            jobs.append(self.delayable()._enroll_eligible_registrants(states, i, 10000))
+        # Get the last iteration
+        last_iter = int(members_count / self.MAX_ROW_JOB_QUEUE) + (
+            1 if (members_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
+        )
+        ctr = 0
+        for i in range(0, members_count, self.MAX_ROW_JOB_QUEUE):
+            ctr += 1
+            if ctr == last_iter:
+                # Last iteration, do not skip computing the total eligible registrants fields
+                jobs.append(
+                    self.delayable()._enroll_eligible_registrants(
+                        states, i, self.MAX_ROW_JOB_QUEUE, skip_count=False
+                    )
+                )
+            else:
+                jobs.append(
+                    self.delayable()._enroll_eligible_registrants(
+                        states, i, self.MAX_ROW_JOB_QUEUE, skip_count=True
+                    )
+                )
         main_job = group(*jobs)
         main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
         main_job.delay()
 
-    def _enroll_eligible_registrants(self, states, offset=0, limit=None):
+    def _enroll_eligible_registrants(
+        self, states, offset=0, limit=None, skip_count=False
+    ):
         program = self.program_id
         members = program.get_beneficiaries(
             state=states, offset=offset, limit=limit, order="id"
@@ -189,9 +212,9 @@ class DefaultProgramManager(models.Model):
         for el in eligibility_managers:
             members = el.enroll_eligible_registrants(members)
         # enroll the one not already enrolled:
-        _logger.info("members filtered: %s", members)
+        _logger.debug("members filtered: %s", members)
         not_enrolled = members.filtered(lambda m: m.state != "enrolled")
-        _logger.info("not_enrolled: %s", not_enrolled)
+        _logger.debug("not_enrolled: %s", not_enrolled)
         not_enrolled.write(
             {
                 "state": "enrolled",
@@ -203,12 +226,16 @@ class DefaultProgramManager(models.Model):
         members_to_remove = member_before.filtered(
             lambda m: m.state != "not_eligible" and m.id not in enrolled_members_ids
         )
-        # _logger.info("members_to_remove: %s", members_to_remove)
+        # _logger.debug("members_to_remove: %s", members_to_remove)
         members_to_remove.write(
             {
                 "state": "not_eligible",
             }
         )
+        # Compute total beneficiaries
+        if not skip_count:
+            program._compute_eligible_beneficiary_count()
+            program._compute_beneficiary_count()
 
         return len(not_enrolled)
 

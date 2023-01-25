@@ -95,14 +95,8 @@ class G2PProgram(models.Model):
     )
 
     # Statistics
-    eligible_beneficiaries_count = fields.Integer(
-        string="# Eligible Beneficiaries",
-        compute="_compute_eligible_beneficiary_count",
-        store=True,
-    )
-    beneficiaries_count = fields.Integer(
-        string="# Beneficiaries", compute="_compute_beneficiary_count", store=True
-    )
+    eligible_beneficiaries_count = fields.Integer(string="# Eligible Beneficiaries")
+    beneficiaries_count = fields.Integer(string="# Beneficiaries")
 
     cycles_count = fields.Integer(
         string="# Cycles", compute="_compute_cycle_count", store=True
@@ -127,7 +121,7 @@ class G2PProgram(models.Model):
         for rec in self:
             # Cancel cycles and entitlements only if the program is active (for archiving)
             if rec.active:
-                _logger.info("Archive Program: cancel cycles and entitlements.")
+                _logger.debug("Archive Program: cancel cycles and entitlements.")
                 if rec.cycle_ids:
                     entitlement_manager = rec.get_manager(self.MANAGER_ENTITLEMENT)
                     # Get only `draft`, `to_approve`, and `approved` cycles
@@ -162,7 +156,7 @@ class G2PProgram(models.Model):
             for mgr_obj in self.MANAGER_MODELS[mgr_fld]:
                 # Add a new record to default manager models
                 def_mgr_obj = self.MANAGER_MODELS[mgr_fld][mgr_obj]
-                _logger.info("DEBUG: %s" % def_mgr_obj)
+                _logger.debug("DEBUG: %s" % def_mgr_obj)
                 def_mgr = self.env[def_mgr_obj].create(
                     {
                         "name": "Default",
@@ -186,13 +180,11 @@ class G2PProgram(models.Model):
             count = rec.count_beneficiaries(["duplicated"])["value"]
             rec.update({"duplicate_membership_count": count})
 
-    @api.depends("program_membership_ids", "program_membership_ids.state")
     def _compute_eligible_beneficiary_count(self):
         for rec in self:
             count = rec.count_beneficiaries(["enrolled"])["value"]
             rec.update({"eligible_beneficiaries_count": count})
 
-    @api.depends("program_membership_ids")
     def _compute_beneficiary_count(self):
         for rec in self:
             count = rec.count_beneficiaries(None)["value"]
@@ -284,7 +276,7 @@ class G2PProgram(models.Model):
                     duplicates += el.deduplicate_beneficiaries(states)
 
                 if duplicates > 0:
-                    message = _("%s Beneficiaries duplicate.") % duplicates
+                    message = _("%s Beneficiaries duplicate.", duplicates)
                     kind = "warning"
             else:
                 message = _("No Deduplication Manager defined.")
@@ -339,10 +331,10 @@ class G2PProgram(models.Model):
                     },
                 }
 
-            _logger.info("-" * 80)
-            _logger.info("pm: %s", program_manager)
+            _logger.debug("-" * 80)
+            _logger.debug("pm: %s", program_manager)
             new_cycle = program_manager.new_cycle()
-            message = _("New cycle %s created.") % new_cycle.name
+            message = _("New cycle %s created.", new_cycle.name)
             return {
                 "type": "ir.actions.client",
                 "tag": "display_notification",

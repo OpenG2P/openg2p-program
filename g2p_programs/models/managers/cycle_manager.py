@@ -32,6 +32,9 @@ class BaseCycleManager(models.AbstractModel):
     _name = "g2p.base.cycle.manager"
     _description = "Base Cycle Manager"
 
+    MIN_ROW_JOB_QUEUE = 200
+    MAX_ROW_JOB_QUEUE = 2000
+
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
@@ -270,7 +273,10 @@ class DefaultCycleManager(models.Model):
                 ids_to_remove
             )
             memberships_to_remove.write({"state": "not_eligible"})
+            # Update the members_count field
+            cycle._compute_members_count()
 
+            # TODO: Move this to the entitlement manager
             # Disable the entitlements of the beneficiaries
             entitlements = self.env["g2p.entitlement"].search(
                 [
@@ -288,7 +294,7 @@ class DefaultCycleManager(models.Model):
             # Get all the enrolled beneficiaries
             beneficiaries_count = cycle.get_beneficiaries(["enrolled"], count=True)
             rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-            if beneficiaries_count < 200:
+            if beneficiaries_count < self.MIN_ROW_JOB_QUEUE:
                 self._prepare_entitlements(cycle)
             else:
                 self._prepare_entitlements_async(cycle, beneficiaries_count)
@@ -308,20 +314,49 @@ class DefaultCycleManager(models.Model):
         )
 
         jobs = []
-        for i in range(0, beneficiaries_count, 2000):
-            jobs.append(self.delayable()._prepare_entitlements(cycle, i, 2000))
+        # Get the last iteration
+        last_iter = int(beneficiaries_count / self.MAX_ROW_JOB_QUEUE) + (
+            1 if (beneficiaries_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
+        )
+        ctr = 0
+        for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
+            ctr += 1
+            if ctr == last_iter:
+                # Last iteration, do not skip computing the total entitlements to update the total entitlement fields
+                jobs.append(
+                    self.delayable()._prepare_entitlements(
+                        cycle, i, self.MAX_ROW_JOB_QUEUE, skip_count=False
+                    )
+                )
+            else:
+                jobs.append(
+                    self.delayable()._prepare_entitlements(
+                        cycle, i, self.MAX_ROW_JOB_QUEUE, skip_count=True
+                    )
+                )
         main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_import_as_done(cycle, _("Entitlement Ready."))
         )
         main_job.delay()
 
-    def _prepare_entitlements(self, cycle, offset=0, limit=None):
+    def _prepare_entitlements(self, cycle, offset=0, limit=None, skip_count=False):
+        """Prepare Entitlements
+        Get the beneficiaries and generate their entitlements.
+
+        :param cycle: The cycle
+        :param offset: Optional integer value for the ORM search offset
+        :param limit: Optional integer value for the ORM search limit
+        :param skip_count: Skip compute total entitlements
+        :return:
+        """
         beneficiaries = cycle.get_beneficiaries(
             ["enrolled"], offset=offset, limit=limit, order="id"
         )
         entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-        entitlement_manager.prepare_entitlements(cycle, beneficiaries)
+        entitlement_manager.prepare_entitlements(
+            cycle, beneficiaries, skip_count=skip_count
+        )
 
     def mark_distributed(self, cycle):
         cycle.update({"state": constants.STATE_DISTRIBUTED})
@@ -333,8 +368,8 @@ class DefaultCycleManager(models.Model):
         cycle.update({"state": constants.STATE_CANCELLED})
 
     def new_cycle(self, name, new_start_date, sequence):
-        _logger.info("Creating new cycle for program %s", self.program_id.name)
-        _logger.info("New start date: %s", new_start_date)
+        _logger.debug("Creating new cycle for program %s", self.program_id.name)
+        _logger.debug("New start date: %s", new_start_date)
 
         # convert date to datetime
         new_start_date = datetime.combine(new_start_date, datetime.min.time())
@@ -378,9 +413,10 @@ class DefaultCycleManager(models.Model):
                     "sequence": sequence,
                     "start_date": start_date,
                     "end_date": end_date,
+                    "auto_approve_entitlements": rec.auto_approve_entitlements,
                 }
             )
-            _logger.info("New cycle created: %s", cycle.name)
+            _logger.debug("New cycle created: %s", cycle.name)
             return cycle
 
     def copy_beneficiaries_from_program(self, cycle, state="enrolled"):
@@ -399,8 +435,8 @@ class DefaultCycleManager(models.Model):
         """
         self.ensure_one()
         self._ensure_can_edit_cycle(cycle)
-        _logger.info("Adding beneficiaries to the cycle %s", cycle.name)
-        _logger.info("Beneficiaries: %s", beneficiaries)
+        _logger.debug("Adding beneficiaries to the cycle %s", cycle.name)
+        _logger.debug("Beneficiaries: %s", beneficiaries)
 
         # Only add beneficiaries not added yet
         existing_ids = cycle.cycle_membership_ids.mapped("partner_id.id")
@@ -408,7 +444,7 @@ class DefaultCycleManager(models.Model):
         if len(beneficiaries) == 0:
             message = _("No beneficiaries to import.")
             kind = "warning"
-        elif len(beneficiaries) < 1000:
+        elif len(beneficiaries) < self.MIN_ROW_JOB_QUEUE:
             self._add_beneficiaries(cycle, beneficiaries, state)
             message = _("%s beneficiaries imported.", len(beneficiaries))
             kind = "success"
@@ -432,19 +468,41 @@ class DefaultCycleManager(models.Model):
         }
 
     def _add_beneficiaries_async(self, cycle, beneficiaries, state):
-        _logger.info("Adding beneficiaries asynchronously")
+        _logger.debug("Adding beneficiaries asynchronously")
         cycle.message_post(
             body="Import of %s beneficiaries started." % len(beneficiaries)
         )
         cycle.write({"locked": True, "locked_reason": _("Importing beneficiaries.")})
 
+        beneficiaries_count = len(beneficiaries)
         jobs = []
-        for i in range(0, len(beneficiaries), 2000):
-            jobs.append(
-                self.delayable()._add_beneficiaries(
-                    cycle, beneficiaries[i : i + 2000], state
+        # Get the last iteration
+        last_iter = int(beneficiaries_count / self.MAX_ROW_JOB_QUEUE) + (
+            1 if (beneficiaries_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
+        )
+        ctr = 0
+        for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
+            ctr += 1
+            if ctr == last_iter:
+                # Last iteration, do not skip computing the total beneficiaries to update the total beneficiaries fields
+                jobs.append(
+                    self.delayable()._add_beneficiaries(
+                        cycle,
+                        beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
+                        state,
+                        skip_count=False,
+                    )
                 )
-            )
+            else:
+                jobs.append(
+                    self.delayable()._add_beneficiaries(
+                        cycle,
+                        beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
+                        state,
+                        skip_count=True,
+                    )
+                )
+
         main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_import_as_done(
@@ -453,7 +511,7 @@ class DefaultCycleManager(models.Model):
         )
         main_job.delay()
 
-    def _add_beneficiaries(self, cycle, beneficiaries, state="draft"):
+    def _add_beneficiaries(self, cycle, beneficiaries, state="draft", skip_count=False):
         new_beneficiaries = []
         for r in beneficiaries:
             new_beneficiaries.append(
@@ -468,6 +526,9 @@ class DefaultCycleManager(models.Model):
                 ]
             )
         cycle.update({"cycle_membership_ids": new_beneficiaries})
+        # Compute total cycle members
+        if not skip_count:
+            cycle._compute_members_count()
 
     @api.depends("cycle_duration")
     def _compute_interval(self):

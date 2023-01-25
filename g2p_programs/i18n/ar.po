@@ -77,7 +77,7 @@ msgstr "%s المستفيدين المدرجين."
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
 #, python-format
 msgid "%s new payments was issued."
-msgstr "تم انشاء دفعات جديدة"
+msgstr "%s تم انشاء دفعات جديدة"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
