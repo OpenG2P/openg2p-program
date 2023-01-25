@@ -284,7 +284,7 @@ class G2PProgram(models.Model):
                     duplicates += el.deduplicate_beneficiaries(states)
 
                 if duplicates > 0:
-                    message = _("%s Beneficiaries duplicate.") % duplicates
+                    message = _("%s Beneficiaries duplicate.", duplicates)
                     kind = "warning"
             else:
                 message = _("No Deduplication Manager defined.")
@@ -342,7 +342,7 @@ class G2PProgram(models.Model):
             _logger.info("-" * 80)
             _logger.info("pm: %s", program_manager)
             new_cycle = program_manager.new_cycle()
-            message = _("New cycle %s created.") % new_cycle.name
+            message = _("New cycle %s created.", new_cycle.name)
             return {
                 "type": "ir.actions.client",
                 "tag": "display_notification",

@@ -130,7 +130,7 @@ class DefaultFilePaymentManager(models.Model):
                     )
 
                 kind = "success"
-                message = _("%s new payments was issued.") % len(payments_to_add_ids)
+                message = _("%s new payments was issued.", len(payments_to_add_ids))
                 links = [
                     {
                         "label": "Refresh Page",

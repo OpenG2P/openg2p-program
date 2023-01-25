@@ -32,6 +32,9 @@ class BaseCycleManager(models.AbstractModel):
     _name = "g2p.base.cycle.manager"
     _description = "Base Cycle Manager"
 
+    MIN_ROW_JOB_QUEUE = 200
+    MAX_ROW_JOB_QUEUE = 2000
+
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
@@ -288,7 +291,7 @@ class DefaultCycleManager(models.Model):
             # Get all the enrolled beneficiaries
             beneficiaries_count = cycle.get_beneficiaries(["enrolled"], count=True)
             rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-            if beneficiaries_count < 200:
+            if beneficiaries_count < self.MIN_ROW_JOB_QUEUE:
                 self._prepare_entitlements(cycle)
             else:
                 self._prepare_entitlements_async(cycle, beneficiaries_count)
@@ -308,20 +311,49 @@ class DefaultCycleManager(models.Model):
         )
 
         jobs = []
-        for i in range(0, beneficiaries_count, 2000):
-            jobs.append(self.delayable()._prepare_entitlements(cycle, i, 2000))
+        # Get the last iteration
+        last_iter = int(beneficiaries_count / self.MAX_ROW_JOB_QUEUE) + (
+            1 if (beneficiaries_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
+        )
+        ctr = 0
+        for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
+            ctr += 1
+            if ctr == last_iter:
+                # Last iteration, do not skip computing the total entitlements to update the total entitlement fields
+                jobs.append(
+                    self.delayable()._prepare_entitlements(
+                        cycle, i, self.MAX_ROW_JOB_QUEUE, skip_count=False
+                    )
+                )
+            else:
+                jobs.append(
+                    self.delayable()._prepare_entitlements(
+                        cycle, i, self.MAX_ROW_JOB_QUEUE, skip_count=True
+                    )
+                )
         main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_import_as_done(cycle, _("Entitlement Ready."))
         )
         main_job.delay()
 
-    def _prepare_entitlements(self, cycle, offset=0, limit=None):
+    def _prepare_entitlements(self, cycle, offset=0, limit=None, skip_count=False):
+        """Prepare Entitlements
+        Get the beneficiaries and generate their entitlements.
+
+        :param cycle: The cycle
+        :param offset: Optional integer value for the ORM search offset
+        :param limit: Optional integer value for the ORM search limit
+        :param skip_count: Skip compute total entitlements
+        :return:
+        """
         beneficiaries = cycle.get_beneficiaries(
             ["enrolled"], offset=offset, limit=limit, order="id"
         )
         entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-        entitlement_manager.prepare_entitlements(cycle, beneficiaries)
+        entitlement_manager.prepare_entitlements(
+            cycle, beneficiaries, skip_count=skip_count
+        )
 
     def mark_distributed(self, cycle):
         cycle.update({"state": constants.STATE_DISTRIBUTED})
@@ -439,10 +471,10 @@ class DefaultCycleManager(models.Model):
         cycle.write({"locked": True, "locked_reason": _("Importing beneficiaries.")})
 
         jobs = []
-        for i in range(0, len(beneficiaries), 2000):
+        for i in range(0, len(beneficiaries), self.MAX_ROW_JOB_QUEUE):
             jobs.append(
                 self.delayable()._add_beneficiaries(
-                    cycle, beneficiaries[i : i + 2000], state
+                    cycle, beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE], state
                 )
             )
         main_job = group(*jobs)

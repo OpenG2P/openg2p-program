@@ -84,12 +84,8 @@ class G2PCycle(models.Model):
     members_count = fields.Integer(
         string="# Beneficiaries", compute="_compute_members_count", store=True
     )
-    entitlements_count = fields.Integer(
-        string="# Entitlements", compute="_compute_entitlements_count", store=True
-    )
-    payments_count = fields.Integer(
-        string="# Payments", compute="_compute_payments_count", store=True
-    )
+    entitlements_count = fields.Integer(string="# Entitlements")
+    payments_count = fields.Integer(string="# Payments")
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
     locked = fields.Boolean(default=False)
@@ -102,7 +98,6 @@ class G2PCycle(models.Model):
             members_count = self.env["g2p.cycle.membership"].search_count(domain)
             rec.update({"members_count": members_count})
 
-    @api.depends("entitlement_ids")
     def _compute_entitlements_count(self):
         for rec in self:
             entitlements_count = self.env["g2p.entitlement"].search_count(
@@ -110,7 +105,6 @@ class G2PCycle(models.Model):
             )
             rec.update({"entitlements_count": entitlements_count})
 
-    @api.depends("entitlement_ids")
     def _compute_payments_count(self):
         for rec in self:
             payments_count = self.env["g2p.payment"].search_count(
