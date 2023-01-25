@@ -273,7 +273,10 @@ class DefaultCycleManager(models.Model):
                 ids_to_remove
             )
             memberships_to_remove.write({"state": "not_eligible"})
+            # Update the members_count field
+            cycle._compute_members_count()
 
+            # TODO: Move this to the entitlement manager
             # Disable the entitlements of the beneficiaries
             entitlements = self.env["g2p.entitlement"].search(
                 [
