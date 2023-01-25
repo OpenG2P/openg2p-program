@@ -95,14 +95,8 @@ class G2PProgram(models.Model):
     )
 
     # Statistics
-    eligible_beneficiaries_count = fields.Integer(
-        string="# Eligible Beneficiaries",
-        compute="_compute_eligible_beneficiary_count",
-        store=True,
-    )
-    beneficiaries_count = fields.Integer(
-        string="# Beneficiaries", compute="_compute_beneficiary_count", store=True
-    )
+    eligible_beneficiaries_count = fields.Integer(string="# Eligible Beneficiaries")
+    beneficiaries_count = fields.Integer(string="# Beneficiaries")
 
     cycles_count = fields.Integer(
         string="# Cycles", compute="_compute_cycle_count", store=True
@@ -186,13 +180,11 @@ class G2PProgram(models.Model):
             count = rec.count_beneficiaries(["duplicated"])["value"]
             rec.update({"duplicate_membership_count": count})
 
-    @api.depends("program_membership_ids", "program_membership_ids.state")
     def _compute_eligible_beneficiary_count(self):
         for rec in self:
             count = rec.count_beneficiaries(["enrolled"])["value"]
             rec.update({"eligible_beneficiaries_count": count})
 
-    @api.depends("program_membership_ids")
     def _compute_beneficiary_count(self):
         for rec in self:
             count = rec.count_beneficiaries(None)["value"]

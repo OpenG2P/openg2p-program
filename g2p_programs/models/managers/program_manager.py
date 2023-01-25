@@ -31,6 +31,9 @@ class BaseProgramManager(models.AbstractModel):
     _name = "g2p.base.program.manager"
     _description = "Base Program Manager"
 
+    MIN_ROW_JOB_QUEUE = 200
+    MAX_ROW_JOB_QUEUE = 10000
+
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
@@ -137,7 +140,7 @@ class DefaultProgramManager(models.Model):
         if len(eligibility_managers) == 0:
             message = _("No Eligibility Manager defined.")
             kind = "danger"
-        elif members_count < 200:
+        elif members_count < self.MIN_ROW_JOB_QUEUE:
             count = self._enroll_eligible_registrants(state)
             message = _("%s Beneficiaries enrolled.", count)
             kind = "success"
@@ -171,13 +174,33 @@ class DefaultProgramManager(models.Model):
         )
 
         jobs = []
-        for i in range(0, members_count, 10000):
-            jobs.append(self.delayable()._enroll_eligible_registrants(states, i, 10000))
+        # Get the last iteration
+        last_iter = int(members_count / self.MAX_ROW_JOB_QUEUE) + (
+            1 if (members_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
+        )
+        ctr = 0
+        for i in range(0, members_count, self.MAX_ROW_JOB_QUEUE):
+            ctr += 1
+            if ctr == last_iter:
+                # Last iteration, do not skip computing the total entitlements to update the total entitlement fields
+                jobs.append(
+                    self.delayable()._enroll_eligible_registrants(
+                        states, i, self.MAX_ROW_JOB_QUEUE, skip_count=False
+                    )
+                )
+            else:
+                jobs.append(
+                    self.delayable()._enroll_eligible_registrants(
+                        states, i, self.MAX_ROW_JOB_QUEUE, skip_count=True
+                    )
+                )
         main_job = group(*jobs)
         main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
         main_job.delay()
 
-    def _enroll_eligible_registrants(self, states, offset=0, limit=None):
+    def _enroll_eligible_registrants(
+        self, states, offset=0, limit=None, skip_count=False
+    ):
         program = self.program_id
         members = program.get_beneficiaries(
             state=states, offset=offset, limit=limit, order="id"
@@ -209,6 +232,10 @@ class DefaultProgramManager(models.Model):
                 "state": "not_eligible",
             }
         )
+        # Compute total beneficiaries
+        if not skip_count:
+            program._compute_eligible_beneficiary_count()
+            program._compute_beneficiary_count()
 
         return len(not_enrolled)
 
