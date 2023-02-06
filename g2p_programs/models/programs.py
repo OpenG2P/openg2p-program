@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 
 
 class G2PProgram(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "job.relate.mixin"]
     _name = "g2p.program"
     _description = "Program"
     _order = "id desc"
@@ -470,3 +470,8 @@ class G2PProgram(models.Model):
             "domain": [("program_id", "=", self.id)],
         }
         return action
+
+    def _get_related_job_domain(self):
+        jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
+        related_jobs = jobs.filtered(lambda r: self in r.records.program_id)
+        return [("id", "in", related_jobs.ids)]
