@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-01-24 00:23+0000\n"
+"PO-Revision-Date: 2023-02-21 09:23+0000\n"
 "Last-Translator: Mohammed Alateya <mohammadalbaqer@gmail.com>\n"
 "Language-Team: Arabic <https://translate.openspp.org/projects/openg2p/"
 "g2p_programs/ar/>\n"
@@ -806,7 +806,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 #, python-format
 msgid "Create"
-msgstr ""
+msgstr "انشاء"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -2077,7 +2077,7 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "Next"
-msgstr ""
+msgstr "التالي"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_date_deadline
