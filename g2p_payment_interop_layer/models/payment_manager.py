@@ -17,7 +17,7 @@ class PaymentManager(models.Model):
     def _selection_manager_ref_id(self):
         selection = super()._selection_manager_ref_id()
         new_manager = (
-            "g2p.program.payment.manager.sp.con.interop",
+            "g2p.program.payment.manager.payment.interop.layer",
             "Payment Interoperability Layer",
         )
         if new_manager not in selection:
@@ -25,8 +25,8 @@ class PaymentManager(models.Model):
         return selection
 
 
-class G2PSpConInteropManager(models.Model):
-    _name = "g2p.program.payment.manager.sp.con.interop"
+class G2PPaymentInteropLayerManager(models.Model):
+    _name = "g2p.program.payment.manager.payment.interop.layer"
     _inherit = "g2p.program.payment.manager.default"
     _description = "Payment Interoperability Layer"
 
@@ -48,7 +48,7 @@ class G2PSpConInteropManager(models.Model):
     def send_payments(self, batches):
         payment_endpoint_url = self.payment_endpoint_url
         _logger.info(
-            f"DEBUG! send_payments Manager: SP Con Interop Layer - URL: {payment_endpoint_url}"
+            f"DEBUG! send_payments Manager: Payment Interop Layer - URL: {payment_endpoint_url}"
         )
         for batch in batches:
             disbursement_id = batch.name
@@ -83,17 +83,17 @@ class G2PSpConInteropManager(models.Model):
                 # access JSOn content
                 jsonResponse = res.json()
                 _logger.info(
-                    f"SP Con Interop Layer Disbursement API: jsonResponse: {jsonResponse}"
+                    f"Interop Layer Disbursement API: jsonResponse: {jsonResponse}"
                 )
 
             except HTTPError as http_err:
                 _logger.error(
-                    f"SP Con Interop Layer Disbursement API: HTTP error occurred: {http_err}. res: {res} - {res.content}"
+                    f"Interop Layer Disbursement API: HTTP error occurred: {http_err}. res: {res} - {res.content}"
                 )
                 continue
             except Exception as err:
                 _logger.error(
-                    f"SP Con Interop Layer Disbursement API: Other error occurred: {err}. res: {res} - {res.content}"
+                    f"Interop Layer Disbursement API: Other error occurred: {err}. res: {res} - {res.content}"
                 )
                 continue
 
