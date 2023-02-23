@@ -22,8 +22,10 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[g2p_payment_phee](g2p_payment_phee/) | 15.0.0.0.1 | [![jeremi](https://github.com/jeremi.png?size=30px)](https://github.com/jeremi) [![gonzalesedwin1123](https://github.com/gonzalesedwin1123.png?size=30px)](https://github.com/gonzalesedwin1123) | OpenG2P Program Payment (Payment Hub EE)
-[g2p_programs](g2p_programs/) | 15.0.0.0.1 | [![jeremi](https://github.com/jeremi.png?size=30px)](https://github.com/jeremi) [![gonzalesedwin1123](https://github.com/gonzalesedwin1123.png?size=30px)](https://github.com/gonzalesedwin1123) | OpenG2P Programs
+[g2p_programs](g2p_programs/) | 15.0.1.1.0 | [![jeremi](https://github.com/jeremi.png?size=30px)](https://github.com/jeremi) [![gonzalesedwin1123](https://github.com/gonzalesedwin1123.png?size=30px)](https://github.com/gonzalesedwin1123) | OpenG2P Programs
+[g2p_payment_phee](g2p_payment_phee/) | 15.0.1.1.0 | [![jeremi](https://github.com/jeremi.png?size=30px)](https://github.com/jeremi) [![gonzalesedwin1123](https://github.com/gonzalesedwin1123.png?size=30px)](https://github.com/gonzalesedwin1123) | OpenG2P Program Payment (Payment Hub EE)
+[g2p_payment_interop_layer](g2p_payment_interop_layer/) | 15.0.1.1.0 |  | OpenG2P Program Payment (Payment Interoperability Layer)
+[g2p_programs_rest_api](g2p_programs_rest_api/) | 15.0.1.1.0 |  | G2P Programs: REST API
 
 [//]: # (end addons)
 
