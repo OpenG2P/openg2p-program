@@ -1,5 +1,5 @@
 
-# Program Managament
+# Program Management
 
 Refer to the documentation [here](https://docs.openg2p.org/modules/beneficiary-management)
 
