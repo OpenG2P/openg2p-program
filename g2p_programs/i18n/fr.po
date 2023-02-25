@@ -1142,58 +1142,6 @@ msgid "Cycles Started"
 msgstr "Cycles commencés"
 
 #. module: g2p_programs
-#: model:ir.model.fields,field_description:g2p_programs.field_account_journal__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_base_programs_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_payments_batch_wizard__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_registrants__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_wizard__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_cycle_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_deduplication_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_program_entitlement_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_program_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_program_notification_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_program_payment_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_default__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_phone_number__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_eligibility_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_manager_mixin__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_manager_source_mixin__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund_report_view__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_manager_default__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_default__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_id_dedup__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_phone_number__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager_default__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_res_partner__dms_directory_ids
-#: model:ir.model.fields,field_description:g2p_programs.field_sms_template__dms_directory_ids
-msgid "DMS Directories"
-msgstr ""
-
-#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "DRAFT"
