@@ -2,7 +2,7 @@
 {
     "name": "OpenG2P Program Payment (Payment Hub EE)",
     "category": "G2P",
-    "version": "15.0.1.0.1",
+    "version": "15.0.0.0.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://github.com/openg2p/openg2p-program",
