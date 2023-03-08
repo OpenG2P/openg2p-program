@@ -67,9 +67,15 @@ class ProgramTest(TransactionCase):
             "Program 1: %s Members: %s"
             % (cls.program_1.name, len(cls.program_1.program_membership_ids))
         )
+
         cls.program_2.write(
             {"program_membership_ids": [(0, 0, {"partner_id": cls.group_1.id})]}
         )
+        _logger.info(
+            "Program 2: %s Members: %s"
+            % (cls.program_2.name, len(cls.program_2.program_membership_ids))
+        )
+
         # Enroll Beneficiaries
         cls.program_1.enroll_eligible_registrants()
         cls.program_2.enroll_eligible_registrants()
@@ -79,10 +85,27 @@ class ProgramTest(TransactionCase):
             [("id", "=", cls.program_1.cycle_ids[0].id)]
         )
         cls.cycle1.copy_beneficiaries_from_program()
+        _logger.info(
+            "%s Cycle: %s Beneficiaries: %s"
+            % (
+                cls.cycle1.program_id.name,
+                cls.cycle1.name,
+                len(cls.cycle_1.cycle_membership_ids),
+            )
+        )
+
         cls.cycle2 = cls.env["g2p.cycle"].search(
             [("id", "=", cls.program_2.cycle_ids[0].id)]
         )
         cls.cycle2.copy_beneficiaries_from_program()
+        _logger.info(
+            "%s Cycle: %s Beneficiaries: %s"
+            % (
+                cls.cycle2.program_id.name,
+                cls.cycle2.name,
+                len(cls.cycle_2.cycle_membership_ids),
+            )
+        )
 
     def test_01_cycle_prepare_entitlement(self):
         self.cycle1.prepare_entitlement()
