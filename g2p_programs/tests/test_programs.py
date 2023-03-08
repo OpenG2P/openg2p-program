@@ -90,7 +90,7 @@ class ProgramTest(TransactionCase):
             % (
                 cls.cycle1.program_id.name,
                 cls.cycle1.name,
-                len(cls.cycle_1.cycle_membership_ids),
+                len(cls.cycle1.cycle_membership_ids),
             )
         )
 
@@ -103,7 +103,7 @@ class ProgramTest(TransactionCase):
             % (
                 cls.cycle2.program_id.name,
                 cls.cycle2.name,
-                len(cls.cycle_2.cycle_membership_ids),
+                len(cls.cycle2.cycle_membership_ids),
             )
         )
 
