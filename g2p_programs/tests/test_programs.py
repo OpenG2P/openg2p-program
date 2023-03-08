@@ -75,9 +75,11 @@ class ProgramTest(TransactionCase):
         cls.cycle1 = cls.env["g2p.cycle"].search(
             [("id", "=", cls.program_1.cycle_ids[0].id)]
         )
+        cls.cycle1.copy_beneficiaries_from_program()
         cls.cycle2 = cls.env["g2p.cycle"].search(
             [("id", "=", cls.program_2.cycle_ids[0].id)]
         )
+        cls.cycle2.copy_beneficiaries_from_program()
 
     def test_01_cycle_prepare_entitlement(self):
         self.cycle1.prepare_entitlement()
