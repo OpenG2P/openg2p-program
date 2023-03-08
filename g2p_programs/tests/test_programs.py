@@ -1,12 +1,11 @@
 import logging
 
-from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
 _logger = logging.getLogger(__name__)
 
 
-@tagged("post_install", "-at_install")
+# @tagged("post_install", "-at_install")
 class ProgramTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
@@ -63,6 +62,10 @@ class ProgramTest(TransactionCase):
         # Add Beneficiaries
         cls.program_1.write(
             {"program_membership_ids": [(0, 0, {"partner_id": cls.registrant_1.id})]}
+        )
+        _logger.info(
+            "Program 1: %s Members: %s"
+            % (cls.program_1.name, len(cls.program_1.program_membership_ids))
         )
         cls.program_2.write(
             {"program_membership_ids": [(0, 0, {"partner_id": cls.group_1.id})]}
