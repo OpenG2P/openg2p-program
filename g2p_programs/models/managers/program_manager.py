@@ -63,6 +63,22 @@ class BaseProgramManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def mark_enroll_eligible_as_done(self):
+        """Eligibility Checker.
+        Base :meth:`mark_enroll_eligible_as_done`.
+        This is executed when all the jobs are completed.
+        Post a message in the chatter.
+        :return:
+        """
+        self.ensure_one()
+        self.program_id.locked = False
+        self.program_id.locked_reason = None
+        self.program_id.message_post(body=_("Eligibility check finished."))
+
+        # Compute Statistics
+        self.program_id._compute_eligible_beneficiary_count()
+        self.program_id._compute_beneficiary_count()
+
 
 class DefaultProgramManager(models.Model):
     _name = "g2p.program.manager.default"
@@ -174,33 +190,17 @@ class DefaultProgramManager(models.Model):
         )
 
         jobs = []
-        # Get the last iteration
-        last_iter = int(members_count / self.MAX_ROW_JOB_QUEUE) + (
-            1 if (members_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
-        )
-        ctr = 0
         for i in range(0, members_count, self.MAX_ROW_JOB_QUEUE):
-            ctr += 1
-            if ctr == last_iter:
-                # Last iteration, do not skip computing the total eligible registrants fields
-                jobs.append(
-                    self.delayable()._enroll_eligible_registrants(
-                        states, i, self.MAX_ROW_JOB_QUEUE, skip_count=False
-                    )
+            jobs.append(
+                self.delayable()._enroll_eligible_registrants(
+                    states, i, self.MAX_ROW_JOB_QUEUE
                 )
-            else:
-                jobs.append(
-                    self.delayable()._enroll_eligible_registrants(
-                        states, i, self.MAX_ROW_JOB_QUEUE, skip_count=True
-                    )
-                )
+            )
         main_job = group(*jobs)
         main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
         main_job.delay()
 
-    def _enroll_eligible_registrants(
-        self, states, offset=0, limit=None, skip_count=False
-    ):
+    def _enroll_eligible_registrants(self, states, offset=0, limit=None):
         program = self.program_id
         members = program.get_beneficiaries(
             state=states, offset=offset, limit=limit, order="id"
@@ -232,15 +232,4 @@ class DefaultProgramManager(models.Model):
                 "state": "not_eligible",
             }
         )
-        # Compute total beneficiaries
-        if not skip_count:
-            program._compute_eligible_beneficiary_count()
-            program._compute_beneficiary_count()
-
         return len(not_enrolled)
-
-    def mark_enroll_eligible_as_done(self):
-        self.ensure_one()
-        self.program_id.locked = False
-        self.program_id.locked_reason = None
-        self.program_id.message_post(body=_("Eligibility check finished."))

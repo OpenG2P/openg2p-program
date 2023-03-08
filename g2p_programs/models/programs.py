@@ -486,3 +486,9 @@ class G2PProgram(models.Model):
             "domain": [("program_id", "=", self.id)],
         }
         return action
+
+    def refresh_page(self):
+        return {
+            "type": "ir.actions.client",
+            "tag": "reload",
+        }

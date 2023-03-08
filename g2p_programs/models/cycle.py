@@ -335,3 +335,9 @@ class G2PCycle(models.Model):
             "domain": [("entitlement_id", "in", self.entitlement_ids.ids)],
         }
         return action
+
+    def refresh_page(self):
+        return {
+            "type": "ir.actions.client",
+            "tag": "reload",
+        }

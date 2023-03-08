@@ -101,6 +101,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 >
                     <span>Warning: Operation in progress: </span>
                     <field name="locked_reason" class="o_stat_value" />
+                    <button
+                        name="refresh_page"
+                        type="object"
+                        class="btn_warning"
+                        icon="fa-refresh"
+                        string="Refresh"
+                    />
                 </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">

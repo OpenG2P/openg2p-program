@@ -53,24 +53,31 @@ class G2PAssignToProgramWizard(models.TransientModel):
                     ctr += 1
                     _logger.info("Processing (%s): %s" % (ctr, rec.name))
                     proceed = False
-                    if rec.is_group:  # Get only group registrants
-                        if self.target_type == "group":
-                            proceed = True
-                        else:
-                            ig_ctr += 1
-                            _logger.info(
-                                "Ignored because registrant is not a group: %s"
-                                % rec.name
-                            )
-                    else:  # Get only individual registrants
-                        if self.target_type == "individual":
-                            proceed = True
-                        else:
-                            ig_ctr += 1
-                            _logger.info(
-                                "Ignored because registrant is not an individual: %s"
-                                % rec.name
-                            )
+                    # Do not include disabled registrants
+                    if rec.disabled:
+                        ig_ctr += 1
+                        _logger.info(
+                            "Ignored because registrant is disabled: %s" % rec.name
+                        )
+                    else:
+                        if rec.is_group:  # Get only group registrants
+                            if self.target_type == "group":
+                                proceed = True
+                            else:
+                                ig_ctr += 1
+                                _logger.info(
+                                    "Ignored because registrant is not a group: %s"
+                                    % rec.name
+                                )
+                        else:  # Get only individual registrants
+                            if self.target_type == "individual":
+                                proceed = True
+                            else:
+                                ig_ctr += 1
+                                _logger.info(
+                                    "Ignored because registrant is not an individual: %s"
+                                    % rec.name
+                                )
                     if proceed:
                         ok_ctr += 1
                         vals = {
