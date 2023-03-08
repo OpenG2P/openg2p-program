@@ -64,7 +64,7 @@ class BaseProgramManager(models.AbstractModel):
         raise NotImplementedError()
 
     def mark_enroll_eligible_as_done(self):
-        """Eligibility Checker.
+        """Complete the enrollment of eligible beneficiaries.
         Base :meth:`mark_enroll_eligible_as_done`.
         This is executed when all the jobs are completed.
         Post a message in the chatter.

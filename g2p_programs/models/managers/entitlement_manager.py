@@ -36,12 +36,11 @@ class BaseEntitlementManager(models.AbstractModel):
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
-    def prepare_entitlements(self, cycle, beneficiaries, skip_count):
+    def prepare_entitlements(self, cycle, beneficiaries):
         """
         This method is used to prepare the entitlement list of the beneficiaries.
         :param cycle: The cycle.
         :param beneficiaries: The beneficiaries.
-        :param skip_count: Skip compute total entitlements
         :return:
         """
         raise NotImplementedError()
@@ -360,12 +359,11 @@ class DefaultCashEntitlementManager(models.Model):
         if self.transfer_fee_amt > 0.0:
             self.transfer_fee_pct = 0.0
 
-    def prepare_entitlements(self, cycle, beneficiaries, skip_count=False):
-        """
+    def prepare_entitlements(self, cycle, beneficiaries):
+        """Prepare entitlements.
         This method is used to prepare the entitlement list of the beneficiaries.
         :param cycle: The cycle.
         :param beneficiaries: The beneficiaries.
-        :param skip_count: Skip compute total entitlements
         :return:
         """
         benecifiaries_ids = beneficiaries.mapped("partner_id.id")
@@ -420,12 +418,8 @@ class DefaultCashEntitlementManager(models.Model):
         if entitlements:
             self.env["g2p.entitlement"].create(entitlements)
 
-        # Compute total entitlements
-        if not skip_count:
-            cycle._compute_entitlements_count()
-
     def set_pending_validation_entitlements(self, cycle):
-        """
+        """Set entitlements to pending validation.
         Default Entitlement Manager :meth:`set_pending_validation_entitlements`
         Set entitlements to pending_validation in a cycle
 
@@ -445,7 +439,7 @@ class DefaultCashEntitlementManager(models.Model):
             self._set_pending_validation_entitlements_async(cycle, entitlements_count)
 
     def _set_pending_validation_entitlements(self, cycle, offset=0, limit=None):
-        """
+        """Set entitlements to pending validation.
         Default Entitlement Manager :meth:`_set_pending_validation_entitlements`
         Synchronous setting of entitlements to pending_validation in a cycle
 
@@ -464,7 +458,7 @@ class DefaultCashEntitlementManager(models.Model):
         entitlements.update({"state": "pending_validation"})
 
     def validate_entitlements(self, cycle):
-        """
+        """Validate entitlements.
         Default Entitlement Manager :meth:`validate_entitlements`
         Validate entitlements in a cycle
 
@@ -513,7 +507,7 @@ class DefaultCashEntitlementManager(models.Model):
             self._validate_entitlements_async(cycle, entitlements_count)
 
     def _validate_entitlements(self, cycle, offset=0, limit=None):
-        """
+        """Validate entitlements.
         Default Entitlement Manager :meth:`_validate_entitlements`
         Synchronous validation of entitlements in a cycle
 
@@ -582,8 +576,8 @@ class DefaultCashEntitlementManager(models.Model):
         return total
 
     def approve_entitlements(self, entitlements):
-        """
-        Default Entitlement Manager :meth:`_approve_entitlements`
+        """Approve entitlements.
+        Default Entitlement Manager :meth:`approve_entitlements`
         Approve selected entitlements
 
         :param entitlements: Selected entitlements to approve
