@@ -155,9 +155,11 @@ class G2PCycle(models.Model):
         :param count: Optional boolean for executing a search-count (if true) or search (if false: default)
         :return:
         """
-        if isinstance(state, str):
-            state = [state]
-        domain = [("cycle_id", "=", self.id), ("state", "in", state)]
+        domain = [("cycle_id", "=", self.id)]
+        if state:
+            if isinstance(state, str):
+                state = [state]
+            domain += [("state", "in", state)]
         return self.env[entitlement_model].search(
             domain, offset=offset, limit=limit, order=order, count=count
         )

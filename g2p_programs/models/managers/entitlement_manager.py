@@ -55,15 +55,16 @@ class BaseEntitlementManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
-    def _set_pending_validation_entitlements_async(self, cycle, entitlements_count):
+    def _set_pending_validation_entitlements_async(self, cycle, entitlements):
         """Set Entitlements to Pending Validation
         Base Entitlement Manager :meth:`_set_pending_validation_entitlements_async`
         Asynchronous setting of entitlements to pending_validation in a cycle using `job_queue`
 
         :param cycle: A recordset of cycle
-        :param entitlements_count: Integer value of total entitlements to process
+        :param entitlements: A recordset of entitlements to process
         :return:
         """
+        entitlements_count = len(entitlements)
         _logger.debug("Set entitlements to pending validation asynchronously")
         cycle.message_post(
             body=_(
@@ -82,7 +83,7 @@ class BaseEntitlementManager(models.AbstractModel):
         for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
                 self.delayable()._set_pending_validation_entitlements(
-                    cycle, i, self.MAX_ROW_JOB_QUEUE
+                    entitlements[i : i + self.MAX_ROW_JOB_QUEUE]
                 )
             )
         main_job = group(*jobs)
@@ -93,15 +94,13 @@ class BaseEntitlementManager(models.AbstractModel):
         )
         main_job.delay()
 
-    def _set_pending_validation_entitlements(self, cycle, offset=0, limit=None):
+    def _set_pending_validation_entitlements(self, entitlements):
         """
         Base Entitlement Manager :meth:`_set_pending_validation_entitlements`
         Synchronous setting of entitlements to pending_validation in a cycle
         Override in entitlement manager
 
-        :param cycle: A recordset of cycle
-        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
-        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :param entitlements: A recordset of entitlements
         :return:
         """
         raise NotImplementedError()
@@ -116,13 +115,14 @@ class BaseEntitlementManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
-    def _validate_entitlements_async(self, cycle, entitlements_count):
+    def _validate_entitlements_async(self, cycle, entitlements, entitlements_count):
         """Validate Entitlements
         Base Entitlement Manager :meth:`_validate_entitlements_async`
         Asynchronous validation of entitlements in a cycle using `job_queue`
 
         :param cycle: A recordset of cycle
-        :param entitlements_count: Integer value of total entitlements to validate
+        :param entitlements: A recordset of entitlements to validate
+        :param entitlements_count: Integer count of entitlements to validate
         :return:
         """
         _logger.debug("Validate entitlements asynchronously")
@@ -140,7 +140,7 @@ class BaseEntitlementManager(models.AbstractModel):
         for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
                 self.delayable()._validate_entitlements(
-                    cycle, i, self.MAX_ROW_JOB_QUEUE
+                    entitlements[i : i + self.MAX_ROW_JOB_QUEUE]
                 )
             )
         main_job = group(*jobs)
@@ -151,15 +151,13 @@ class BaseEntitlementManager(models.AbstractModel):
         )
         main_job.delay()
 
-    def _validate_entitlements(self, cycle, offset=0, limit=None):
+    def _validate_entitlements(self, entitlements):
         """
         Base Entitlement Manager :meth:`_validate_entitlements`
         Synchronous validation of entitlements in a cycle
         Override in entitlement manager
 
-        :param cycle: A recordset of cycle
-        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
-        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :param entitlements: A recordset of entitlements to validate
         :return:
         """
         # Call the program's entitlement manager and validate the entitlements
@@ -427,34 +425,25 @@ class DefaultCashEntitlementManager(models.Model):
         :return:
         """
         # Get the number of entitlements in cycle
-        entitlements_count = cycle.get_entitlements(
+        entitlements = cycle.get_entitlements(
             ["draft"],
             entitlement_model="g2p.entitlement",
-            count=True,
         )
+        entitlements_count = len(entitlements)
         if entitlements_count < self.MIN_ROW_JOB_QUEUE:
-            self._set_pending_validation_entitlements(cycle)
+            self._set_pending_validation_entitlements(entitlements)
 
         else:
-            self._set_pending_validation_entitlements_async(cycle, entitlements_count)
+            self._set_pending_validation_entitlements_async(cycle, entitlements)
 
-    def _set_pending_validation_entitlements(self, cycle, offset=0, limit=None):
+    def _set_pending_validation_entitlements(self, entitlements):
         """Set entitlements to pending validation.
         Default Entitlement Manager :meth:`_set_pending_validation_entitlements`
         Synchronous setting of entitlements to pending_validation in a cycle
 
-        :param cycle: A recordset of cycle
-        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
-        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :param entitlements: A recordset of entitlements
         :return:
         """
-        # Get the entitlements in the cycle
-        entitlements = cycle.get_entitlements(
-            ["draft"],
-            entitlement_model="g2p.entitlement",
-            offset=offset,
-            limit=limit,
-        )
         entitlements.update({"state": "pending_validation"})
 
     def validate_entitlements(self, cycle):
@@ -466,13 +455,13 @@ class DefaultCashEntitlementManager(models.Model):
         :return:
         """
         # Get the number of entitlements in cycle
-        entitlements_count = cycle.get_entitlements(
+        entitlements = cycle.get_entitlements(
             ["draft", "pending_validation"],
             entitlement_model="g2p.entitlement",
-            count=True,
         )
+        entitlements_count = len(entitlements)
         if entitlements_count < self.MIN_ROW_JOB_QUEUE:
-            err, message = self._validate_entitlements(cycle)
+            err, message = self._validate_entitlements(entitlements)
             if err > 0:
                 kind = "danger"
                 return {
@@ -504,26 +493,17 @@ class DefaultCashEntitlementManager(models.Model):
                     },
                 }
         else:
-            self._validate_entitlements_async(cycle, entitlements_count)
+            self._validate_entitlements_async(cycle, entitlements, entitlements_count)
 
-    def _validate_entitlements(self, cycle, offset=0, limit=None):
+    def _validate_entitlements(self, entitlements):
         """Validate entitlements.
         Default Entitlement Manager :meth:`_validate_entitlements`
         Synchronous validation of entitlements in a cycle
 
-        :param cycle: A recordset of cycle
-        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
-        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :param entitlements: A recordset of entitlements to validate
         :return err: Integer number of errors
         :return message: String description of the error
         """
-        # Get the entitlements in the cycle
-        entitlements = cycle.get_entitlements(
-            ["draft", "pending_validation"],
-            entitlement_model="g2p.entitlement",
-            offset=offset,
-            limit=limit,
-        )
         err, message = self.approve_entitlements(entitlements)
         return err, message
 

@@ -81,12 +81,15 @@ class DefaultEligibilityManager(models.Model):
             ids = membership.mapped("partner_id.id")
             domain += [("id", "in", ids)]
 
+        # Do not include disabled registrants
+        domain += [("disabled", "=", False)]
         # TODO: use the config of the program
         if self.program_id.target_type == "group":
             domain += [("is_group", "=", True)]
         if self.program_id.target_type == "individual":
             domain += [("is_group", "=", False)]
         domain += self._safe_eval(self.eligibility_domain)
+        # _logger.debug("DOMAIN: %s" % domain)
         return domain
 
     def enroll_eligible_registrants(self, program_memberships):

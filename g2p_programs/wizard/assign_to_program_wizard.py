@@ -42,7 +42,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
     def assign_registrant(self):
         if self.env.context.get("active_ids"):
             partner_ids = self.env.context.get("active_ids")
-            _logger.info(
+            _logger.debug(
                 "Adding to Program Wizard with registrant record IDs: %s" % partner_ids
             )
             ctr = 0
@@ -51,12 +51,12 @@ class G2PAssignToProgramWizard(models.TransientModel):
             for rec in self.env["res.partner"].search([("id", "in", partner_ids)]):
                 if self.program_id not in rec.program_membership_ids.program_id:
                     ctr += 1
-                    _logger.info("Processing (%s): %s" % (ctr, rec.name))
+                    _logger.debug("Processing (%s): %s" % (ctr, rec.name))
                     proceed = False
                     # Do not include disabled registrants
                     if rec.disabled:
                         ig_ctr += 1
-                        _logger.info(
+                        _logger.debug(
                             "Ignored because registrant is disabled: %s" % rec.name
                         )
                     else:
@@ -65,7 +65,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
                                 proceed = True
                             else:
                                 ig_ctr += 1
-                                _logger.info(
+                                _logger.debug(
                                     "Ignored because registrant is not a group: %s"
                                     % rec.name
                                 )
@@ -74,7 +74,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
                                 proceed = True
                             else:
                                 ig_ctr += 1
-                                _logger.info(
+                                _logger.debug(
                                     "Ignored because registrant is not an individual: %s"
                                     % rec.name
                                 )
@@ -84,22 +84,22 @@ class G2PAssignToProgramWizard(models.TransientModel):
                             "partner_id": rec.id,
                             "program_id": self.program_id.id,
                         }
-                        _logger.info("Adding to Program Membership: %s" % vals)
+                        _logger.debug("Adding to Program Membership: %s" % vals)
                         self.env["g2p.program_membership"].create(vals)
                 else:
                     ig_ctr += 1
-                    _logger.info(
+                    _logger.debug(
                         "%s was ignored because the registrant is already in the Program %s"
                         % (rec.name, self.program_id.name)
                     )
-            _logger.info(
+            _logger.debug(
                 "Total selected registrants:%s, Total ignored:%s, Total added to group:%s"
                 % (ctr, ig_ctr, ok_ctr)
             )
 
     def open_wizard(self):
 
-        _logger.info("Registrant IDs: %s" % self.env.context.get("active_ids"))
+        # _logger.debug("Registrant IDs: %s" % self.env.context.get("active_ids"))
         return {
             "name": "Add to Program",
             "view_mode": "form",
