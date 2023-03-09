@@ -185,12 +185,13 @@ class BaseEntitlementManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
-    def _cancel_entitlements_async(self, cycle, entitlements_count):
+    def _cancel_entitlements_async(self, cycle, entitlements, entitlements_count):
         """Cancel Entitlements
         Base Entitlement Manager :meth:`_cancel_entitlements_async`
         Asynchronous cancellation of entitlements in a cycle using `job_queue`
 
         :param cycle: A recordset of cycle
+        :param entitlements: A recordset of entitlements to cancel
         :param entitlements_count: Integer value of total entitlements to process
         :return:
         """
@@ -208,7 +209,9 @@ class BaseEntitlementManager(models.AbstractModel):
         jobs = []
         for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable()._cancel_entitlements(cycle, i, self.MAX_ROW_JOB_QUEUE)
+                self.delayable()._cancel_entitlements(
+                    entitlements[i : i + self.MAX_ROW_JOB_QUEUE]
+                )
             )
         main_job = group(*jobs)
         main_job.on_done(
@@ -216,15 +219,13 @@ class BaseEntitlementManager(models.AbstractModel):
         )
         main_job.delay()
 
-    def _cancel_entitlements(self, cycle, offset=0, limit=None):
+    def _cancel_entitlements(self, entitlements):
         """
         Base Entitlement Manager :meth:`_cancel_entitlements`
         Synchronous cancellation of entitlements in a cycle
         Override in entitlement manager
 
-        :param cycle: A recordset of cycle
-        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
-        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :param entitlements: A recordset of entitlements to cancel
         :return:
         """
         raise NotImplementedError()
@@ -516,33 +517,24 @@ class DefaultCashEntitlementManager(models.Model):
         :return:
         """
         # Get the number of entitlements in cycle
-        entitlements_count = cycle.get_entitlements(
+        entitlements = cycle.get_entitlements(
             ["draft", "pending_validation", "approved"],
             entitlement_model="g2p.entitlement",
-            count=True,
         )
+        entitlements_count = len(entitlements)
         if entitlements_count < self.MIN_ROW_JOB_QUEUE:
-            self._cancel_entitlements(cycle)
+            self._cancel_entitlements(entitlements)
         else:
-            self._cancel_entitlements_async(cycle, entitlements_count)
+            self._cancel_entitlements_async(cycle, entitlements, entitlements_count)
 
-    def _cancel_entitlements(self, cycle, offset=0, limit=None):
+    def _cancel_entitlements(self, entitlements):
         """
         Default Entitlement Manager :meth:`_cancel_entitlements`
         Synchronous cancellation of entitlements in a cycle
 
-        :param cycle: A recordset of cycle
-        :param offset: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query offset
-        :param limit: An integer value to be used in :meth:`cycle.get_entitlements` for setting the query limit
+        :param entitlements: A recordset of entitlements to cancel
         :return:
         """
-        # Get the entitlements in the cycle
-        entitlements = cycle.get_entitlements(
-            ["draft", "pending_validation", "approved"],
-            entitlement_model="g2p.entitlement",
-            offset=offset,
-            limit=limit,
-        )
         entitlements.update({"state": "cancelled"})
 
     def _calculate_amount(self, beneficiary, num_individuals):
