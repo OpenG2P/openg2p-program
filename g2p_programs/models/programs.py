@@ -95,8 +95,10 @@ class G2PProgram(models.Model):
     )
 
     # Statistics
-    eligible_beneficiaries_count = fields.Integer(string="# Eligible Beneficiaries")
-    beneficiaries_count = fields.Integer(string="# Beneficiaries")
+    eligible_beneficiaries_count = fields.Integer(
+        string="# Eligible Beneficiaries", readonly=True
+    )
+    beneficiaries_count = fields.Integer(string="# Beneficiaries", readonly=True)
 
     cycles_count = fields.Integer(
         string="# Cycles", compute="_compute_cycle_count", store=True
