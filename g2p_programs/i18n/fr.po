@@ -158,6 +158,14 @@ msgstr "<span class=\"o_stat_text\">Cycles</span>"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+#, fuzzy
+#| msgid "<span class=\"o_stat_text\">Duplicates</span>"
+msgid "<span class=\"o_stat_text\">Related Job(s)</span>"
+msgstr "<span class=\"o_stat_text\">Doublons</span>"
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "<span>Warning: Operation in progress: </span>"
 msgstr ""
 
@@ -2021,6 +2029,11 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_issued_transactions
 msgid "Issued Transaction Statistics"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_job_relate_mixin
+msgid "Job Relate Mixin"
 msgstr ""
 
 #. module: g2p_programs
