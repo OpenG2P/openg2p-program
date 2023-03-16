@@ -494,3 +494,8 @@ class G2PProgram(models.Model):
             "type": "ir.actions.client",
             "tag": "reload",
         }
+
+    def _get_related_job_domain(self):
+        jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
+        related_jobs = jobs.filtered(lambda r: self in r.records.program_id)
+        return [("id", "in", related_jobs.ids)]

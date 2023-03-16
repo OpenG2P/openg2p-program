@@ -343,3 +343,8 @@ class G2PCycle(models.Model):
             "type": "ir.actions.client",
             "tag": "reload",
         }
+
+    def _get_related_job_domain(self):
+        jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
+        related_jobs = jobs.filtered(lambda r: self in r.args[0])
+        return [("id", "in", related_jobs.ids)]
