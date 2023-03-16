@@ -84,9 +84,9 @@ class G2PCycle(models.Model):
     auto_approve_entitlements = fields.Boolean("Auto-approve entitlements")
 
     # Statistics
-    members_count = fields.Integer(string="# Beneficiaries")
-    entitlements_count = fields.Integer(string="# Entitlements")
-    payments_count = fields.Integer(string="# Payments")
+    members_count = fields.Integer(string="# Beneficiaries", readonly=True)
+    entitlements_count = fields.Integer(string="# Entitlements", readonly=True)
+    payments_count = fields.Integer(string="# Payments", readonly=True)
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
     locked = fields.Boolean(default=False)
@@ -155,9 +155,11 @@ class G2PCycle(models.Model):
         :param count: Optional boolean for executing a search-count (if true) or search (if false: default)
         :return:
         """
-        if isinstance(state, str):
-            state = [state]
-        domain = [("cycle_id", "=", self.id), ("state", "in", state)]
+        domain = [("cycle_id", "=", self.id)]
+        if state:
+            if isinstance(state, str):
+                state = [state]
+            domain += [("state", "in", state)]
         return self.env[entitlement_model].search(
             domain, offset=offset, limit=limit, order=order, count=count
         )
@@ -335,6 +337,12 @@ class G2PCycle(models.Model):
             "domain": [("entitlement_id", "in", self.entitlement_ids.ids)],
         }
         return action
+
+    def refresh_page(self):
+        return {
+            "type": "ir.actions.client",
+            "tag": "reload",
+        }
 
     def _get_related_job_domain(self):
         jobs = self.env["queue.job"].search([("model_name", "like", self._name)])

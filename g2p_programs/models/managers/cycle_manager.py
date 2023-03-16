@@ -192,8 +192,10 @@ class BaseCycleManager(models.AbstractModel):
             raise ValidationError(_("The Cycle is not in draft mode"))
 
     def mark_import_as_done(self, cycle, msg):
-        """Base :meth:`mark_import_as_done`
-        Post a message in the chatter
+        """Complete the import of beneficiaries.
+        Base :meth:`mark_import_as_done`.
+        This is executed when all the jobs are completed.
+        Post a message in the chatter.
 
         :param cycle: A recordset of cycle
         :param msg: A string to be posted in the chatter
@@ -203,6 +205,27 @@ class BaseCycleManager(models.AbstractModel):
         cycle.locked = False
         cycle.locked_reason = None
         cycle.message_post(body=msg)
+
+        # Update Statistics
+        cycle._compute_members_count()
+
+    def mark_prepare_entitlement_as_done(self, cycle, msg):
+        """Complete the preparation of entitlements.
+        Base :meth:`mark_prepare_entitlement_as_done`.
+        This is executed when all the jobs are completed.
+        Post a message in the chatter.
+
+        :param cycle: A recordset of cycle
+        :param msg: A string to be posted in the chatter
+        :return:
+        """
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=msg)
+
+        # Update Statistics
+        cycle._compute_entitlements_count()
 
 
 class DefaultCycleManager(models.Model):
@@ -314,49 +337,32 @@ class DefaultCycleManager(models.Model):
         )
 
         jobs = []
-        # Get the last iteration
-        last_iter = int(beneficiaries_count / self.MAX_ROW_JOB_QUEUE) + (
-            1 if (beneficiaries_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
-        )
-        ctr = 0
         for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
-            ctr += 1
-            if ctr == last_iter:
-                # Last iteration, do not skip computing the total entitlements to update the total entitlement fields
-                jobs.append(
-                    self.delayable()._prepare_entitlements(
-                        cycle, i, self.MAX_ROW_JOB_QUEUE, skip_count=False
-                    )
-                )
-            else:
-                jobs.append(
-                    self.delayable()._prepare_entitlements(
-                        cycle, i, self.MAX_ROW_JOB_QUEUE, skip_count=True
-                    )
-                )
+            jobs.append(
+                self.delayable()._prepare_entitlements(cycle, i, self.MAX_ROW_JOB_QUEUE)
+            )
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable().mark_import_as_done(cycle, _("Entitlement Ready."))
+            self.delayable().mark_prepare_entitlement_as_done(
+                cycle, _("Entitlement Ready.")
+            )
         )
         main_job.delay()
 
-    def _prepare_entitlements(self, cycle, offset=0, limit=None, skip_count=False):
+    def _prepare_entitlements(self, cycle, offset=0, limit=None):
         """Prepare Entitlements
         Get the beneficiaries and generate their entitlements.
 
         :param cycle: The cycle
         :param offset: Optional integer value for the ORM search offset
         :param limit: Optional integer value for the ORM search limit
-        :param skip_count: Skip compute total entitlements
         :return:
         """
         beneficiaries = cycle.get_beneficiaries(
             ["enrolled"], offset=offset, limit=limit, order="id"
         )
         entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-        entitlement_manager.prepare_entitlements(
-            cycle, beneficiaries, skip_count=skip_count
-        )
+        entitlement_manager.prepare_entitlements(cycle, beneficiaries)
 
     def mark_distributed(self, cycle):
         cycle.update({"state": constants.STATE_DISTRIBUTED})
@@ -476,32 +482,14 @@ class DefaultCycleManager(models.Model):
 
         beneficiaries_count = len(beneficiaries)
         jobs = []
-        # Get the last iteration
-        last_iter = int(beneficiaries_count / self.MAX_ROW_JOB_QUEUE) + (
-            1 if (beneficiaries_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
-        )
-        ctr = 0
         for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
-            ctr += 1
-            if ctr == last_iter:
-                # Last iteration, do not skip computing the total beneficiaries to update the total beneficiaries fields
-                jobs.append(
-                    self.delayable()._add_beneficiaries(
-                        cycle,
-                        beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
-                        state,
-                        skip_count=False,
-                    )
+            jobs.append(
+                self.delayable()._add_beneficiaries(
+                    cycle,
+                    beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
+                    state,
                 )
-            else:
-                jobs.append(
-                    self.delayable()._add_beneficiaries(
-                        cycle,
-                        beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
-                        state,
-                        skip_count=True,
-                    )
-                )
+            )
 
         main_job = group(*jobs)
         main_job.on_done(
@@ -511,7 +499,7 @@ class DefaultCycleManager(models.Model):
         )
         main_job.delay()
 
-    def _add_beneficiaries(self, cycle, beneficiaries, state="draft", skip_count=False):
+    def _add_beneficiaries(self, cycle, beneficiaries, state="draft"):
         new_beneficiaries = []
         for r in beneficiaries:
             new_beneficiaries.append(
@@ -526,9 +514,6 @@ class DefaultCycleManager(models.Model):
                 ]
             )
         cycle.update({"cycle_membership_ids": new_beneficiaries})
-        # Compute total cycle members
-        if not skip_count:
-            cycle._compute_members_count()
 
     @api.depends("cycle_duration")
     def _compute_interval(self):

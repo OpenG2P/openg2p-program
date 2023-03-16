@@ -95,8 +95,10 @@ class G2PProgram(models.Model):
     )
 
     # Statistics
-    eligible_beneficiaries_count = fields.Integer(string="# Eligible Beneficiaries")
-    beneficiaries_count = fields.Integer(string="# Beneficiaries")
+    eligible_beneficiaries_count = fields.Integer(
+        string="# Eligible Beneficiaries", readonly=True
+    )
+    beneficiaries_count = fields.Integer(string="# Beneficiaries", readonly=True)
 
     cycles_count = fields.Integer(
         string="# Cycles", compute="_compute_cycle_count", store=True
@@ -486,6 +488,12 @@ class G2PProgram(models.Model):
             "domain": [("program_id", "=", self.id)],
         }
         return action
+
+    def refresh_page(self):
+        return {
+            "type": "ir.actions.client",
+            "tag": "reload",
+        }
 
     def _get_related_job_domain(self):
         jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
