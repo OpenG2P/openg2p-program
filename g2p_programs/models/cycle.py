@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 
 class G2PCycle(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "job.relate.mixin"]
     _name = "g2p.cycle"
     _description = "Cycle"
     _order = "sequence asc"
@@ -335,3 +335,8 @@ class G2PCycle(models.Model):
             "domain": [("entitlement_id", "in", self.entitlement_ids.ids)],
         }
         return action
+
+    def _get_related_job_domain(self):
+        jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
+        related_jobs = jobs.filtered(lambda r: self in r.args[0])
+        return [("id", "in", related_jobs.ids)]
