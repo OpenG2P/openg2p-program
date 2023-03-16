@@ -2982,6 +2982,12 @@ msgid "Reference Number:"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid "Refresh"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__partner_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__partner_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval__partner_id
