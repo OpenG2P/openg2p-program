@@ -157,7 +157,7 @@ class DefaultProgramManager(models.Model):
             message = _("No Eligibility Manager defined.")
             kind = "danger"
         elif members_count < self.MIN_ROW_JOB_QUEUE:
-            count = self._enroll_eligible_registrants(state)
+            count = self._enroll_eligible_registrants(state, do_count=True)
             message = _("%s Beneficiaries enrolled.", count)
             kind = "success"
         else:
@@ -200,7 +200,17 @@ class DefaultProgramManager(models.Model):
         main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
         main_job.delay()
 
-    def _enroll_eligible_registrants(self, states, offset=0, limit=None):
+    def _enroll_eligible_registrants(
+        self, states, offset=0, limit=None, do_count=False
+    ):
+        """Enroll Eligible Registrants
+
+        :param states: List of states to be used in domain filter
+        :param offset: Optional integer value for the ORM search offset
+        :param limit: Optional integer value for the ORM search limit
+        :param do_count: Boolean - set to False to not run compute functions
+        :return: Integer - count of not enrolled members
+        """
         program = self.program_id
         members = program.get_beneficiaries(
             state=states, offset=offset, limit=limit, order="id"
@@ -232,4 +242,10 @@ class DefaultProgramManager(models.Model):
                 "state": "not_eligible",
             }
         )
+
+        if do_count:
+            # Compute Statistics
+            program._compute_eligible_beneficiary_count()
+            program._compute_beneficiary_count()
+
         return len(not_enrolled)

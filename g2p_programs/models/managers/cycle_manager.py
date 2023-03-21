@@ -318,7 +318,7 @@ class DefaultCycleManager(models.Model):
             beneficiaries_count = cycle.get_beneficiaries(["enrolled"], count=True)
             rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
             if beneficiaries_count < self.MIN_ROW_JOB_QUEUE:
-                self._prepare_entitlements(cycle)
+                self._prepare_entitlements(cycle, do_count=True)
             else:
                 self._prepare_entitlements_async(cycle, beneficiaries_count)
 
@@ -349,13 +349,14 @@ class DefaultCycleManager(models.Model):
         )
         main_job.delay()
 
-    def _prepare_entitlements(self, cycle, offset=0, limit=None):
+    def _prepare_entitlements(self, cycle, offset=0, limit=None, do_count=False):
         """Prepare Entitlements
         Get the beneficiaries and generate their entitlements.
 
         :param cycle: The cycle
         :param offset: Optional integer value for the ORM search offset
         :param limit: Optional integer value for the ORM search limit
+        :param do_count: Boolean - set to False to not run compute function
         :return:
         """
         beneficiaries = cycle.get_beneficiaries(
@@ -363,6 +364,10 @@ class DefaultCycleManager(models.Model):
         )
         entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
         entitlement_manager.prepare_entitlements(cycle, beneficiaries)
+
+        if do_count:
+            # Update Statistics
+            cycle._compute_entitlements_count()
 
     def mark_distributed(self, cycle):
         cycle.update({"state": constants.STATE_DISTRIBUTED})
@@ -451,7 +456,7 @@ class DefaultCycleManager(models.Model):
             message = _("No beneficiaries to import.")
             kind = "warning"
         elif len(beneficiaries) < self.MIN_ROW_JOB_QUEUE:
-            self._add_beneficiaries(cycle, beneficiaries, state)
+            self._add_beneficiaries(cycle, beneficiaries, state, do_count=True)
             message = _("%s beneficiaries imported.", len(beneficiaries))
             kind = "success"
         else:
@@ -499,7 +504,15 @@ class DefaultCycleManager(models.Model):
         )
         main_job.delay()
 
-    def _add_beneficiaries(self, cycle, beneficiaries, state="draft"):
+    def _add_beneficiaries(self, cycle, beneficiaries, state="draft", do_count=False):
+        """Add Beneficiaries
+
+        :param cycle: Recordset of cycle
+        :param beneficiaries: Recordset of beneficiaries
+        :param state: String state to be set to beneficiary
+        :param do_count: Boolean - set to False to not run compute functions
+        :return: Integer - count of not enrolled members
+        """
         new_beneficiaries = []
         for r in beneficiaries:
             new_beneficiaries.append(
@@ -514,6 +527,10 @@ class DefaultCycleManager(models.Model):
                 ]
             )
         cycle.update({"cycle_membership_ids": new_beneficiaries})
+
+        if do_count:
+            # Update Statistics
+            cycle._compute_members_count()
 
     @api.depends("cycle_duration")
     def _compute_interval(self):
