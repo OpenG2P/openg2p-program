@@ -43,12 +43,12 @@ class BaseEligibilityManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
-    def verify_cycle_eligibility(self, cycle, program_memberships):
+    def verify_cycle_eligibility(self, cycle, membership):
         """
         This method is used to validate if a beneficiary match the criteria needed to be enrolled in a cycle.
         Args:
             cycle:
-            program_membership:
+            membership:
 
         Returns:
             bool: True if the cycle match the criterias, False otherwise.
