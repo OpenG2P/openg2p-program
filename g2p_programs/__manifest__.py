@@ -1,13 +1,13 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
     "name": "OpenG2P Programs",
-    "category": "G2P",
-    "version": "15.0.1.0.1",
+    "category": "G2P
+    "version": "15.0.1.1.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://github.com/openg2p/openg2p-program",
     "license": "Other OSI approved licence",
-    "development_status": "Production/Stable",
+    "development_status": "Alpha",
     "maintainers": ["jeremi", "gonzalesedwin1123"],
     "depends": [
         "base",

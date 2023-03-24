@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
-    "name": "OpenG2P Program Payment (Payment Hub EE)",
+    "name": "OpenG2P Program Payment (Payment Interoperability Layer)",
     "category": "G2P",
     "version": "15.0.1.1.0",
     "sequence": 1,
@@ -8,7 +8,6 @@
     "website": "https://github.com/openg2p/openg2p-program",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "maintainers": ["jeremi", "gonzalesedwin1123"],
     "depends": [
         "base",
         "g2p_registry_base",
@@ -16,7 +15,6 @@
     ],
     "data": [
         "security/ir.model.access.csv",
-        "views/res_config_settings_view.xml",
         "views/payment_manager_view.xml",
     ],
     "assets": {},
