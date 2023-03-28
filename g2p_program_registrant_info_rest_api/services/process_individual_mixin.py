@@ -1,4 +1,3 @@
-import json
 from odoo.addons.component.core import AbstractComponent
 
 
@@ -8,7 +7,9 @@ class ProcessIndividualMixin(AbstractComponent):
     def _process_individual(self, individual):
         res = super(ProcessIndividualMixin, self)._process_individual(individual)
         if individual.dict().get("program_registrant_info", None):
-            res["program_registrant_info_ids"] = self._process_registrant_info(individual)
+            res["program_registrant_info_ids"] = self._process_registrant_info(
+                individual
+            )
         return res
 
     def _process_registrant_info(self, individual):
@@ -18,6 +19,17 @@ class ProcessIndividualMixin(AbstractComponent):
             program_id = self.env["g2p.program"].search(
                 [("name", "=", program_membership["name"])], limit=1
             )
-            registrant_info_ids.append((0,0,{"program":program_id.id, "program_registrant_info":individual.dict().get("program_registrant_info", None)}))
+            registrant_info_ids.append(
+                (
+                    0,
+                    0,
+                    {
+                        "program": program_id.id,
+                        "program_registrant_info": individual.dict().get(
+                            "program_registrant_info", None
+                        ),
+                    },
+                )
+            )
 
         return registrant_info_ids

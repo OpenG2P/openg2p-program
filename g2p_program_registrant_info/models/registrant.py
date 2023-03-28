@@ -1,5 +1,4 @@
 from odoo import fields, models
-from odoo.addons.g2p_json_field.models import json_field
 
 
 class G2PRegistrant(models.Model):

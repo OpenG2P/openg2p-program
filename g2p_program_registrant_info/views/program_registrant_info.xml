@@ -11,7 +11,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <xpath expr="//page[@name='other']" position="before">
                 <page string="Program Info">
-                    <field name="program_registrant_info_ids" readonly="0" nolabel="1" >
+                    <field name="program_registrant_info_ids" readonly="0" nolabel="1">
                       <tree>
                           <button
                                 name="open_registrant_form"
@@ -21,11 +21,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             />
                           <field name="registrant" invisible="1" />
                           <field name="program" />
-                          <field name="program_registrant_info"  widget="g2p_addl_info_widget"  />
+                          <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                       </tree>
                     </field>
                 </page>
-                
+
             </xpath>
         </field>
     </record>
@@ -38,7 +38,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                     </div>
-                    
+
                     <div class="oe_title mb24">
                         <label for="registrant" string="Registrant:" />
                         <h1>
@@ -49,26 +49,19 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 readonly="1"
                             />
                         </h1>
-                        <label
-                            for="program"
-                            string="Program:"
-                        />
-                        <h2 >
-                            <field
-                                id="program"
-                                name="program"
-                                placeholder="program..."
-                            />
+                        <label for="program" string="Program:" />
+                        <h2>
+                            <field id="program" name="program" placeholder="program..." />
                         </h2>
                     </div>
                     <group colspan="4" col="4">
-                        <field name="program_registrant_info"  widget="g2p_addl_info_widget"  />
-                        
+                        <field name="program_registrant_info" widget="g2p_addl_info_widget" />
+
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
-    
+
 
 </odoo>

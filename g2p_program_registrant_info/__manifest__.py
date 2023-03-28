@@ -12,13 +12,13 @@
         "g2p_registry_base",
         "g2p_registry_individual",
         "g2p_registry_group",
-        "g2p_programs"
+        "g2p_programs",
     ],
     "data": [
         # "views/registrant_individual.xml",
         # "views/registrant_group.xml",
         "views/program_registrant_info.xml",
-        "security/ir.model.access.csv"
+        "security/ir.model.access.csv",
     ],
     "assets": {
         "web.assets_backend": [
