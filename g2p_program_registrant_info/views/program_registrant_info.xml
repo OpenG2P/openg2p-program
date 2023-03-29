@@ -19,8 +19,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
-                          <field name="registrant" invisible="1" />
-                          <field name="program" />
+                          <field name="registrant_id" invisible="1" />
+                          <field name="program_id" />
                           <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                       </tree>
                     </field>
@@ -44,14 +44,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <h1>
                             <field
                                 id="registrant"
-                                name="registrant"
+                                name="registrant_id"
                                 placeholder="Enter the registrant name..."
                                 readonly="1"
                             />
                         </h1>
                         <label for="program" string="Program:" />
                         <h2>
-                            <field id="program" name="program" placeholder="program..." />
+                            <field id="program" name="program_id" placeholder="program..." />
                         </h2>
                     </div>
                     <group colspan="4" col="4">
@@ -78,8 +78,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
-                          <field name="registrant" invisible="1" />
-                          <field name="program" />
+                          <field name="registrant_id" invisible="1" />
+                          <field name="program_id" />
                           <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                       </tree>
                     </field>
