@@ -10,14 +10,14 @@ class G2PProgramRegistrantInfo(models.Model):
     _description = "Program Registrant Info"
     _order = "id desc"
 
-    registrant = fields.Many2one(
+    registrant_id = fields.Many2one(
         "res.partner",
         help="A beneficiary",
         required=False,
         auto_join=True,
         # ondelete='set null'
     )
-    program = fields.Many2one(
+    program_id = fields.Many2one(
         "g2p.program",
         help="A program",
         required=False,

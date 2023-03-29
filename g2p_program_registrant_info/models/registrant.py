@@ -7,5 +7,5 @@ class G2PRegistrant(models.Model):
     # additional_g2p_info = json_field.JSONField("Additional Information", default={})
 
     program_registrant_info_ids = fields.One2many(
-        "g2p.program.registrant_info", "registrant", "Program Registrant info"
+        "g2p.program.registrant_info", "registrant_id", "Program Registrant info"
     )

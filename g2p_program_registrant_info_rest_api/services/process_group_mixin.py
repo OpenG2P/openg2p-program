@@ -24,7 +24,7 @@ class ProcessGroupMixin(AbstractComponent):
                     0,
                     0,
                     {
-                        "program": program_id.id,
+                        "program_id": program_id.id,
                         "program_registrant_info": group_info.dict().get(
                             "program_registrant_info", None
                         ),
