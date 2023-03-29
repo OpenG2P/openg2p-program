@@ -15,8 +15,6 @@
         "g2p_programs",
     ],
     "data": [
-        # "views/registrant_individual.xml",
-        # "views/registrant_group.xml",
         "views/program_registrant_info.xml",
         "security/ir.model.access.csv",
     ],
