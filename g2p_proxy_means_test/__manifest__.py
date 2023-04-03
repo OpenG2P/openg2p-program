@@ -13,7 +13,7 @@
     "data": [
         "security/ir.model.access.csv",
         "views/program_pmt_config.xml",
-        "views/proxy_means_test_configuration.xml",
+        "views/proxy_means_test_view.xml",
         "views/program_registrant_info.xml",
     ],
     "assets": {},
