@@ -331,6 +331,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     <tree>
                                                         <field name="name" />
                                                         <field name="external_batch_ref" />
+                                                        <field name="batch_has_started" />
                                                         <field name="batch_has_completed" />
                                                         <field name="stats_datetime" />
                                                         <field name="payment_ids" string="# Payments" />
@@ -355,6 +356,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                                 options="{'no_open':true}"
                                                             />
                                                             <field name="external_batch_ref" />
+                                                            <field name="batch_has_started" />
                                                             <field name="batch_has_completed" />
                                                         </group>
                                                         <notebook>
@@ -436,8 +438,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                                         />
                                                                         <field
                                                                             name="status"
-                                                                            decoration-success="state=='paid'"
-                                                                            decoration-danger="state=='failed'"
+                                                                            decoration-success="status=='paid'"
+                                                                            decoration-danger="status=='failed'"
                                                                             widget="badge"
                                                                             string="Payment Status"
                                                                         />

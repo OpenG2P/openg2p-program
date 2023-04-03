@@ -44,10 +44,15 @@ class G2PCycle(models.Model):
 
                 prepare_payment_button = doc.xpath("//button[@name='prepare_payment']")
                 prepare_payment_button[0].set("modifiers", modifiers)
+
+                send_payment_button = doc.xpath("//button[@name='send_payment']")
+                send_payment_button[0].set("modifiers", modifiers)
+
                 open_payments_form_button = doc.xpath(
                     "//button[@name='open_payments_form']"
                 )
                 open_payments_form_button[0].set("modifiers", modifiers)
+
                 payment_batches_page = doc.xpath("//page[@name='payment_batches']")
                 payment_batches_page[0].set("modifiers", modifiers)
 
@@ -248,6 +253,12 @@ class G2PCycle(models.Model):
         # 1. Issue the payment of the beneficiaries using payment_manager.prepare_payments()
         return self.program_id.get_manager(constants.MANAGER_PAYMENT).prepare_payments(
             self
+        )
+
+    def send_payment(self):
+        # 1. Send the payments using payment_manager.send_payments()
+        return self.program_id.get_manager(constants.MANAGER_PAYMENT).send_payments(
+            self.payment_batch_ids
         )
 
     def mark_distributed(self):
