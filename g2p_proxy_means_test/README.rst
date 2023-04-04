@@ -49,6 +49,6 @@ Authors
 Maintainers
 ~~~~~~~~~~~
 
-This module is part of the `OpenG2P/openg2p-program <https://github.com/OpenG2P/openg2p-program/tree/15.0-develop/g2p_payment_interop_layer>`_ project on GitHub.
+This module is part of the `OpenG2P/openg2p-program <https://github.com/OpenG2P/openg2p-program/tree/15.0-develop-pmt/g2p_proxy_means_test>`_ project on GitHub.
 
 You are welcome to contribute.
