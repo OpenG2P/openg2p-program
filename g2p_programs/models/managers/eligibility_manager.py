@@ -55,7 +55,7 @@ class BaseEligibilityManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
-    def import_eligible_registrants(self):
+    def import_eligible_registrants(self, state=None):
         """
         This method is used to import the beneficiaries in a program.
         Returns:
@@ -119,7 +119,7 @@ class DefaultEligibilityManager(models.Model):
         _logger.debug("Beneficiaries: %s", beneficiaries)
         return beneficiaries
 
-    def import_eligible_registrants(self):
+    def import_eligible_registrants(self, state="draft"):
         # TODO: this only take the first eligibility manager, no the others
         # TODO: move this code to the program manager and use the eligibility manager
         #  like done for enroll_eligible_registrants
@@ -137,11 +137,11 @@ class DefaultEligibilityManager(models.Model):
             # logging.debug("Finally %s beneficiaries", len(new_beneficiaries))
 
             if len(new_beneficiaries) < 1000:
-                rec._import_registrants(new_beneficiaries)
+                rec._import_registrants(new_beneficiaries, state=state)
             else:
-                rec._import_registrants_async(new_beneficiaries)
+                rec._import_registrants_async(new_beneficiaries, state=state)
 
-    def _import_registrants_async(self, new_beneficiaries):
+    def _import_registrants_async(self, new_beneficiaries, state="draft"):
         self.ensure_one()
         program = self.program_id
         program.message_post(
@@ -152,7 +152,9 @@ class DefaultEligibilityManager(models.Model):
         jobs = []
         for i in range(0, len(new_beneficiaries), 10000):
             jobs.append(
-                self.delayable()._import_registrants(new_beneficiaries[i : i + 10000])
+                self.delayable()._import_registrants(
+                    new_beneficiaries[i : i + 10000], state
+                )
             )
         main_job = group(*jobs)
         main_job.on_done(self.delayable().mark_import_as_done())
@@ -160,13 +162,24 @@ class DefaultEligibilityManager(models.Model):
 
     def mark_import_as_done(self):
         self.ensure_one()
+        self.program_id._compute_eligible_beneficiary_count()
+        self.program_id._compute_beneficiary_count()
+
         self.program_id.locked = False
         self.program_id.locked_reason = None
         self.program_id.message_post(body=_("Import finished."))
 
-    def _import_registrants(self, new_beneficiaries):
+    def _import_registrants(self, new_beneficiaries, state="draft", do_count=True):
         logging.info("Importing %s beneficiaries", len(new_beneficiaries))
+        logging.info("updated")
         beneficiaries_val = []
         for beneficiary in new_beneficiaries:
-            beneficiaries_val.append((0, 0, {"partner_id": beneficiary.id}))
+            beneficiaries_val.append(
+                (0, 0, {"partner_id": beneficiary.id, "state": state})
+            )
         self.program_id.update({"program_membership_ids": beneficiaries_val})
+
+        if do_count:
+            # Compute Statistics
+            self.program_id._compute_eligible_beneficiary_count()
+            self.program_id._compute_beneficiary_count()
