@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <!-- individuals tree view-->
+    <record id="pmt_view_registrant_info_form_tree" model="ir.ui.view">
+        <field name="name">pmt_view_registrant_info_form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="g2p_program_registrant_info.view_registrant_info_form_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='program_info']/field/tree" position="inside">
+                <field name="pmt_score" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- group tree view -->
+    <record id="pmt_view_group_registrant_info_form_tree" model="ir.ui.view">
+        <field name="name">pmt_view_group_registrant_info_form_tree</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="g2p_program_registrant_info.view_group_registrant_info_form_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='program_info']/field/tree" position="inside">
+                <field name="pmt_score" readonly="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
