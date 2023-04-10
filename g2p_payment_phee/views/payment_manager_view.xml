@@ -47,14 +47,36 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </h2>
                     </div>
                     <group colspan="4" col="4">
-                        <field name="create_batch" colspan="4" />
                         <field name="auth_endpoint_url" />
                         <field name="payment_endpoint_url" />
                         <field name="status_endpoint_url" />
                         <field name="details_endpoint_url" />
                     </group>
+                    <group colspan="4" col="4" string="Batch Parameters">
+                        <field name="create_batch" colspan="2" />
+                        <field name="max_batch_size" colspan="2" attrs="{'invisible':[('create_batch','!=',True)]}" />
+                        <field name="make_csv_at_prepare" colspan="4" attrs="{'invisible':[('create_batch','!=',True)]}" />
+                        <field name="make_csv_at_prepare" colspan="4" string="Get CSV from Attachments" help="Get CSV from Attachments" attrs="{'invisible':[('create_batch','=',True)]}" />
+                        <field name="batch_type_header" colspan="2" />
+                        <field name="batch_purpose_header" colspan="2" />
+                        <field name="file_name_prefix" colspan="4" />
+                        <field name="batch_request_timeout" colspan="2" />
+                    </group>
+                    <group colspan="4" col="4" string="Payment Parameters">
+                        <field name="tenant_id" colspan="2" />
+                        <field name="payment_mode" colspan="2" />
+                        <field name="payer_id_type" string="Payer Identifier Type" colspan="2" />
+                        <field name="payer_id" string="Payer Identifier" colspan="2" />
+                        <field name="payee_id_type" colspan="2" />
+                        <field name="payee_id_type_to_send" string="Payee ID Type Rewritten" colspan="2" />
+                        <field
+                            name="reg_id_type_for_payee_id"
+                            string="ID Type for Payee ID"
+                            attrs="{'invisible':[('payee_id_type','!=','reg_id')],
+                                    'required':[('payee_id_type','==','reg_id')]}"
+                        />
+                    </group>
                     <group colspan="4" col="4" string="Authentication Parameters">
-                        <field name="tenant_id" />
                         <field name="username" />
                         <field name="password" password="1" />
                         <field name="grant_type" password="1" />

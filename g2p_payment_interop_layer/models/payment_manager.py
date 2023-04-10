@@ -1,7 +1,7 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
-import uuid
 from datetime import datetime
+from uuid import uuid4
 
 import requests
 from requests.exceptions import HTTPError
@@ -101,7 +101,7 @@ class G2PPaymentInteropLayerManager(models.Model):
             for i, entitlement_id in enumerate(entitlements_to_pay):
                 each_payment = self.env["g2p.payment"].create(
                     {
-                        "name": str(uuid.uuid4()),
+                        "name": str(uuid4()),
                         "entitlement_id": entitlement_id.id,
                         "cycle_id": entitlement_id.cycle_id.id,
                         "amount_issued": entitlement_id.initial_amount,
@@ -114,7 +114,7 @@ class G2PPaymentInteropLayerManager(models.Model):
                     if i % max_batch_size == 0:
                         curr_batch = self.env["g2p.payment.batch"].create(
                             {
-                                "name": str(uuid.uuid4()),
+                                "name": str(uuid4()),
                                 "cycle_id": cycle.id,
                                 "stats_datetime": fields.Datetime.now(),
                             }
@@ -162,8 +162,6 @@ class G2PPaymentInteropLayerManager(models.Model):
         for batch in batches:
             if batch.batch_has_started:
                 continue
-            else:
-                batch.batch_has_started = True
 
             disbursement_id = batch.name
 
@@ -208,8 +206,8 @@ class G2PPaymentInteropLayerManager(models.Model):
                 )
                 continue
 
-            for pay in batch.payment_ids:
-                pay.state = "sent"
+            batch.batch_has_started = True
+            batch.payment_ids.write({"state": "sent"})
 
             paid_counter = 0
             for i, payee_result in enumerate(jsonResponse["payeeResults"]):
