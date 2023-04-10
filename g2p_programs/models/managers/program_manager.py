@@ -63,6 +63,22 @@ class BaseProgramManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def mark_enroll_eligible_as_done(self):
+        """Complete the enrollment of eligible beneficiaries.
+        Base :meth:`mark_enroll_eligible_as_done`.
+        This is executed when all the jobs are completed.
+        Post a message in the chatter.
+        :return:
+        """
+        self.ensure_one()
+        self.program_id.locked = False
+        self.program_id.locked_reason = None
+        self.program_id.message_post(body=_("Eligibility check finished."))
+
+        # Compute Statistics
+        self.program_id._compute_eligible_beneficiary_count()
+        self.program_id._compute_beneficiary_count()
+
 
 class DefaultProgramManager(models.Model):
     _name = "g2p.program.manager.default"
@@ -141,7 +157,7 @@ class DefaultProgramManager(models.Model):
             message = _("No Eligibility Manager defined.")
             kind = "danger"
         elif members_count < self.MIN_ROW_JOB_QUEUE:
-            count = self._enroll_eligible_registrants(state)
+            count = self._enroll_eligible_registrants(state, do_count=True)
             message = _("%s Beneficiaries enrolled.", count)
             kind = "success"
         else:
@@ -174,33 +190,27 @@ class DefaultProgramManager(models.Model):
         )
 
         jobs = []
-        # Get the last iteration
-        last_iter = int(members_count / self.MAX_ROW_JOB_QUEUE) + (
-            1 if (members_count % self.MAX_ROW_JOB_QUEUE) > 0 else 0
-        )
-        ctr = 0
         for i in range(0, members_count, self.MAX_ROW_JOB_QUEUE):
-            ctr += 1
-            if ctr == last_iter:
-                # Last iteration, do not skip computing the total eligible registrants fields
-                jobs.append(
-                    self.delayable()._enroll_eligible_registrants(
-                        states, i, self.MAX_ROW_JOB_QUEUE, skip_count=False
-                    )
+            jobs.append(
+                self.delayable()._enroll_eligible_registrants(
+                    states, i, self.MAX_ROW_JOB_QUEUE
                 )
-            else:
-                jobs.append(
-                    self.delayable()._enroll_eligible_registrants(
-                        states, i, self.MAX_ROW_JOB_QUEUE, skip_count=True
-                    )
-                )
+            )
         main_job = group(*jobs)
         main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
         main_job.delay()
 
     def _enroll_eligible_registrants(
-        self, states, offset=0, limit=None, skip_count=False
+        self, states, offset=0, limit=None, do_count=False
     ):
+        """Enroll Eligible Registrants
+
+        :param states: List of states to be used in domain filter
+        :param offset: Optional integer value for the ORM search offset
+        :param limit: Optional integer value for the ORM search limit
+        :param do_count: Boolean - set to False to not run compute functions
+        :return: Integer - count of not enrolled members
+        """
         program = self.program_id
         members = program.get_beneficiaries(
             state=states, offset=offset, limit=limit, order="id"
@@ -232,15 +242,10 @@ class DefaultProgramManager(models.Model):
                 "state": "not_eligible",
             }
         )
-        # Compute total beneficiaries
-        if not skip_count:
+
+        if do_count:
+            # Compute Statistics
             program._compute_eligible_beneficiary_count()
             program._compute_beneficiary_count()
 
         return len(not_enrolled)
-
-    def mark_enroll_eligible_as_done(self):
-        self.ensure_one()
-        self.program_id.locked = False
-        self.program_id.locked_reason = None
-        self.program_id.message_post(body=_("Eligibility check finished."))
