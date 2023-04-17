@@ -8,7 +8,7 @@ from uuid import uuid4
 import requests
 from requests.exceptions import HTTPError
 
-from odoo import Command, _, api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -78,10 +78,16 @@ class G2PPaymentHubEEManager(models.Model):
     # Payment parameters
     file_name_prefix = fields.Char("Filename Prefix", default="ph_ee_")
     batch_type_header = fields.Char("Batch Transaction Type Header", default="type")
-    batch_purpose_header = fields.Char("Batch Transaction Purpose Header", default="G2P Payment")
-    batch_request_timeout = fields.Integer("Batch Request Timeout", default=10)
+    batch_purpose_header = fields.Char(
+        "Batch Transaction Purpose Header", default="G2P Payment"
+    )
+    batch_request_timeout = fields.Integer(
+        help="Batch request timeout in seconds", default=10
+    )
 
-    make_csv_at_prepare = fields.Boolean(help="Make CSV files as attachemnts during Preparation")
+    make_csv_at_prepare = fields.Boolean(
+        help="Make CSV files as attachemnts during Preparation"
+    )
 
     # TODO: optimize code to do in a single query.
     def prepare_payments(self, cycle):
@@ -143,7 +149,10 @@ class G2PPaymentHubEEManager(models.Model):
                     curr_batch.payment_ids = [(4, each_payment.id)]
                     each_payment.batch_id = curr_batch
 
-                    if self.make_csv_at_prepare and (i % max_batch_size == max_batch_size - 1 or i == len(entitlements_to_pay)-1):
+                    if self.make_csv_at_prepare and (
+                        i % max_batch_size == max_batch_size - 1
+                        or i == len(entitlements_to_pay) - 1
+                    ):
                         data = self.prepare_csv_for_batch(curr_batch)
                         csv_data_bin = data.getvalue().encode()
                         filename = f"{self.file_name_prefix}{curr_batch.name}.csv"
@@ -197,7 +206,9 @@ class G2PPaymentHubEEManager(models.Model):
 
             filename = f"{self.file_name_prefix}{batch.name}.csv"
             if self.make_csv_at_prepare:
-                attachments = self.env["ir.attachment"].search([("name","=",filename)], limit=1)
+                attachments = self.env["ir.attachment"].search(
+                    [("name", "=", filename)], limit=1
+                )
                 if len(attachments) == 0:
                     _logger.error("Cannot find attachment with name %s", filename)
                     continue
@@ -222,7 +233,7 @@ class G2PPaymentHubEEManager(models.Model):
                     headers=headers,
                     files=files,
                     timeout=batch_request_timeout,
-                    verify=False
+                    verify=False,
                 )
                 res.raise_for_status()
                 jsonResponse = res.json()
@@ -306,7 +317,9 @@ class G2PPaymentHubEEManager(models.Model):
         ]
         csv_writer.writerow(header)
         for row, payment_id in enumerate(batch.payment_ids):
-            payee_identifier_type, payee_identifier = self._get_dfsp_id_and_type(payment_id)
+            payee_identifier_type, payee_identifier = self._get_dfsp_id_and_type(
+                payment_id
+            )
             row = [
                 row,
                 payment_id.name,
@@ -324,7 +337,9 @@ class G2PPaymentHubEEManager(models.Model):
         return data
 
     def create_update_csv_attachment(self, filename, csv_data_bin):
-        attach_search_result = self.env["ir.attachment"].search([("name", "=", filename)])
+        attach_search_result = self.env["ir.attachment"].search(
+            [("name", "=", filename)]
+        )
         csv_data_base64 = base64.b64encode(csv_data_bin)
         if len(attach_search_result) > 0:
             attach_search_result.write(

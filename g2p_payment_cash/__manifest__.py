@@ -1,6 +1,6 @@
-# Part of OpenG2P Registry. See LICENSE file for full copyright and licensing details.
+# Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
-    "name": "G2P: Proxy Means Test",
+    "name": "OpenG2P Program Payment: Cash",
     "category": "G2P",
     "version": "15.0.1.1.0",
     "sequence": 1,
@@ -8,12 +8,12 @@
     "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "maintainers": ["jeremi", "gonzalesedwin1123", "emjay0921"],
-    "depends": ["g2p_programs", "g2p_program_registrant_info"],
+    "depends": [
+        "g2p_programs",
+    ],
     "data": [
         "security/ir.model.access.csv",
-        "views/proxy_means_test_view.xml",
-        "views/program_registrant_info.xml",
+        "views/payment_manager_view.xml",
     ],
     "assets": {},
     "demo": [],
