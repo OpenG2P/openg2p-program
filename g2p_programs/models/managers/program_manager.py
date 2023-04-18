@@ -141,9 +141,9 @@ class DefaultProgramManager(models.Model):
 
     def enroll_eligible_registrants(self, state=None):
         self.ensure_one()
-        if state is None:
-            states = ["draft"]
-        elif isinstance(state, str):
+        # if state is None:
+        #    states = ["draft"]
+        if isinstance(state, str):
             states = [state]
         else:
             states = state
