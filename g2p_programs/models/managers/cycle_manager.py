@@ -270,9 +270,11 @@ class DefaultCycleManager(models.Model):
         for rec in self:
             rec._ensure_can_edit_cycle(cycle)
 
-            # Get all the draft and enrolled beneficiaries
+            # Get all the draft, enrolled, and not eligible beneficiaries
             if beneficiaries is None:
-                beneficiaries = cycle.get_beneficiaries(["draft", "enrolled"])
+                beneficiaries = cycle.get_beneficiaries(
+                    ["draft", "enrolled", "not_eligible"]
+                )
 
             eligibility_managers = rec.program_id.get_managers(
                 constants.MANAGER_ELIGIBILITY
@@ -447,10 +449,11 @@ class DefaultCycleManager(models.Model):
         self.ensure_one()
         self._ensure_can_edit_cycle(cycle)
         _logger.debug("Adding beneficiaries to the cycle %s", cycle.name)
-        _logger.debug("Beneficiaries: %s", beneficiaries)
+        _logger.debug("Beneficiaries: %s", len(beneficiaries))
 
         # Only add beneficiaries not added yet
         existing_ids = cycle.cycle_membership_ids.mapped("partner_id.id")
+        _logger.debug("Existing IDs: %s", len(existing_ids))
         beneficiaries = list(set(beneficiaries) - set(existing_ids))
         if len(beneficiaries) == 0:
             message = _("No beneficiaries to import.")
