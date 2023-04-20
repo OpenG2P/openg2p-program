@@ -6,30 +6,8 @@ class ProcessGroupMixin(AbstractComponent):
 
     def _process_group(self, group_info):
         res = super(ProcessGroupMixin, self)._process_group(group_info)
-        if group_info.dict().get("program_registrant_info", None):
+        if group_info.dict().get("program_memberships", None):
             res["program_registrant_info_ids"] = self._process_registrant_info(
-                group_info
+                group_info, target_type="group"
             )
         return res
-
-    def _process_registrant_info(self, group_info):
-        memberships = group_info.dict().get("program_memberships", None)
-        registrant_info_ids = []
-        for program_membership in memberships:
-            program_id = self.env["g2p.program"].search(
-                [("name", "=", program_membership["name"])], limit=1
-            )
-            registrant_info_ids.append(
-                (
-                    0,
-                    0,
-                    {
-                        "program_id": program_id.id,
-                        "program_registrant_info": group_info.dict().get(
-                            "program_registrant_info", None
-                        ),
-                    },
-                )
-            )
-
-        return registrant_info_ids
