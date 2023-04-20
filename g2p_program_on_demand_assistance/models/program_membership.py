@@ -15,11 +15,14 @@ class G2PProgramMembership(models.Model):
     age = fields.Char(related="partner_id.age")
     birth_place = fields.Char(related="partner_id.birth_place")
     gender = fields.Selection(related="partner_id.gender")
+    bank_ids = fields.One2many(related="partner_id.bank_ids")
     reg_ids = fields.One2many(related="partner_id.reg_ids")
     related_1_ids = fields.One2many(related="partner_id.related_1_ids")
     related_2_ids = fields.One2many(related="partner_id.related_2_ids")
-    is_registrant = fields.Boolean(related="partner_id.is_registrant")
-    is_group = fields.Boolean(related="partner_id.is_group")
+    is_registrant = fields.Boolean(
+        related="partner_id.is_registrant", string="Is Registrant"
+    )
+    is_group = fields.Boolean(related="partner_id.is_group", string="Is Group")
     group_membership_ids = fields.One2many(related="partner_id.group_membership_ids")
     individual_membership_ids = fields.One2many(
         related="partner_id.individual_membership_ids"

@@ -46,6 +46,16 @@
                             <field name="gender" colspan="6" />
                         </group>
                     </page>
+                    <page string="Bank Details" name="banks">
+                        <field name="bank_ids" nolabel="1">
+                            <tree>
+                                <field name="bank_id" />
+                                <field name="acc_number" />
+                                <field name="acc_type" invisible="1" />
+                                <field name="iban" />
+                            </tree>
+                        </field>
+                    </page>
                     <page string="IDs" name="ids">
                         <field name="reg_ids" nolabel="1">
                             <tree>
