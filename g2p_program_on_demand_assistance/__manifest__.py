@@ -11,9 +11,7 @@
     "depends": [
         "g2p_programs",
     ],
-    "data": [
-        "views/program_membership.xml",
-    ],
+    "data": ["views/program_membership.xml", "views/program.xml"],
     "assets": {},
     "demo": [],
     "images": [],
