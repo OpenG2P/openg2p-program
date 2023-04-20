@@ -19,7 +19,7 @@ class G2PProgramMembership(models.Model):
     related_1_ids = fields.One2many(related="partner_id.related_1_ids")
     related_2_ids = fields.One2many(related="partner_id.related_2_ids")
     is_registrant = fields.Boolean(related="partner_id.is_registrant")
-    is_group = fields.Boolean(relverify_cycle_eligibilityated="partner_id.is_group")
+    is_group = fields.Boolean(related="partner_id.is_group")
     group_membership_ids = fields.One2many(related="partner_id.group_membership_ids")
     individual_membership_ids = fields.One2many(
         related="partner_id.individual_membership_ids"

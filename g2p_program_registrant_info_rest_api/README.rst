@@ -16,7 +16,7 @@ G2P Program : Program Registrant Info Rest API
 
 |badge1| |badge2| 
 
-This module adds REST API support to "G2P Registry: Additional Info"
+This module adds REST API support to "G2P Program Registrant Info"
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.

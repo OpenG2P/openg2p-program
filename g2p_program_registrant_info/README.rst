@@ -17,7 +17,7 @@ G2P Program: Registrant Info
 |badge1| |badge2| 
 
 This module adds support to Registry modules (registry_base, registry_individual and registry_group)
-to accept a new field called additional_g2p_info, which stores data as json and displays it as form.
+which adds new model to store a json data for each program-registrant mapping, and displays it as form.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.

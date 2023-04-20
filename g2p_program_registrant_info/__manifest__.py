@@ -16,6 +16,7 @@
     ],
     "data": [
         "views/program_registrant_info.xml",
+        "views/program_membership.xml",
         "security/ir.model.access.csv",
     ],
     "assets": {
