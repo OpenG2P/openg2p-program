@@ -17,10 +17,10 @@ class G2PCreateNewProgramWiz(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        _logger.info("Creating a new program")
+        _logger.debug("Creating a new program")
         res = super(G2PCreateNewProgramWiz, self).default_get(fields)
 
-        _logger.info("DEBUG: active_model: %s" % self.env.context.get("active_model"))
+        _logger.debug("DEBUG: active_model: %s" % self.env.context.get("active_model"))
 
         # Set default currency from the user's current company
         currency_id = (

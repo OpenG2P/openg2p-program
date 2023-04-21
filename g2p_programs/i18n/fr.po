@@ -26,7 +26,15 @@ msgid "# Beneficiaries"
 msgstr "# Bénéficiaires"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_res_partner__entitlements_count
+#: model:ir.model.fields,field_description:g2p_programs.field_res_users__entitlements_count
+msgid "# Cash Entitlements"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__cycles_count
+#: model:ir.model.fields,field_description:g2p_programs.field_res_partner__cycles_count
+#: model:ir.model.fields,field_description:g2p_programs.field_res_users__cycles_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 msgid "# Cycles"
 msgstr "# Cycles"
@@ -61,16 +69,28 @@ msgid "# Payments"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_res_partner__program_membership_count
+#: model:ir.model.fields,field_description:g2p_programs.field_res_users__program_membership_count
+msgid "# Program Memberships"
+msgstr ""
+
+#. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "%s Beneficiaries duplicate."
 msgstr "%s Bénéficiaires en double."
 
 #. module: g2p_programs
-#: code:addons/g2p_programs/models/programs.py:0
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
 msgstr "%s Bénéficiaires inscrits."
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "%s beneficiaries imported."
+msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
@@ -132,9 +152,22 @@ msgstr "<span class=\"o_stat_text\">Prestations</span>"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #, fuzzy
-#| msgid "<span class=\"o_stat_text\">Cycles</span>"
 msgid "<span class=\"o_stat_text\">Payments</span>"
 msgstr "<span class=\"o_stat_text\">Cycles</span>"
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+#, fuzzy
+#| msgid "<span class=\"o_stat_text\">Duplicates</span>"
+msgid "<span class=\"o_stat_text\">Related Job(s)</span>"
+msgstr "<span class=\"o_stat_text\">Doublons</span>"
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid "<span>Warning: Operation in progress: </span>"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval__cycle_id
@@ -187,7 +220,6 @@ msgstr "Journaux de compte"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__account_number
 #, fuzzy
-#| msgid "Account Journals"
 msgid "Account Number"
 msgstr "Journaux de compte"
 
@@ -255,7 +287,6 @@ msgstr "Icône du type d'activité"
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_assign_payments_batch_wizard
 #, fuzzy
-#| msgid "Add Registrants to Program Wizard"
 msgid "Add Payments to Batch Wizard"
 msgstr "Assistant d'ajout d'inscrits au programme"
 
@@ -277,7 +308,6 @@ msgstr "Ajoutez un gestionnaire de cycle !"
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_payment_manager_default
 #, fuzzy
-#| msgid "Add a Program Manager!"
 msgid "Add a Payment Manager!"
 msgstr "Ajoutez un gestionnaire de programme !"
 
@@ -385,14 +415,12 @@ msgstr "Montant"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__amount_issued
 #, fuzzy
-#| msgid "Amount"
 msgid "Amount Issued"
 msgstr "Montant"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__amount_paid
 #, fuzzy
-#| msgid "Amount"
 msgid "Amount Paid"
 msgstr "Montant"
 
@@ -476,6 +504,18 @@ msgid "Auto-approve Entitlements"
 msgstr "Auto-approbation des prestations"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__auto_approve_entitlements
+msgid "Auto-approve entitlements"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid ""
+"Auto-approve entitlements is set but there are no entitlements to process."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager_default__create_batch
 msgid "Automatically Create Batch"
 msgstr ""
@@ -511,6 +551,13 @@ msgid "Base Entitlement Manager"
 msgstr "Gestionnaire des prestations de base"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__base_event_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__base_event_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__base_event_id
+msgid "Base Event"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_base_programs_manager
 msgid "Base Manager"
 msgstr "Gestionnaire de base"
@@ -518,7 +565,6 @@ msgstr "Gestionnaire de base"
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_base_program_payment_manager
 #, fuzzy
-#| msgid "Base Program Manager"
 msgid "Base Payment Manager"
 msgstr "Gestionnaire de programme de base"
 
@@ -540,7 +586,6 @@ msgstr ""
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__beneficiary_ids
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_form
 #, python-format
 msgid "Beneficiaries"
@@ -567,6 +612,12 @@ msgid "Beneficiary Funds"
 msgstr "Fonds bénéficiaires"
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "Beneficiary import finished."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.constraint,message:g2p_programs.constraint_g2p_cycle_membership_cycle_membership_unique
 msgid "Beneficiary must be unique per cycle."
 msgstr "Le bénéficiaire doit être unique par cycle."
@@ -579,9 +630,22 @@ msgstr "Le bénéficiaire doit être unique par cycle."
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 #, fuzzy
-#| msgid "Beneficiary"
 msgid "Beneficiary:"
 msgstr "Bénéficiaire"
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__byday
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__byday
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__byday
+msgid "By day"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__calendar_event_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__calendar_event_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__calendar_event_ids
+msgid "Calendar Event"
+msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/duplicate.py:0
@@ -597,6 +661,18 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Cancel"
 msgstr "Annuler"
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Cancel %s entitlements started."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Cancel entitlements for cycle."
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__cancelled
@@ -616,6 +692,12 @@ msgstr "Annulé"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__is_cash_entitlement
 msgid "Cash Entitlement"
 msgstr "Prestation comptant"
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_group_ext_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_registrant_ext_form
+msgid "Cash Entitlements"
+msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_eligibility_manager_id_dedup
@@ -687,7 +769,6 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_payment_manager_default
 #, fuzzy
-#| msgid "Click the create button to enter a new program manager."
 msgid "Click the create button to enter a new payment manager."
 msgstr ""
 "Cliquez sur le bouton Créer pour entrer un nouveau gestionnaire de programme."
@@ -748,7 +829,6 @@ msgid "Code"
 msgstr "Code"
 
 #. module: g2p_programs
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Code:"
@@ -829,6 +909,13 @@ msgid "Copy previous cycle"
 msgstr "Copier le cycle précédent"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__count
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__count
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__count
+msgid "Count"
+msgstr ""
+
+#. module: g2p_programs
 #. openerp-web
 #: code:addons/g2p_programs/static/src/xml/create_program_template.xml:0
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
@@ -880,6 +967,7 @@ msgstr "Créer un enregistrement"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__create_uid
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_default__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__create_uid
@@ -917,6 +1005,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__create_date
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_default__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__create_date
@@ -960,6 +1049,7 @@ msgstr "Devise"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/programs.py:0
 #: model:ir.actions.act_window,name:g2p_programs.action_cycle
 #: model:ir.model,name:g2p_programs.model_g2p_cycle
@@ -981,12 +1071,6 @@ msgstr "Devise"
 #, python-format
 msgid "Cycle"
 msgstr "Cycle"
-
-#. module: g2p_programs
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__cycle_duration
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__cycle_duration
-msgid "Cycle Duration"
-msgstr "Durée du cycle"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
@@ -1026,6 +1110,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__cycle_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__cycle_ids
 msgid "Cycle Memberships"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_g2p_cycle_recurrence_mixin
+msgid "Cycle Recurrence Mixin"
 msgstr ""
 
 #. module: g2p_programs
@@ -1092,6 +1181,26 @@ msgstr "Date entrée"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_report_filter
 msgid "Date Posted"
 msgstr "Date postée"
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__day
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__day
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__day
+msgid "Day"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
+msgid "Day of Month"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__rrule_type__daily
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__rrule_type__daily
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__rrule_type__daily
+msgid "Days"
+msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -1180,14 +1289,12 @@ msgstr "Gestionnaires de prestation par défaut"
 #: model:ir.model,name:g2p_programs.model_g2p_program_payment_manager_default
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_manager_default_form
 #, fuzzy
-#| msgid "Default Program Manager"
 msgid "Default Payment Manager"
 msgstr "Gestionnaire de programme par défaut"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_payment_manager_default
 #, fuzzy
-#| msgid "Default Program Managers"
 msgid "Default Payment Managers"
 msgstr "Gestionnaires de programme par défaut"
 
@@ -1215,7 +1322,6 @@ msgstr "Décaissement"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #, fuzzy
-#| msgid "Disbursement Journal Entry"
 msgid "Disbursement Entry"
 msgstr "Saisie du journal des décaissements"
 
@@ -1239,6 +1345,7 @@ msgstr "Saisie du journal des décaissements"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__display_name
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_default__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__display_name
@@ -1298,6 +1405,13 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__dtstart
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__dtstart
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__dtstart
+msgid "Dtstart"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership_duplicate__state__duplicate
 msgid "Duplicate"
 msgstr "Dupliquer"
@@ -1338,6 +1452,18 @@ msgid "Eligibility Managers"
 msgstr "Gestionnaires d'éligibilité"
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
+#, python-format
+msgid "Eligibility check finished."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
+#, python-format
+msgid "Eligibility check of %s beneficiaries started."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__end_date
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 msgid "End Date"
@@ -1347,6 +1473,13 @@ msgstr "Date de fin"
 #: model:ir.actions.server,name:g2p_programs.end_program
 msgid "End Program"
 msgstr "Fin du programme"
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__end_type
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__end_type
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__end_type
+msgid "End Type"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__ended
@@ -1374,7 +1507,8 @@ msgid "Enrolled Programs"
 msgstr "Affilié les programmes"
 
 #. module: g2p_programs
-#: code:addons/g2p_programs/models/programs.py:0
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Enrollment"
 msgstr "Inscription"
@@ -1408,7 +1542,6 @@ msgid "Enter the cycle name..."
 msgstr "Entrez le nom du cycle..."
 
 #. module: g2p_programs
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Enter the program name..."
@@ -1427,10 +1560,10 @@ msgstr "Entrez le nom de l'inscrit..."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/entitlement.py:0
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #: model:ir.model,name:g2p_programs.model_g2p_entitlement
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval__entitlement_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__entitlement_id
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, python-format
@@ -1457,11 +1590,14 @@ msgid "Entitlement Managers"
 msgstr "Gestionnaires de prestations"
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "Entitlement Ready."
+msgstr ""
+
+#. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, fuzzy, python-format
-#| msgid ""
-#| "<b>Entitle State Error! Entitlements not in 'pending validation' state:</"
-#| "b>\n"
 msgid ""
 "Entitlement State Error! Entitlements not in 'pending validation' state:\n"
 msgstr ""
@@ -1480,13 +1616,13 @@ msgid "Entitlement manager"
 msgstr "Gestionnaire de prestations"
 
 #. module: g2p_programs
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement:"
 msgstr "Prestation :"
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: model:ir.actions.act_window,name:g2p_programs.action_entitlement
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__entitlement_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__entitlement_ids
@@ -1494,11 +1630,34 @@ msgstr "Prestation :"
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__entitlement_ids
 #: model:ir.ui.menu,name:g2p_programs.g2p_program_entitlement_root
 #: model:ir.ui.menu,name:g2p_programs.menu_entitlement
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_group_ext_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_registrant_ext_form
+#, python-format
 msgid "Entitlements"
 msgstr "Prestations"
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Entitlements Cancelled."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Entitlements Set to Pending Validation."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Entitlements Validated and Approved."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Entitlements are validated and approved."
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__exit_date
@@ -1542,7 +1701,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "Initial Amount"
 msgid "Failed Amount"
 msgstr "Montant initial"
 
@@ -1569,6 +1727,13 @@ msgid "Finance Validator"
 msgstr "Validateur financier"
 
 #. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__1
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__1
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__1
+msgid "First"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_follower_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_follower_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_follower_ids
@@ -1593,9 +1758,18 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Icône géniale de police, par exemple fa-tâches"
 
 #. module: g2p_programs
-#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__gen_benificiaries
-msgid "Generate Beneficiaries"
-msgstr "Générer des bénéficiaires"
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__4
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__4
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__4
+msgid "Fourth"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__fri
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__fri
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__fri
+msgid "Fri"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_wizard__target_type__group
@@ -1648,6 +1822,7 @@ msgstr "Avoir des bénéficiaires"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_default__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__id
@@ -1748,9 +1923,32 @@ msgstr ""
 "livraison."
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__import_beneficiaries
+msgid "Import Beneficiaries"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__state__step2
 msgid "Import Registrants"
 msgstr "Importer des inscrits"
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/eligibility_manager.py:0
+#, python-format
+msgid "Import finished."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "Import of %s beneficiaries started."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "Importing beneficiaries."
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_wizard__target_type__individual
@@ -1775,6 +1973,13 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__name
 msgid "Internal Reference #"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__interval
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__interval
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__interval
+msgid "Interval"
 msgstr ""
 
 #. module: g2p_programs
@@ -1806,7 +2011,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "Amount"
 msgid "Issued Amount"
 msgstr "Montant"
 
@@ -1825,6 +2029,11 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_issued_transactions
 msgid "Issued Transaction Statistics"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_job_relate_mixin
+msgid "Job Relate Mixin"
 msgstr ""
 
 #. module: g2p_programs
@@ -1847,6 +2056,13 @@ msgid "Journals"
 msgstr "Journaux"
 
 #. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__-1
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__-1
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__-1
+msgid "Last"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__last_deduplication
 msgid "Last Deduplication Date"
 msgstr "Date de la dernière déduplication"
@@ -1859,6 +2075,7 @@ msgstr "Date de la dernière déduplication"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership____last_update
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_default____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup____last_update
@@ -1897,6 +2114,7 @@ msgstr "Modification le"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__write_uid
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_default__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__write_uid
@@ -1934,6 +2152,7 @@ msgstr "Mise à jour par"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__write_date
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_default__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__write_date
@@ -1964,9 +2183,28 @@ msgid "Last Updated on"
 msgstr "Mise à jour le"
 
 #. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_cycle_manager_default__rrule_type
+#: model:ir.model.fields,help:g2p_programs.field_g2p_cycle_recurrence_mixin__rrule_type
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_create_wizard__rrule_type
+msgid "Let the event automatically repeat at that interval"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_payment
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_payment_batch
 msgid "List of payment transactions generated from entitlements."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__locked
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__locked
+msgid "Locked"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__locked_reason
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__locked_reason
+msgid "Locked Reason"
 msgstr ""
 
 #. module: g2p_programs
@@ -2063,6 +2301,27 @@ msgid "Messages"
 msgstr "Messages"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__mon
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__mon
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__mon
+msgid "Mon"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__month_by
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__month_by
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__month_by
+msgid "Month By"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__rrule_type__monthly
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__rrule_type__monthly
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__rrule_type__monthly
+msgid "Months"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_multi_entitlement_approval
 msgid "Multi Entitlement Approval"
 msgstr "Approbation de plusieurs prestations"
@@ -2082,6 +2341,7 @@ msgstr "Date limite de mon activité"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__name
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__name
 msgid "Name"
@@ -2121,6 +2381,13 @@ msgid "Next"
 msgstr "Prochain"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_calendar_event_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_calendar_event_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_date_deadline
@@ -2142,7 +2409,7 @@ msgid "Next Activity Type"
 msgstr "Type d'activité suivant"
 
 #. module: g2p_programs
-#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__gen_benificiaries__no
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__import_beneficiaries__no
 msgid "No"
 msgstr "Non"
 
@@ -2154,16 +2421,11 @@ msgstr "Aucune prestations approuvées sélectionnées"
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
-msgid "No Beneficiaries enrolled."
-msgstr "Aucun bénéficiaire affilié."
-
-#. module: g2p_programs
-#: code:addons/g2p_programs/models/programs.py:0
-#, python-format
 msgid "No Deduplication Manager defined."
 msgstr "Aucun gestionnaire de déduplication défini."
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "No Eligibility Manager defined."
@@ -2174,6 +2436,12 @@ msgstr "Aucun gestionnaire d'éligibilité défini."
 #, python-format
 msgid "No Program Manager defined."
 msgstr "Aucun gestionnaire de programme défini."
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "No beneficiaries to import."
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership_duplicate__state__not_duplicate
@@ -2272,9 +2540,8 @@ msgid "On Enrolled In Program Template"
 msgstr "Sur inscrit au modèle de programme"
 
 #. module: g2p_programs
-#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, fuzzy, python-format
-#| msgid "Ony 'to approve' cycles can be approved."
 msgid "Only 'to approve' cycles can be approved."
 msgstr "Seuls les cycles « à approuver » peuvent être approuvés."
 
@@ -2347,7 +2614,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "Amount"
 msgid "Paid Amount"
 msgstr "Montant"
 
@@ -2414,7 +2680,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "Base Manager"
 msgid "Payment Manager"
 msgstr "Gestionnaire de base"
 
@@ -2423,7 +2688,6 @@ msgstr "Gestionnaire de base"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__payment_managers
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "Program Managers"
 msgid "Payment Managers"
 msgstr "Gestionnaires de programme"
 
@@ -2433,7 +2697,6 @@ msgstr "Gestionnaires de programme"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "Status"
 msgid "Payment Status"
 msgstr "Statut"
 
@@ -2510,9 +2773,20 @@ msgstr "Préparer les prestations"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #, fuzzy
-#| msgid "Prepare Entitlement"
 msgid "Prepare Payments"
 msgstr "Préparer les prestations"
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "Prepare entitlement for %s beneficiaries started."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "Prepare entitlement for beneficiaries."
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.actions.report,name:g2p_programs.action_print_entitlement
@@ -2618,7 +2892,6 @@ msgstr "Fonds du programme"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__journal_id
 #, fuzzy
-#| msgid "Program Fund"
 msgid "Program Journal"
 msgstr "Fond du programme"
 
@@ -2752,6 +3025,15 @@ msgid "Reconciliation Managers"
 msgstr "Gestionnaires de réconciliation"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__cycle_duration
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__rrule_type
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__rrule_type
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__cycle_duration
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__rrule_type
+msgid "Recurrence"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__rdpd2ben
 msgid "Redeemed/Paid to Beneficiary"
 msgstr "Remboursé/Versé au bénéficiaire"
@@ -2765,6 +3047,12 @@ msgstr "Numéro de réference"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Reference Number:"
 msgstr "Numéro de référence :"
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid "Refresh"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__partner_id
@@ -2806,6 +3094,13 @@ msgid "Remarks"
 msgstr "Remarques"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__until
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__until
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__until
+msgid "Repeat Until"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.g2p_accounting_reports_menu_root
 msgid "Reports"
 msgstr "Rapports"
@@ -2822,6 +3117,13 @@ msgstr "Réinitialiser au brouillon"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_user_id
 msgid "Responsible User"
 msgstr "Utilisateur responsable"
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__rrule
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__rrule
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__rrule
+msgid "Rrule"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_has_sms_error
@@ -2854,6 +3156,13 @@ msgid "SMS Templates"
 msgstr "Modèles de SMS"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__sat
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__sat
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__sat
+msgid "Sat"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 msgid "Search Cycle Memberships"
 msgstr ""
@@ -2876,7 +3185,6 @@ msgstr "Rechercher le gestionnaire de prestations par défaut"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_manager_default_filter
 #, fuzzy
-#| msgid "Search Default Program Manager"
 msgid "Search Default Payment Manager"
 msgstr "Rechercher le gestionnaire de programme par défaut"
 
@@ -2909,7 +3217,6 @@ msgstr "Gestionnaires de déduplication d'ID de recherche"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_batch_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
 #, fuzzy
-#| msgid "Search Programs"
 msgid "Search Payments"
 msgstr "Rechercher des programmes"
 
@@ -2949,6 +3256,13 @@ msgstr "Rechercher des programmes"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.notification_manager_sms_filter
 msgid "Search SMS Notification Manager"
 msgstr "Rechercher le gestionnaire de notifications par SMS"
+
+#. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__2
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__2
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__2
+msgid "Second"
+msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
@@ -2992,7 +3306,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "Initial Amount"
 msgid "Sent Amount"
 msgstr "Montant initial"
 
@@ -3026,7 +3339,6 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__service_fee_disbursement_id
 #, fuzzy
-#| msgid "Journal Entry"
 msgid "Service Fee Journal Entry"
 msgstr "Entrée de journal"
 
@@ -3041,9 +3353,21 @@ msgid "Set as Ended"
 msgstr "Définir comme terminé"
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Set entitlements to pending validation for cycle."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_create_wizard__transfer_fee_amt
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_amt
 msgid "Set fixed transfer fee amount"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Setting %s entitlements to pending validation has started."
 msgstr ""
 
 #. module: g2p_programs
@@ -3090,14 +3414,12 @@ msgstr "État"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "Status"
 msgid "Statistics"
 msgstr "Statut"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_datetime
 #, fuzzy
-#| msgid "Start Date"
 msgid "Statistics Date/Time"
 msgstr "Date de début"
 
@@ -3118,7 +3440,6 @@ msgstr "Statut"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__status_datetime
 #, fuzzy
-#| msgid "Start Date"
 msgid "Status Datetime"
 msgstr "Date de début"
 
@@ -3143,6 +3464,13 @@ msgid "Status:"
 msgstr "Statut :"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__sun
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__sun
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__sun
+msgid "Sun"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__supported_id_document_types
 msgid "Supported ID Document Types"
 msgstr "Types de documents d'identité supporté"
@@ -3165,6 +3493,12 @@ msgid "Target Type:"
 msgstr "Type de cible :"
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
+msgid "The"
+msgstr ""
+
+#. module: g2p_programs
 #: code:addons/g2p_programs/wizard/create_program_wizard.py:0
 #, python-format
 msgid ""
@@ -3177,8 +3511,8 @@ msgstr ""
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
-msgid "The Cycle is not in Draft Mode"
-msgstr "Le cycle n'est pas en mode brouillon"
+msgid "The Cycle is not in draft mode"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_entitlement__currency_id
@@ -3237,14 +3571,12 @@ msgstr "Il n'y a pas de fonds de programme entrés !"
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
 #, fuzzy, python-format
-#| msgid "There are no selected registrants!"
 msgid "There are no new payments issued!"
 msgstr "Il n'y a pas d'inscrits sélectionnés !"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/wizard/assign_payments_batch_wizard.py:0
 #, fuzzy, python-format
-#| msgid "There are no selected registrants!"
 msgid "There are no selected payments!"
 msgstr "Il n'y a pas d'inscrits sélectionnés !"
 
@@ -3253,6 +3585,13 @@ msgstr "Il n'y a pas d'inscrits sélectionnés !"
 #, python-format
 msgid "There are no selected registrants!"
 msgstr "Il n'y a pas d'inscrits sélectionnés !"
+
+#. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__3
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__3
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__3
+msgid "Third"
+msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
@@ -3272,6 +3611,20 @@ msgid "This fund was cancelled on"
 msgstr "Ce fonds a été supprimé le"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__thu
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__thu
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__thu
+msgid "Thu"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__event_tz
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__event_tz
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__event_tz
+msgid "Timezone"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__to_approve
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
@@ -3281,7 +3634,6 @@ msgstr "Approuver"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__transfer_fee
 #, fuzzy
-#| msgid "Transferred to FSP"
 msgid "Transfer Fee"
 msgstr "Transféré au FSP"
 
@@ -3295,7 +3647,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__transfer_fee_pct
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_pct
 #, fuzzy
-#| msgid "Transferred to FSP"
 msgid "Transfer Fee(%)"
 msgstr "Transféré au FSP"
 
@@ -3309,6 +3660,13 @@ msgstr ""
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__trans2fsp
 msgid "Transferred to FSP"
 msgstr "Transféré au FSP"
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__tue
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__tue
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__tue
+msgid "Tue"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_exception_decoration
@@ -3356,6 +3714,23 @@ msgid "Valid Until"
 msgstr "Valable jusque"
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Validate %s entitlements started."
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
+msgid "Validate Entitlements"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "Validate and approve entitlements for cycle."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership__deduplication_status__verified
 msgid "Verified"
 msgstr "Vérifié"
@@ -3364,6 +3739,11 @@ msgstr "Vérifié"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "Verify Eligibility"
 msgstr "Vérifier l'éligibilité"
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid "Verify eligibility"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__website_message_ids
@@ -3382,13 +3762,41 @@ msgid "Website communication history"
 msgstr "Historique des communications du site Web"
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__wed
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__wed
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__wed
+msgid "Wed"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__weekday
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__weekday
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__weekday
+msgid "Weekday"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__rrule_type__weekly
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__rrule_type__weekly
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__rrule_type__weekly
+msgid "Weeks"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "Would you like to import the matching registrants to this program?"
 msgstr ""
 "Souhaitez-vous importer les inscrits correspondants dans ce programme ?"
 
 #. module: g2p_programs
-#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__gen_benificiaries__yes
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__rrule_type__yearly
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__rrule_type__yearly
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__rrule_type__yearly
+msgid "Years"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__import_beneficiaries__yes
 msgid "Yes"
 msgstr "Oui"
 
@@ -3428,7 +3836,6 @@ msgid "button."
 msgstr "bouton."
 
 #. module: g2p_programs
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "code..."
@@ -3483,6 +3890,20 @@ msgstr "montant_total_par_individu_dans_le_groupe"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "| Company:"
 msgstr "| Compagnie :"
+
+#~ msgid "Cycle Duration"
+#~ msgstr "Durée du cycle"
+
+#~ msgid "Generate Beneficiaries"
+#~ msgstr "Générer des bénéficiaires"
+
+#, python-format
+#~ msgid "No Beneficiaries enrolled."
+#~ msgstr "Aucun bénéficiaire affilié."
+
+#, python-format
+#~ msgid "The Cycle is not in Draft Mode"
+#~ msgstr "Le cycle n'est pas en mode brouillon"
 
 #~ msgid "Set as Distributed"
 #~ msgstr "Définir comme distribué"
