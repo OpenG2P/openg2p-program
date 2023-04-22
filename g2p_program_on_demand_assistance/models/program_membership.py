@@ -31,6 +31,7 @@ class G2PProgramMembership(models.Model):
         related="partner_id.program_membership_ids"
     )
     entitlement_ids = fields.One2many(related="partner_id.entitlement_ids")
+    registration_date = fields.Date(related="partner_id.registration_date")
 
     def verify_eligibility(self):
         eligibility_managers = self.program_id.get_managers(

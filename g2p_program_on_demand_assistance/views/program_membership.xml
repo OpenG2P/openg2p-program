@@ -13,6 +13,9 @@
                     class="btn-primary"
                 />
             </xpath>
+            <xpath expr="//field[@name='enrollment_date']" position="before">
+               <field name="registration_date" />
+            </xpath>
             <xpath expr="//field[@name='enrollment_date']/.." position="before">
                 <group>
                     <field name="registrant_id" />
