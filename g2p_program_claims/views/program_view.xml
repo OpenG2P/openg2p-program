@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="g2p_programs.action_program_list" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="context">{"default_is_claims_program": False}</field>
+        <field name="domain">[("is_claims_program", "=", False)]</field>
+    </record>
+
+    <record id="action_sp_program_list" model="ir.actions.act_window">
+        <field name="name">Service Provider Programs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">g2p.program</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{"default_is_claims_program_program": True}</field>
+        <field name="domain">[("is_claims_program", "=", True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new program!
+            </p><p>
+                Click the create button to enter the new program information.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_sp_program_list"
+        name="Service Provider Programs"
+        action="action_sp_program_list"
+        parent="g2p_programs.g2p_program_menu_root"
+        sequence="30"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager,g2p_programs.g2p_program_validator"
+    />
+</odoo>
