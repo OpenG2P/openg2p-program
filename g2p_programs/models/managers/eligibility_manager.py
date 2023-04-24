@@ -43,12 +43,12 @@ class BaseEligibilityManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
-    def verify_cycle_eligibility(self, cycle, program_memberships):
+    def verify_cycle_eligibility(self, cycle, membership):
         """
         This method is used to validate if a beneficiary match the criteria needed to be enrolled in a cycle.
         Args:
             cycle:
-            program_membership:
+            membership:
 
         Returns:
             bool: True if the cycle match the criterias, False otherwise.
@@ -81,12 +81,15 @@ class DefaultEligibilityManager(models.Model):
             ids = membership.mapped("partner_id.id")
             domain += [("id", "in", ids)]
 
+        # Do not include disabled registrants
+        domain += [("disabled", "=", False)]
         # TODO: use the config of the program
         if self.program_id.target_type == "group":
             domain += [("is_group", "=", True)]
         if self.program_id.target_type == "individual":
             domain += [("is_group", "=", False)]
         domain += self._safe_eval(self.eligibility_domain)
+        # _logger.debug("DOMAIN: %s" % domain)
         return domain
 
     def enroll_eligible_registrants(self, program_memberships):
