@@ -143,8 +143,6 @@
                             </field>
                         </group>
                     </page>
-                </notebook>
-                <notebook name="registrant_program_details">
                     <page name="program" string="Programs">
                         <field name="program_membership_ids" nolabel="1">
                             <tree>
@@ -173,6 +171,15 @@
                                 <field name="valid_from" />
                                 <field name="valid_until" />
                                 <field name="state" />
+                            </tree>
+                        </field>
+                    </page>
+                    <page name="program_info" string="Program Info">
+                        <field name="program_registrant_info_ids" readonly="1" nolabel="1">
+                            <tree>
+                                <field name="registrant_id" invisible="1" />
+                                <field name="program_id" />
+                                <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                             </tree>
                         </field>
                     </page>

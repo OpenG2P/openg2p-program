@@ -8,9 +8,7 @@
     "website": "https://github.com/openg2p/openg2p-program",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "depends": [
-        "g2p_programs",
-    ],
+    "depends": ["g2p_programs", "g2p_program_registrant_info"],
     "data": [
         "views/program_membership.xml",
     ],
