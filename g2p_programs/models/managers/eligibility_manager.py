@@ -137,7 +137,7 @@ class DefaultEligibilityManager(models.Model):
             # logging.debug("Finally %s beneficiaries", len(new_beneficiaries))
 
             if len(new_beneficiaries) < 1000:
-                rec._import_registrants(new_beneficiaries, state=state)
+                rec._import_registrants(new_beneficiaries, state=state, do_count=True)
             else:
                 rec._import_registrants_async(new_beneficiaries, state=state)
 
@@ -169,7 +169,7 @@ class DefaultEligibilityManager(models.Model):
         self.program_id.locked_reason = None
         self.program_id.message_post(body=_("Import finished."))
 
-    def _import_registrants(self, new_beneficiaries, state="draft", do_count=True):
+    def _import_registrants(self, new_beneficiaries, state="draft", do_count=False):
         logging.info("Importing %s beneficiaries", len(new_beneficiaries))
         logging.info("updated")
         beneficiaries_val = []
