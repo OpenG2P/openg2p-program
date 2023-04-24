@@ -8,7 +8,6 @@
     "website": "https://github.com/openg2p/openg2p-program",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "maintainers": ["jeremi", "gonzalesedwin1123", "emjay0921"],
     "depends": ["g2p_programs", "g2p_program_registrant_info"],
     "data": [
         "security/ir.model.access.csv",
