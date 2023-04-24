@@ -11,7 +11,10 @@
     "depends": [
         "g2p_programs",
     ],
-    "data": ["views/program_view.xml"],
+    "data": [
+        "views/program_view.xml",
+        "wizard/create_program_wizard.xml",
+    ],
     "assets": {},
     "demo": [],
     "images": [],

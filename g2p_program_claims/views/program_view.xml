@@ -2,16 +2,31 @@
 <odoo>
     <record id="g2p_programs.action_program_list" model="ir.actions.act_window">
         <field name="type">ir.actions.act_window</field>
-        <field name="context">{"default_is_claims_program": False}</field>
         <field name="domain">[("is_claims_program", "=", False)]</field>
     </record>
 
-    <record id="action_sp_program_list" model="ir.actions.act_window">
-        <field name="name">Service Provider Programs</field>
+    <record id="view_program_ext_claim_form" model="ir.ui.view">
+        <field name="name">view_program_ext_claim_form</field>
+        <field name="model">g2p.program</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_list_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='accounting']" position="after">
+                <group name="claim_program" string="Claims Program">
+                    <field
+                        name="claim_program_id"
+                        string="Claims Program"
+                        domain="[('is_claims_program','=', True)]"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_claims_program_list" model="ir.actions.act_window">
+        <field name="name">Claims Programs</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">g2p.program</field>
         <field name="view_mode">tree,form</field>
-        <field name="context">{"default_is_claims_program_program": True}</field>
         <field name="domain">[("is_claims_program", "=", True)]</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -24,8 +39,8 @@
 
     <menuitem
         id="menu_sp_program_list"
-        name="Service Provider Programs"
-        action="action_sp_program_list"
+        name="Claims Programs"
+        action="action_claims_program_list"
         parent="g2p_programs.g2p_program_menu_root"
         sequence="30"
         groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager,g2p_programs.g2p_program_validator"
