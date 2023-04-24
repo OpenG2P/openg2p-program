@@ -219,6 +219,7 @@ class DefaultProgramManager(models.Model):
         member_before = members
 
         eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
+        # TODO: Handle multiple eligibility managers properly
         for el in eligibility_managers:
             members = el.enroll_eligible_registrants(members)
         # enroll the one not already enrolled:
