@@ -78,6 +78,7 @@ msgid "%s Beneficiaries duplicate."
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
@@ -1405,12 +1406,14 @@ msgid "Eligibility Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check finished."
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check of %s beneficiaries started."
