@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models,_
 
 from odoo.addons.g2p_programs.models import constants
 
@@ -33,10 +33,53 @@ class G2PProgramMembership(models.Model):
     entitlement_ids = fields.One2many(related="partner_id.entitlement_ids")
     registration_date = fields.Date(related="partner_id.registration_date")
 
-    def verify_eligibility(self):
+    def enroll_eligible_registrants(self):
         eligibility_managers = self.program_id.get_managers(
             constants.MANAGER_ELIGIBILITY
         )
+        member=self
         for em in eligibility_managers:
-            em.verify_cycle_eligibility(None, self)
+            member = em.enroll_eligible_registrants(member)
+        if len(member)>0:       
+            self.write(
+                {
+                    "state": "enrolled",
+                    "enrollment_date": fields.Datetime.now(),
+                }
+            )
+        else:
+            self.state="not_eligible"
+
         return
+    
+    def deduplicate_beneficiaries(self):
+        deduplication_managers = self.program_id.get_managers(constants.MANAGER_DEDUPLICATION)
+        message = None
+        kind = "success"
+        if len(deduplication_managers):
+            states = ["draft", "enrolled", "eligible", "paused", "duplicated"]
+            duplicates = 0
+            for el in deduplication_managers:
+                duplicates += el.deduplicate_beneficiaries(states)
+
+                if duplicates > 0:
+                    message = _("%s Beneficiaries duplicate.", duplicates)
+                    kind = "warning"
+        else:
+            message = _("No Deduplication Manager defined.")
+            kind = "danger"
+
+        if message:
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                        "title": _("Deduplication"),
+                        "message": message,
+                        "sticky": True,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                },
+            }
