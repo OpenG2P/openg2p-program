@@ -70,6 +70,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         bg_color="bg-danger"
                         attrs="{'invisible': [('state', '!=', 'exited')]}"
                     />
+                    <widget
+                        name="web_ribbon"
+                        title="DUPLICATED"
+                        bg_color="bg-info"
+                        attrs="{'invisible': [('state', '!=', 'duplicated')]}"
+                    />
                     <div class="oe_title mb24">
                         <label for="partner_id" string="Registrant:" />
                         <h1>
