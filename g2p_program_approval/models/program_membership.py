@@ -1,4 +1,4 @@
-from odoo import fields, models,_
+from odoo import _, fields, models
 
 from odoo.addons.g2p_programs.models import constants
 
@@ -37,10 +37,10 @@ class G2PProgramMembership(models.Model):
         eligibility_managers = self.program_id.get_managers(
             constants.MANAGER_ELIGIBILITY
         )
-        member=self
+        member = self
         for em in eligibility_managers:
             member = em.enroll_eligible_registrants(member)
-        if len(member)>0:       
+        if len(member) > 0:
             self.write(
                 {
                     "state": "enrolled",
@@ -48,12 +48,14 @@ class G2PProgramMembership(models.Model):
                 }
             )
         else:
-            self.state="not_eligible"
+            self.state = "not_eligible"
 
         return
-    
+
     def deduplicate_beneficiaries(self):
-        deduplication_managers = self.program_id.get_managers(constants.MANAGER_DEDUPLICATION)
+        deduplication_managers = self.program_id.get_managers(
+            constants.MANAGER_DEDUPLICATION
+        )
         message = None
         kind = "success"
         if len(deduplication_managers):
@@ -74,12 +76,12 @@ class G2PProgramMembership(models.Model):
                 "type": "ir.actions.client",
                 "tag": "display_notification",
                 "params": {
-                        "title": _("Deduplication"),
-                        "message": message,
-                        "sticky": True,
-                        "type": kind,
-                        "next": {
-                            "type": "ir.actions.act_window_close",
-                        },
+                    "title": _("Deduplication"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
                 },
             }

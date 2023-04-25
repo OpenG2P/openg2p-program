@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="view_program_membership_oda_form" model="ir.ui.view">
         <field name="name">view_program_membership_oda_form</field>
@@ -29,9 +29,13 @@
                 />
             </xpath>
             <xpath expr="//sheet" position="inside">
-                <widget name="web_ribbon" title="DUPLICATE" bg_color="bg-danger"
+                <widget
+                    name="web_ribbon"
+                    title="DUPLICATE"
+                    bg_color="bg-danger"
                     attrs="{'invisible': [('state', '!=', 'duplicated')]}"
-                    modifiers="{&quot;invisible&quot;: [[&quot;state&quot;, &quot;!=&quot;, &quot;duplicated&quot;]]}" />
+                    modifiers="{&quot;invisible&quot;: [[&quot;state&quot;, &quot;!=&quot;, &quot;duplicated&quot;]]}"
+                />
             </xpath>
             <xpath expr="//field[@name='enrollment_date']" position="before">
                 <field name="registration_date" />

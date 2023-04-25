@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!--
 Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 -->
@@ -41,8 +41,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <form string="Program Membership">
                 <header>
-                    <field name="state" widget="statusbar"
-                        statusbar_visible="draft,enrolled,paused,exited" />
+                    <field name="state" widget="statusbar" statusbar_visible="draft,enrolled,paused,exited" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -120,8 +119,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <filter name="enrolled_state" string="Enrolled" domain="[('state','=','enrolled')]" />
                 <filter name="paused_state" string="Paused" domain="[('state','=','paused')]" />
                 <filter name="exited_state" string="Exited" domain="[('state','=','exited')]" />
-                <filter name="not_eligible" string="Not Eligible"
-                    domain="[('state','=','not_eligible')]" />
+                <filter name="not_eligible" string="Not Eligible" domain="[('state','=','not_eligible')]" />
                 <group expand="0" string="Group By">
                     <filter
                         string="Enrollment Date"
