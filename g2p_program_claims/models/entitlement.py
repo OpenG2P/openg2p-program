@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import _, fields, models
 
 
 class G2PEntitlement(models.Model):
@@ -13,3 +13,25 @@ class G2PEntitlement(models.Model):
     claim_entitlement_ids = fields.One2many(
         "g2p.entitlement", "claim_original_entitlement_id"
     )
+
+    supporting_document = fields.Many2one("storage.file")
+
+    def _compute_name(self):
+        for record in self:
+            name = (
+                _("Entitlement")
+                if not record.program_id.is_claims_program
+                else _("Claim")
+            )
+            initial_amount = "{:,.2f}".format(record.initial_amount)
+            if record.is_cash_entitlement:
+                name += (
+                    " Cash ["
+                    + str(record.currency_id.symbol)
+                    + " "
+                    + initial_amount
+                    + "]"
+                )
+            else:
+                name += " (" + str(record.code) + ")"
+            record.name = name

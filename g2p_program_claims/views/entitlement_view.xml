@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_entitlement_claim_form" model="ir.ui.view">
+        <field name="name">view_entitlement_claim_form</field>
+        <field name="model">g2p.entitlement</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
+        <field name="mode">primary</field>
+        <field name="priority" eval="102" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='approve_entitlement']" position="attributes">
+                <attribute name="string">
+                    Approve Claim
+                </attribute>
+            </xpath>
+            <xpath expr="//label[@for='name']" position="attributes">
+                <attribute name="string">
+                    Claim:
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='cycle_id']/.." position="inside">
+                <field
+                    name="vendor_id"
+                    attrs="{'readonly':[('state','!=','draft')]}"
+                    options="{'no_open':True,'no_quick_create':True,'no_create':True}"
+                />
+                <field
+                    name="supporting_document"
+                    readonly="1"
+                    options="{'no_open':True,'no_quick_create':True,'no_create':True}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

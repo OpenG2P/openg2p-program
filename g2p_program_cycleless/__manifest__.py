@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
-    "name": "OpenG2P Programs: Claims",
+    "name": "OpenG2P Programs: Cycleless",
     "category": "G2P",
     "version": "15.0.1.1.0",
     "sequence": 1,
@@ -10,15 +10,11 @@
     "development_status": "Alpha",
     "depends": [
         "g2p_programs",
-        # TODO: discuss the following dependencies
-        "g2p_program_cycleless",
-        "g2p_documents",
     ],
     "data": [
         "views/program_view.xml",
-        "views/cycle_view.xml",
-        "views/entitlement_view.xml",
-        "wizard/create_program_wizard.xml",
+        "views/program_membership.xml",
+        "views/program_manager_view.xml",
     ],
     "assets": {},
     "demo": [],
