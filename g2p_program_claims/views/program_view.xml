@@ -5,6 +5,25 @@
         <field name="domain">[("is_claims_program", "=", False)]</field>
     </record>
 
+    <record id="view_program_ext_claim_form" model="ir.ui.view">
+        <field name="name">view_program_claim_form</field>
+        <field name="model">g2p.program</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_list_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <field name="is_claims_program" invisible="1" />
+            </xpath>
+            <xpath expr="//group[@name='documents']" position="after">
+                <group name="claim_program" string="Claims Program">
+                    <field
+                        name="claim_program_id"
+                        string="Claims Program"
+                        domain="[('is_claims_program','=', True)]"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
     <record id="view_program_claim_form" model="ir.ui.view">
         <field name="name">view_program_claim_form</field>
         <field name="model">g2p.program</field>
@@ -12,19 +31,6 @@
         <field name="mode">primary</field>
         <field name="priority" eval="102" />
         <field name="arch" type="xml">
-            <xpath expr="//form" position="inside">
-                <field name="is_claims_program" invisible="1" />
-            </xpath>
-            <xpath expr="//group[@name='accounting']" position="after">
-                <group name="claim_program" string="Claims Program">
-                    <field
-                        name="claim_program_id"
-                        string="Claims Program"
-                        domain="[('is_claims_program','=', True)]"
-                    />
-                    <field name="supporting_documents_store" />
-                </group>
-            </xpath>
             <xpath expr="//field[@name='eligible_beneficiaries_count']/../span" position="replace">
                 <span class="o_stat_text">Vendors</span>
             </xpath>

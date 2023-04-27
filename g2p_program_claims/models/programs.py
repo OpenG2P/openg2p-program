@@ -10,8 +10,6 @@ class G2PPrograms(models.Model):
 
     claim_program_id = fields.Many2one("g2p.program")
 
-    supporting_documents_store = fields.Many2one("storage.backend")
-
     def open_eligible_beneficiaries_form(self):
         res = super(G2PPrograms, self).open_eligible_beneficiaries_form()
         if self.is_claims_program:

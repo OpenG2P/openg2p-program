@@ -14,8 +14,6 @@ class G2PEntitlement(models.Model):
         "g2p.entitlement", "claim_original_entitlement_id"
     )
 
-    supporting_document = fields.Many2one("storage.file")
-
     def _compute_name(self):
         for record in self:
             name = (

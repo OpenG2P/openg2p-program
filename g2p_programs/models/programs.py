@@ -112,6 +112,8 @@ class G2PProgram(models.Model):
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 
+    supporting_documents_store = fields.Many2one("storage.backend")
+
     def toggle_active(self):
         """
         Overrides the default :meth:`toggle_active` to cancel

@@ -12,7 +12,6 @@
         "g2p_programs",
         # TODO: discuss the following dependencies
         "g2p_program_cycleless",
-        "g2p_documents",
     ],
     "data": [
         "views/program_view.xml",
