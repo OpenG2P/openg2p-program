@@ -111,6 +111,7 @@ class G2PProgram(models.Model):
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
+    supporting_documents_store = fields.Many2one("storage.backend")
 
     def toggle_active(self):
         """
