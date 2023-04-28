@@ -6,14 +6,20 @@
         <field name="inherit_id" ref="g2p_programs.view_program_list_tree" />
         <field name="arch" type="xml">
             <xpath expr="//tree" position="inside">
+                <field name="beneficiaries_count" invisible="1" />
                 <button
                     type="object"
                     icon="fa-users"
                     class="oe_stat_button"
                     name="open_eligible_beneficiaries_form"
                     string="Beneficiaries list"
+                    attrs="{'invisible': [('beneficiaries_count','=',0)]}"
                 />
             </xpath>
+            <xpath expr="//field[@name='eligible_beneficiaries_count']" position="attributes">
+                <attribute name="string"># Enrolled Beneficiaries</attribute>
+            </xpath>
+
         </field>
     </record>
 

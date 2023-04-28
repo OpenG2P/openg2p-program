@@ -40,7 +40,7 @@ class G2PProgramMembership(models.Model):
         member = self
         for em in eligibility_managers:
             member = em.enroll_eligible_registrants(member)
-        if len(member) > 0:
+        if len(member) > 0 and self.state != "enrolled":
             self.write(
                 {
                     "state": "enrolled",
@@ -56,6 +56,14 @@ class G2PProgramMembership(models.Model):
         deduplication_managers = self.program_id.get_managers(
             constants.MANAGER_DEDUPLICATION
         )
+        # states = ["draft", "enrolled", "eligible", "paused", "duplicated"]
+        # duplicates=deduplication_managers.deduplicate_beneficiaries(states)
+        # message = None
+        # kind = "success"
+
+        # if duplicates > 0:
+        #     message = _("%s Beneficiaries duplicate.", duplicates)
+        #     kind = "warning"
         message = None
         kind = "success"
         if len(deduplication_managers):

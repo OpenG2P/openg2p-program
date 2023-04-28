@@ -199,7 +199,6 @@
                                 <field name="cycle_id" />
                                 <field name="valid_from" />
                                 <field name="valid_until" />
-
                                 <field name="state" />
                             </tree>
                         </field>
