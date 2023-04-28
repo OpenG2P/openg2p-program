@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="g2p_programs.action_program_list" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="domain">[("is_claims_program", "=", False)]</field>
+    </record>
+
+    <record id="view_program_ext_claim_form" model="ir.ui.view">
+        <field name="name">view_program_claim_form</field>
+        <field name="model">g2p.program</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_list_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <field name="is_claims_program" invisible="1" />
+            </xpath>
+            <xpath expr="//group[@name='documents']" position="after">
+                <group name="claim_program" string="Claims Program">
+                    <field
+                        name="claim_program_id"
+                        string="Claims Program"
+                        domain="[('is_claims_program','=', True)]"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_program_claim_form" model="ir.ui.view">
+        <field name="name">view_program_claim_form</field>
+        <field name="model">g2p.program</field>
+        <field name="inherit_id" ref="g2p_program_cycleless.view_program_ext_cycleless_form" />
+        <field name="mode">primary</field>
+        <field name="priority" eval="102" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='eligible_beneficiaries_count']/../span" position="replace">
+                <span class="o_stat_text">Vendors</span>
+            </xpath>
+            <xpath expr="//field[@name='entitlements_count']/../span" position="replace">
+                <span class="o_stat_text">Claims</span>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_claims_program" model="ir.actions.act_window">
+        <field name="name">Claims Programs</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">g2p.program</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[("is_claims_program", "=", True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a new program!
+            </p><p>
+                Click the create button to enter the new program information.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_claims_program_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="g2p_programs.view_program_list_tree" />
+        <field name="act_window_id" ref="action_claims_program" />
+    </record>
+
+    <record id="action_cycle_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_program_claim_form" />
+        <field name="act_window_id" ref="action_claims_program" />
+    </record>
+
+    <menuitem
+        id="menu_claim_program_list"
+        name="Claims Programs"
+        action="action_claims_program"
+        parent="g2p_programs.g2p_program_menu_root"
+        sequence="30"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager,g2p_programs.g2p_program_validator"
+    />
+</odoo>

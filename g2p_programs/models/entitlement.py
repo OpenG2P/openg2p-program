@@ -81,6 +81,10 @@ class G2PEntitlement(models.Model):
         copy=False,
     )
 
+    payment_ids = fields.One2many("g2p.payment", "entitlement_id", string="Payments")
+
+    supporting_document = fields.Many2one("storage.file")
+
     _sql_constraints = [
         (
             "unique_entitlement_code",

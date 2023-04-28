@@ -99,6 +99,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 force_save="1"
                                 attrs="{'readonly':[('state','!=','draft')]}"
                             />
+                            <field name="supporting_document" attrs="{'readonly':[('state','!=','draft')]}" />
                         </group>
                         <group>
                             <field name="valid_from" attrs="{'readonly':[('state','!=','draft')]}" />
