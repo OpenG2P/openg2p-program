@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+g2p_entitlement_wizard_admin,G2P Entitlement Wizard Admin Access,model_g2p_entitlement_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1

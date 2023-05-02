@@ -11,7 +11,12 @@
     "depends": [
         "g2p_programs",
     ],
-    "data": ["views/program_membership.xml", "views/program.xml"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/program_membership.xml",
+        "views/program.xml",
+        "wizard/create_entitlement_wizard.xml",
+    ],
     "assets": {},
     "demo": [],
     "images": [],

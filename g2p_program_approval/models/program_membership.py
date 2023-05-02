@@ -40,3 +40,16 @@ class G2PProgramMembership(models.Model):
         for em in eligibility_managers:
             em.verify_cycle_eligibility(None, self)
         return
+
+    def create_entitlement(self):
+        return {
+            "name": "Create Entitlement",
+            "view_mode": "form",
+            "res_model": "g2p.entitlement.wizard",
+            "res_id": self.id,
+            "view_id": self.env.ref(
+                "g2p_program_approval.create_entitlement_wizard_form_view"
+            ).id,
+            "type": "ir.actions.act_window",
+            "target": "new",
+        }

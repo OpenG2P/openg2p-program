@@ -12,6 +12,13 @@
                     string="Verify Eligibility"
                     class="btn-primary"
                 />
+                <button
+                    name="create_entitlement"
+                    type="object"
+                    attrs="{'invisible':[('state','!=','enrolled')]}"
+                    string="Create Entitlement"
+                    class="btn-primary"
+                />
             </xpath>
             <xpath expr="//field[@name='enrollment_date']" position="before">
                <field name="registration_date" />
@@ -146,8 +153,6 @@
                             </field>
                         </group>
                     </page>
-                </notebook>
-                <notebook name="registrant_program_details">
                     <page name="program" string="Programs">
                         <field name="program_membership_ids" nolabel="1">
                             <tree>
