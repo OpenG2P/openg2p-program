@@ -13,7 +13,7 @@
             <xpath expr="//form" position="inside">
                 <field name="is_claims_program" invisible="1" />
             </xpath>
-            <xpath expr="//group[@name='documents']" position="after">
+            <xpath expr="//group[@name='accounting']/.." position="inside">
                 <group name="claim_program" string="Claims Program">
                     <field
                         name="claim_program_id"

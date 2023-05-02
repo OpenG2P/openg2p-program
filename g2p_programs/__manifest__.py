@@ -16,7 +16,6 @@
         "g2p_registry_group",
         "g2p_registry_membership",
         "g2p_bank",
-        "g2p_documents",
         "l10n_generic_coa",
         "event_sms",
         "calendar",

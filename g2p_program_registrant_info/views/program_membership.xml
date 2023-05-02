@@ -5,17 +5,15 @@
         <field name="model">g2p.program_membership</field>
         <field name="inherit_id" ref="g2p_programs.view_program_membership_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='enrollment_date']/../.." position="inside">
-                <notebook name="program_registrant_info">
-                    <page name="program_info" string="Program Info">
-                        <field name="program_registrant_info_ids" readonly="1" nolabel="1">
-                            <tree>
-                                <field name="program_registrant_info" widget="g2p_addl_info_widget" />
-                                <field name="status" />
-                            </tree>
-                        </field>
-                    </page>
-                </notebook>
+            <xpath expr="//page[@name='entitlement']" position="after">
+                <page name="program_registrant_info" string="Registrant Info">
+                    <field name="program_registrant_info_ids" readonly="1" nolabel="1">
+                        <tree>
+                            <field name="program_registrant_info" widget="g2p_addl_info_widget" />
+                            <field name="status" />
+                        </tree>
+                    </field>
+                </page>
             </xpath>
         </field>
     </record>

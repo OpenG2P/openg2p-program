@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
-    "name": "OpenG2P Program: Manual Approval",
+    "name": "OpenG2P Program: Documents",
     "category": "G2P",
     "version": "15.0.1.1.0",
     "sequence": 1,
@@ -9,9 +9,10 @@
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
     "depends": [
+        "g2p_documents",
         "g2p_programs",
     ],
-    "data": ["views/program_membership.xml", "views/program.xml"],
+    "data": ["views/programs_view.xml"],
     "assets": {},
     "demo": [],
     "images": [],

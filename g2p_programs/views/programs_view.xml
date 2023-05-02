@@ -21,6 +21,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     widget="badge"
                     string="State"
                 />
+                <button
+                    type="object"
+                    icon="fa-users"
+                    class="oe_stat_button"
+                    name="open_eligible_beneficiaries_form"
+                    string="Beneficiaries list"
+                />
                 <field name="active" invisible="1" />
             </tree>
         </field>
@@ -788,12 +795,6 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     name="create_journal"
                                     string="Create New Journal"
                                     states="active"
-                                />
-                            </group>
-                            <group string="Documents" name="documents" colspan="4" col="4">
-                                <field
-                                    name="supporting_documents_store"
-                                    attrs="{'readonly':[('state','=','ended')]}"
                                 />
                             </group>
                         </page>
