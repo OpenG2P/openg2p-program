@@ -2,4 +2,5 @@
 from . import program
 from . import document_file
 from . import document_store
+from . import entitlement
 from . import program_membership
