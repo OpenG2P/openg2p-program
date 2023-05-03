@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import _, fields, models
 
 from odoo.addons.g2p_programs.models import constants
 
@@ -42,14 +42,19 @@ class G2PProgramMembership(models.Model):
         return
 
     def create_entitlement(self):
+        wizard = self.env["g2p.entitlement.wizard"].create(
+            {
+                "partner_id": self.partner_id.id,
+                "program_id": self.program_id.id,
+                "currency_id": self.program_id.journal_id.currency_id.id,
+            }
+        )
+
         return {
-            "name": "Create Entitlement",
-            "view_mode": "form",
-            "res_model": "g2p.entitlement.wizard",
-            "res_id": self.id,
-            "view_id": self.env.ref(
-                "g2p_program_approval.create_entitlement_wizard_form_view"
-            ).id,
+            "name": _("Create Entitlement"),
             "type": "ir.actions.act_window",
+            "res_model": "g2p.entitlement.wizard",
+            "view_mode": "form",
+            "res_id": wizard.id,
             "target": "new",
         }
