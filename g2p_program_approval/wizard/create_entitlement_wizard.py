@@ -29,6 +29,10 @@ class G2PCreateEntitlementWizard(models.TransientModel):
         default=lambda self: fields.Date.add(fields.Date.today(), years=1)
     )
 
+    def get_active_cycle(self, program):
+
+        return 1
+
     def create_entitlement(self):
 
         record = self.env["g2p.entitlement"].search(
@@ -52,4 +56,14 @@ class G2PCreateEntitlementWizard(models.TransientModel):
                 _logger.error("Not allowed to update the Entitlement")
         else:
             # TODO create the record
-            pass
+            record.create(
+                {
+                    "partner_id": self.partner_id.id,
+                    "program_id": self.program_id.id,
+                    "initial_amount": self.initial_amount,
+                    "valid_from": self.valid_from,
+                    "valid_until": self.valid_until,
+                    "is_cash_entitlement": True,
+                    "cycle_id": self.get_active_cycle(self.program_id.id),
+                }
+            )
