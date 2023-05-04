@@ -1,2 +1,7 @@
 # generated from manifests external_dependencies
+cryptography
+pdfkit
+python-barcode
 python-dateutil
+python-jose
+qrcode

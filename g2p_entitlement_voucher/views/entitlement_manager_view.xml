@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_entitlement_manager_voucher_tree" model="ir.ui.view">
+        <field name="name">view_entitlement_manager_voucher_tree</field>
+        <field name="model">g2p.program.entitlement.manager.voucher</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_manager_default_tree" />
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_entitlement_manager_voucher_form" model="ir.ui.view">
+        <field name="name">view_entitlement_manager_voucher_form</field>
+        <field name="model">g2p.program.entitlement.manager.voucher</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_manager_default_form" />
+        <field name="priority">1</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="/form" position="attributes">
+                <attribute name="string">Voucher Entitlement Manager</attribute>
+            </xpath>
+            <xpath expr="//field[@name='amount_per_cycle']/.." position="after">
+                <div name="voucher_config">
+                    <div class="o_horizontal_separator">Voucher Configuration</div>
+                    <table class="o_group o_inner_group">
+                        <tbody>
+                            <tr>
+                                <td class="o_td_label">
+                                    <label for="voucher_file_config">
+                                        Voucher File Config
+                                    </label>
+                                </td>
+                                <td>
+                                    <field name="voucher_file_config" options="{'no_open': True}" />
+                                    <button
+                                        name="open_voucher_config_form"
+                                        type="object"
+                                        icon="fa-external-link"
+                                        class="oe_stat_button"
+                                    />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <group name="voucher_config">
+                        <field name="voucher_document_store" />
+                    </group>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="entitlement_manager_voucher_filter" model="ir.ui.view">
+        <field name="name">entitlement_manager_voucher_filter</field>
+        <field name="model">g2p.program.entitlement.manager.voucher</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <search string="Search Voucher Entitlement Manager">
+                <field name="name" />
+                <field name="program_id" />
+                <group expand="0" string="Group By">
+                    <filter string="Program" name="grp_program_id" context="{'group_by': 'program_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_entitlement_manager_voucher" model="ir.actions.act_window">
+        <field name="name">Voucher Entitlement Managers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">g2p.program.entitlement.manager.voucher</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="entitlement_manager_voucher_filter" />
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add an Entitlement Manager!
+            </p><p>
+                Click the create button to enter a new entitlement manager.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_entitlement_manager_voucher_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_entitlement_manager_voucher_tree" />
+        <field name="act_window_id" ref="action_entitlement_manager_voucher" />
+    </record>
+
+    <record id="action_entitlement_manager_voucher_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_entitlement_manager_voucher_form" />
+        <field name="act_window_id" ref="action_entitlement_manager_voucher" />
+    </record>
+
+    <menuitem
+        id="menu_entitlement_manager_voucher"
+        name="Voucher Entitlement Managers"
+        action="action_entitlement_manager_voucher"
+        parent="g2p_programs.g2p_manager_menu_root"
+        sequence="605"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
+    />
+</odoo>

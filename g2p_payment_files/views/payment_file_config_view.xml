@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_payment_file_config_form" model="ir.ui.view">
+        <field name="name">view_payment_file_config_form</field>
+        <field name="model">g2p.payment.file.config</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="G2P Payment File Configuration">
+                <group>
+                    <field name="type" />
+                </group>
+                <notebook>
+                    <page name="template" string="Template">
+                        <!-- <notebook>
+                            <page name="edit" string="Edit"> -->
+                                <field name="body_string" widget="text" class="oe-bordered-editor" />
+                            <!-- </page>
+                            <page name="preview" string="Preview">
+                                <field
+                                    name="body_html"
+                                    widget="html"
+                                    class="oe-bordered-editor"
+                                    options="{'style-inline': true, 'codeview': true }"
+                                    readonly="1"
+                                />
+                            </page>
+                        </notebook> -->
+                    </page>
+                    <page name="qrcodes" string="QR Codes">
+                        <field name="qrcode_config_ids" nolabel="1">
+                            <tree>
+                                <field name="id" />
+                                <field name="name" />
+                                <field name="type" />
+                                <field name="data_type" />
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="name" />
+                                    <field name="type" />
+                                    <field name="data_type" />
+                                    <field name="body_string" widget="text" class="oe-bordered-editor" />
+                                    <field name="qrcode_version" />
+                                    <field name="qrcode_error_correct" />
+                                    <field name="qrcode_box_size" />
+                                    <field name="qrcode_border" />
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+</odoo>
