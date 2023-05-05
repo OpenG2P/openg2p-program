@@ -7,14 +7,13 @@
         <field name="priority">980</field>
         <field name="arch" type="xml">
             <xpath expr="//form/header" position="inside">
-                <!-- Trigger an action to popup wizard -->
-                <!-- <button
-                    name="prepare_entitlement"
-                    type="action"
-                    string="Prepare Entitlement"
+                <button
+                    name="create_entitlement"
+                    type="object"
+                    attrs="{'invisible':[('state','!=','enrolled')]}"
+                    string="Create Entitlement"
                     class="btn-primary"
-                    states="enrolled"
-                /> -->
+                />
             </xpath>
         </field>
     </record>
