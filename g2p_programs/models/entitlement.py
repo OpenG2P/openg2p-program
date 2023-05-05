@@ -82,6 +82,10 @@ class G2PEntitlement(models.Model):
     )
 
     payment_ids = fields.One2many("g2p.payment", "entitlement_id", string="Payments")
+    payment_status = fields.Selection(
+        [("paid", "Paid"), ("notpaid", "Not Paid")], compute="_compute_payment_status"
+    )
+    payment_date = fields.Date(compute="_compute_payment_date")
 
     _sql_constraints = [
         (
@@ -146,6 +150,20 @@ class G2PEntitlement(models.Model):
                 and record.cycle_id.program_id.journal_id.id
                 or None
             )
+
+    def _compute_payment_status(self):
+        for rec in self:
+            for payment in rec.payment_ids:
+                if payment.status == "paid":
+                    rec.payment_status = "paid"
+                    break
+            if rec.payment_status != "paid":
+                rec.payment_status = "notpaid"
+
+    def _compute_payment_date(self):
+        for rec in self:
+            for payment in rec.payment_ids:
+                rec.payment_date = payment.payment_datetime
 
     @api.autovacuum
     def _gc_mark_expired_entitlement(self):

@@ -4,7 +4,7 @@ from datetime import datetime
 
 from lxml import etree
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 from . import constants
 
@@ -208,6 +208,103 @@ class G2PProgramMembership(models.Model):
         eligibility_managers = self.program_id.get_managers(
             constants.MANAGER_ELIGIBILITY
         )
+        member = self
         for em in eligibility_managers:
-            em.verify_cycle_eligibility(None, self)
+            member = em.enroll_eligible_registrants(member)
+        if len(member) == 0:
+            self.state = "not_eligible"
+        return
+
+    def enroll_eligible_registrants(self):
+        eligibility_managers = self.program_id.get_managers(
+            constants.MANAGER_ELIGIBILITY
+        )
+        message = None
+        kind = "success"
+        member = self
+        for em in eligibility_managers:
+            member = em.enroll_eligible_registrants(member)
+        if len(member) > 0:
+            if self.state != "enrolled":
+                self.write(
+                    {
+                        "state": "enrolled",
+                        "enrollment_date": fields.Datetime.now(),
+                    }
+                )
+                message = _("%s Beneficiaries enrolled.", len(member))
+                kind = "success"
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Enrollment"),
+                        "message": message,
+                        "sticky": True,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                    },
+                }
+
+        else:
+            self.state = "not_eligible"
+            message = "beneficiary is not eligible"
+            kind = "warning"
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Enrollment"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
+
+    def deduplicate_beneficiaries(self):
+        deduplication_managers = self.program_id.get_managers(
+            constants.MANAGER_DEDUPLICATION
+        )
+
+        message = None
+        kind = "success"
+        if len(deduplication_managers):
+            states = ["draft", "enrolled", "eligible", "paused", "duplicated"]
+            duplicates = 0
+            for el in deduplication_managers:
+                duplicates += el.deduplicate_beneficiaries(states)
+
+                if duplicates > 0:
+                    message = _("%s Beneficiaries duplicate.", duplicates)
+                    kind = "warning"
+        else:
+            message = _("No Deduplication Manager defined.")
+            kind = "danger"
+
+        if message:
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Deduplication"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
+
+    def Back_to_draft(self):
+        self.write(
+            {
+                "state": "draft",
+            }
+        )
         return

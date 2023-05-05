@@ -17,10 +17,8 @@ class ProxyMeanTestParams(models.Model):
     _name = "g2p.proxy_means_test_params"
     _description = "Proxy Means Test Params"
 
-    program_id = fields.Many2one("g2p.program", default=lambda self: self.env.uid)
-
+    program_id = fields.Many2one("g2p.program")
     pmt_field = fields.Selection(selection="get_fields_label", string="Field")
-
     pmt_weightage = fields.Float(string="Weightage")
 
     def get_fields_label(self):
