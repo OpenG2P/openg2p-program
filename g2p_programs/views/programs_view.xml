@@ -11,7 +11,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <tree sample="1">
                 <field name="name" />
                 <field name="target_type" />
-                <field name="eligible_beneficiaries_count" string="# Beneficiaries" />
+                <field name="eligible_beneficiaries_count" string="# Enrolled Beneficiaries" />
                 <field name="cycles_count" string="# Cycles" />
                 <field name="company_id" groups="base.group_multi_company" />
                 <field
