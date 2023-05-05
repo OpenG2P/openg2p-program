@@ -11,12 +11,12 @@
                     type="object"
                     string="Verify Eligibility"
                     class="btn-primary"
-                    states="enrolled"
+                    states="draft,enrolled"
                 />
                 <button
                     name="enroll_eligible_registrants"
                     type="object"
-                    string="Enrol"
+                    string="Verify &#38; Enrol"
                     class="btn-primary"
                     states="draft"
                 />
@@ -27,13 +27,28 @@
                     class="btn-primary"
                     states="draft,enrolled"
                 />
+
+                <button
+                    name="Back_to_draft"
+                    type="object"
+                    string="Back to draft"
+                    class="btn-primary"
+                    states="not_eligible,duplicated"
+                />
             </xpath>
-            <xpath expr="//sheet" position="inside">
+            <xpath expr="//form/sheet/div[@name='button_box']" position="after">
                 <widget
                     name="web_ribbon"
                     title="DUPLICATE"
                     bg_color="bg-danger"
                     attrs="{'invisible': [('state', '!=', 'duplicated')]}"
+                    modifiers="{&quot;invisible&quot;: [[&quot;state&quot;, &quot;!=&quot;, &quot;duplicated&quot;]]}"
+                />
+                <widget
+                    name="web_ribbon"
+                    title="NOT ELIGIBLE"
+                    bg_color="bg-danger"
+                    attrs="{'invisible': [('state', '!=', 'not_eligible')]}"
                     modifiers="{&quot;invisible&quot;: [[&quot;state&quot;, &quot;!=&quot;, &quot;duplicated&quot;]]}"
                 />
             </xpath>
@@ -170,8 +185,8 @@
                             </field>
                         </group>
                     </page>
-                </notebook>
-                <notebook name="registrant_program_details">
+                <!-- </notebook>
+                <notebook name="registrant_program_details"> -->
                     <page name="program" string="Programs">
                         <field name="program_membership_ids" nolabel="1">
                             <tree>
@@ -199,12 +214,14 @@
                                 <field name="cycle_id" />
                                 <field name="valid_from" />
                                 <field name="valid_until" />
-                                <field name="state" />
+                                <field name="payment_status" />
+                                <field name="payment_date" />
                             </tree>
                         </field>
                     </page>
                 </notebook>
             </xpath>
+
         </field>
     </record>
 </odoo>

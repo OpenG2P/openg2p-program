@@ -32,6 +32,18 @@ class G2PProgramMembership(models.Model):
     )
     entitlement_ids = fields.One2many(related="partner_id.entitlement_ids")
     registration_date = fields.Date(related="partner_id.registration_date")
+    payment_ids = fields.One2many(related="partner_id.entitlement_ids.payment_ids")
+
+    def verify_eligibility(self):
+        eligibility_managers = self.program_id.get_managers(
+            constants.MANAGER_ELIGIBILITY
+        )
+        member = self
+        for em in eligibility_managers:
+            member = em.enroll_eligible_registrants(member)
+        if len(member) == 0:
+            self.state = "not_eligible"
+        return
 
     def enroll_eligible_registrants(self):
         eligibility_managers = self.program_id.get_managers(
@@ -40,13 +52,15 @@ class G2PProgramMembership(models.Model):
         member = self
         for em in eligibility_managers:
             member = em.enroll_eligible_registrants(member)
-        if len(member) > 0 and self.state != "enrolled":
-            self.write(
-                {
-                    "state": "enrolled",
-                    "enrollment_date": fields.Datetime.now(),
-                }
-            )
+        if len(member) > 0:
+            if self.state != "enrolled":
+                self.write(
+                    {
+                        "state": "enrolled",
+                        "enrollment_date": fields.Datetime.now(),
+                    }
+                )
+
         else:
             self.state = "not_eligible"
 
@@ -56,14 +70,7 @@ class G2PProgramMembership(models.Model):
         deduplication_managers = self.program_id.get_managers(
             constants.MANAGER_DEDUPLICATION
         )
-        # states = ["draft", "enrolled", "eligible", "paused", "duplicated"]
-        # duplicates=deduplication_managers.deduplicate_beneficiaries(states)
-        # message = None
-        # kind = "success"
 
-        # if duplicates > 0:
-        #     message = _("%s Beneficiaries duplicate.", duplicates)
-        #     kind = "warning"
         message = None
         kind = "success"
         if len(deduplication_managers):
@@ -93,3 +100,14 @@ class G2PProgramMembership(models.Model):
                     },
                 },
             }
+
+    def Back_to_draft(self):
+        self.write(
+            {
+                "state": "draft",
+            }
+        )
+        return
+
+    def Create_entitlement(self):
+        return
