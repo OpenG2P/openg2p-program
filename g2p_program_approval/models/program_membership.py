@@ -49,6 +49,8 @@ class G2PProgramMembership(models.Model):
         eligibility_managers = self.program_id.get_managers(
             constants.MANAGER_ELIGIBILITY
         )
+        message = None
+        kind = "success"
         member = self
         for em in eligibility_managers:
             member = em.enroll_eligible_registrants(member)
@@ -60,11 +62,39 @@ class G2PProgramMembership(models.Model):
                         "enrollment_date": fields.Datetime.now(),
                     }
                 )
+                message = _("%s Beneficiaries enrolled.", len(member))
+                kind = "success"
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Enrollment"),
+                        "message": message,
+                        "sticky": True,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                    },
+                }
 
         else:
             self.state = "not_eligible"
-
-        return
+            message = "beneficiary is not eligible"
+            kind = "warning"
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Enrollment"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
 
     def deduplicate_beneficiaries(self):
         deduplication_managers = self.program_id.get_managers(
