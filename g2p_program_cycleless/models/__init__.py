@@ -3,3 +3,4 @@ from . import program_manager
 from . import program_membership
 from . import entitlement_manager
 from . import programs
+from . import entitlement

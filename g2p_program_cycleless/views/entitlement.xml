@@ -3,17 +3,17 @@
 Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 -->
 <odoo>
-    <record id="create_entitlement_wizard_form_view" model="ir.ui.view">
-        <field name="name">create_entitlement_wizard_form_view</field>
-        <field name="model">g2p.entitlement.wizard</field>
+    <record id="view_create_entitlement_wizard_form" model="ir.ui.view">
+        <field name="name">view_create_entitlement_wizard_form</field>
+        <field name="model">g2p.entitlement</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
                     <group>
                         <field name="partner_id" readonly="1" />
-                        <field name="program_id" readonly="1" invisible="1" />
+                        <field name="program_id" invisible="1" />
                         <field name="initial_amount" string="Amount" />
-                        <field name="currency_id" readonly="1" invisible="1" />
+                        <field name="currency_id" invisible="1" />
                         <field name="valid_from" />
                         <field name="valid_until" />
                     </group>

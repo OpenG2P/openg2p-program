@@ -2,32 +2,13 @@
 
 import logging
 
-from odoo import fields, models
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
 
-class G2PCreateEntitlementWizard(models.TransientModel):
-    _name = "g2p.entitlement.wizard"
-    _description = "Create a New Entitlement Wizard"
-
-    partner_id = fields.Many2one(
-        "res.partner",
-        "Beneficiary",
-        help="A beneficiary",
-        required=True,
-        domain=[("is_registrant", "=", True)],
-    )
-
-    program_id = fields.Many2one("g2p.program")
-
-    initial_amount = fields.Monetary(currency_field="currency_id")
-    currency_id = fields.Many2one("res.currency")
-
-    valid_from = fields.Date(required=False)
-    valid_until = fields.Date(
-        default=lambda self: fields.Date.add(fields.Date.today(), years=1)
-    )
+class G2PEntitlement(models.Model):
+    _inherit = "g2p.entitlement"
 
     def create_entitlement(self):
 
