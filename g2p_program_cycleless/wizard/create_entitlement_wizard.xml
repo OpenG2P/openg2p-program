@@ -5,7 +5,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 <odoo>
     <record id="view_create_entitlement_wizard_form" model="ir.ui.view">
         <field name="name">view_create_entitlement_wizard_form</field>
-        <field name="model">g2p.entitlement</field>
+        <field name="model">g2p.entitlement.wizard</field>
+        <field name="type">form</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -19,12 +20,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </group>
                 </sheet>
                 <footer>
-                    <button
-                        name="create_entitlement"
-                        string="Create"
-                        class="oe_highlight btn-primary"
-                        type="object"
-                    />
+                    <button name="create_entitlement" type="object" string="Create" class="btn-primary" />
                     <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>
             </form>

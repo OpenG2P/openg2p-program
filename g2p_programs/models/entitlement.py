@@ -82,10 +82,10 @@ class G2PEntitlement(models.Model):
     )
 
     payment_ids = fields.One2many("g2p.payment", "entitlement_id", string="Payments")
-    payment_status = fields.Selection(
-        [("paid", "Paid"), ("notpaid", "Not Paid")], compute="_compute_payment_status"
-    )
-    payment_date = fields.Date(compute="_compute_payment_date")
+    # payment_status = fields.Selection(
+    #     [("paid", "Paid"), ("notpaid", "Not Paid")], compute="_compute_payment_status"
+    # )
+    # payment_date = fields.Date(compute="_compute_payment_date")
 
     _sql_constraints = [
         (
