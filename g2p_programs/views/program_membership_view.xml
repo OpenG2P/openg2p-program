@@ -294,8 +294,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <field name="valid_from" />
                                     <field name="valid_until" />
                                     <field name="state" />
-                                    <!-- <field name="payment_status" />
-                                    <field name="payment_date" /> -->
+                                    <field name="payment_status" />
+                                    <field name="payment_date" />
                                 </tree>
                             </field>
                         </page>
