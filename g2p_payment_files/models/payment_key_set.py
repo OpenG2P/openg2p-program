@@ -1,3 +1,5 @@
+import base64
+import json
 import uuid
 from datetime import datetime, timedelta
 from urllib.parse import urlparse
@@ -6,6 +8,7 @@ from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509.oid import NameOID
+from jose import constants, jwk
 
 from odoo import api, fields, models
 
@@ -35,6 +38,22 @@ class G2PCryptoKeySet(models.Model):
 
     priv_key = fields.Char(compute="_compute_priv_key", store=True)
     pub_cert = fields.Char(compute="_compute_pub_cert", store=True)
+
+    jwk = fields.Char(compute="_compute_jwk", store=True)
+
+    use = fields.Selection(
+        [
+            ("sig", "Signature"),
+            ("enc", "Encryption"),
+        ],
+        default="sig",
+    )
+    status = fields.Selection(
+        [
+            ("active", "Active"),
+        ],
+        default="active",
+    )
 
     _sql_constraints = [
         (
@@ -100,3 +119,24 @@ class G2PCryptoKeySet(models.Model):
                 rec.pub_cert = cert.public_bytes(encoding=serialization.Encoding.PEM)
             else:
                 rec.pub_cert = None
+
+    @api.depends("pub_cert", "use")
+    def _compute_jwk(self):
+        for key_set in self:
+            certificate = x509.load_pem_x509_certificate(key_set.pub_cert.encode())
+            cert_x5c = base64.b64encode(
+                certificate.public_bytes(serialization.Encoding.DER)
+            ).decode()
+            pub_key = certificate.public_key()
+            # TODO: For now hardcoding alogrithm
+            pub_key_jwk = jwk.RSAKey(
+                algorithm=constants.ALGORITHMS.RS256,
+                key=pub_key.public_bytes(
+                    encoding=serialization.Encoding.PEM,
+                    format=serialization.PublicFormat.SubjectPublicKeyInfo,
+                ).decode(),
+            ).to_dict()
+            pub_key_jwk["kid"] = key_set.name
+            pub_key_jwk["use"] = key_set.use
+            pub_key_jwk["x5c"] = [cert_x5c]
+            key_set.jwk = json.dumps(pub_key_jwk)
