@@ -659,3 +659,12 @@ class DefaultCashEntitlementManager(models.Model):
             "type": "ir.actions.act_window",
             "target": "new",
         }
+
+    @api.model
+    def _group_entitlements_by_cycle(self, entitlements):
+        cycles = set(map(lambda x: x.cycle_id, entitlements))
+        cycle_entitlements = [
+            entitlements.filtered_domain([("cycle_id", "=", cycle.id)])
+            for cycle in cycles
+        ]
+        return cycles, cycle_entitlements
