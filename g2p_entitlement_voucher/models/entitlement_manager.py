@@ -111,7 +111,7 @@ class G2PVoucherEntitlementManager(models.Model):
                         f"{entitlements_count-err_count} Vouchers Generated. Failed to generate {err_count} vouchers."
                     )
             else:
-                message = _(f"{entitlements_count-err_count} Vouchers Generated.")
+                message = _(f"{entitlements_count} Vouchers Generated.")
             return err_count, message, return_list
         else:
             for cycle_entitlements in cycle_entitlements_list:

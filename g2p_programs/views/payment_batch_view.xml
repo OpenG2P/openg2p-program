@@ -13,6 +13,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <field name="program_id" />
                 <field name="cycle_id" />
                 <field name="external_batch_ref" />
+                <field name="tag_id" />
                 <field name="batch_has_started" />
                 <field name="batch_has_completed" />
                 <field name="stats_datetime" />
@@ -47,6 +48,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <field name="name" readonly="1" />
                         <field name="program_id" readonly="1" options="{'no_open':true}" />
                         <field name="external_batch_ref" />
+                        <field name="tag_id" />
                         <field name="batch_has_started" />
                         <field name="batch_has_completed" />
                     </group>

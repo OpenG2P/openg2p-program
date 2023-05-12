@@ -94,6 +94,33 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                         />
                     </group>
+                    <group
+                        name="tagconfig"
+                        colspan="4"
+                        col="4"
+                        attrs="{'invisible':[('create_batch','!=',True)]}"
+                    >
+                        <field name="batch_tag_ids">
+                            <tree>
+                                <field name="name" />
+                                <field name="order" />
+                                <field name="max_batch_size" />
+                                <field name="domain" />
+                            </tree>
+                            <form>
+                                <group>
+                                    <field name="name" />
+                                    <field name="order" />
+                                    <field
+                                        name="domain"
+                                        widget="domain"
+                                        options="{'model': 'g2p.entitlement'}"
+                                    />
+                                    <field name="max_batch_size" />
+                                </group>
+                            </form>
+                        </field>
+                    </group>
                 </sheet>
             </form>
         </field>

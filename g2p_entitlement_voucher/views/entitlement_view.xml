@@ -38,4 +38,6 @@
                 action = records.generate_vouchers_action()
         </field>
     </record>
+
+    <delete id="g2p_programs.action_print_entitlement" model="ir.actions.report" />
 </odoo>
