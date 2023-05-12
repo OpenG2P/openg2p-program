@@ -40,6 +40,13 @@ class G2PPaymentInteropLayerManager(models.Model):
     create_batch = fields.Boolean("Automatically Create Batch", default=True)
     max_batch_size = fields.Integer(default=500)
 
+    batch_tag_ids = fields.Many2many(
+        "g2p.payment.batch.tag",
+        "g2p_pay_batch_tag_pay_manager_interop_layer",
+        string="Batch Tags",
+        ondelete="cascade",
+    )
+
     payee_id_type = fields.Selection(
         [
             ("bank_acc_no", "Bank Account Number"),
