@@ -2,8 +2,7 @@
 
 import logging
 
-from odoo import _, models
-from odoo.exceptions import UserError
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
@@ -15,17 +14,6 @@ class G2PEntitlementWizard(models.TransientModel):
     _inherit = "g2p.entitlement"
 
     def create_entitlement(self):
-
-        rec = self.env["g2p.entitlement"].search(
-            [
-                ("partner_id", "=", self.partner_id.id),
-                ("program_id", "=", self.program_id.id),
-            ]
-        )
-
-        if rec:
-            raise UserError(_("Entitlement already created!"))
-
         return self.env["g2p.entitlement"].create(
             {
                 "program_id": self.program_id.id,

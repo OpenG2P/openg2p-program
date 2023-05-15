@@ -11,10 +11,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <form>
                 <sheet>
                     <group>
-                        <field name="partner_id" readonly="1" />
+                        <field name="partner_id" string="Beneficiary Name" readonly="1" />
                         <field name="program_id" invisible="1" />
-                        <field name="initial_amount" string="Amount" />
+                        <field name="initial_amount" string="Recommended Amount" />
                         <field name="currency_id" invisible="1" />
+                        <field name="vendor_id" string="Service Provider" />
                         <field name="valid_from" />
                         <field name="valid_until" />
                     </group>

@@ -1,4 +1,5 @@
-from odoo import models
+from odoo import _, models
+from odoo.exceptions import UserError
 
 
 class G2PProgramMembership(models.Model):
@@ -16,6 +17,16 @@ class G2PProgramMembership(models.Model):
         return self.program_id.default_active_cycle.id
 
     def open_entitlement_form_wizard(self):
+
+        rec = self.env["g2p.entitlement"].search(
+            [
+                ("partner_id", "=", self.partner_id.id),
+                ("program_id", "=", self.program_id.id),
+            ]
+        )
+
+        if rec:
+            raise UserError(_("Entitlement already been created!"))
 
         return {
             "name": "Create Entitlement",
