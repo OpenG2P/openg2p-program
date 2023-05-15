@@ -24,7 +24,7 @@ class G2PPaymentFileConfig(models.Model):
     #     translate=False,
     #     sanitize=False,
     # )
-    body_string = fields.Char(string="Body")
+    body_string = fields.Text(string="Body")
 
     qrcode_config_ids = fields.One2many(
         "g2p.payment.file.qrcode.config", "payment_config_id"
@@ -62,7 +62,7 @@ class G2PPaymentFileConfig(models.Model):
             ],
             engine="qweb",
         )
-        # This is removing <html> and <head> content.
+        # This render_template is removing <html> and <head> content.
         return data[res_id]
 
     def render_pdf(self, res_model, res_id):

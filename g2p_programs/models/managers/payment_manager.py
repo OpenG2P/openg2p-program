@@ -101,12 +101,13 @@ class DefaultFilePaymentManager(models.Model):
     @api.constrains("batch_tag_ids")
     def constrains_batch_tag_ids(self):
         for rec in self:
-            if not len(rec.batch_tag_ids):
-                raise ValidationError(_("Batch Tags list cannot be empty."))
-            if rec.batch_tag_ids.sorted("order")[-1].domain != "[]":
-                raise ValidationError(
-                    _("Last tag in the Batch Tags list must contain empty domain.")
-                )
+            if rec.create_batch:
+                if not len(rec.batch_tag_ids):
+                    raise ValidationError(_("Batch Tags list cannot be empty."))
+                if rec.batch_tag_ids.sorted("order")[-1].domain != "[]":
+                    raise ValidationError(
+                        _("Last tag in the Batch Tags list must contain empty domain.")
+                    )
 
     def prepare_payments(self, cycle, entitlements=None):
         if not entitlements:
