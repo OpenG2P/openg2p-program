@@ -35,6 +35,7 @@
         "views/entitlement_view.xml",
         "views/payment_view.xml",
         "views/payment_batch_view.xml",
+        "views/payment_batch_tag_view.xml",
         "views/registrant_view.xml",
         "views/managers/eligibility_manager_view.xml",
         "views/managers/deduplication_manager_view.xml",

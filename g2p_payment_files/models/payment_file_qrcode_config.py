@@ -4,8 +4,8 @@ from io import BytesIO
 
 import qrcode
 import qrcode.image.svg
-from barcode import Code128
-from jose import jwt
+from barcode import Code128  # pylint: disable=[W7936]
+from jose import jwt  # pylint: disable=[W7936]
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -55,7 +55,9 @@ class G2PPaymentFileQRCodeConfig(models.Model):
     def _constrains_type_and_data_type(self):
         if self.type.endswith("barcode") and self.data_type not in ("string",):
             raise ValidationError(
-                _(f"Barcode cannot be of anyother type {self.data_type}")
+                _(
+                    f"Barcode must be of data type String. Cannot be of type {self.data_type}"
+                )
             )
 
     def render_datas_and_store(
@@ -131,6 +133,9 @@ class G2PPaymentFileQRCode(models.TransientModel):
 
     content_base64 = fields.Char(compute="_compute_qrcode_content", store=False)
     content_htmlsafe = fields.Char(compute="_compute_qrcode_content", store=False)
+
+    payment_batch_id = fields.Many2one("g2p.payment.batch")
+    payment_id = fields.Many2one("g2p.payment")
 
     def _compute_qrcode_content(self):
         for rec in self:

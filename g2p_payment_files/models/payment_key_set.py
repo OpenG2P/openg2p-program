@@ -8,7 +8,7 @@ from cryptography import x509
 from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.x509.oid import NameOID
-from jose import constants, jwk
+from jose import constants, jwk  # pylint: disable=[W7936]
 
 from odoo import api, fields, models
 
@@ -53,6 +53,10 @@ class G2PCryptoKeySet(models.Model):
             ("active", "Active"),
         ],
         default="active",
+    )
+
+    file_payment_manager_id = fields.Many2one(
+        "g2p.program.payment.manager.file", ondelete="cascade"
     )
 
     _sql_constraints = [

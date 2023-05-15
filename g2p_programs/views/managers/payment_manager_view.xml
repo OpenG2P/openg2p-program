@@ -100,7 +100,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         col="4"
                         attrs="{'invisible':[('create_batch','!=',True)]}"
                     >
-                        <field name="batch_tag_ids">
+                        <field name="batch_tag_ids" attrs="{'invisible':['!',('create_batch','=',True)]}">
                             <tree>
                                 <field name="name" />
                                 <field name="order" />

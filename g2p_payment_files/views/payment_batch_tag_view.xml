@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_payment_batch_tag_file_config_tree" model="ir.ui.view">
+        <field name="name">view_payment_batch_tag_file_config_tree</field>
+        <field name="model">g2p.payment.batch.tag</field>
+        <field name="inherit_id" ref="g2p_programs.view_payment_batch_tag_tree" />
+        <field name="priority">11</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']/.." position="inside">
+                <field name="render_files_per_payment" />
+                <field name="file_config_ids" widget="many2many_tags" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_payment_batch_tag_file_config_form" model="ir.ui.view">
+        <field name="name">view_payment_batch_tag_file_config_form</field>
+        <field name="model">g2p.payment.batch.tag</field>
+        <field name="priority">11</field>
+        <field name="inherit_id" ref="g2p_programs.view_payment_batch_tag_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']/.." position="inside">
+                <field name="render_files_per_payment" />
+                <field name="file_config_ids" widget="many2many_tags" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

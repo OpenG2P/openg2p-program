@@ -19,6 +19,8 @@
     "data": [
         "security/ir.model.access.csv",
         "views/payment_file_config_view.xml",
+        "views/payment_batch_tag_view.xml",
+        "views/payment_manager_view.xml",
     ],
     "assets": {},
     "demo": [],
