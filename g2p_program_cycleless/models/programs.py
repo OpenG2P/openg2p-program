@@ -23,3 +23,9 @@ class G2PPrograms(models.Model):
 
     def open_entitlements_form(self):
         return self.default_active_cycle.open_entitlements_form()
+
+    def prepare_payments_cycleless(self):
+        return self.default_active_cycle.prepare_payment()
+
+    def send_payments_cycleless(self):
+        return self.default_active_cycle.send_payment()
