@@ -25,10 +25,10 @@ class PaymentManager(models.Model):
 class G2PPaymentManagerCash(models.Model):
     _name = "g2p.program.payment.manager.cash"
     _inherit = "g2p.program.payment.manager.default"
-    _description = "Payment Interoperability Layer"
+    _description = "Cash Payment Manager"
 
-    # TODO: Change the following into 15.0-1.0.x method of job queuing
-    def send_payments(self, batches):
+    # This will just mark all the payments as done when then cash is given out
+    def _send_payments(self, batches):
         _logger.info("DEBUG! send_payments Manager: Payment via CASH")
         for batch in batches:
             batch.batch_has_started = True
