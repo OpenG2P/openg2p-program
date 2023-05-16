@@ -96,7 +96,9 @@ class G2PFilesPaymentManager(models.Model):
         else:
             if payments:
                 file_configs = self.payment_file_config_ids
-                qrcode_config_ids = file_configs.qrcode_config_ids
+                qrcode_config_ids = (
+                    file_configs.qrcode_config_ids if file_configs else []
+                )
                 for qrcode_config in qrcode_config_ids:
                     qrcode_config.render_datas_and_store(
                         "g2p.payment",
