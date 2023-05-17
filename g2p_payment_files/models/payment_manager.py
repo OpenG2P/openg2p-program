@@ -65,13 +65,13 @@ class G2PFilesPaymentManager(models.Model):
                         lambda x: x.tag_id.id == batch_tag.id
                     )
 
-                    if batch_tag.render_files_per_payment:
-                        render_res_records = tag_batches.payment_ids
+                    if not batch_tag.render_files_per_payment:
+                        render_res_records = tag_batches
                         render_res_ids = render_res_records.ids
                         render_res_model = "g2p.payment.batch"
                         res_id_field_in_qrcode_model = "payment_batch_id"
                     else:
-                        render_res_records = tag_batches
+                        render_res_records = tag_batches.payment_ids
                         render_res_ids = render_res_records.ids
                         render_res_model = "g2p.payment"
                         res_id_field_in_qrcode_model = "payment_id"
@@ -116,10 +116,15 @@ class G2PFilesPaymentManager(models.Model):
                         rec.payment_file_ids = [(4, files[i].id)]
         return payments, batches
 
+    def _send_payments(self, batches):
+        raise NotImplementedError()
+
 
 class G2PPaymentBatchTag(models.Model):
     _inherit = "g2p.payment.batch.tag"
 
-    render_files_per_payment = fields.Boolean(default=False)
+    render_files_per_payment = fields.Boolean(
+        default=False, string="Render per payment instead of batch"
+    )
 
     file_config_ids = fields.Many2many("g2p.payment.file.config")
