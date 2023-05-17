@@ -2,7 +2,7 @@
 import logging
 from datetime import datetime
 
-from odoo import api, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -26,6 +26,13 @@ class G2PPaymentManagerCash(models.Model):
     _name = "g2p.program.payment.manager.cash"
     _inherit = "g2p.program.payment.manager.default"
     _description = "Cash Payment Manager"
+
+    batch_tag_ids = fields.Many2many(
+        "g2p.payment.batch.tag",
+        "g2p_pay_batch_tag_pay_manager_cash",
+        string="Batch Tags",
+        ondelete="cascade",
+    )
 
     # This will just mark all the payments as done when then cash is given out
     def _send_payments(self, batches):
