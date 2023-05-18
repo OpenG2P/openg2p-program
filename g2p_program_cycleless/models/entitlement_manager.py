@@ -6,6 +6,9 @@ class G2PEntitlementManagerDefault(models.Model):
 
     def open_entitlements_form(self, cycle):
         res = super(G2PEntitlementManagerDefault, self).open_entitlements_form(cycle)
-        if cycle.program_id.is_cycleless:
+        program_dict = cycle.program_id.read()[0]
+        if program_dict.get("is_reimbursement_program", False):
+            res["name"] = _("Reimbursements")
+        if program_dict.get("is_cycleless", False):
             res["name"] = _("Entitlements")
         return res
