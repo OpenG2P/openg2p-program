@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 
 
 class G2PCycle(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "job.relate.mixin"]
     _name = "g2p.cycle"
     _description = "Cycle"
     _order = "sequence asc"
@@ -44,10 +44,15 @@ class G2PCycle(models.Model):
 
                 prepare_payment_button = doc.xpath("//button[@name='prepare_payment']")
                 prepare_payment_button[0].set("modifiers", modifiers)
+
+                send_payment_button = doc.xpath("//button[@name='send_payment']")
+                send_payment_button[0].set("modifiers", modifiers)
+
                 open_payments_form_button = doc.xpath(
                     "//button[@name='open_payments_form']"
                 )
                 open_payments_form_button[0].set("modifiers", modifiers)
+
                 payment_batches_page = doc.xpath("//page[@name='payment_batches']")
                 payment_batches_page[0].set("modifiers", modifiers)
 
@@ -84,9 +89,9 @@ class G2PCycle(models.Model):
     auto_approve_entitlements = fields.Boolean("Auto-approve entitlements")
 
     # Statistics
-    members_count = fields.Integer(string="# Beneficiaries")
-    entitlements_count = fields.Integer(string="# Entitlements")
-    payments_count = fields.Integer(string="# Payments")
+    members_count = fields.Integer(string="# Beneficiaries", readonly=True)
+    entitlements_count = fields.Integer(string="# Entitlements", readonly=True)
+    payments_count = fields.Integer(string="# Payments", readonly=True)
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
     locked = fields.Boolean(default=False)
@@ -155,9 +160,11 @@ class G2PCycle(models.Model):
         :param count: Optional boolean for executing a search-count (if true) or search (if false: default)
         :return:
         """
-        if isinstance(state, str):
-            state = [state]
-        domain = [("cycle_id", "=", self.id), ("state", "in", state)]
+        domain = [("cycle_id", "=", self.id)]
+        if state:
+            if isinstance(state, str):
+                state = [state]
+            domain += [("state", "in", state)]
         return self.env[entitlement_model].search(
             domain, offset=offset, limit=limit, order=order, count=count
         )
@@ -250,6 +257,12 @@ class G2PCycle(models.Model):
             self
         )
 
+    def send_payment(self):
+        # 1. Send the payments using payment_manager.send_payments()
+        return self.program_id.get_manager(constants.MANAGER_PAYMENT).send_payments(
+            self.payment_batch_ids
+        )
+
     def mark_distributed(self):
         # 1. Mark the cycle as distributed using the cycle manager
         self.program_id.get_manager(constants.MANAGER_CYCLE).mark_distributed(self)
@@ -335,3 +348,14 @@ class G2PCycle(models.Model):
             "domain": [("entitlement_id", "in", self.entitlement_ids.ids)],
         }
         return action
+
+    def refresh_page(self):
+        return {
+            "type": "ir.actions.client",
+            "tag": "reload",
+        }
+
+    def _get_related_job_domain(self):
+        jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
+        related_jobs = jobs.filtered(lambda r: self in r.args[0])
+        return [("id", "in", related_jobs.ids)]

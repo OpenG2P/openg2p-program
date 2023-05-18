@@ -5,6 +5,9 @@ import field_utils from "web.field_utils";
 import fieldsRegistry from "web.field_registry";
 import {qweb} from "web.core";
 
+// eslint-disable-next-line no-undef
+const markup = QWeb2.tools.markup;
+
 field_utils.format.json = function (value) {
     return JSON.stringify(value, null, 2);
 };
@@ -50,7 +53,18 @@ var G2PAdditionalInfoWidget = FieldText.extend({
     flattenJson: function (object) {
         const jsonObject = JSON.parse(JSON.stringify(object));
         for (const key in jsonObject) {
-            if (typeof jsonObject[key] === "object") {
+            if (!jsonObject[key]) continue;
+            if (
+                typeof jsonObject[key] === "object" &&
+                "document_id" in jsonObject[key] &&
+                "document_slug" in jsonObject[key]
+            ) {
+                const document_slug = jsonObject[key].document_slug;
+                const host = window.location.origin;
+                jsonObject[key] = markup(
+                    `<a href="${host}/storage.file/${document_slug}" target="_blank">${document_slug}<span class="fa fa-fw fa-external-link"></span></a>`
+                );
+            } else if (typeof jsonObject[key] === "object") {
                 jsonObject[key] = JSON.stringify(jsonObject[key]);
             }
         }

@@ -109,6 +109,7 @@ class G2PPaymentBatch(models.Model):
     )
     external_batch_ref = fields.Char("External Batch Reference #")
 
+    batch_has_started = fields.Boolean()
     batch_has_completed = fields.Boolean()
 
     payment_ids = fields.Many2many("g2p.payment", string="Payments")

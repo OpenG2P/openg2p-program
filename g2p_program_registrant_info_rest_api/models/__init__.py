@@ -1,3 +1,1 @@
-from . import registrant
-
-# from . import group_membership
+from . import program_registrant_info

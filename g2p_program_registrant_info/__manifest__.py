@@ -4,7 +4,7 @@
     "version": "15.0.1.1.0",
     "sequence": 1,
     "author": "OpenG2P",
-    "website": "https://github.com/openg2p/openg2p-program",
+    "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
     "depends": [
@@ -16,6 +16,7 @@
     ],
     "data": [
         "views/program_registrant_info.xml",
+        "views/program_membership.xml",
         "security/ir.model.access.csv",
     ],
     "assets": {

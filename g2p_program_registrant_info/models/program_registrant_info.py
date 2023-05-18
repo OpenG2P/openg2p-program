@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models
+from odoo import api, fields, models
 
 from odoo.addons.g2p_json_field.models import json_field
 
@@ -25,7 +25,27 @@ class G2PProgramRegistrantInfo(models.Model):
         # ondelete='set null'
     )
 
+    status = fields.Selection([("active", "Active"), ("closed", "Closed")])
+
     program_registrant_info = json_field.JSONField("Program Information", default={})
+
+    program_membership_id = fields.Many2one(
+        "g2p.program_membership", compute="_compute_program_membership", store=True
+    )
+
+    @api.depends("registrant_id", "program_id")
+    def _compute_program_membership(self):
+        for rec in self:
+            result = self.env["g2p.program_membership"].search(
+                [
+                    ("registrant_id", "=", rec.registrant_id.id),
+                    ("program_id", "=", rec.program_id.id),
+                ]
+            )
+            if len(result) > 0:
+                rec.program_membership_id = result[0]
+            else:
+                rec.program_membership_id = None
 
     def open_registrant_form(self):
         return {
@@ -38,6 +58,5 @@ class G2PProgramRegistrantInfo(models.Model):
             ).id,
             "type": "ir.actions.act_window",
             "target": "new",
-            "context": {"default_is_group": True},
             "flags": {"mode": "readonly"},
         }

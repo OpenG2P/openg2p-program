@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_program_manager_default_cycleless_form" model="ir.ui.view">
+        <field name="name">view_program_manager_default_cycleless_form</field>
+        <field name="model">g2p.program.manager.default</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_manager_default_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='number_of_cycles']/.." position="inside">
+                <field name="is_cycleless" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

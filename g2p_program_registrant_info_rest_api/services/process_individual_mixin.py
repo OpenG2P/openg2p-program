@@ -6,30 +6,31 @@ class ProcessIndividualMixin(AbstractComponent):
 
     def _process_individual(self, individual):
         res = super(ProcessIndividualMixin, self)._process_individual(individual)
-        if individual.dict().get("program_registrant_info", None):
+        if individual.dict().get("program_memberships", None):
             res["program_registrant_info_ids"] = self._process_registrant_info(
-                individual
+                individual, target_type="individual"
             )
         return res
 
-    def _process_registrant_info(self, individual):
-        memberships = individual.dict().get("program_memberships", None)
+    def _process_registrant_info(self, registrant_info, target_type=""):
         registrant_info_ids = []
-        for program_membership in memberships:
-            program_id = self.env["g2p.program"].search(
-                [("name", "=", program_membership["name"])], limit=1
-            )
-            registrant_info_ids.append(
-                (
-                    0,
-                    0,
-                    {
-                        "program_id": program_id.id,
-                        "program_registrant_info": individual.dict().get(
-                            "program_registrant_info", None
-                        ),
-                    },
-                )
-            )
 
+        for rec in registrant_info.program_memberships:
+            program_id = self.env["g2p.program"].search(
+                [("name", "=", rec.name), ("target_type", "=", target_type)], limit=1
+            )
+            if program_id:
+                program_reg_info = rec.dict().get("program_registrant_info", None)
+                if program_reg_info:
+                    registrant_info_ids.append(
+                        (
+                            0,
+                            0,
+                            {
+                                "program_id": program_id.id,
+                                "status": "active",
+                                "program_registrant_info": program_reg_info,
+                            },
+                        )
+                    )
         return registrant_info_ids
