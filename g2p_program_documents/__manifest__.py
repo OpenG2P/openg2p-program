@@ -12,7 +12,11 @@
         "g2p_documents",
         "g2p_programs",
     ],
-    "data": ["views/programs_view.xml"],
+    "data": [
+        "views/programs_view.xml",
+        "views/program_membership_view.xml",
+        "views/entitlement_view.xml",
+    ],
     "assets": {},
     "demo": [],
     "images": [],

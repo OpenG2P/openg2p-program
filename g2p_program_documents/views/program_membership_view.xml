@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <record id="view_program_membership_documents_form" model="ir.ui.view">
+        <field name="name">view_program_membership_documents_form</field>
+        <field name="model">g2p.program_membership</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_membership_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='entitlement']/.." position="inside">
+                <page string="Documents" name="documents">
+                    <field name="supporting_documents_ids" readonly="1" nolabel="1">
+                        <tree>
+                            <field name="slug" string="Name" />
+                            <field name="backend_id" string="Store" />
+                            <field name="file_size" />
+                            <field name="file_type" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

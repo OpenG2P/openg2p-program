@@ -47,6 +47,29 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         string="Verify Eligibility"
                         class="btn-primary"
+                        states="draft,enrolled"
+                    />
+                    <button
+                        name="enroll_eligible_registrants"
+                        type="object"
+                        string="Verify &#38; Enrol"
+                        class="btn-primary"
+                        states="draft"
+                    />
+                    <button
+                        name="deduplicate_beneficiaries"
+                        type="object"
+                        string="Deduplicate"
+                        class="btn-primary"
+                        states="draft,enrolled"
+                    />
+
+                    <button
+                        name="Back_to_draft"
+                        type="object"
+                        string="Back to draft"
+                        class="btn-primary"
+                        states="not_eligible,duplicated"
                     />
                 </header>
                 <sheet>
@@ -75,6 +98,18 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         title="EXITED"
                         bg_color="bg-danger"
                         attrs="{'invisible': [('state', '!=', 'exited')]}"
+                    />
+                    <widget
+                        name="web_ribbon"
+                        title="DUPLICATE"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('state', '!=', 'duplicated')]}"
+                    />
+                    <widget
+                        name="web_ribbon"
+                        title="NOT ELIGIBLE"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('state', '!=', 'not_eligible')]}"
                     />
                     <div class="oe_title mb24">
                         <label for="partner_id" string="Registrant:" />
@@ -259,6 +294,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <field name="valid_from" />
                                     <field name="valid_until" />
                                     <field name="state" />
+                                    <field name="payment_status" />
+                                    <field name="payment_date" />
                                 </tree>
                             </field>
                         </page>

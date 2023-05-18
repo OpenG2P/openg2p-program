@@ -13,6 +13,7 @@
         "security/ir.model.access.csv",
         "views/proxy_means_test_view.xml",
         "views/program_registrant_info.xml",
+        "wizard/create_program_pmt_wizard.xml",
     ],
     "assets": {},
     "demo": [],
