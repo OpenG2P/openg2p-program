@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+        <delete id="g2p_programs.action_print_entitlement" model="ir.actions.report" />
+    </data>
+
+    <record id="view_entitlement_voucher_form" model="ir.ui.view">
+        <field name="name">view_entitlement_voucher_form</field>
+        <field name="model">g2p.entitlement</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <field name="voucher_document_id" invisible="1" />
+                <button
+                    type="object"
+                    class="btn-primary"
+                    icon="fa-thumbs-o-up"
+                    name="generate_vouchers_action"
+                    string="Generate Voucher"
+                    attrs="{'invisible': ['!', '&amp;', ('state','in',('approved',)), ('voucher_document_id', '=', False)]}"
+                />
+                <button
+                    type="object"
+                    class="btn-primary"
+                    icon="fa-print"
+                    name="print_voucher_action"
+                    string="Print Voucher"
+                    attrs="{'invisible': ['!', '&amp;', ('state','in',('approved',)), '!', ('voucher_document_id', '=', False)]}"
+                />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="generate_couchers_server_action" model="ir.actions.server">
+        <field name="name">Generate Vouchers</field>
+        <field name="model_id" ref="g2p_programs.model_g2p_entitlement" />
+        <field name="binding_model_id" ref="g2p_programs.model_g2p_entitlement" />
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">
+            if records:
+                action = records.generate_vouchers_action()
+        </field>
+    </record>
+</odoo>
