@@ -58,7 +58,7 @@ class G2PFilesPaymentManager(models.Model):
             if batches:
                 # Render all qrcodes and store for all payment batches
                 for batch_tag in self.batch_tag_ids:
-                    qrcode_config_ids = None
+                    qrcode_config_ids = []
                     for file_config in batch_tag.file_config_ids:
                         if not qrcode_config_ids:
                             qrcode_config_ids = file_config.qrcode_config_ids

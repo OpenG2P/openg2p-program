@@ -30,13 +30,15 @@
                 </attribute>
             </xpath>
             <xpath expr="//header" position="inside">
+                <field name="show_prepare_payments_button" invisible="1" />
+                <field name="show_send_payments_button" invisible="1" />
                 <button
                     name="prepare_payments_cycleless"
                     type="object"
                     string="Prepare Payments"
                     icon="fa-file-text-o"
                     class="btn-primary"
-                    attrs="{'invisible':['!', '&amp;', ('is_cycleless', '=', True), ('state','=','active')]}"
+                    attrs="{'invisible':['!', ('show_prepare_payments_button', '=', True)]}"
                 />
                 <button
                     name="send_payments_cycleless"
@@ -44,7 +46,7 @@
                     string="Send Payments"
                     icon="fa-thumbs-o-up"
                     class="btn-success"
-                    attrs="{'invisible':['!', '&amp;', ('is_cycleless', '=', True), ('state','=','active')]}"
+                    attrs="{'invisible':['!', ('show_send_payments_button', '=', True)]}"
                 />
             </xpath>
             <xpath expr="//button[@name='open_cycles_form']" position="after">
@@ -57,7 +59,7 @@
                 >
                     <div class="o_form_field o_stat_info">
                         <field name="entitlements_count" class="o_stat_value" />
-                        <span class="o_stat_text">Entitlements</span>
+                        <span class="o_stat_text"><field name="show_entitlement_field_name" /></span>
                     </div>
                 </button>
             </xpath>
