@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_program_list_autoenrol_form" model="ir.ui.view">
+        <field name="name">view_program_list_autoenrol_form</field>
+        <field name="model">g2p.program</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_list_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='accounting']" position="after">
+                <group string="Auto Enrolment" name="auto_enrol">
+                    <field name="auto_enrol_partners" string="Enabled" />
+                    <field
+                        name="auto_enrol_partners_domain"
+                        string="Filter for Partners"
+                        widget="domain"
+                        options="{'model': 'res.partner'}"
+                        attrs="{'invisible': ['!', ('auto_enrol_partners', '=', True)]}"
+                    />
+                    <field
+                        name="auto_enrol_partners_delete_not_eligible"
+                        string="Keep only Eligible Partners"
+                        attrs="{'invisible': ['!', ('auto_enrol_partners', '=', True)]}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
