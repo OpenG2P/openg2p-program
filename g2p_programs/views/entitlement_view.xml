@@ -129,6 +129,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             string="Service Fee Entry"
                             readonly="1"
                         />
+                        <field name="payment_status" colspan="4" />
+                        <field name="payment_date" colspan="4" />
                         <field name="currency_id" invisible="1" />
                     </group>
                 </sheet>
