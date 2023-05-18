@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="create_reimbursement_program_wizard_form_view" model="ir.ui.view">
+        <field name="name">create_reimbursement_program_wizard_form_view</field>
+        <field name="model">g2p.program.create.wizard</field>
+        <field name="inherit_id" ref="g2p_programs.create_program_wizard_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']/.." position="inside">
+                <field name="is_reimbursement_program" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
