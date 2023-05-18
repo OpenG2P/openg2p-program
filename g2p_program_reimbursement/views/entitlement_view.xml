@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record id="view_entitlement_ext_claim_form" model="ir.ui.view">
-        <field name="name">view_entitlement_ext_claim_form</field>
+    <record id="view_entitlement_ext_reimbursement_form" model="ir.ui.view">
+        <field name="name">view_entitlement_ext_reimbursement_form</field>
         <field name="model">g2p.entitlement</field>
         <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='cycle_id']/.." position="inside">
+                <!-- TODO: Edit the below domain to include
+                program_membership_ids.program_id in program_id.reimbursement_program_id.id -->
                 <field
-                    name="vendor_id"
+                    name="service_provider_id"
                     attrs="{'readonly':[('state','!=','draft')]}"
                     options="{'no_open':True,'no_quick_create':True,'no_create':True}"
                     domain="[('supplier_rank', '>', 0)]"
@@ -15,20 +17,20 @@
             </xpath>
         </field>
     </record>
-    <record id="view_entitlement_claim_form" model="ir.ui.view">
-        <field name="name">view_entitlement_claim_form</field>
+    <record id="view_entitlement_reimbursement_form" model="ir.ui.view">
+        <field name="name">view_entitlement_reimbursement_form</field>
         <field name="model">g2p.entitlement</field>
         <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='approve_entitlement']" position="attributes">
                 <attribute name="string">
-                    Approve Claim
+                    Approve Reimbursement
                 </attribute>
             </xpath>
             <xpath expr="//label[@for='name']" position="attributes">
                 <attribute name="string">
-                    Claim:
+                    Reimbursement:
                 </attribute>
             </xpath>
         </field>

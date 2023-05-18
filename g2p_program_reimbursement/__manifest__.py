@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
-    "name": "OpenG2P Programs: Claims",
+    "name": "OpenG2P Programs: Reimbursement",
     "category": "G2P",
     "version": "15.0.1.1.0",
     "sequence": 1,
@@ -10,8 +10,6 @@
     "development_status": "Alpha",
     "depends": [
         "g2p_programs",
-        # TODO: discuss the following dependencies
-        "g2p_program_cycleless",
     ],
     "data": [
         "views/program_view.xml",
