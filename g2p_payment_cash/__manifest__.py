@@ -10,10 +10,12 @@
     "development_status": "Alpha",
     "depends": [
         "g2p_programs",
+        "g2p_payment_files",
     ],
     "data": [
         "security/ir.model.access.csv",
         "views/payment_manager_view.xml",
+        "views/entitlement_view.xml",
     ],
     "assets": {},
     "demo": [],

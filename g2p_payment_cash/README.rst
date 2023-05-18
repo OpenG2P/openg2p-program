@@ -16,7 +16,7 @@ OpenG2P Program Payment: Cash
 
 |badge1| |badge2| 
 
-G2P Payment Payment in Cash
+G2P Payment Payment in Cash. Only use this when physical cash is handed out to beneficiaries.
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.

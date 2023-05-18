@@ -24,7 +24,7 @@ class PaymentManager(models.Model):
 
 class G2PPaymentManagerCash(models.Model):
     _name = "g2p.program.payment.manager.cash"
-    _inherit = "g2p.program.payment.manager.default"
+    _inherit = "g2p.program.payment.manager.file"
     _description = "Cash Payment Manager"
 
     batch_tag_ids = fields.Many2many(
