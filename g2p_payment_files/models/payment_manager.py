@@ -51,6 +51,9 @@ class G2PFilesPaymentManager(models.Model):
             cycle, entitlements
         )
 
+        file_document_store = self.file_document_store
+        if not file_document_store:
+            file_document_store = self.program_id.supporting_documents_store
         if self.create_batch:
             if batches:
                 # Render all qrcodes and store for all payment batches
@@ -87,7 +90,7 @@ class G2PFilesPaymentManager(models.Model):
                     # Render the voucher template itself
                     for file_config in batch_tag.file_config_ids:
                         files = file_config.render_and_store(
-                            render_res_model, render_res_ids, self.file_document_store
+                            render_res_model, render_res_ids, file_document_store
                         )
 
                         for i, rec in enumerate(render_res_records):
@@ -110,7 +113,7 @@ class G2PFilesPaymentManager(models.Model):
                 # Render the voucher template itself
                 for file_config in file_configs:
                     files = file_config.render_and_store(
-                        "g2p.payment", payments.ids, self.file_document_store
+                        "g2p.payment", payments.ids, file_document_store
                     )
                     for i, rec in enumerate(payments):
                         rec.payment_file_ids = [(4, files[i].id)]
