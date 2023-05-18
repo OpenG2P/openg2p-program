@@ -10,14 +10,15 @@
         <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
-                <field name="voucher_document_id" invisible="1" />
+                <field name="show_generate_voucher_button" invisible="1" />
+                <field name="show_print_voucher_button" invisible="1" />
                 <button
                     type="object"
                     class="btn-primary"
                     icon="fa-thumbs-o-up"
                     name="generate_vouchers_action"
                     string="Generate Voucher"
-                    attrs="{'invisible': ['!', '&amp;', ('state','in',('approved',)), ('voucher_document_id', '=', False)]}"
+                    attrs="{'invisible': [('show_generate_voucher_button','!=',True)]}"
                 />
                 <button
                     type="object"
@@ -25,7 +26,7 @@
                     icon="fa-print"
                     name="print_voucher_action"
                     string="Print Voucher"
-                    attrs="{'invisible': ['!', '&amp;', ('state','in',('approved',)), '!', ('voucher_document_id', '=', False)]}"
+                    attrs="{'invisible': [('show_print_voucher_button','!=',True)]}"
                 />
             </xpath>
         </field>
