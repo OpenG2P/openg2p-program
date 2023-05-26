@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+g2p_program_assessment_admin,G2P Program Assessment Admin,g2p_program_assessment.model_g2p_program_assessment,g2p_registry_base.group_g2p_admin,1,1,1,1
+g2p_program_assessment_manager,G2P Program Assessment Manager,g2p_program_assessment.model_g2p_program_assessment,g2p_programs.g2p_program_manager,1,1,1,0
+g2p_program_assessment_validator,G2P Program Assessment Validator,g2p_program_assessment.model_g2p_program_assessment,g2p_programs.g2p_program_validator,1,1,1,0
+
+g2p_program_membership_assessment_wizard_user,G2P Program Membership Assessment Wizard User,g2p_program_assessment.model_g2p_program_membership_assessment_wizard,,1,1,1,1
