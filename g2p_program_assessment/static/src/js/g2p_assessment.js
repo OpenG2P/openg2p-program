@@ -34,6 +34,7 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
         if (this.assessmentAddModeStarted === 0) {
             this.assessmentAddMode = 1;
             this.assessmentAddModeStarted = 1;
+            this.$(".o_ChatterTopbar_buttonAddAssess").addClass("o_invisible_modifier");
             this.$(".o_Composer").replaceWith(
                 qweb.render("g2p_assessments_add", {author_partner_id: session.partner_id})
             );
@@ -41,10 +42,12 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
         }
         if (this.assessmentAddMode === 0) {
             this.assessmentAddMode = 1;
-            this.$(".o_Composer").removeClass("o_invisible_modifier");
+            this.$(".o_Composer_Assessment").removeClass("o_invisible_modifier");
+            this.$(".o_ChatterTopbar_buttonAddAssess").addClass("o_invisible_modifier");
         } else {
             this.assessmentAddMode = 0;
-            this.$(".o_Composer").addClass("o_invisible_modifier");
+            this.$(".o_Composer_Assessment").addClass("o_invisible_modifier");
+            this.$(".o_ChatterTopbar_buttonAddAssess").removeClass("o_invisible_modifier");
         }
     },
     submitAssessment: function () {

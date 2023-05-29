@@ -2,3 +2,52 @@
     width: 100%;
     block-size: 100%;
 }
+
+.o_Message_Assessment {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 5px #0000001a;
+    border-radius: 10px;
+    border: 1px solid #0000001a;
+    padding: 2% 1% 2% 1%;
+}
+
+.o_Message_Assessment .o_Message_sidebar {
+    margin-right: 1%;
+}
+
+.o_Message_Assessment .o_Message_header {
+    margin-bottom: 0.6%;
+}
+
+.o_Message_Assessment .o_Message_content {
+    margin-bottom: 0.4%;
+}
+
+.o_ChatterTopbar_buttonAddAssess {
+    border-radius: 10px;
+    border: 1px solid #0000001a;
+}
+
+.o_Composer_Assessment {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 2px 5px #0000001a;
+    border-radius: 10px;
+    border: 1px solid #0000001a;
+    padding: 2% 1% 2% 1%;
+}
+
+.o_Composer_Assessment .o_Message_sidebar {
+    margin-right: 1%;
+}
+
+.o_Composer_Assessment .o_Composer_core {
+    width: 100%;
+}
+
+.o_Composer_Assessment .o_Composer_core .o_Composer_coreMain {
+    margin-bottom: 0.6%;
+}
+
+.o_Composer_Assessment .o_Composer_core .o_Composer_coreFooter {
+    margin-bottom: 0.2%;
+}

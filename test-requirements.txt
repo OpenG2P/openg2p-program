@@ -3,6 +3,6 @@ git+https://github.com/OpenG2P/openg2p-registry@v15.0-develop#subdirectory=setup
 git+https://github.com/OpenG2P/openg2p-registry@v15.0-develop#subdirectory=setup/g2p_registry_individual
 git+https://github.com/OpenG2P/openg2p-registry@v15.0-develop#subdirectory=setup/g2p_registry_membership
 git+https://github.com/OpenG2P/openg2p-registry@v15.0-develop#subdirectory=setup/g2p_bank
-git+https://github.com/OpenG2P/openg2p-registry@v15.0-develop#subdirectory=setup/g2p_documents
 git+https://github.com/OpenG2P/openg2p-registry@v15.0-develop#subdirectory=setup/g2p_registry_rest_api
+git+https://github.com/OpenG2P/openg2p-documents@v15.0-develop#subdirectory=setup/g2p_documents
 git+https://github.com/OpenG2P/odoo-json-field@v15.0-develop#subdirectory=setup/g2p_json_field

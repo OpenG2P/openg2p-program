@@ -135,7 +135,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </div>
                     <group>
                         <field name="registrant_id" />
-                        <field name="application_id" string="Applicant ID" />
+                        <!-- <field name="application_id" string="Applicant ID" /> -->
                     </group>
                     <group colspan="4" col="4">
                         <field name="registration_date" />

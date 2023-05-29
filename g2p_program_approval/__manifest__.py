@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
-    "name": "OpenG2P Program Payments: In Files",
+    "name": "OpenG2P Program: Approval",
     "category": "G2P",
     "version": "15.0.1.1.0",
     "sequence": 1,
@@ -10,25 +10,12 @@
     "development_status": "Alpha",
     "depends": [
         "g2p_programs",
-        "g2p_program_documents",
-        "mail",
     ],
-    "external_dependencies": {
-        "python": [
-            "cryptography",
-            "python-jose",
-            "python-barcode",
-            "pdfkit",
-            "qrcode",
-            "wkhtmltopdf",
-        ]
-    },
     "data": [
+        "data/ir_sequence.xml",
         "security/ir.model.access.csv",
-        "views/payment_file_config_view.xml",
-        "views/payment_batch_tag_view.xml",
-        "views/payment_manager_view.xml",
-        "views/payment_view.xml",
+        "views/entitlement_manager_view.xml",
+        "views/entitlement_view.xml",
     ],
     "assets": {},
     "demo": [],
