@@ -209,12 +209,12 @@ class DefaultFilePaymentManager(models.Model):
                                 "tag_id": batch_tag.id,
                             }
                         )
+                        if not batches:
+                            batches = curr_batch
+                        else:
+                            batches += curr_batch
                     curr_batch.payment_ids = [(4, payment.id)]
                     payment.batch_id = curr_batch
-                    if not batches:
-                        batches = curr_batch
-                    else:
-                        batches += curr_batch
         return payments, batches
 
     def _prepare_payments_async(self, cycle, entitlements, entitlements_count):
