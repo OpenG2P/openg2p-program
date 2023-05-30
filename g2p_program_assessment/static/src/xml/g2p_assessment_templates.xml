@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="g2p_assessments_add">
+        <div class="o_Composer_Assessment">
+            <div class="d-flex flex-shrink-0">
+                <div class="o_Message_sidebar">
+                    <img
+                        t-attf-src="/web/image/res.partner/{{ author_partner_id }}/avatar_128"
+                        class="o_Composer_currentPartnerAvatar rounded-circle"
+                    />
+                </div>
+                <div class="o_Composer_core">
+                    <div class="o_Composer_coreMain">
+                        <div class="o_ComposerTextInput o_Composer_textInput">
+                            <textarea
+                                placeholder="Type your assessment..."
+                                class="o_ComposerTextInput_textarea o_ComposerTextInput_textareaStyle"
+                            />
+                        </div>
+                    </div>
+                    <div class="o_Composer_coreFooter">
+                        <div class="o_Composer_actionButtons">
+                            <button class="btn btn-primary o_Composer_buttonSubmit" disabled="">
+                                Submit
+                            </button>
+                            <button class="btn btn-secondary o_Composer_buttonCancel">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+    <t t-name="g2p_assessments_list">
+        <div class="o_Chatter">
+            <div class="o_Chatter_fixedPanel">
+                <button class="btn o_ChatterTopbar_buttonAddAssess">
+                    Add
+                </button>
+                <!-- The following o_Composer will be replaced by above template -->
+                <div class="o_Composer" />
+            </div>
+            <div class="o_Chatter_scrollPanel">
+                <div class="o_ThreadView o_Chatter_thread">
+                    <div class="o_ThreadView_bottomPart d-flex flex-grow-1">
+                        <div class="o_ThreadView_core d-flex flex-column flex-grow-1">
+                            <div class="o_MessageList o_ThreadView_messageList">
+                                <t t-foreach="assessments" t-as="assess">
+                                    <div class="o_Message o_Message_Assessment o-not-discussion mt-3">
+                                        <div class="d-flex flex-shrink-0">
+                                            <div class="o_Message_sidebar">
+                                                <div
+                                                    class="o_Message_authorAvatarContainer o_Message_sidebarItem"
+                                                >
+                                                    <img
+                                                        t-attf-src="/web/image/res.partner/{{ assess.author_id }}/avatar_128"
+                                                        class="o_Message_authorAvatar rounded-circle"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div class="o_Message_core flex-grow-1">
+                                                <div class="o_Message_header">
+                                                    <div class="o_Message_authorName">
+                                                        <t t-out="assess.author_name" />
+                                                    </div>
+                                                    <div class="o_Message_date o_Message_headerDate">
+                                                        <t t-out="assess.assessment_date" />
+                                                    </div>
+                                                </div>
+                                                <div class="o_Message_content">
+                                                    <div class="o_Message_prettyBody">
+                                                        <t t-out="assess.body" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

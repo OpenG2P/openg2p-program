@@ -33,9 +33,6 @@
             <xpath expr="//field[@name='eligible_beneficiaries_count']/../span" position="replace">
                 <span class="o_stat_text">Service Providers</span>
             </xpath>
-            <!-- <xpath expr="//field[@name='entitlements_count']/../span" position="replace">
-                <span class="o_stat_text">Reimbursements</span>
-            </xpath> -->
         </field>
     </record>
 

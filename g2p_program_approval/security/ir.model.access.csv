@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+g2p_program_approval_mapping_admin,Program Approval Mapping Admin,g2p_program_approval.model_g2p_program_approval_mapping,g2p_registry_base.group_g2p_admin,1,1,1,1
+g2p_program_approval_mapping_manager,Program Approval Mapping Manager,g2p_program_approval.model_g2p_program_approval_mapping,g2p_programs.g2p_program_manager,1,1,1,0
+g2p_program_approval_mapping_user,Program Approval Mapping User,g2p_program_approval.model_g2p_program_approval_mapping,,1,0,0,0
