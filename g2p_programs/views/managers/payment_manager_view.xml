@@ -102,8 +102,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     >
                         <field name="batch_tag_ids" attrs="{'invisible':['!',('create_batch','=',True)]}">
                             <tree>
+                                <field name="order" widget="handle" />
                                 <field name="name" />
-                                <field name="order" />
                                 <field name="max_batch_size" />
                                 <field name="domain" />
                             </tree>

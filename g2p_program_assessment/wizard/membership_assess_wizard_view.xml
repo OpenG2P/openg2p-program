@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_program_membership_assessment_wizard_form" model="ir.ui.view">
+        <field name="name">view_program_membership_assessment_wizard_form</field>
+        <field name="model">g2p.program_membership.assessment.wizard</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <form string="Assessments" create="0" edit="0" delete="0">
+                <field name="program_membership_id" widget="g2p_assess_widget" />
+            </form>
+        </field>
+    </record>
+</odoo>
