@@ -8,58 +8,6 @@ from odoo import _, fields, models
 _logger = logging.getLogger(__name__)
 
 
-# class ApprovalManager(models.Model):
-#     _name = "g2p.program.approval.manager"
-#     _description = "Approval Manager"
-#     _inherit = "g2p.manager.mixin"
-
-#     program_id = fields.Many2one("g2p.program", "Program")
-
-#     @api.model
-#     def _selection_manager_ref_id(self):
-#         selection = super()._selection_manager_ref_id()
-#         new_manager = ("g2p.program.approval.manager.entitlement", "Entitlement Approval")
-#         if new_manager not in selection:
-#             selection.append(new_manager)
-#         return selection
-
-
-# class BaseApprovalManager(models.AbstractModel):
-#     _name = "g2p.program.approval.manager.base"
-#     _inherit = "base.programs.manager"
-#     _description = "Base Approval Manager"
-
-#     name = fields.Char("Manager Name", required=True)
-#     program_id = fields.Many2one("g2p.program", string="Program", required=True)
-
-#     def approval_objects(self, *kwargs):
-#         """
-#         This method is used to approve the supplied objects.
-#         :return:
-#         """
-#         raise NotImplementedError()
-
-#     def show_approval_action(self, *kwargs):
-#         """
-#         This method is used to approve the supplied objects.
-#         :return:
-#         """
-#         raise NotImplementedError()
-
-# class EntitlementApprovalManager(models.Model):
-#     _name = "g2p.program.approval.manager.entitlement"
-#     _inherit = ["g2p.program.approval.manager.base", "g2p.manager.source.mixin"]
-#     _description = "Entitlement Approval Manager"
-
-#     mapping_ids = fields.One2many("g2p.program.approval.mapping", "entitlement_approval_manager_id")
-
-#     def approval_objects(self, entitlements):
-#         return
-
-#     def show_approval_action(self, entitlements):
-#         return
-
-
 class DefaultEntitlementManagerApproval(models.Model):
     _inherit = "g2p.program.entitlement.manager.default"
 
