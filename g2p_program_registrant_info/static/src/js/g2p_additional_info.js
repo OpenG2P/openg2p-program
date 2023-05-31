@@ -56,14 +56,16 @@ var G2PAdditionalInfoWidget = FieldText.extend({
             if (!jsonObject[key]) continue;
             if (
                 typeof jsonObject[key] === "object" &&
-                "document_id" in jsonObject[key] &&
-                "document_slug" in jsonObject[key]
+                "document_id" in jsonObject[key][0] &&
+                "document_slug" in jsonObject[key][0]
             ) {
-                const document_slug = jsonObject[key].document_slug;
-                const host = window.location.origin;
-                jsonObject[key] = markup(
-                    `<a href="${host}/storage.file/${document_slug}" target="_blank">${document_slug}<span class="fa fa-fw fa-external-link"></span></a>`
-                );
+                var document_files = "";
+                for (var i = 0; i < jsonObject[key].length; i++) {
+                    const document_slug = jsonObject[key][i].document_slug;
+                    const host = window.location.origin;
+                    document_files += `<a href="${host}/storage.file/${document_slug}" target="_blank">${document_slug}<span class="fa fa-fw fa-external-link"></span></a><br><br/>`;
+                }
+                jsonObject[key] = markup(document_files);
             } else if (typeof jsonObject[key] === "object") {
                 jsonObject[key] = JSON.stringify(jsonObject[key]);
             }

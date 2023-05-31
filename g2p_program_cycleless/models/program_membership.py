@@ -1,23 +1,46 @@
 from odoo import _, models
+from odoo.exceptions import UserError
 
 
 class G2PProgramMembership(models.Model):
     _inherit = "g2p.program_membership"
 
-    def create_entitlement(self):
-        wizard = self.env["g2p.entitlement.wizard"].create(
-            {
-                "partner_id": self.partner_id.id,
-                "program_id": self.program_id.id,
-                "currency_id": self.program_id.journal_id.currency_id.id,
-            }
+    def active_cycle(self):
+        if not self.program_id.default_active_cycle.id:
+            self.program_id.create_new_cycle()
+
+            cycle_id = self.env["g2p.cycle"].search(
+                [("program_id", "=", self.program_id.id)]
+            )
+            return cycle_id.id
+
+        return self.program_id.default_active_cycle.id
+
+    def open_entitlement_form_wizard(self):
+
+        rec = self.env["g2p.entitlement"].search(
+            [
+                ("partner_id", "=", self.partner_id.id),
+                ("program_id", "=", self.program_id.id),
+            ]
         )
 
+        if rec:
+            raise UserError(_("Entitlement already been created!"))
+
         return {
-            "name": _("Create Entitlement"),
+            "name": "Create Entitlement",
             "type": "ir.actions.act_window",
             "res_model": "g2p.entitlement.wizard",
             "view_mode": "form",
-            "res_id": wizard.id,
+            "view_id": self.env.ref(
+                "g2p_program_cycleless.view_create_entitlement_wizard_form"
+            ).id,
             "target": "new",
+            "context": {
+                "default_partner_id": self.partner_id.id,
+                "default_program_id": self.program_id.id,
+                "default_currency_id": self.program_id.journal_id.currency_id.id,
+                "default_cycle_id": self.active_cycle(),
+            },
         }

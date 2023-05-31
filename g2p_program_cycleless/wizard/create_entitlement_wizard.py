@@ -2,63 +2,26 @@
 
 import logging
 
-from odoo import fields, models
+from odoo import models
 
 _logger = logging.getLogger(__name__)
 
 
-class G2PCreateEntitlementWizard(models.TransientModel):
+class G2PEntitlementWizard(models.TransientModel):
     _name = "g2p.entitlement.wizard"
-    _description = "Create a New Entitlement Wizard"
+    _description = "G2P Entitlement Wizard"
 
-    partner_id = fields.Many2one(
-        "res.partner",
-        "Beneficiary",
-        help="A beneficiary",
-        required=True,
-        domain=[("is_registrant", "=", True)],
-    )
-
-    program_id = fields.Many2one("g2p.program")
-
-    initial_amount = fields.Monetary(currency_field="currency_id")
-    currency_id = fields.Many2one("res.currency")
-
-    valid_from = fields.Date(required=False)
-    valid_until = fields.Date(
-        default=lambda self: fields.Date.add(fields.Date.today(), years=1)
-    )
+    _inherit = "g2p.entitlement"
 
     def create_entitlement(self):
-
-        record = self.env["g2p.entitlement"].search(
-            [
-                ("partner_id", "=", self.partner_id.id),
-                ("program_id", "=", self.program_id.id),
-            ]
+        return self.env["g2p.entitlement"].create(
+            {
+                "program_id": self.program_id.id,
+                "partner_id": self.partner_id.id,
+                "is_cash_entitlement": True,
+                "cycle_id": self.program_id.default_active_cycle.id,
+                "initial_amount": self.initial_amount,
+                "valid_from": self.valid_from,
+                "valid_until": self.valid_until,
+            }
         )
-
-        if record.id:
-            if record.state == "draft":
-                record.update(
-                    {
-                        "initial_amount": self.initial_amount,
-                        "valid_from": self.valid_from,
-                        "valid_until": self.valid_until,
-                    }
-                )
-            else:
-                _logger.error("Not allowed to update the Entitlement")
-        else:
-
-            record.create(
-                {
-                    "partner_id": self.partner_id.id,
-                    "program_id": self.program_id.id,
-                    "initial_amount": self.initial_amount,
-                    "valid_from": self.valid_from,
-                    "valid_until": self.valid_until,
-                    "is_cash_entitlement": True,
-                    "cycle_id": self.program_id.default_active_cycle.id,
-                }
-            )
