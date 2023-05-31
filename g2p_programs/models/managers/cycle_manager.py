@@ -335,12 +335,16 @@ class DefaultCycleManager(models.Model):
         jobs = []
         for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable()._check_eligibility(
+                self.delayable(channel="root_program.cycle")._check_eligibility(
                     cycle, offset=i, limit=self.MAX_ROW_JOB_QUEUE
                 )
             )
         main_job = group(*jobs)
-        main_job.on_done(self.delayable().mark_check_eligibility_as_done(cycle))
+        main_job.on_done(
+            self.delayable(channel="root_program.cycle").mark_check_eligibility_as_done(
+                cycle
+            )
+        )
         main_job.delay()
 
     def _check_eligibility(
@@ -416,13 +420,15 @@ class DefaultCycleManager(models.Model):
         jobs = []
         for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable()._prepare_entitlements(cycle, i, self.MAX_ROW_JOB_QUEUE)
+                self.delayable(channel="root_program.cycle")._prepare_entitlements(
+                    cycle, i, self.MAX_ROW_JOB_QUEUE
+                )
             )
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable().mark_prepare_entitlement_as_done(
-                cycle, _("Entitlement Ready.")
-            )
+            self.delayable(
+                channel="root_program.cycle"
+            ).mark_prepare_entitlement_as_done(cycle, _("Entitlement Ready."))
         )
         main_job.delay()
 
@@ -567,7 +573,7 @@ class DefaultCycleManager(models.Model):
         jobs = []
         for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable()._add_beneficiaries(
+                self.delayable(channel="root_program.cycle")._add_beneficiaries(
                     cycle,
                     beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
                     state,
@@ -576,7 +582,7 @@ class DefaultCycleManager(models.Model):
 
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable().mark_import_as_done(
+            self.delayable(channel="root_program.cycle").mark_import_as_done(
                 cycle, _("Beneficiary import finished.")
             )
         )

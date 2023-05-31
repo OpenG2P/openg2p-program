@@ -192,12 +192,16 @@ class DefaultProgramManager(models.Model):
         jobs = []
         for i in range(0, members_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable()._enroll_eligible_registrants(
-                    states, i, self.MAX_ROW_JOB_QUEUE
-                )
+                self.delayable(
+                    channel="root_program.program_manager"
+                )._enroll_eligible_registrants(states, i, self.MAX_ROW_JOB_QUEUE)
             )
         main_job = group(*jobs)
-        main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
+        main_job.on_done(
+            self.delayable(
+                channel="root_program.program_manager"
+            ).mark_enroll_eligible_as_done()
+        )
         main_job.delay()
 
     def _enroll_eligible_registrants(
