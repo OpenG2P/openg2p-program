@@ -1,5 +1,8 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 
+import random
+from datetime import datetime
+
 from odoo import api, fields, models
 
 from odoo.addons.g2p_json_field.models import json_field
@@ -33,6 +36,10 @@ class G2PProgramRegistrantInfo(models.Model):
         "g2p.program_membership", compute="_compute_program_membership", store=True
     )
 
+    application_id = fields.Char(
+        "Application ID", compute="_compute_application_id", store=True
+    )
+
     @api.depends("registrant_id", "program_id")
     def _compute_program_membership(self):
         for rec in self:
@@ -46,6 +53,17 @@ class G2PProgramRegistrantInfo(models.Model):
                 rec.program_membership_id = result[0]
             else:
                 rec.program_membership_id = None
+
+    @api.depends("registrant_id", "program_id")
+    def _compute_application_id(self):
+        for rec in self:
+            d = datetime.today().strftime("%d")
+            m = datetime.today().strftime("%m")
+            y = datetime.today().strftime("%y")
+
+            random_number = str(random.randint(1, 100000))
+
+            rec.application_id = d + m + y + random_number.zfill(5)
 
     def open_registrant_form(self):
         return {
