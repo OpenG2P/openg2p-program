@@ -11,6 +11,7 @@
     "depends": [
         "g2p_programs",
         "g2p_program_documents",
+        "g2p_programs_rest_api",
         "mail",
     ],
     "external_dependencies": {
