@@ -152,12 +152,16 @@ class DefaultEligibilityManager(models.Model):
         jobs = []
         for i in range(0, len(new_beneficiaries), 10000):
             jobs.append(
-                self.delayable()._import_registrants(
-                    new_beneficiaries[i : i + 10000], state
-                )
+                self.delayable(
+                    channel="root_program.eligibility_manager"
+                )._import_registrants(new_beneficiaries[i : i + 10000], state)
             )
         main_job = group(*jobs)
-        main_job.on_done(self.delayable().mark_import_as_done())
+        main_job.on_done(
+            self.delayable(
+                channel="root_program.eligibility_manager"
+            ).mark_import_as_done()
+        )
         main_job.delay()
 
     def mark_import_as_done(self):
