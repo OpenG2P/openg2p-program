@@ -34,18 +34,6 @@ class G2PEntitlement(models.Model):
                 name += " (" + str(record.code) + ")"
             record.name = name
 
-    def active_cycle(self):
-        reimbursement_program = self.program_id.reimbursement_program_id
-        if not reimbursement_program.default_active_cycle.id:
-            reimbursement_program.create_new_cycle()
-
-            cycle_id = self.env["g2p.cycle"].search(
-                [("program_id", "=", reimbursement_program.id)]
-            )
-            return cycle_id.id
-
-        return reimbursement_program.default_active_cycle.id
-
     def submit_reimbursement_claim(
         self,
         partner,
@@ -73,7 +61,7 @@ class G2PEntitlement(models.Model):
             .sudo()
             .create(
                 {
-                    "cycle_id": self.active_cycle(),
+                    "cycle_id": reimbursement_cycle.id,
                     "partner_id": partner.id,
                     "initial_amount": amount if amount else self.initial_amount,
                     "transfer_fee": transfer_fee if transfer_fee else self.transfer_fee,
@@ -82,7 +70,9 @@ class G2PEntitlement(models.Model):
                     "is_cash_entitlement": True,
                     "valid_from": reimbursement_cycle.start_date,
                     "valid_until": reimbursement_cycle.end_date,
-                    "supporting_document_ids": supporting_document_file_ids,
+                    "supporting_document_ids": [
+                        (4, file) for file in supporting_document_file_ids
+                    ],
                     "reimbursement_original_entitlement_id": self.id,
                 }
             )

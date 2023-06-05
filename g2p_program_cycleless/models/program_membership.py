@@ -5,17 +5,6 @@ from odoo.exceptions import UserError
 class G2PProgramMembership(models.Model):
     _inherit = "g2p.program_membership"
 
-    def active_cycle(self):
-        if not self.program_id.default_active_cycle.id:
-            self.program_id.create_new_cycle()
-
-            cycle_id = self.env["g2p.cycle"].search(
-                [("program_id", "=", self.program_id.id)]
-            )
-            return cycle_id.id
-
-        return self.program_id.default_active_cycle.id
-
     def open_entitlement_form_wizard(self):
 
         rec = self.env["g2p.entitlement"].search(
@@ -27,6 +16,8 @@ class G2PProgramMembership(models.Model):
 
         if rec:
             raise UserError(_("Entitlement already been created!"))
+
+        active_cycle = self.program_id.default_active_cycle
 
         return {
             "name": "Create Entitlement",
@@ -41,6 +32,6 @@ class G2PProgramMembership(models.Model):
                 "default_partner_id": self.partner_id.id,
                 "default_program_id": self.program_id.id,
                 "default_currency_id": self.program_id.journal_id.currency_id.id,
-                "default_cycle_id": self.active_cycle(),
+                "default_cycle_id": active_cycle.id if active_cycle else None,
             },
         }
