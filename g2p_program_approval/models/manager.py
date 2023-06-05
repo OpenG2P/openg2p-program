@@ -33,12 +33,21 @@ class DefaultEntitlementManagerApproval(models.Model):
                 success, next_mapping = self.mapping_ids.get_next_mapping(
                     entitlement.approval_state
                 )
+                _logger.debug(
+                    "Program Approval: approve entitlement. Next Mapping success - %s, next-mapping - %s",
+                    success,
+                    next_mapping,
+                )
                 if success:
                     if not next_mapping:
                         entitlements_to_approve = (
                             (entitlements_to_approve + entitlement)
                             if entitlements_to_approve
                             else entitlement
+                        )
+                        _logger.debug(
+                            "Program Approval: approve entitlement. No next mapping to be approved - %s",
+                            entitlements_to_approve,
                         )
                         continue
                     else:
@@ -59,8 +68,8 @@ class DefaultEntitlementManagerApproval(models.Model):
             res_state_err, res_message = super(
                 DefaultEntitlementManagerApproval, self
             ).approve_entitlements(entitlements_to_approve)
-            if not res_state_err:
-                final_err = 0
+            if not final_err:
+                final_err = res_state_err
             if res_message:
                 final_message += res_message
 
@@ -69,6 +78,11 @@ class DefaultEntitlementManagerApproval(models.Model):
         if undefined_err:
             final_message += _(f"Unknown error for {undefined_err} entitlements.")
 
+        _logger.debug(
+            "Program Approval: approve entitlement. Final Res: err_code - %s, message - %s",
+            final_err,
+            final_message,
+        )
         return final_err, final_message
 
     def show_approve_entitlements(self, entitlement):
