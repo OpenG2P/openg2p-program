@@ -20,10 +20,12 @@
                     </div>
                     <div class="o_Composer_coreFooter">
                         <div class="o_Composer_actionButtons">
-                            <button class="btn btn-primary o_Composer_buttonSubmit" disabled="">
-                                Submit
+                            <button class="btn o_Composer_buttonSubmit" disabled="">
+                                <span class="o_Composer_buttonSubmitText">Submit</span>
                             </button>
-                            <button class="btn btn-secondary o_Composer_buttonCancel">Cancel</button>
+                            <button class="btn o_Composer_buttonCancel">
+                                <span class="o_Composer_buttonCancelText">Cancel</span>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -32,13 +34,17 @@
     </t>
     <t t-name="g2p_assessments_list">
         <div class="o_Chatter">
-            <div class="o_Chatter_fixedPanel">
-                <button class="btn o_ChatterTopbar_buttonAddAssess">
-                    Add
-                </button>
-                <!-- The following o_Composer will be replaced by above template -->
-                <div class="o_Composer" />
-            </div>
+            <t t-if="readonly != true">
+                <div class="o_Chatter_fixedPanel">
+                    <button class="btn o_ChatterTopbar_buttonAddAssess">
+                        <span class="o_ChatterTopbar_buttonAddAssessText"><i
+                                class="fa fa-plus"
+                            /> Add Assessment</span>
+                    </button>
+                    <!-- The following o_Composer will be replaced by above template -->
+                    <div class="o_Composer" />
+                </div>
+            </t>
             <div class="o_Chatter_scrollPanel">
                 <div class="o_ThreadView o_Chatter_thread">
                     <div class="o_ThreadView_bottomPart d-flex flex-grow-1">

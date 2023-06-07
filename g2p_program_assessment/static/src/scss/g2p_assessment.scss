@@ -26,6 +26,10 @@
 .o_ChatterTopbar_buttonAddAssess {
     border-radius: 10px;
     border: 1px solid #0000001a;
+    background: #e27d21 0% 0% no-repeat padding-box;
+}
+.o_ChatterTopbar_buttonAddAssessText {
+    color: white;
 }
 
 .o_Composer_Assessment {
@@ -50,4 +54,20 @@
 
 .o_Composer_Assessment .o_Composer_core .o_Composer_coreFooter {
     margin-bottom: 0.2%;
+}
+
+.o_Composer_buttonSubmit {
+    border-radius: 10px;
+    border: 1px solid #0000001a;
+    background: #e27d21 0% 0% no-repeat padding-box;
+}
+.o_Composer_buttonSubmitText {
+    color: white;
+}
+.o_Composer_buttonCancel {
+    border-radius: 10px;
+    border: 1px solid #e27d21;
+}
+.o_Composer_buttonCancelText {
+    color: #e27d21;
 }

@@ -16,17 +16,9 @@ class G2PProgramAssessment(models.Model):
 
     assessment_date = fields.Datetime(related="remarks_id.date")
 
-    res_ref = fields.Reference(
-        string="Resource Reference", selection="_selection_assessment_res_model"
-    )
+    program_membership_id = fields.Many2one("g2p.program_membership")
 
-    @api.model
-    def _selection_assessment_res_model(self):
-        return [
-            ("g2p.program_membership", "G2P Program Membership"),
-            # TODO: To be Impl:
-            # ("g2p.entitlement","G2P Program Membership"),
-        ]
+    entitlement_id = fields.Many2one("g2p.entitlement")
 
     @api.model
     def post_assessment(
@@ -68,44 +60,72 @@ class G2PProgramAssessment(models.Model):
                 }
             )
         messages = self.env["mail.thread"]._message_create(message_dicts)
-        return self.create(
+
+        assessments = self.create(
             [
                 {
                     "name": message.subject,
                     "remarks_id": message.id,
-                    "res_ref": f"{res_model},{res_ids[i]}",
+                    self.get_res_field_name(res_model): res_ids[i],
                 }
                 for i, message in enumerate(messages)
             ]
         )
+        for assessment in assessments:
+            if assessment.entitlement_id:
+                assessment.program_membership_id = assessment.entitlement_id.partner_id.program_membership_ids.filtered(
+                    lambda x: x.program_id.id == assessment.entitlement_id.program_id.id
+                )
+            elif assessment.program_membership_id:
+                entitlement = assessment.program_membership_id.partner_id.entitlement_ids.filtered(
+                    lambda x: x.program_id.id
+                    == assessment.program_membership_id.program_id.id
+                )
+                if entitlement and entitlement.state in ("draft",):
+                    assessment.entitlement_id = entitlement.id
+        return assessments
+
+    @api.model
+    def get_res_field_name(self, res_model):
+        if res_model == "g2p.program_membership":
+            return "program_membership_id"
+        elif res_model == "g2p.entitlement":
+            return "entitlement_id"
+        else:
+            return None
 
     def compute_subject(self, res_model, res_id):
+        program_memberships = self.compute_program_memberships(res_model, res_id)
+        assess_number = len(program_memberships.assessment_ids) + 1
+        program_name = program_memberships.program_id.name
+        partner_name = program_memberships.partner_id.name
+        res = f"Assessment #{assess_number} for {partner_name} under {program_name} program"
+        return _(res)
+
+    def compute_program_memberships(self, res_model, res_id):
         if res_model == "g2p.program_membership":
-            program_memberships = self.env[res_model].browse(res_id)
-            assess_number = len(program_memberships.assessment_ids)
-            program_name = program_memberships.program_id.name
-            partner_name = program_memberships.partner_id.name
-            res = f"Assessment #{assess_number} for {partner_name} under {program_name} program"
-            return _(res)
-        return None
+            return self.env[res_model].browse(res_id)
+        elif res_model == "g2p.entitlement":
+            entitlement = self.env[res_model].browse(res_id)
+            return self.env["g2p.program_membership"].search(
+                [
+                    ("program_id", "=", entitlement.program_id.id),
+                    ("partner_id", "=", entitlement.partner_id.id),
+                ]
+            )
+        else:
+            return None
 
     def compute_partner_ids(self, res_model, res_id):
         if res_model == "g2p.program_membership":
+            return self.env[res_model].browse(res_id).partner_id
+        elif res_model == "g2p.entitlement":
             return self.env[res_model].browse(res_id).partner_id
         else:
             return None
 
     @api.model
-    def object_to_ref(self, record):
-        record.ensure_one()
-        manager_ref_id = str(record)
-        s = manager_ref_id.find("(")
-        res_model = manager_ref_id[:s]
-        res_id = record.id
-        return f"{res_model},{res_id}"
-
-    @api.model
-    def get_rendering_context(self, res_ref):
+    def get_rendering_context(self, res_model, res_id):
         return {
             "assessments": [
                 {
@@ -115,7 +135,8 @@ class G2PProgramAssessment(models.Model):
                     "body": assess.remarks_id.body,
                 }
                 for assess in self.search(
-                    [("res_ref", "=", res_ref)], order="create_date desc"
+                    [(self.get_res_field_name(res_model), "=", res_id)],
+                    order="create_date desc",
                 )
             ]
         }

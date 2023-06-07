@@ -16,6 +16,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     class="btn-primary"
                     states="enrolled"
                 />
+                <field name="show_create_entitlement_button" invisible="1" />
+                <button
+                    name="open_entitlement_form_wizard"
+                    type="object"
+                    attrs="{'invisible':[('show_create_entitlement_button', '!=', True)]}"
+                    string="Create Entitlement"
+                    class="btn-primary"
+                />
             </xpath>
         </field>
     </record>

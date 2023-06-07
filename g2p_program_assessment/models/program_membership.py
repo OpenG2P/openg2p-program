@@ -13,32 +13,35 @@ class G2PProgramMembership(models.Model):
         ]
     )
 
-    assessment_ids = fields.Many2many(
-        "g2p.program.assessment", compute="_compute_assessment_ids"
+    assessment_ids = fields.One2many("g2p.program.assessment", "program_membership_id")
+
+    show_create_entitlement_button = fields.Boolean(
+        compute="_compute_show_create_entitlement"
     )
 
-    def _compute_assessment_ids(self):
+    def _compute_show_create_entitlement(self):
         for rec in self:
-            rec_ref = self.env["g2p.program.assessment"].object_to_ref(self)
-            assessments = self.env["g2p.program.assessment"].search(
-                [("res_ref", "=", rec_ref)]
-            )
-            rec.assessment_ids = [(4, assess.id) for assess in assessments]
+            rec.show_create_entitlement_button = self.env[
+                "g2p.entitlement.create.wizard"
+            ].is_show_create_entitlement(rec)
 
     def prepare_assessment(self):
-        wizard = self.env["g2p.program_membership.assessment.wizard"].create(
-            {
-                "program_membership_id": self.id,
-            }
-        )
         return {
             "name": _("Assessments"),
             "type": "ir.actions.act_window",
-            "res_id": wizard.id,
             "res_model": "g2p.program_membership.assessment.wizard",
             "view_mode": "form",
             "view_type": "form",
             "target": "new",
-            "context": {"create": False, "edit": False},
+            "context": {
+                "create": False,
+                "edit": False,
+                "default_program_membership_id": self.id,
+            },
             "flags": {"mode": "readonly"},
         }
+
+    def open_entitlement_form_wizard(self):
+        return self.env["g2p.entitlement.create.wizard"].open_entitlement_form_wizard(
+            self
+        )
