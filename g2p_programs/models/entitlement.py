@@ -176,12 +176,14 @@ class G2PEntitlement(models.Model):
         return self.state == "approved" and self.valid_until >= fields.Date.today()
 
     def unlink(self):
-        if self.state == "draft":
-            return super(G2PEntitlement, self).unlink()
-        else:
-            raise ValidationError(
-                _("Only draft entitlements are allowed to be deleted")
-            )
+        if self:
+            to_delete = self.filtered(lambda x: x.state == "draft")
+            if to_delete:
+                return super(G2PEntitlement, to_delete).unlink()
+            else:
+                raise ValidationError(
+                    _("Only draft entitlements are allowed to be deleted")
+                )
 
     def approve_entitlement(self):
         state_err, message = self.program_id.get_manager(

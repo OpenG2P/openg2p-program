@@ -95,17 +95,10 @@ class G2PEntitlementWizard(models.TransientModel):
                 _("Entitlement already exists. Approve/Edit the existing entitlement.")
             )
         self.is_cash_entitlement = True
+
+        # TODO: Find a way to reuse entitlement_manager.prepare_entitlements
         entitlement = self.env["g2p.entitlement"].create(
-            {
-                "cycle_id": self.cycle_id.id,
-                "partner_id": self.partner_id.id,
-                "initial_amount": self.initial_amount,
-                "transfer_fee": self.transfer_fee,
-                "state": "draft",
-                "is_cash_entitlement": self.is_cash_entitlement,
-                "valid_from": self.valid_from,
-                "valid_until": self.valid_until,
-            }
+            self.generate_create_entitlement_dict()
         )
         entitlement.copy_assessments_from_beneficiary()
         message = _("Entitlement created.")
@@ -122,4 +115,17 @@ class G2PEntitlementWizard(models.TransientModel):
                     "type": "ir.actions.act_window_close",
                 },
             },
+        }
+
+    def generate_create_entitlement_dict(self):
+        self.ensure_one()
+        return {
+            "cycle_id": self.cycle_id.id,
+            "partner_id": self.partner_id.id,
+            "initial_amount": self.initial_amount,
+            "transfer_fee": self.transfer_fee,
+            "state": "draft",
+            "is_cash_entitlement": self.is_cash_entitlement,
+            "valid_from": self.valid_from,
+            "valid_until": self.valid_until,
         }

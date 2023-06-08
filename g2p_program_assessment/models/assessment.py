@@ -80,9 +80,13 @@ class G2PProgramAssessment(models.Model):
                 entitlement = assessment.program_membership_id.partner_id.entitlement_ids.filtered(
                     lambda x: x.program_id.id
                     == assessment.program_membership_id.program_id.id
+                ).sorted(
+                    "create_date", reverse=True
                 )
-                if entitlement and entitlement.state in ("draft",):
-                    assessment.entitlement_id = entitlement.id
+                if entitlement:
+                    entitlement = entitlement[0]
+                    if entitlement.state in ("draft",):
+                        assessment.entitlement_id = entitlement.id
         return assessments
 
     @api.model

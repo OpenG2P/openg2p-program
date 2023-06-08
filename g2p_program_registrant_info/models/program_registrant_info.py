@@ -28,7 +28,14 @@ class G2PProgramRegistrantInfo(models.Model):
         # ondelete='set null'
     )
 
-    status = fields.Selection([("active", "Active"), ("closed", "Closed")])
+    status = fields.Selection(
+        [
+            ("active", "Applied"),
+            ("inprogress", "In Progress"),
+            ("rejected", "Rejected"),
+            ("closed", "Completed"),
+        ]
+    )
 
     program_registrant_info = json_field.JSONField("Program Information", default={})
 
