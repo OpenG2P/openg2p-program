@@ -119,6 +119,10 @@ class G2PEntitlementWizard(models.TransientModel):
         )
         entitlement.copy_assessments_from_beneficiary()
         try:
+            entitlement.copy_documents_from_beneficiary()
+        except Exception as e:
+            _logger.warning("Prgram Documents Module is not installed. %s", e)
+        try:
             self.env[
                 "g2p.program.registrant_info"
             ].trigger_latest_status_of_entitlement(
