@@ -13,9 +13,7 @@ class DefaultEligibilityManager(models.Model):
             program_memberships
         )
         for rec in program_memberships:
-            if (
-                rec.latest_registrant_info
-                and rec.latest_registrant_info.status == "active"
-            ):
-                rec.latest_registrant_info.status = "inprogress"
+            self.env["g2p.program.registrant_info"].trigger_latest_status_of_membership(
+                rec, "inprogress", check_states=("active",)
+            )
         return res

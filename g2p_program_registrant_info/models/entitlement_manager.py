@@ -13,9 +13,7 @@ class DefaultEntitlementManagerRegInfo(models.Model):
             DefaultEntitlementManagerRegInfo, self
         ).approve_entitlements(entitlements)
         for rec in entitlements:
-            prog_mem = rec.partner_id.program_membership_ids.filtered(
-                lambda x: x.program_id.id == rec.program_id.id
-            )
-            if prog_mem.latest_registrant_info_status != "closed":
-                prog_mem.latest_registrant_info.status = "closed"
+            self.env[
+                "g2p.program.registrant_info"
+            ].trigger_latest_status_of_entitlement(rec, "closed", check_states=())
         return state_err, message

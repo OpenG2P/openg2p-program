@@ -85,3 +85,21 @@ class G2PProgramRegistrantInfo(models.Model):
             "target": "new",
             "flags": {"mode": "readonly"},
         }
+
+    @api.model
+    def trigger_latest_status_of_entitlement(self, entitlement, state, check_states=()):
+        if entitlement:
+            prog_mem = entitlement.partner_id.program_membership_ids.filtered(
+                lambda x: x.program_id.id == entitlement.program_id.id
+            )
+            self.trigger_latest_status_membership(prog_mem, state, check_states)
+
+    @api.model
+    def trigger_latest_status_membership(
+        self, program_membership, state, check_states=()
+    ):
+        if program_membership:
+            reg_info = program_membership.latest_registrant_info
+            if reg_info:
+                if (not check_states) or (reg_info.status in check_states):
+                    reg_info.status = state

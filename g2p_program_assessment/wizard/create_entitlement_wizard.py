@@ -114,6 +114,14 @@ class G2PEntitlementWizard(models.TransientModel):
             self.generate_create_entitlement_dict()
         )
         entitlement.copy_assessments_from_beneficiary()
+        try:
+            self.env[
+                "g2p.program.registrant_info"
+            ].trigger_latest_status_of_entitlement(
+                entitlement, "inprogress", check_states=("active",)
+            )
+        except Exception as e:
+            _logger.warning("Prgram Registrant Info Module not installed. %s", e)
         message = _("Entitlement created.")
         kind = "success"
         return {
