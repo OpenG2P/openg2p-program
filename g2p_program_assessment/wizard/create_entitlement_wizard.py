@@ -77,7 +77,20 @@ class G2PEntitlementWizard(models.TransientModel):
     def is_show_create_entitlement(self, beneficiary):
         # TODO: Consider create wizard with multiple beneficiaries
         beneficiary.ensure_one()
-        return beneficiary.state == "enrolled" and len(beneficiary.assessment_ids) > 0
+        latest_entitlements = beneficiary.partner_id.entitlement_ids.filtered(
+            lambda x: x.program_id.id == beneficiary.program_id.id
+        ).sorted("create_date", reverse=True)
+        show_create = (
+            beneficiary.state == "enrolled"
+            and len(
+                beneficiary.assessment_ids.filtered(
+                    lambda x: (not latest_entitlements)
+                    or x.create_date > latest_entitlements[0].create_date
+                )
+            )
+            > 0
+        )
+        return show_create
 
     def create_entitlement(self):
         if not self.initial_amount:
