@@ -24,6 +24,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     string="Create Entitlement"
                     class="btn-primary"
                 />
+                <field name="show_reject_application_assessment_button" invisible="1" />
+                <button
+                    name="reject_application_assessment"
+                    type="object"
+                    attrs="{'invisible':[('show_reject_application_assessment_button', '!=', True)]}"
+                    string="Reject"
+                    class="btn-primary"
+                />
             </xpath>
         </field>
     </record>

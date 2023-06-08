@@ -26,8 +26,6 @@ class G2PEntitlementWizard(models.TransientModel):
     valid_from = fields.Date()
     valid_until = fields.Date()
 
-    is_cash_entitlement = fields.Boolean("Cash Entitlement", default=False)
-
     currency_id = fields.Many2one("res.currency")
 
     initial_amount = fields.Monetary(required=True, currency_field="currency_id")
@@ -90,6 +88,13 @@ class G2PEntitlementWizard(models.TransientModel):
             )
             > 0
         )
+        try:
+            show_create = show_create and (
+                beneficiary.latest_registrant_info
+                and beneficiary.latest_registrant_info_status != "rejected"
+            )
+        except Exception as e:
+            _logger.warning("Program Registrant info not installed. %s", e)
         return show_create
 
     def create_entitlement(self):
@@ -107,7 +112,6 @@ class G2PEntitlementWizard(models.TransientModel):
             raise ValidationError(
                 _("Entitlement already exists. Approve/Edit the existing entitlement.")
             )
-        self.is_cash_entitlement = True
 
         # TODO: Find a way to reuse entitlement_manager.prepare_entitlements
         entitlement = self.env["g2p.entitlement"].create(
@@ -146,7 +150,7 @@ class G2PEntitlementWizard(models.TransientModel):
             "initial_amount": self.initial_amount,
             "transfer_fee": self.transfer_fee,
             "state": "draft",
-            "is_cash_entitlement": self.is_cash_entitlement,
+            "is_cash_entitlement": True,
             "valid_from": self.valid_from,
             "valid_until": self.valid_until,
         }
