@@ -28,7 +28,21 @@ class G2PProgramRegistrantInfo(models.Model):
         # ondelete='set null'
     )
 
-    status = fields.Selection([("active", "Active"), ("closed", "Closed")])
+    state = fields.Selection(
+        [
+            ("draft", "Applied"),
+            ("duplicated", "In Progress"),
+            ("enrolled", "In Progress"),
+            ("not_eligible", "Not Eligible"),
+            ("ent_approved", "In Progress"),
+            ("again_enrolled", "In Progress"),
+            ("completed", "Completed"),
+            ("rejected", "Rejected"),
+        ],
+        compute="_compute_application_status",
+        default="draft",
+        store=True,
+    )
 
     program_registrant_info = json_field.JSONField("Program Information", default={})
 
@@ -64,6 +78,55 @@ class G2PProgramRegistrantInfo(models.Model):
             random_number = str(random.randint(1, 100000))
 
             rec.application_id = d + m + y + random_number.zfill(5)
+
+    @api.depends("program_membership_id.state", "program_membership_id.entitlement_ids")
+    def _compute_application_status(self):
+        for rec in self:
+
+            entitlement = self.env["g2p.entitlement"].search(
+                [
+                    ("program_id", "=", rec.program_id.id),
+                    ("partner_id", "=", rec.registrant_id.id),
+                ]
+            )
+
+            if len(self.ids) == 1:
+                if rec.program_membership_id.state == "draft":
+                    rec.state = "draft"
+                elif rec.program_membership_id.state == "not_eligible":
+                    rec.state = "not_eligible"
+                elif rec.program_membership_id.state == "duplicated":
+                    rec.state = "duplicated"
+                elif not entitlement and rec.program_membership_id.state == "enrolled":
+                    rec.state = "enrolled"
+                elif (
+                    entitlement
+                    and entitlement.state == "draft"
+                    and rec.program_membership_id.state == "enrolled"
+                ):
+                    rec.state = "enrolled"
+                elif (
+                    entitlement
+                    and entitlement.state == "approved"
+                    and rec.program_membership_id.state == "enrolled"
+                ):
+                    rec.state = "ent_approved"
+                elif (
+                    entitlement
+                    and entitlement.state == "approved"
+                    and rec.program_membership_id.state == "enrolled"
+                    and entitlement.show_print_voucher_button
+                ):
+                    rec.state = "completed"
+
+                # TODO: Add reject status
+                else:
+                    rec.state = "rejected"
+
+            else:
+                rec.state = "again_enrolled"
+
+                # TODO: Implement reject status in multiple submission also.
 
     def open_registrant_form(self):
         return {

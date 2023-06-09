@@ -20,7 +20,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 class="btn-success"
                             />
                             <field name="program_id" />
-                            <field name="status" />
+                            <field name="state" />
                             <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                         </tree>
                     </field>
@@ -46,7 +46,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 class="btn-success"
                             />
                             <field name="program_id" />
-                            <field name="status" />
+                            <field name="state" />
                             <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                         </tree>
                     </field>
