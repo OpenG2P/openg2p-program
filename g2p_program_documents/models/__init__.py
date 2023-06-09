@@ -4,3 +4,4 @@ from . import document_file
 from . import document_store
 from . import entitlement
 from . import program_membership
+from . import entitlement_manager

@@ -11,9 +11,35 @@ _logger = logging.getLogger(__name__)
 class DefaultEntitlementManagerApproval(models.Model):
     _inherit = "g2p.program.entitlement.manager.default"
 
-    mapping_ids = fields.One2many(
-        "g2p.program.approval.mapping", "default_entitlement_approval_manager_id"
+    approval_mapping_ids = fields.Many2many(
+        "g2p.program.approval.mapping",
+        compute="_compute_approval_mapping_ids",
+        inverse="_inverse_approval_mapping_ids",
+        ondelete="cascade",
     )
+
+    def _compute_approval_mapping_ids(self):
+        for rec in self:
+            approval_mappings = self.env["g2p.program.approval.mapping"].search(
+                [("entitlement_manager_ref", "=", f"{rec._name}, {rec.id}")]
+            )
+            rec.approval_mapping_ids = [
+                (4, mapping.id) for mapping in approval_mappings
+            ]
+
+    def _inverse_approval_mapping_ids(self):
+        for rec in self:
+            old_approval_mapping_ids = self.env["g2p.program.approval.mapping"].search(
+                [("entitlement_manager_ref", "=", f"{rec._name}, {rec.id}")]
+            )
+
+            to_delete = old_approval_mapping_ids - rec.approval_mapping_ids
+            if to_delete:
+                to_delete.unlink()
+
+            to_add = rec.approval_mapping_ids - old_approval_mapping_ids
+            if to_add:
+                to_add.entitlement_manager_ref = f"{rec._name}, {rec.id}"
 
     def approve_entitlements(self, entitlements):
         user_err = 0
@@ -30,7 +56,7 @@ class DefaultEntitlementManagerApproval(models.Model):
             if entitlement.state == "draft":
                 entitlement.state = "pending_validation"
             try:
-                success, next_mapping = self.mapping_ids.get_next_mapping(
+                success, next_mapping = self.approval_mapping_ids.get_next_mapping(
                     entitlement.approval_state
                 )
                 _logger.debug(
@@ -90,7 +116,7 @@ class DefaultEntitlementManagerApproval(models.Model):
         entitlement.ensure_one()
         show_ent = entitlement.state in ("draft", "pending_validation")
         try:
-            self.mapping_ids.get_next_mapping(entitlement.approval_state)
+            self.approval_mapping_ids.get_next_mapping(entitlement.approval_state)
         except Forbidden:
             show_ent = False
         return show_ent

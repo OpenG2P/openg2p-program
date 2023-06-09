@@ -14,9 +14,7 @@ class ProgramApprovalMapping(models.Model):
 
     group_id = fields.Many2one("res.groups")
 
-    default_entitlement_approval_manager_id = fields.Many2one(
-        "g2p.program.entitlement.manager.default", ondelete="cascade"
-    )
+    entitlement_manager_ref = fields.Char()
 
     @api.model
     def create(self, vals):

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_create_entitlement_wizard_reim_form" model="ir.ui.view">
+        <field name="name">view_create_entitlement_wizard_reim_form</field>
+        <field name="model">g2p.entitlement.create.wizard</field>
+        <field name="inherit_id" ref="g2p_program_assessment.view_create_entitlement_wizard_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="service_provider_id" domain="[('supplier_rank','>',0)]" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
