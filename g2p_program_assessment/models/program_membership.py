@@ -39,7 +39,7 @@ class G2PProgramMembership(models.Model):
                 reg_info = rec.latest_registrant_info
                 if (
                     reg_info
-                    and reg_info.status in ("active", "inprogress")
+                    and reg_info.state in ("active", "inprogress")
                     and rec.assessment_ids.filtered(
                         lambda x: x.create_date > reg_info.create_date
                     )

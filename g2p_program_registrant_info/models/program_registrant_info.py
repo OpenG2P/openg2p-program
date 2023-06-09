@@ -28,7 +28,7 @@ class G2PProgramRegistrantInfo(models.Model):
         # ondelete='set null'
     )
 
-    status = fields.Selection(
+    state = fields.Selection(
         [
             ("active", "Applied"),
             ("inprogress", "In Progress"),
@@ -103,7 +103,7 @@ class G2PProgramRegistrantInfo(models.Model):
         if program_membership:
             reg_info = program_membership.latest_registrant_info
             if reg_info:
-                if (not check_states) or (reg_info.status in check_states):
-                    reg_info.status = state
+                if (not check_states) or (reg_info.state in check_states):
+                    reg_info.state = state
                     return True
         return False

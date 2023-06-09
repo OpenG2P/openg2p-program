@@ -12,7 +12,7 @@
                             <field name="create_date" invisible="1" />
                             <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                             <field name="application_id" />
-                            <field name="status" />
+                            <field name="state" />
                         </tree>
                     </field>
                 </page>

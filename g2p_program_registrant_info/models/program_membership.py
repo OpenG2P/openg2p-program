@@ -12,7 +12,7 @@ class G2PProgramMembership(models.Model):
         "g2p.program.registrant_info", compute="_compute_latest_registrant_info"
     )
     latest_registrant_info_status = fields.Selection(
-        related="latest_registrant_info.status"
+        related="latest_registrant_info.state"
     )
 
     def _compute_latest_registrant_info(self):
