@@ -4,6 +4,7 @@
         <field name="name">view_entitlement_docs_form</field>
         <field name="model">g2p.entitlement</field>
         <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
+        <field name="priority" eval="160" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='date_approved']/../.." position="after">
                 <group string="Supporting Documents">

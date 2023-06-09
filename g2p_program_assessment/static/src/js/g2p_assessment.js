@@ -21,9 +21,10 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
     init: function () {
         this._super.apply(this, arguments);
         this.resModel = this.nodeOptions.res_model ? this.nodeOptions.res_model : this.value.model;
-        this.resId = this.recordData[this.nodeOptions.res_id_field]
-            ? this.nodeOptions.res_id_field
+        this.resId = this.nodeOptions.res_id_field
+            ? this.recordData[this.nodeOptions.res_id_field]
             : this.value.data.id;
+        this.readonly = this.nodeOptions.readonly ? this.nodeOptions.readonly : false;
         this.assessmentAddMode = 0;
         this.assessmentAddModeStarted = 0;
     },
@@ -74,12 +75,13 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
         const res = await this._rpc({
             model: "g2p.program.assessment",
             method: "get_rendering_context",
-            args: [`${this.resModel},${this.resId}`],
+            args: [this.resModel, this.resId],
         });
         // To ask odoo to consider the body as html
         res.assessments.forEach((element) => {
             element.body = markup(element.body);
         });
+        res.readonly = this.readonly;
         return res;
     },
 });

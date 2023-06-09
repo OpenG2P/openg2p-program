@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-g2p_entitlement_wizard_admin,G2P Entitlement Wizard Admin Access,model_g2p_entitlement_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
-g2p_entitlement_wizard_manager,G2P Entitlement Wizard Manager Access,model_g2p_entitlement_wizard,g2p_programs.g2p_program_manager,1,1,1,0
-g2p_entitlement_wizard_validator,G2P Entitlement Wizard Validator Access,model_g2p_entitlement_wizard,g2p_programs.g2p_program_validator,1,0,0,0

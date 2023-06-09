@@ -15,7 +15,9 @@
     "data": [
         "security/ir.model.access.csv",
         "views/program_membership_view.xml",
+        "views/entitlement_view.xml",
         "wizard/membership_assess_wizard_view.xml",
+        "wizard/create_entitlement_wizard.xml",
     ],
     "assets": {
         "web.assets_backend": [

@@ -8,13 +8,17 @@
             <xpath expr="//page[@name='entitlement']" position="after">
                 <page name="program_registrant_info" string="Registrant Info">
                     <field name="program_registrant_info_ids" readonly="1" nolabel="1">
-                        <tree>
+                        <tree default_order="create_date desc">
+                            <field name="create_date" invisible="1" />
                             <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                             <field name="application_id" />
                             <field name="state" />
                         </tree>
                     </field>
                 </page>
+            </xpath>
+            <xpath expr="//field[@name='registrant_id']/.." position="inside">
+                <field name="latest_registrant_info_status" string="Latest Application Status" />
             </xpath>
         </field>
     </record>
