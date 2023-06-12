@@ -8,12 +8,13 @@
     "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "depends": [
-        "g2p_programs",
-    ],
+    "depends": ["g2p_programs"],
     "data": [
         "views/program_view.xml",
         "views/program_manager_view.xml",
+        "views/entitlement_view.xml",
+        "views/g2p_program_membership_view.xml",
+        "views/registry_individual_form_view.xml",
     ],
     "assets": {},
     "demo": [],
