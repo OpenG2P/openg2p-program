@@ -4,6 +4,22 @@
         <field name="domain">[("is_reimbursement_program", "=", False)]</field>
     </record>
 
+    <!-- Tree view Inheritance for reimbursement-->
+    <record id="view_program_list_reimbursement_tree" model="ir.ui.view">
+        <field name="name">view_program_reimbursement_list</field>
+        <field name="model">g2p.program</field>
+        <field name="priority" eval="103" />
+        <field name="inherit_id" ref="g2p_programs.view_program_list_tree" />
+        <field name="arch" type="xml">
+            <field name="eligible_beneficiaries_count" position="attributes">
+                <attribute name="string"># Vendors</attribute>
+            </field>
+            <button name="open_eligible_beneficiaries_form" position="attributes">
+                <attribute name="string">Vendors list</attribute>
+            </button>
+        </field>
+    </record>
+
     <record id="view_program_ext_reimbursement_form" model="ir.ui.view">
         <field name="name">view_program_reimbursement_form</field>
         <field name="model">g2p.program</field>
@@ -23,6 +39,7 @@
             </xpath>
         </field>
     </record>
+
     <record id="view_program_reimbursement_form" model="ir.ui.view">
         <field name="name">view_program_reimbursement_form</field>
         <field name="model">g2p.program</field>
@@ -46,7 +63,8 @@
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Add a new program!
-            </p><p>
+            </p>
+            <p>
                 Click the create button to enter the new program information.
             </p>
         </field>
@@ -55,7 +73,7 @@
     <record id="action_reimbursement_program_tree_view" model="ir.actions.act_window.view">
         <field name="sequence" eval="1" />
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="g2p_programs.view_program_list_tree" />
+        <field name="view_id" ref="view_program_list_reimbursement_tree" />
         <field name="act_window_id" ref="action_reimbursement_program" />
     </record>
 
