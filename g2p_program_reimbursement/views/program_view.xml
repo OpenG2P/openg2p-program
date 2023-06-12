@@ -8,6 +8,7 @@
     <record id="view_program_list_reimbursement_tree" model="ir.ui.view">
         <field name="name">view_program_reimbursement_list</field>
         <field name="model">g2p.program</field>
+        <field name="mode">primary</field>
         <field name="priority" eval="103" />
         <field name="inherit_id" ref="g2p_programs.view_program_list_tree" />
         <field name="arch" type="xml">
