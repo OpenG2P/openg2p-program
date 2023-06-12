@@ -4,6 +4,19 @@
         <field name="domain">[("is_reimbursement_program", "=", False)]</field>
     </record>
 
+    <!-- Tree view Inheritance for program-->
+    <record id="view_program_list_program_tree" model="ir.ui.view">
+        <field name="name">view_program_tree_view</field>
+        <field name="model">g2p.program</field>
+        <field name="priority" eval="103" />
+        <field name="inherit_id" ref="g2p_programs.view_program_list_tree" />
+        <field name="arch" type="xml">
+            <field name="eligible_beneficiaries_count" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+        </field>
+    </record>
+
     <!-- Tree view Inheritance for reimbursement-->
     <record id="view_program_list_reimbursement_tree" model="ir.ui.view">
         <field name="name">view_program_reimbursement_list</field>
@@ -11,9 +24,6 @@
         <field name="priority" eval="103" />
         <field name="inherit_id" ref="g2p_programs.view_program_list_tree" />
         <field name="arch" type="xml">
-            <field name="eligible_beneficiaries_count" position="attributes">
-                <attribute name="string"># Vendors</attribute>
-            </field>
             <button name="open_eligible_beneficiaries_form" position="attributes">
                 <attribute name="string">Vendors list</attribute>
             </button>
