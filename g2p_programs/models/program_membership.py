@@ -182,6 +182,9 @@ class G2PProgramMembership(models.Model):
         member = self
         for em in eligibility_managers:
             member = em.enroll_eligible_registrants(member)
+        self.program_id._compute_eligible_beneficiary_count()
+        self.program_id._compute_beneficiary_count()
+
         if len(member) > 0:
             if self.state != "enrolled":
                 self.write(
@@ -228,6 +231,8 @@ class G2PProgramMembership(models.Model):
         deduplication_managers = self.program_id.get_managers(
             constants.MANAGER_DEDUPLICATION
         )
+
+        self.program_id._compute_duplicate_membership_count()
 
         message = None
         kind = "success"

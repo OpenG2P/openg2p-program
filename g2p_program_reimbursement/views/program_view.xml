@@ -55,7 +55,7 @@
         <field name="mode">primary</field>
         <field name="priority" eval="102" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='eligible_beneficiaries_count']/../span" position="replace">
+            <xpath expr="//field[@name='beneficiaries_count']/../span" position="replace">
                 <span class="o_stat_text">Service Providers</span>
             </xpath>
         </field>

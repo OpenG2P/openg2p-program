@@ -136,7 +136,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             name="open_eligible_beneficiaries_form"
                         >
                             <div class="o_form_field o_stat_info">
-                                <field name="eligible_beneficiaries_count" class="o_stat_value" />
+                                <field name="beneficiaries_count" class="o_stat_value" />
                                 <span class="o_stat_text">Beneficiaries</span>
                             </div>
                         </button>
