@@ -33,6 +33,14 @@
                     Reimbursement:
                 </attribute>
             </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">
+                    Service Provider
+                </attribute>
+            </xpath>
+            <field name="service_provider_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
         </field>
     </record>
 </odoo>
