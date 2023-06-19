@@ -14,7 +14,6 @@
         "views/program_manager_view.xml",
         "views/entitlement_view.xml",
         "views/g2p_program_membership_view.xml",
-        "views/registry_individual_form_view.xml",
     ],
     "assets": {},
     "demo": [],
