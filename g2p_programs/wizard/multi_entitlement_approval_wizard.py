@@ -39,7 +39,7 @@ class G2PMultiEntitlementApprovalWiz(models.TransientModel):
             )
             if cycle:
                 if cycle.state == "approved":
-                    res["cycle_id"] = cycle_id
+                    res["cycle_id"] = cycle_id.id
                 else:
                     raise ValidationError(
                         _("You can approve only entitlements from approved cycles.")
