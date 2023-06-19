@@ -171,6 +171,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 attrs="{'readonly':[('state','=','ended')]}"
                             />
                         </h1>
+                         <label for="description" string="Description:" />
+                        <field name="description" />
                         <div class="o_row">
                             <field name="have_members" invisible="1" />
                             <label for="target_type" string="Target Type:" />
