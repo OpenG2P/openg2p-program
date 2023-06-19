@@ -26,6 +26,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </field>
                 </page>
             </xpath>
+            <xpath
+                expr="//field[@name='program_membership_ids']/tree/field[@name='partner_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">True</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -52,6 +58,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </tree>
                     </field>
                 </page>
+            </xpath>
+            <xpath
+                expr="//field[@name='program_membership_ids']/tree/field[@name='partner_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">True</attribute>
             </xpath>
         </field>
     </record>
