@@ -181,13 +181,11 @@ class G2PProgram(models.Model):
                 ret_vals.update({mgr_fld: mgr.id})
         return ret_vals
 
-    @api.depends("program_membership_ids")
     def _compute_duplicate_membership_count(self):
         for rec in self:
             count = rec.count_beneficiaries(["duplicated"])["value"]
             rec.update({"duplicate_membership_count": count})
 
-    @api.depends("program_membership_ids")
     def _compute_eligible_beneficiary_count(self):
         for rec in self:
             count = rec.count_beneficiaries(["enrolled"])["value"]
