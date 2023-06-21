@@ -20,6 +20,15 @@
             <xpath expr="//field[@name='registrant_id']/.." position="inside">
                 <field name="latest_registrant_info_status" string="Latest Application Status" />
             </xpath>
+            <xpath expr="//header" position="inside">
+                <button
+                    name="create_program_registrant_info"
+                    type="object"
+                    string="Create Application"
+                    class="btn-primary"
+                    attrs="{'invisible': [('latest_registrant_info_status', 'in', ('active', 'inprogress'))]}"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>

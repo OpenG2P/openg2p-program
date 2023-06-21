@@ -12,8 +12,6 @@
     "data": [
         "views/program_view.xml",
         "views/program_manager_view.xml",
-        "views/entitlement_view.xml",
-        "views/g2p_program_membership_view.xml",
     ],
     "assets": {},
     "demo": [],
