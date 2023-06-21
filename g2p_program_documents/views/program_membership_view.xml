@@ -7,8 +7,9 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='entitlement']/.." position="inside">
                 <page string="Documents" name="documents">
-                    <field name="supporting_documents_ids" readonly="1" nolabel="1">
+                    <field name="supporting_documents_ids" nolabel="1">
                         <tree>
+                            <field name="tags_ids" widget="many2many_tags" />
                             <field name="slug" string="Name" />
                             <field name="file_size" />
                             <field name="file_type" />
