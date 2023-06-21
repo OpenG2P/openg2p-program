@@ -29,6 +29,14 @@
                     attrs="{'invisible': [('latest_registrant_info_status', 'in', ('active', 'inprogress'))]}"
                 />
             </xpath>
+            <xpath expr="//field[@name='latest_registrant_info_status']" position="after">
+                <field
+                    name="tags_ids"
+                    widget="many2many_tags"
+                    string="Tags:"
+                    options="{'color_field': 'color'}"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>
