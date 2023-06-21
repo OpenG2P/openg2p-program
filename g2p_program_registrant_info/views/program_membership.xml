@@ -20,6 +20,14 @@
             <xpath expr="//field[@name='registrant_id']/.." position="inside">
                 <field name="latest_registrant_info_status" string="Latest Application Status" />
             </xpath>
+            <xpath expr="//field[@name='latest_registrant_info_status']" position="after">
+                <field
+                    name="tags_ids"
+                    widget="many2many_tags"
+                    string="Tags:"
+                    options="{'color_field': 'color'}"
+                />
+            </xpath>
         </field>
     </record>
 </odoo>
