@@ -10,7 +10,6 @@
                     <field name="supporting_documents_ids" readonly="1" nolabel="1">
                         <tree>
                             <field name="slug" string="Name" />
-                            <field name="backend_id" string="Store" />
                             <field name="file_size" />
                             <field name="file_type" />
                         </tree>
