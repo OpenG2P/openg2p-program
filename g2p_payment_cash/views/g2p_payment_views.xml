@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_payment_inherit_form" model="ir.ui.view">
+        <field name="name">view_payment_inherit_g2p_form</field>
+        <field name="model">g2p.payment</field>
+        <field name="inherit_id" ref="g2p_programs.view_payment_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="edit_css" force_save="1" nolabel="1" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
