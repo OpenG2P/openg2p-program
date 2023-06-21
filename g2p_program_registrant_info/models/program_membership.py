@@ -39,7 +39,7 @@ class G2PProgramMembership(models.Model):
     def create_program_registrant_info(self):
         self.ensure_one()
         return {
-            "name": "Create Program Registrant Info",
+            "name": "Create Application",
             "type": "ir.actions.act_window",
             "res_model": "g2p.program.registrantinfo.wizard",
             "view_mode": "form",

@@ -24,9 +24,9 @@
                 <button
                     name="create_program_registrant_info"
                     type="object"
-                    string="Create Registrant Info"
-                    icon="fa-users"
+                    string="Create Application"
                     class="btn-primary"
+                    attrs="{'invisible': [('latest_registrant_info_status', 'in', ('active', 'inprogress'))]}"
                 />
             </xpath>
         </field>
