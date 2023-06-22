@@ -11,7 +11,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <form>
                 <sheet>
                     <group>
-                        <field name="reason_for_app" />
+                        <field name="reason_for_app" required="1" />
                         <field name="upload_doc1" />
                         <field name="upload_doc2" />
                         <field name="upload_doc3" />

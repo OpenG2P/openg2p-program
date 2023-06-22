@@ -14,9 +14,11 @@ class G2pProgramRegistrantInfo(models.TransientModel):
     _description = "G2P Program Registrant Info Wizard"
 
     reason_for_app = fields.Char(string="Reason for Application")
-    upload_doc1 = fields.Binary(string="Document 1", attachment=True)
-    upload_doc2 = fields.Binary(string="Document 2", attachment=True)
-    upload_doc3 = fields.Binary(string="Document 3", attachment=True)
+    upload_doc1 = fields.Binary(string="Medical Prescription", attachment=True)
+    upload_doc2 = fields.Binary(string="Medical Diagnosis", attachment=True)
+    upload_doc3 = fields.Binary(
+        string="Additional Supporting Document", attachment=True
+    )
     additional_info = fields.Char(string="Additional Information")
 
     def jsonize_form_data(self, data, program, membership=None):
