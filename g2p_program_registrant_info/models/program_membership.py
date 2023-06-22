@@ -15,16 +15,6 @@ class G2PProgramMembership(models.Model):
         related="latest_registrant_info.state"
     )
 
-    enrollment_date = fields.Date(compute="_compute_enrolled_date", store=True)
-
-    @api.depends("state")
-    def _compute_enrolled_date(self):
-        for rec in self:
-            if rec.state == "enrolled":
-                rec.enrollment_date = fields.Datetime.now()
-            else:
-                rec.enrollment_date = None
-
     def _compute_latest_registrant_info(self):
         for rec in self:
             latest_registrant_info = rec.program_registrant_info_ids.sorted(
