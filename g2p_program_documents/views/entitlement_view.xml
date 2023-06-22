@@ -9,7 +9,7 @@
             <xpath expr="//field[@name='date_approved']/../.." position="after">
                 <group string="Supporting Documents">
                     <field name="supporting_document_ids" readonly="1" nolabel="1">
-                        <tree>
+                        <tree default_order="id desc">
                             <field name="tags_ids" widget="many2many_tags" />
                             <field name="slug" string="Name" />
                             <field name="file_size" />

@@ -8,7 +8,7 @@
             <xpath expr="//page[@name='entitlement']/.." position="inside">
                 <page string="Documents" name="documents">
                     <field name="supporting_documents_ids" nolabel="1">
-                        <tree>
+                        <tree default_order="id desc">
                             <field name="tags_ids" widget="many2many_tags" />
                             <field name="slug" string="Name" />
                             <field name="file_size" />
