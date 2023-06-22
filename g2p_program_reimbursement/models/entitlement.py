@@ -6,6 +6,12 @@ class G2PEntitlement(models.Model):
 
     service_provider_id = fields.Many2one("res.partner")
 
+    is_reimbursement = fields.Boolean(
+        related="program_id.is_reimbursement_program",
+        string="Is Reimbursement",
+        readonly=True,
+    )
+
     reimbursement_original_entitlement_id = fields.Many2one(
         "g2p.entitlement", string="Original Entitlement of this Reimbursement"
     )
