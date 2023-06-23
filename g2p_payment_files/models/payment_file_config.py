@@ -48,8 +48,7 @@ class G2PPaymentFileConfig(models.Model):
         if self.type == "pdf":
             return self.render_pdf(res_model, res_id)
         elif self.type == "csv":
-            # TODO: implement this
-            return None
+            return self.render_csv(res_model, res_id)
 
     def render_html(self, res_model, res_id):
         RenderMixin = self.env["mail.render.mixin"]
@@ -68,3 +67,6 @@ class G2PPaymentFileConfig(models.Model):
     def render_pdf(self, res_model, res_id):
         res = self.render_html(res_model, res_id)
         return pdfkit.from_string(res)
+
+    def render_csv(self, res_model, res_id):
+        return bytes(self.render_html(res_model, res_id), "utf-8")
