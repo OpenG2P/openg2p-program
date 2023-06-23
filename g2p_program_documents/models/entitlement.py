@@ -32,5 +32,6 @@ class G2PEntitlement(models.Model):
                 if not document.program_membership_id:
                     prog_mem = rec.partner_id.program_membership_ids.filtered(
                         lambda x: x.program_id.id == rec.program_id.id
-                    )[0]
-                    document.program_membership_id = prog_mem
+                    )
+                    if prog_mem:
+                        document.program_membership_id = prog_mem[0]
