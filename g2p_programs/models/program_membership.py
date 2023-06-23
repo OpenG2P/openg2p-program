@@ -84,8 +84,6 @@ class G2PProgramMembership(models.Model):
         for rec in self:
             if rec.state == "enrolled":
                 rec.enrollment_date = fields.Datetime.now()
-            else:
-                rec.enrollment_date = None
 
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
