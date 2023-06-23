@@ -36,9 +36,7 @@ class ProgramApprovalMapping(models.Model):
             res = None
             return success, res
         if not state:
-            success = True
-            res = self[0]
-            return success, res
+            state = self[0].state
         for rec in self:
             if success:
                 res = rec

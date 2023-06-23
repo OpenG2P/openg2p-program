@@ -24,7 +24,15 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
         this.resId = this.nodeOptions.res_id_field
             ? this.recordData[this.nodeOptions.res_id_field]
             : this.value.data.id;
-        this.readonly = this.nodeOptions.readonly ? this.nodeOptions.readonly : false;
+        this.readonly = false;
+        if (this.nodeOptions.readonly) {
+            this.readonly = this.nodeOptions.readonly;
+        } else if (this.nodeOptions.readonly_field) {
+            this.readonly = this.recordData[this.nodeOptions.readonly_field];
+        } else if (this.nodeOptions.not_readonly_field) {
+            this.readonly = !this.recordData[this.nodeOptions.not_readonly_field];
+        }
+        console.log(this);
         this.assessmentAddMode = 0;
         this.assessmentAddModeStarted = 0;
     },
