@@ -16,7 +16,9 @@
     ],
     "external_dependencies": {
         "python": [
+            "base45",
             "cryptography",
+            "cose",
             "python-jose",
             "python-barcode",
             "pdfkit",
