@@ -19,6 +19,10 @@ class G2PEntitlement(models.Model):
     reimbursement_entitlement_ids = fields.One2many(
         "g2p.entitlement", "reimbursement_original_entitlement_id"
     )
+    actual_amount = fields.Monetary(
+        string="Actual amount",
+        related="reimbursement_original_entitlement_id.initial_amount",
+    )
 
     def _compute_name(self):
         for record in self:

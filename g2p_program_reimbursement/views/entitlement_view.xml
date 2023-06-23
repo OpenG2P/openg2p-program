@@ -43,11 +43,37 @@
                     Service Provider
                 </attribute>
             </xpath>
+            <xpath expr="//field[@name='initial_amount']" position="attributes">
+                <attribute name="string">
+                    Recommended Amount
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='initial_amount']" position="after">
+                <field name="actual_amount" string="Actual Amount" />
+            </xpath>
             <field name="service_provider_id" position="attributes">
                 <attribute name="invisible">True</attribute>
             </field>
         </field>
     </record>
+    <record id="view_entitlement_reimbursement_tree" model="ir.ui.view">
+        <field name="name">view_entitlement_reimbursement.tree</field>
+        <field name="model">g2p.entitlement</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+             <field name="partner_id" position="attributes">
+                <attribute name="string">Service Provider</attribute>
+            </field>
+            <field name="valid_from" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="valid_until" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+         </field>
+    </record>
+
 
     <record id="action_reimbursement" model="ir.actions.act_window">
         <field name="name">Reimbursements</field>
@@ -62,7 +88,7 @@
     <record id="action_reimbursement_tree_view" model="ir.actions.act_window.view">
         <field name="sequence" eval="1" />
         <field name="view_mode">tree</field>
-        <field name="view_id" ref="g2p_programs.view_entitlement_tree" />
+        <field name="view_id" ref="view_entitlement_reimbursement_tree" />
         <field name="act_window_id" ref="action_reimbursement" />
     </record>
 
