@@ -112,7 +112,7 @@ class G2PEntitlement(models.Model):
                     "g2p_programs.g2p_program_validator"
                 )
 
-                if group_g2p_registrar or g2p_program_validator:
+                if not (group_g2p_registrar or g2p_program_validator):
                     raise ValidationError(
                         _("You have no access in the Entitlement List View")
                     )

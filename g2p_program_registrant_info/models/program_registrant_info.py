@@ -48,6 +48,8 @@ class G2PProgramRegistrantInfo(models.Model):
         "Application ID", compute="_compute_application_id", store=True
     )
 
+    entitlement_id = fields.Many2one("g2p.entitlement")
+
     @api.depends("registrant_id", "program_id")
     def _compute_program_membership(self):
         for rec in self:
@@ -90,10 +92,11 @@ class G2PProgramRegistrantInfo(models.Model):
     @api.model
     def trigger_latest_status_of_entitlement(self, entitlement, state, check_states=()):
         if entitlement:
-            prog_mem = entitlement.partner_id.program_membership_ids.filtered(
-                lambda x: x.program_id.id == entitlement.program_id.id
-            )
-            return self.trigger_latest_status_membership(prog_mem, state, check_states)
+            reg_info = entitlement.latest_registrant_info
+            if reg_info:
+                if (not check_states) or (reg_info.state in check_states):
+                    reg_info.state = state
+                    return True
         return False
 
     @api.model
@@ -107,3 +110,21 @@ class G2PProgramRegistrantInfo(models.Model):
                     reg_info.state = state
                     return True
         return False
+
+    @api.model
+    def assign_reg_info_to_entitlement_from_membership(self, entitlement):
+        membership = entitlement.partner_id.program_membership_ids.filtered(
+            lambda x: x.program_id.id == entitlement.program_id.id
+        )
+        reg_info = membership.latest_registrant_info
+        if reg_info:
+            reg_info.entitlement_id = entitlement
+
+    @api.model
+    def reject_entitlement_for_membership(
+        self, program_membership, reject_state="rejected3"
+    ):
+        if program_membership:
+            reg_info = program_membership.latest_registrant_info
+            if reg_info and reg_info.entitlement_id:
+                reg_info.entitlement_id.state = reject_state

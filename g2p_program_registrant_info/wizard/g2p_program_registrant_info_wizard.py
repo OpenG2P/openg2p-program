@@ -29,6 +29,7 @@ class G2pProgramRegistrantInfo(models.TransientModel):
                             value,
                             program.supporting_documents_store,
                             program_membership=membership,
+                            tags=key,
                         )
                         if not data[key]:
                             _logger.warning("Empty/No File received for field %s", key)
@@ -38,7 +39,7 @@ class G2pProgramRegistrantInfo(models.TransientModel):
         return data
 
     @staticmethod
-    def add_files_to_store(files, store, program_membership=None):
+    def add_files_to_store(files, store, program_membership=None, tags=None):
         file_details = []
         try:
             binary_data = base64.b64decode(files)
@@ -48,6 +49,7 @@ class G2pProgramRegistrantInfo(models.TransientModel):
                     filestream.read(),
                     extension=None,
                     program_membership=program_membership,
+                    tags=tags,
                 )
                 if document_file:
                     document_uuid = document_file.name.split(".")[0]

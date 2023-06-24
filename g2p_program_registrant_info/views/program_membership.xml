@@ -19,22 +19,20 @@
             </xpath>
             <xpath expr="//field[@name='registrant_id']/.." position="inside">
                 <field name="latest_registrant_info_status" string="Latest Application Status" />
+                <field
+                    name="tags_ids"
+                    widget="many2many_tags"
+                    string="Tags:"
+                    options="{'color_field': 'color'}"
+                />
             </xpath>
-            <xpath expr="//header" position="inside">
+            <xpath expr="//button[@name='deduplicate_beneficiaries']" position="after">
                 <button
                     name="create_program_registrant_info"
                     type="object"
                     string="Create Application"
                     class="btn-primary"
                     attrs="{'invisible': [('latest_registrant_info_status', 'in', ('active', 'inprogress'))]}"
-                />
-            </xpath>
-            <xpath expr="//field[@name='latest_registrant_info_status']" position="after">
-                <field
-                    name="tags_ids"
-                    widget="many2many_tags"
-                    string="Tags:"
-                    options="{'color_field': 'color'}"
                 />
             </xpath>
         </field>

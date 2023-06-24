@@ -125,7 +125,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
     </record>
 
     <record id="action_payment_batch" model="ir.actions.act_window">
-        <field name="name">Payments</field>
+        <field name="name">Payment Batches</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">g2p.payment.batch</field>
         <field name="view_mode">tree,form</field>
