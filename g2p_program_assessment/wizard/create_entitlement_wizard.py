@@ -71,32 +71,6 @@ class G2PEntitlementWizard(models.TransientModel):
             },
         }
 
-    @api.model
-    def is_show_create_entitlement(self, beneficiary):
-        # TODO: Consider create wizard with multiple beneficiaries
-        beneficiary.ensure_one()
-        latest_entitlements = beneficiary.partner_id.entitlement_ids.filtered(
-            lambda x: x.program_id.id == beneficiary.program_id.id
-        ).sorted("create_date", reverse=True)
-        show_create = (
-            beneficiary.state == "enrolled"
-            and len(
-                beneficiary.assessment_ids.filtered(
-                    lambda x: (not latest_entitlements)
-                    or x.create_date > latest_entitlements[0].create_date
-                )
-            )
-            > 0
-        )
-        try:
-            show_create = show_create and (
-                beneficiary.latest_registrant_info
-                and beneficiary.latest_registrant_info_status != "rejected"
-            )
-        except Exception as e:
-            _logger.warning("Program Registrant info not installed. %s", e)
-        return show_create
-
     def create_entitlement(self):
         if not self.initial_amount:
             raise ValidationError(_("Amount cannot be zero or empty"))
@@ -128,6 +102,9 @@ class G2PEntitlementWizard(models.TransientModel):
             ].trigger_latest_status_of_entitlement(
                 entitlement, "inprogress", check_states=("active",)
             )
+            self.env[
+                "g2p.program.registrant_info"
+            ].assign_reg_info_to_entitlement_from_membership(entitlement)
         except Exception as e:
             _logger.warning("Prgram Registrant Info Module not installed. %s", e)
         message = _("Entitlement created.")

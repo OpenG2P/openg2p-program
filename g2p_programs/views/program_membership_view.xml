@@ -56,13 +56,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-primary"
                         states="draft"
                     />
-                    <!-- <button
+                    <button
                         name="deduplicate_beneficiaries"
                         type="object"
                         string="Deduplicate"
                         class="btn-primary"
                         states="draft,enrolled"
-                    /> -->
+                    />
 
                     <button
                         name="Back_to_draft"

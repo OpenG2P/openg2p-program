@@ -9,12 +9,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="inherit_id" ref="g2p_programs.view_program_membership_form" />
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
+                <field name="show_prepare_assessment_button" invisible="1" />
                 <button
                     name="prepare_assessment"
                     type="object"
+                    attrs="{'invisible':[('show_prepare_assessment_button', '!=', True)]}"
                     string="Prepare Assessment"
                     class="btn-primary"
-                    states="enrolled"
                 />
                 <field name="show_create_entitlement_button" invisible="1" />
                 <button
