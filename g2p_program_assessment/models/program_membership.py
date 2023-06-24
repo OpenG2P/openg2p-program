@@ -46,7 +46,9 @@ class G2PProgramMembership(models.Model):
                 lambda x: (not latest_entitlements)
                 or x.create_date > latest_entitlements[0].create_date
             )
-            show_create = show_create and latest_entitlements[0].state != "draft"
+            show_create = show_create and (
+                (not latest_entitlements) or latest_entitlements[0].state != "draft"
+            )
 
             latest_reg_info = None
             try:
@@ -121,13 +123,13 @@ class G2PProgramMembership(models.Model):
                 kind = "success"
             else:
                 message = _("No Application found.")
-                kind = "success"
+                kind = "warning"
         except Exception as e:
             _logger.warning(
                 "During reject: Program Registrant Info is not installed. %s", e
             )
             message = _("Application was not rejected.")
-            kind = "success"
+            kind = "warning"
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
