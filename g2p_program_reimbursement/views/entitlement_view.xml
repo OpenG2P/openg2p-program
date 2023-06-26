@@ -45,11 +45,11 @@
             </xpath>
             <xpath expr="//field[@name='initial_amount']" position="attributes">
                 <attribute name="string">
-                    Recommended Amount
+                    Actual Amount
                 </attribute>
             </xpath>
             <xpath expr="//field[@name='initial_amount']" position="after">
-                <field name="actual_amount" string="Actual Amount" />
+                <field name="recommended_amount" string="Recommended Amount" />
             </xpath>
             <field name="service_provider_id" position="attributes">
                 <attribute name="invisible">True</attribute>
