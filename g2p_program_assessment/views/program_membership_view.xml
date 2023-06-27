@@ -32,6 +32,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     attrs="{'invisible':[('show_reject_application_assessment_button', '!=', True)]}"
                     string="Reject"
                     class="btn-primary"
+                    confirm="Are you sure you want to reject this Beneficiary’s application?"
                 />
             </xpath>
         </field>

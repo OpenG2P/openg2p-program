@@ -18,7 +18,11 @@
                 </page>
             </xpath>
             <xpath expr="//field[@name='registrant_id']/.." position="inside">
-                <field name="latest_registrant_info_status" string="Latest Application Status" />
+                <field
+                    name="latest_registrant_info_status"
+                    string="Latest Application Status"
+                    decoration-danger="latest_registrant_info_status=='rejected'"
+                />
                 <field
                     name="tags_ids"
                     widget="many2many_tags"
