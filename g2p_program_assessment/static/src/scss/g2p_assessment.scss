@@ -56,6 +56,10 @@
     margin-bottom: 0.2%;
 }
 
+.o_ComposerTextInput_textareaStyle:not(.o-composer-is-compact) {
+    max-height: 700px;
+}
+
 .o_Composer_buttonSubmit {
     border-radius: 10px;
     border: 1px solid #0000001a;
