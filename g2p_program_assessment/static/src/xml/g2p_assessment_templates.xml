@@ -15,6 +15,7 @@
                             <textarea
                                 placeholder="Type your assessment..."
                                 class="o_ComposerTextInput_textarea o_ComposerTextInput_textareaStyle"
+                                oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"
                             />
                         </div>
                     </div>
