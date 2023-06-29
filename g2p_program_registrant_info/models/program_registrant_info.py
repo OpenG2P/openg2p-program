@@ -35,7 +35,8 @@ class G2PProgramRegistrantInfo(models.Model):
             ("rejected", "Rejected"),
             ("completed", "Completed"),
             ("closed", "Closed"),
-        ]
+        ],
+        default="active",
     )
 
     program_registrant_info = json_field.JSONField("Program Information", default={})

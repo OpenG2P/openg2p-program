@@ -23,12 +23,6 @@
                     string="Latest Application Status"
                     decoration-danger="latest_registrant_info_status=='rejected'"
                 />
-                <field
-                    name="tags_ids"
-                    widget="many2many_tags"
-                    string="Tags:"
-                    options="{'color_field': 'color'}"
-                />
             </xpath>
             <xpath expr="//button[@name='deduplicate_beneficiaries']" position="after">
                 <button
