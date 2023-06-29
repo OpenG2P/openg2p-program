@@ -135,6 +135,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </div>
                     <group>
                         <field name="registrant_id" />
+                        <field
+                            name="tags_ids"
+                            widget="many2many_tags"
+                            string="Tags:"
+                            options="{'color_field': 'color'}"
+                        />
                     </group>
                     <group colspan="4" col="4">
                         <field name="registration_date" readonly="1" />
@@ -266,7 +272,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </group>
                         </page>
                         <page name="program" string="Other Programs">
-                            <field name="program_membership_ids" nolabel="1">
+                            <field name="program_membership_ids" readonly="1" nolabel="1">
                                 <tree>
                                     <field name="program_id" />
                                     <field name="enrollment_date" />
