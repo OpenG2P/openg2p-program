@@ -1,5 +1,9 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+import logging
+
 from odoo import _, api, fields, models
+
+_logger = logging.getLogger(__name__)
 
 
 class G2PProgramAssessment(models.Model):
@@ -39,6 +43,7 @@ class G2PProgramAssessment(models.Model):
             ]
         message_dicts = []
         for res_id in res_ids:
+            self.trigger_application_state_change(res_model, res_id)
             subject = subject or self.compute_subject(res_model, res_id)
             partner_ids = partner_ids or self.compute_partner_ids(res_model, res_id)
             record_name = (
@@ -127,6 +132,26 @@ class G2PProgramAssessment(models.Model):
             return self.env[res_model].browse(res_id).partner_id
         else:
             return None
+
+    def trigger_application_state_change(self, res_model, res_id):
+        mem = None
+        if res_model == "g2p.program_membership":
+            mem = self.env[res_model].browse(res_id)
+        elif res_model == "g2p.entitlement":
+            ent = self.env[res_model].browse(res_id)
+            mem = ent.partner_id.program_membership_ids.filtered(
+                lambda x: x.program_id.id == ent.program_id.id
+            )
+        if not mem:
+            return None
+        try:
+            if (
+                mem.latest_registrant_info_status == "active"
+                and mem.state == "enrolled"
+            ):
+                mem.latest_registrant_info.state = "inprogress"
+        except Exception as e:
+            _logger.warning("Program Registrant info not installed. %s", e)
 
     @api.model
     def get_rendering_context(self, res_model, res_id):
