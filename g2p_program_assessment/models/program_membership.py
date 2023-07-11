@@ -120,7 +120,7 @@ class G2PProgramMembership(models.Model):
                     "g2p.program.registrant_info"
                 ].reject_entitlement_for_membership(self)
                 message = _("Application rejected.")
-                kind = "danger"
+                kind = "success"
             else:
                 message = _("No Application found.")
                 kind = "warning"
