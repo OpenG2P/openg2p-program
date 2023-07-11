@@ -6,13 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-07-11 13:24+0000\n"
+"Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
+"Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
+"openg2p/g2p_programs/ckb/>\n"
 "Language: ckb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.14\n"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__members_count
@@ -20,7 +23,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 msgid "# Beneficiaries"
-msgstr ""
+msgstr "سوودمەندبووان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__entitlements_count
