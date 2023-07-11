@@ -25,7 +25,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </group>
                 </sheet>
                 <footer>
-                    <button name="create_entitlement" type="object" string="Create" class="btn-primary" confirm="Are you sure you want to create entitlement for this Beneficiary’s application?"/>
+                    <button
+                        name="create_entitlement"
+                        type="object"
+                        string="Create"
+                        class="btn-primary"
+                        confirm="Are you sure you want to create entitlement for this Beneficiary’s application?"
+                    />
                     <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>
             </form>
