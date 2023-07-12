@@ -16,7 +16,7 @@ class G2pProgramRegistrantInfo(models.TransientModel):
     def jsonize_form_data(self, data, program, membership=None):
         try:
             for key in data:
-                if isinstance(data.get(key), bytes):
+                if isinstance(data.get(key), list):
                     value = data[key]
                     if value:
                         if not program.supporting_documents_store:
@@ -42,26 +42,27 @@ class G2pProgramRegistrantInfo(models.TransientModel):
     def add_files_to_store(files, store, program_membership=None, tags=None):
         file_details = []
         try:
-            binary_data = base64.b64decode(files)
-            filestream = BytesIO(binary_data)
-            if files and store:
-                document_file = store.add_file(
-                    filestream.read(),
-                    extension=None,
-                    program_membership=program_membership,
-                    tags=tags,
-                )
-                if document_file:
-                    document_uuid = document_file.name.split(".")[0]
-                    file_details.append(
-                        {
-                            "document_id": document_file.id,
-                            "document_uuid": document_uuid,
-                            "document_name": document_file.name,
-                            "document_slug": document_file.slug,
-                            "document_url": document_file.url,
-                        }
+            for file in files:
+                if file and store:
+                    binary_data = base64.b64decode(file.datas)
+                    filestream = BytesIO(binary_data)
+                    document_file = store.add_file(
+                        filestream.read(),
+                        extension=None,
+                        program_membership=program_membership,
+                        tags=tags,
                     )
+                    if document_file:
+                        document_uuid = document_file.name.split(".")[0]
+                        file_details.append(
+                            {
+                                "document_id": document_file.id,
+                                "document_uuid": document_uuid,
+                                "document_name": document_file.name,
+                                "document_slug": document_file.slug,
+                                "document_url": document_file.url,
+                            }
+                        )
         except Exception as e:
             _logger.exception(
                 "An error occurred while adding files to the store: %s", str(e)
