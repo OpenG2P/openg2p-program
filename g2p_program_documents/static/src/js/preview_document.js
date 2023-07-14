@@ -1,6 +1,4 @@
 odoo.define("g2p_program_documents.legacy.DocumentViewer", function (require) {
-
-
     var core = require("web.core");
     var Widget = require("web.Widget");
     var QWeb = core.qweb;
@@ -252,9 +250,15 @@ odoo.define("g2p_program_documents.form_controller_one2many", function (require)
                     .closest(".o_data_row")
                     .find('.o_list_char[name="' + slugField + '"]');
                 var slugText = $slugElement.text();
-                var recordID = slugText.substring(slugText.length - 2);
+                var recordID;
+                if (slugText.includes("-")) {
+                    var parts = slugText.split("-");
+                    var lastPart = parts[parts.length - 1].split(".")[0];
+                    if (!isNaN(lastPart)) {
+                        recordID = parseInt(lastPart);
+                    }
+                }
                 if (recordID) {
-                    recordID = parseInt(recordID);
                     self._onPreviewButtonClick(recordID);
                 }
             });
