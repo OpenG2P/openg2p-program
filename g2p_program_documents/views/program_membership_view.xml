@@ -13,6 +13,13 @@
                             <field name="slug" string="Name" />
                             <field name="file_size" />
                             <field name="file_type" />
+                            <button
+                                name="action_preview"
+                                string="Preview"
+                                type="object"
+                                class="o_list_button_preview btn btn-primary"
+                                icon="fa-file-text-o"
+                            />
                         </tree>
                     </field>
                 </page>
