@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-11 13:24+0000\n"
+"PO-Revision-Date: 2023-07-15 09:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -453,7 +453,7 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_list_filter
 msgid "Archived"
-msgstr ""
+msgstr "پاشەکەوتکرا"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.assign_to_program_wizard_form_view
@@ -856,7 +856,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "پەیوەندی"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
