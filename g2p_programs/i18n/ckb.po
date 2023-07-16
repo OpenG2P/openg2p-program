@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-16 14:24+0000\n"
+"PO-Revision-Date: 2023-07-16 19:24+0000\n"
 "Last-Translator: Ruwaidah Salman <ruwaidah.salman@wfp.org>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -136,7 +136,9 @@ msgstr "<span class=\"o_stat_text\">خولەکان</span>"
 msgid ""
 "<span class=\"o_stat_text\">Disbursement</span>\n"
 "                                <span class=\"o_stat_text\">Form</span>"
-msgstr "<span class=\"o_stat_text\">خولەکان</span>"
+msgstr ""
+"<span class=\"o_stat_text\">خەرجکردن</span>\n"
+"                                 <span class=\"o_stat_text\">فۆڕم</span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -1246,73 +1248,73 @@ msgstr "بەڕێوەبەری دووبارە نەکردنەوە بە شێوەی �
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_default_form
 msgid "Default Eligibility Manager"
-msgstr ""
+msgstr "بەڕێوەبەری شایستەیی پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_eligibility_manager_default
 #: model:ir.ui.menu,name:g2p_programs.menu_eligibility_manager_default
 msgid "Default Eligibility Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی شایستەیی پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager_default
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_default_form
 msgid "Default Entitlement Manager"
-msgstr ""
+msgstr "بەڕێوەبەری مافی پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_entitlement_manager_default
 msgid "Default Entitlement Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی مافی پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_payment_manager_default
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_manager_default_form
 msgid "Default Payment Manager"
-msgstr ""
+msgstr "بەڕێوەبەری پارەدانی پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_payment_manager_default
 msgid "Default Payment Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی پارەدانی پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_manager_default
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_default_form
 msgid "Default Program Manager"
-msgstr ""
+msgstr "بەڕێوەبەری بەرنامەی پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_program_manager_default
 msgid "Default Program Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی بەرنامەی پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__delivery_mechanism_value
 msgid "Delivery Mechanism Value"
-msgstr ""
+msgstr "بەهای میکانیزمی گەیاندن"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 msgid "Disbursement"
-msgstr ""
+msgstr "خەرجکردن"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 msgid "Disbursement Entry"
-msgstr ""
+msgstr "هاتنە ژوورەوەی خەرجکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__journal_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__journal_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__journal_id
 msgid "Disbursement Journal"
-msgstr ""
+msgstr "گۆڤاری خەرجکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__disbursement_id
 msgid "Disbursement Journal Entry"
-msgstr ""
+msgstr "داخڵکردنی گۆڤاری خەرجکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_payments_batch_wizard__display_name
@@ -1357,7 +1359,7 @@ msgstr "ناوی پیشاندراو"
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__distributed
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 msgid "Distributed"
-msgstr ""
+msgstr "دابەشکراوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__eligibility_domain
@@ -1365,7 +1367,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_id_dedup__eligibility_domain
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_phone_number__eligibility_domain
 msgid "Domain"
-msgstr ""
+msgstr "دۆمەین"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__draft
@@ -1379,68 +1381,68 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Draft"
-msgstr ""
+msgstr "ڕەشنووس"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__dtstart
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__dtstart
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__dtstart
 msgid "Dtstart"
-msgstr ""
+msgstr "بەروار/کات دەستپێکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership_duplicate__state__duplicate
 msgid "Duplicate"
-msgstr ""
+msgstr "دووبارەکردنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership__state__duplicated
 msgid "Duplicated"
-msgstr ""
+msgstr "دووبارەکردنەوە"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_program_membership_duplicate
 msgid "Duplicates"
-msgstr ""
+msgstr "دووبارەکردنەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "ENROLLED"
-msgstr ""
+msgstr "ناوت تۆمار کراوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "EXITED"
-msgstr ""
+msgstr "دەرچووە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_eligibility_manager
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Eligibility Manager"
-msgstr ""
+msgstr "بەڕێوەبەری شایستەیی"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__eligibility_managers
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Eligibility Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی شایستەیی"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check finished."
-msgstr ""
+msgstr "پشکنینی شایستەیی تەواو بوو."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check of %s beneficiaries started."
-msgstr ""
+msgstr "پشکنینی شایستەیی سودمەندانی %s دەستی پێکرد."
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__end_date
@@ -1451,26 +1453,26 @@ msgstr "بەرواری کۆتایی"
 #. module: g2p_programs
 #: model:ir.actions.server,name:g2p_programs.end_program
 msgid "End Program"
-msgstr ""
+msgstr "بەرنامەی کۆتایی"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__end_type
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__end_type
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__end_type
 msgid "End Type"
-msgstr ""
+msgstr "جۆری کۆتایی"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__ended
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program__state__ended
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 msgid "Ended"
-msgstr ""
+msgstr "کۆتایی هات"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Enroll Eligible Registrants"
-msgstr ""
+msgstr "ناوی تۆمارکەرانی شایستە تۆمار بکە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_membership__state__enrolled
@@ -1478,19 +1480,19 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Enrolled"
-msgstr ""
+msgstr "ناوی تۆمار کراوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_notification_manager_sms_form
 msgid "Enrolled Programs"
-msgstr ""
+msgstr "پرۆگرامە ناونوسراوەکان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Enrollment"
-msgstr ""
+msgstr "ناو تۆمارکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__enrollment_date
@@ -1498,7 +1500,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Enrollment Date"
-msgstr ""
+msgstr "بەرواری ناونوسکردن"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
@@ -1512,30 +1514,30 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_default_form
 msgid "Enter the Manager Name..."
-msgstr ""
+msgstr "ناوی بەڕێوەبەرەکە دابنێ..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Enter the cycle name..."
-msgstr ""
+msgstr "ناوی خولەکە بنووسە..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Enter the program name..."
-msgstr ""
+msgstr "ناوی بەرنامەکە بنووسە..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_form
 msgid "Enter the reason..."
-msgstr ""
+msgstr "هۆکارەکە بنووسە..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Enter the registrant name..."
-msgstr ""
+msgstr "ناوی تۆمارکەرەکە بنووسە..."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/entitlement.py:0
@@ -1547,32 +1549,32 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, python-format
 msgid "Entitlement"
-msgstr ""
+msgstr "مافی وەرگرتن"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 msgid "Entitlement Cash"
-msgstr ""
+msgstr "نەختینەیی نیه"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement Manager"
-msgstr ""
+msgstr "بەڕێوەبەری مافەکان"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_entitlement_manager_default
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__entitlement_managers
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی مافەکان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "Entitlement Ready."
-msgstr ""
+msgstr "ئامادەیە بۆ ماف."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
@@ -1580,23 +1582,24 @@ msgstr ""
 msgid ""
 "Entitlement State Error! Entitlements not in 'pending validation' state:\n"
 msgstr ""
+"هەڵەی دۆخی ماف! ئەو مافانەی کە لە دۆخی 'چەسپاندنی چاوەڕوانکراو'دا نین:\n"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__entitlement_validation_group_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__entitlement_validation_group_id
 msgid "Entitlement Validation Group"
-msgstr ""
+msgstr "گروپی چەسپاندنی مافەکان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "Entitlement manager"
-msgstr ""
+msgstr "بەڕێوەبەری مافەکان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement:"
-msgstr ""
+msgstr "ماف:"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
@@ -1610,37 +1613,37 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, python-format
 msgid "Entitlements"
-msgstr ""
+msgstr "مافەکان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements Cancelled."
-msgstr ""
+msgstr "مافەکان هەڵوەشاونەتەوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements Set to Pending Validation."
-msgstr ""
+msgstr "مافەکان دانراون بۆ چەسپاندنی چاوەڕوانکراو."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements Validated and Approved."
-msgstr ""
+msgstr "مافەکان دانراون بۆ چەسپاندنی چاوەڕوانکراو."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements are validated and approved."
-msgstr ""
+msgstr "مافەکان دانراون بۆ چەسپاندنی چاوەڕوانکراو."
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__exit_date
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Exit Date"
-msgstr ""
+msgstr "بەرواری دەرچوون"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_membership__state__exited
@@ -1649,65 +1652,65 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Exited"
-msgstr ""
+msgstr "دەرچووە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__expired
 msgid "Expired"
-msgstr ""
+msgstr "دەرچووە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__external_batch_ref
 msgid "External Batch Reference #"
-msgstr ""
+msgstr "ئاماژەی وەجبەی دەرەکی #"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "FILTER:"
-msgstr ""
+msgstr "فلتەر:"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_payment__status__failed
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 msgid "Failed"
-msgstr ""
+msgstr "شکستی هێنا"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Failed Amount"
-msgstr ""
+msgstr "بڕی شکستخواردوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_failed_amount
 msgid "Failed Amount Statistics"
-msgstr ""
+msgstr "ئاماری بڕی شکستخواردوو"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Failed Transactions"
-msgstr ""
+msgstr "مامەڵە شکستخواردووەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_failed_transactions
 msgid "Failed Transactions Statistics"
-msgstr ""
+msgstr "ئاماری مامەڵە شکستخواردووەکان"
 
 #. module: g2p_programs
 #: model:res.groups,name:g2p_programs.g2p_finance_validator
 msgid "Finance Validator"
-msgstr ""
+msgstr "چەسپێنەری دارایی"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__1
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__1
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__1
 msgid "First"
-msgstr ""
+msgstr "یەکەم"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_follower_ids
@@ -1730,21 +1733,21 @@ msgstr "فۆڵۆوەرەکان (هاوبەشەکان)"
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__activity_type_icon
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "ئایکۆنی سەرسوڕهێنەری فۆنت بۆ نموونە. فا-تاسکەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__4
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__4
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__4
 msgid "Fourth"
-msgstr ""
+msgstr "چوارەم"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__fri
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__fri
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__fri
 msgid "Fri"
-msgstr ""
+msgstr "چوارەم"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_wizard__target_type__group
@@ -1787,7 +1790,7 @@ msgstr "پەیامی هەیە"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__have_members
 msgid "Have Beneficiaries"
-msgstr ""
+msgstr "سودمەندان هەبێت"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_payments_batch_wizard__id
@@ -1831,44 +1834,44 @@ msgstr "ناسنامە"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_id_dedup_form
 msgid "ID Deduplication Elibility Manager"
-msgstr ""
+msgstr "بەڕێوەبەری شایستەیی دووبارە نەکردنەوەی ناسنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_deduplication_manager_id_dedup
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_form
 msgid "ID Deduplication Manager"
-msgstr ""
+msgstr "بەڕێوەبەری دووبارە نەکردنەوەی ناسنامە"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_deduplication_manager_id_dedup
 #: model:ir.ui.menu,name:g2p_programs.menu_deduplication_manager_id_dedup
 msgid "ID Deduplication Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی دووبارە نەکردنەوەی ناسنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_membership_manager_id_dedup
 msgid "ID Document Deduplication Eligibility"
-msgstr ""
+msgstr "شایستەیی دووبارە نەکردنەوەی بەڵگەنامەی ناسنامە"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_eligibility_manager_id_dedup
 #: model:ir.ui.menu,name:g2p_programs.menu_eligibility_manager_id_dedup
 msgid "ID Document Eligibility Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی شایستەیی بەڵگەنامەی ناسنامە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_exception_icon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_exception_icon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "ئایکۆن"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_exception_icon
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__activity_exception_icon
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "ئایکۆن بۆ ئاماژەدان بە چالاکیەکی ئیستسناء."
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__message_needaction
@@ -1897,30 +1900,30 @@ msgstr "ئەگەر پشکنینیان بۆ کرا، هەندێک لە نامەک
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__import_beneficiaries
 msgid "Import Beneficiaries"
-msgstr ""
+msgstr "سودمەندانی هاوردەکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__state__step2
 msgid "Import Registrants"
-msgstr ""
+msgstr "تۆمارکەرانی هاوردەکردن"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/eligibility_manager.py:0
 #, python-format
 msgid "Import finished."
-msgstr ""
+msgstr "هاوردەکردن تەواو بوو."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "Import of %s beneficiaries started."
-msgstr ""
+msgstr "هاوردەکردنی سودمەندانی %s دەستی پێکرد."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "Importing beneficiaries."
-msgstr ""
+msgstr "هاوردەکردنی سودمەندان."
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_wizard__target_type__individual
@@ -1933,26 +1936,26 @@ msgstr "تاکە کەسی"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__initial_amount
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval__initial_amount
 msgid "Initial Amount"
-msgstr ""
+msgstr "بڕی سەرەتایی"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_payments_batch_wizard__internal_batch_ref
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__name
 #: model_terms:ir.ui.view,arch_db:g2p_programs.assign_payments_batch_wizard_form_view
 msgid "Internal Batch Reference #"
-msgstr ""
+msgstr "ئاماژەی وەجبەی ناوخۆیی #"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__name
 msgid "Internal Reference #"
-msgstr ""
+msgstr "ئاماژەی ناوخۆیی #"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__interval
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__interval
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__interval
 msgid "Interval"
-msgstr ""
+msgstr "ئینتەرڤاڵ"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_is_follower
@@ -1965,52 +1968,52 @@ msgstr "فۆڵۆوەرە"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__status_is_final
 msgid "Is final payment status"
-msgstr ""
+msgstr "دۆخی پارەدانی کۆتاییە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__issuance_date
 msgid "Issuance Date"
-msgstr ""
+msgstr "رۆژی دەرچوون"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_payment__state__issued
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
 msgid "Issued"
-msgstr ""
+msgstr "دەرچوو"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Issued Amount"
-msgstr ""
+msgstr "بڕی دەرچوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_issued_amount
 msgid "Issued Amount Statistics"
-msgstr ""
+msgstr "ئاماری بڕی دەرچوو"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Issued Transaction"
-msgstr ""
+msgstr "مامەڵەی دەرچوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_issued_transactions
 msgid "Issued Transaction Statistics"
-msgstr ""
+msgstr "ئاماری مامەڵەی دەرچوو"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_queue_job_channel
 msgid "Job Channels"
-msgstr ""
+msgstr "کەناڵەکانی هەلی کار"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_job_relate_mixin
 msgid "Job Relate Mixin"
-msgstr ""
+msgstr "تێکەڵکردنی پەیوەندیدار بە کارەوە لە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_account_journal
@@ -2019,29 +2022,29 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Journal"
-msgstr ""
+msgstr "گۆڤار"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__account_move_id
 msgid "Journal Entry"
-msgstr ""
+msgstr "هاتنە ژوورەوەی گۆڤار"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_account_journal_conf
 msgid "Journals"
-msgstr ""
+msgstr "گۆڤارەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__-1
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__-1
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__-1
 msgid "Last"
-msgstr ""
+msgstr "دوایین"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__last_deduplication
 msgid "Last Deduplication Date"
-msgstr ""
+msgstr "دوا بەرواری دووبارە نەکردنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_payments_batch_wizard____last_update
@@ -2163,25 +2166,25 @@ msgstr "دوایین نوێکردنەوە لە"
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle_recurrence_mixin__rrule_type
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_create_wizard__rrule_type
 msgid "Let the event automatically repeat at that interval"
-msgstr ""
+msgstr "با ڕووداوەکە بە شێوەیەکی ئۆتۆماتیکی لەو ماوەیەدا دووبارە بێتەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_payment
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_payment_batch
 msgid "List of payment transactions generated from entitlements."
-msgstr ""
+msgstr "لیستی ئەو مامەڵانەی پارەدان کە لە مافەکانەوە دروست دەبن."
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__locked
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__locked
 msgid "Locked"
-msgstr ""
+msgstr "قفڵ کراوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__locked_reason
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__locked_reason
 msgid "Locked Reason"
-msgstr ""
+msgstr "هۆکاری قفڵکراو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_main_attachment_id
@@ -2202,12 +2205,12 @@ msgstr "هاوپێچی سەرەکی"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__manager_ref_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager__manager_ref_id
 msgid "Manager"
-msgstr ""
+msgstr "بەڕێوەبەر"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_manager_source_mixin
 msgid "Manager Data Source Mixin"
-msgstr ""
+msgstr "سەرچاوەی داتاکانی بەڕێوەبەر میکسین"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager__manager_id
@@ -2219,12 +2222,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager__manager_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager__manager_id
 msgid "Manager ID"
-msgstr ""
+msgstr "ناسنامەی بەڕێوەبەر"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_manager_mixin
 msgid "Manager Mixin"
-msgstr ""
+msgstr "بەڕێوەبەر میکس لە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_cycle_manager__name
@@ -2246,19 +2249,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager_default__name
 msgid "Manager Name"
-msgstr ""
+msgstr "ناوی بەڕێوەبەر"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.g2p_manager_menu_root
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Managers"
-msgstr ""
+msgstr "بەڕێوەبەران"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__max_individual_in_group
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__max_individual_in_group
 msgid "Maximum number of individual in group"
-msgstr ""
+msgstr "زۆرترین ژمارەی تاک لە گروپدا"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_has_error
@@ -2281,39 +2284,39 @@ msgstr "پەیامەکان"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__mon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__mon
 msgid "Mon"
-msgstr ""
+msgstr "دووشەممە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__month_by
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__month_by
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__month_by
 msgid "Month By"
-msgstr ""
+msgstr "مانگ لەلایەن"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__rrule_type__monthly
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__rrule_type__monthly
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__rrule_type__monthly
 msgid "Months"
-msgstr ""
+msgstr "مانگەکان"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_multi_entitlement_approval
 msgid "Multi Entitlement Approval"
-msgstr ""
+msgstr "پەسەندکردنی فرە ماف"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_multi_entitlement_approval_wizard
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval__wizard_id
 msgid "Multi Entitlement Approval Wizard"
-msgstr ""
+msgstr "یارمەتیدەری پەسەندکردنی فرە ماف"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__my_activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__my_activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "دوا وادەی چالاکییەکانم"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__name
@@ -2336,93 +2339,93 @@ msgstr "ناو"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_default_form
 msgid "Name:"
-msgstr ""
+msgstr "ناو:"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_registrants__state__new
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_multi_entitlement_approval__state__new
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership__deduplication_status__new
 msgid "New"
-msgstr ""
+msgstr "ناو"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "New cycle %s created."
-msgstr ""
+msgstr "خولی نوێ %s دروستکراوە."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "Next"
-msgstr ""
+msgstr "داهاتوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_calendar_event_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_calendar_event_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
-msgstr ""
+msgstr "ڕووداوی ساڵنامەی چالاکییەکانی داهاتوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "ڕووداوی ساڵنامەی چالاکییەکانی داهاتوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_summary
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_summary
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "پوختەی چالاکییەکانی داهاتوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_type_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_type_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "جۆری چالاکیی داهاتوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__import_beneficiaries__no
 msgid "No"
-msgstr ""
+msgstr "نەخێر"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 msgid "No Approved Entitlements Selected"
-msgstr ""
+msgstr "هیچ مافێکی پەسەندکراو هەڵنەبژێردراوە"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "No Deduplication Manager defined."
-msgstr ""
+msgstr "هیچ بەڕێوەبەرێکی دووبارە نەکردنەوە پێناسە نەکراوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "No Eligibility Manager defined."
-msgstr ""
+msgstr "هیچ بەڕێوەبەرێکی شایستەیی پێناسە نەکراوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "No Program Manager defined."
-msgstr ""
+msgstr "هیچ بەڕێوەبەرێکی بەرنامە پێناسە نەکراوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "No beneficiaries to import."
-msgstr ""
+msgstr "هیچ سودمەندێک بۆ هاوردەکردن."
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership_duplicate__state__not_duplicate
 msgid "Not Duplicate"
-msgstr ""
+msgstr "دووبارە نەکراوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_membership__state__not_eligible
@@ -2430,29 +2433,29 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Not Eligible"
-msgstr ""
+msgstr "شایستە نییە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_notification_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Notification Manager"
-msgstr ""
+msgstr "بەڕێوەبەری ئاگادارکردنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__notification_managers
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Notification Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی ئاگادارکردنەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Notify Registrants"
-msgstr ""
+msgstr "تۆمارکەران ئاگادار بکەنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_manager_default__number_of_cycles
 msgid "Number Of Cycles"
-msgstr ""
+msgstr "ژمارەی خولەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_needaction_counter
@@ -2498,119 +2501,119 @@ msgstr "ژمارەی پەیامە نەخوێنراوەکان"
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_registrants__state__okay
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_multi_entitlement_approval__state__okay
 msgid "Okay"
-msgstr ""
+msgstr "باشە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__on_cycle_ended_template
 msgid "On Cycle Ended Template"
-msgstr ""
+msgstr "لەسەر سووڕ کۆتایی هات قاڵب"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__on_cycle_started_template
 msgid "On Cycle Started Template"
-msgstr ""
+msgstr "لەسەرسووڕ دەستی پێکردقاڵب"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_notification_manager_sms__on_enrolled_in_program_template
 msgid "On Enrolled In Program Template"
-msgstr ""
+msgstr "لەسەر ناونوسراو لە پرۆگرامی قاڵب"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "Only 'to approve' cycles can be approved."
-msgstr ""
+msgstr "تەنها خولەکانی 'بۆ پەسەندکردن' دەتوانرێت پەسەند بکرێت."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #, python-format
 msgid "Only cancelled program funds can be reset to draft."
-msgstr ""
+msgstr "تەنها پارەی بەرنامە هەڵوەشاوەکان دەتوانرێت ڕێست بکرێتەوە بۆ ڕەشنووس."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/entitlement.py:0
 #, python-format
 msgid "Only draft entitlements are allowed to be deleted"
-msgstr ""
+msgstr "تەنها ڕەشنووسی مافەکان ڕێگەپێدراوە بسڕدرێنەوە"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #, python-format
 msgid "Only draft program funds can be cancelled."
-msgstr ""
+msgstr "تەنها ڕەشنووسی مافەکان ڕێگەپێدراوە بسڕدرێنەوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #, python-format
 msgid "Only draft program funds can be posted."
-msgstr ""
+msgstr "تەنها دەتوانرێت پارەی ڕەشنووسی بەرنامەکان پۆست بکرێت."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "Ony 'active' programs can be ended."
-msgstr ""
+msgstr "هەر بەرنامەیەکی 'چالاک' دەتوانرێت کۆتایی پێبهێنرێت."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/cycle.py:0
 #, python-format
 msgid "Ony 'draft' cycles can be set for approval."
-msgstr ""
+msgstr "دەتوانرێت هەر خولێکی 'ڕەشنووس' بۆ پەسەندکردن دابنرێت."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "Ony 'ended' programs can be re-activated."
-msgstr ""
+msgstr "هەر بەرنامەیەکی 'کۆتایی' دەتوانرێت چالاک بکرێتەوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/cycle.py:0
 #, python-format
 msgid "Ony 'to approve' cycles can be reset to draft."
-msgstr ""
+msgstr "هەر خولێکی 'بۆ پەسەندکردن' دەتوانرێت ڕێست بکرێتەوە بۆ ڕەشنووس."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "PAUSED"
-msgstr ""
+msgstr "وەستان"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_payment__status__paid
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 msgid "Paid"
-msgstr ""
+msgstr "پارەی دا"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Paid Amount"
-msgstr ""
+msgstr "بڕی پارە دراو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_paid_amount
 msgid "Paid Amount Statistics"
-msgstr ""
+msgstr "ئاماری بڕی پارە دراو"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Paid Transactions"
-msgstr ""
+msgstr "مامەڵەی پارەدار"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_paid_transactions
 msgid "Paid Transactions Statistics"
-msgstr ""
+msgstr "ئاماری مامەڵەی پارەدار"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/queue_job_channel.py:0
 #, python-format
 msgid "Parent channel required."
-msgstr ""
+msgstr "کەناڵی دایک و باوک پێویستە."
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_membership__state__paused
@@ -2618,7 +2621,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Paused"
-msgstr ""
+msgstr "وەستا"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
@@ -2626,14 +2629,14 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 #, python-format
 msgid "Payment"
-msgstr ""
+msgstr "پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_payment_batch
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__batch_id
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 msgid "Payment Batch"
-msgstr ""
+msgstr "وەجبەی پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__payment_batch_ids
@@ -2641,31 +2644,31 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Payment Batches"
-msgstr ""
+msgstr "وەجبەی پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__payment_datetime
 msgid "Payment Datetime"
-msgstr ""
+msgstr "بەرواری پارەدانکات"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__payment_fee
 msgid "Payment Fee"
-msgstr ""
+msgstr "کرێی پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_payment_manager
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Payment Manager"
-msgstr ""
+msgstr "بەڕێوەبەری پارەدان"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_payment_manager_default
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__payment_managers
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Payment Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__status
@@ -2673,13 +2676,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Payment Status"
-msgstr ""
+msgstr "دۆخی پارەدان"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_payment
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_payment_batch
 msgid "Payment Transactions"
-msgstr ""
+msgstr "مامەڵەی پارەدان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/cycle.py:0
@@ -2692,90 +2695,91 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, python-format
 msgid "Payments"
-msgstr ""
+msgstr "پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__pending_validation
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
 msgid "Pending Validation"
-msgstr ""
+msgstr "چاوەڕوانی چەسپاندن"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_membership_manager_phone_number
 msgid "Phone Number Deduplication Eligibility"
-msgstr ""
+msgstr "شایستەیی دووبارە نەکردنەوەی ژمارەی تەلەفۆن"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_phone_number_form
 msgid "Phone Number Deduplication Eligibility Manager"
-msgstr ""
+msgstr "بەڕێوەبەری شایستەیی دووبارە نەکردنەوەی ژمارەی تەلەفۆن"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_deduplication_manager_phone_number
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_phone_number_form
 msgid "Phone Number Deduplication Manager"
-msgstr ""
+msgstr "بەڕێوەبەری دووبارە نەکردنەوەی ژمارەی تەلەفۆن"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_deduplication_manager_phone_number
 #: model:ir.ui.menu,name:g2p_programs.menu_deduplication_manager_phone_number
 msgid "Phone Number Deduplication Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی دووبارە نەکردنەوەی ژمارەی تەلەفۆن"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_eligibility_manager_phone_number
 #: model:ir.ui.menu,name:g2p_programs.menu_eligibility_manager_phone_number
 msgid "Phone Number Eligibility Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی دووبارە نەکردنەوەی ژمارەی تەلەفۆن"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Post"
-msgstr ""
+msgstr "پۆست"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_fund__state__posted
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_filter
 msgid "Posted"
-msgstr ""
+msgstr "پۆست کراوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "Prepare Entitlement"
-msgstr ""
+msgstr "ئامادەکردنی ماف"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "Prepare Payments"
-msgstr ""
+msgstr "ئامادەکردنی پارەدان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "Prepare entitlement for %s beneficiaries started."
-msgstr ""
+msgstr "ئامادەکردنی ماف بۆ %s سودمەندان دەستی پێکردووە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "Prepare entitlement for beneficiaries."
-msgstr ""
+msgstr "ئامادەکردنی ماف بۆ سودمەندان."
 
 #. module: g2p_programs
 #: model:ir.actions.report,name:g2p_programs.action_print_entitlement
 msgid "Print Vouchers"
-msgstr ""
+msgstr "کۆدی چاپکردن"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_account_journal_beneficiary
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_account_journal_prog_benf
 msgid "Process entitlements to automatically post the journal entries here."
 msgstr ""
+"پرۆسێسکردنی مافەکان بۆ بڵاوکردنەوەی ئۆتۆماتیکی نووسراوەکانی گۆڤارەکان لێرە."
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership__deduplication_status__processing
 msgid "Processing"
-msgstr ""
+msgstr "پرۆسێسکردن"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
@@ -2828,42 +2832,42 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, python-format
 msgid "Program"
-msgstr ""
+msgstr "بەرنامە"
 
 #. module: g2p_programs
 #: model:res.groups,name:g2p_programs.g2p_program_cycle_approver
 msgid "Program Cycle Approver"
-msgstr ""
+msgstr "پەسەندکەری خولی بەرنامە"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 #, python-format
 msgid "Program Fund"
-msgstr ""
+msgstr "سندوقی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_fund
 msgid "Program Fund Entries"
-msgstr ""
+msgstr "ئامادەی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_program_fund_report
 #: model:ir.model,name:g2p_programs.model_g2p_program_fund_report_view
 #: model:ir.ui.menu,name:g2p_programs.menu_program_fund_report
 msgid "Program Fund Report"
-msgstr ""
+msgstr "ڕاپۆرتی سندوقی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_program_fund
 #: model:ir.ui.menu,name:g2p_programs.menu_program_fund
 msgid "Program Funds"
-msgstr ""
+msgstr "پارەی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__journal_id
 msgid "Program Journal"
-msgstr ""
+msgstr "گۆڤاری بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_manager
@@ -2871,52 +2875,52 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_form
 msgid "Program Manager"
-msgstr ""
+msgstr "بەڕێوەبەری بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_program_manager_default
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__program_managers
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Program Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_membership
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Program Membership"
-msgstr ""
+msgstr "ئەندامێتی بەرنامە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_form
 msgid "Program Membership Duplicate"
-msgstr ""
+msgstr "دووبارەکردنەوەی ئەندامێتی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_membership_duplicate
 msgid "Program Membership duplicate"
-msgstr ""
+msgstr "دووبارەکردنەوەی ئەندامێتی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__program_membership_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__program_membership_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__program_membership_ids
 msgid "Program Memberships"
-msgstr ""
+msgstr "ئەندامێتی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__name
 msgid "Program Name"
-msgstr ""
+msgstr "ناوی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_notification_manager
 msgid "Program Notification Manager"
-msgstr ""
+msgstr "بەڕێوەبەری ئاگادارکردنەوەی بەرنامە"
 
 #. module: g2p_programs
 #: model:res.groups,name:g2p_programs.g2p_program_validator
 msgid "Program Validator"
-msgstr ""
+msgstr "چەسپێنەری بەرنامە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
@@ -2934,13 +2938,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Program:"
-msgstr ""
+msgstr "بەرنامە:"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Program: %(prg)s, Beneficiary: %(partner)s.\n"
-msgstr ""
+msgstr "بەرنامە: %(پروک)s، سودمەند: %(هاوبەش)s.\n"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/wizard/create_program_wizard.py:0
@@ -2951,48 +2955,48 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_registrant_ext_form
 #, python-format
 msgid "Programs"
-msgstr ""
+msgstr "بەرنامەکان"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_program_membership
 msgid "Programs Membership"
-msgstr ""
+msgstr "بەرنامەکان ئەندامێتی"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_program_membership_duplicate
 msgid "Programs Membership Duplicate"
-msgstr ""
+msgstr "بەرنامەکان دووبارەبوونەوەی ئەندامێتی"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "Project"
-msgstr ""
+msgstr "پرۆژە"
 
 #. module: g2p_programs
 #: model:ir.actions.server,name:g2p_programs.reactivate_program
 msgid "Re-activate Program"
-msgstr ""
+msgstr "دووبارە چالاککردنەوەی بەرنامە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_tree
 msgid "Reason"
-msgstr ""
+msgstr "هۆکار"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_form
 msgid "Reason:"
-msgstr ""
+msgstr "هۆکار:"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_payment__state__reconciled
 msgid "Reconciled"
-msgstr ""
+msgstr "ئاشت بووەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__reconciliation_managers
 msgid "Reconciliation Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی ئاشتەوایی"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__cycle_duration
@@ -3001,28 +3005,28 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__cycle_duration
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__rrule_type
 msgid "Recurrence"
-msgstr ""
+msgstr "دووبارەبوونەوەی"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__rdpd2ben
 msgid "Redeemed/Paid to Beneficiary"
-msgstr ""
+msgstr "وەرگیراوە/پارە دەدرێت بە سودمەند"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__name
 msgid "Reference Number"
-msgstr ""
+msgstr "ژمارەی ئاماژه"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Reference Number:"
-msgstr ""
+msgstr "ژمارەی ئاماژه:"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Refresh"
-msgstr ""
+msgstr "نوێکردنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__partner_id
@@ -3035,7 +3039,7 @@ msgstr "تۆمارکراو"
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_assign_program_registrants
 msgid "Registrant Assign to Program"
-msgstr ""
+msgstr "ناو تۆمارکردن تەرخانکردن بۆ پرۆگرام"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
@@ -3046,54 +3050,54 @@ msgstr "ناوی تۆمارکراو:"
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__rejected2
 msgid "Rejected: Beneficiary account does not exist"
-msgstr ""
+msgstr "ڕەتکراوەتەوە: حسابی سودمەند بوونی نییە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__rejected1
 msgid "Rejected: Beneficiary didn't want the entitlement"
-msgstr ""
+msgstr "ڕەتکرایەوە: سودمەند شایستەیی نەدەویست"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__rejected3
 msgid "Rejected: Other reason"
-msgstr ""
+msgstr "ڕەتکراوەتەوە: هۆکارێکی تر"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__remarks
 msgid "Remarks"
-msgstr ""
+msgstr "تێبینی"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__until
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__until
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__until
 msgid "Repeat Until"
-msgstr ""
+msgstr "دووبارەی بکەرەوە تا"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.g2p_accounting_reports_menu_root
 msgid "Reports"
-msgstr ""
+msgstr "ڕاپۆرتەکان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Reset to Draft"
-msgstr ""
+msgstr "ڕێست بکە بۆ ڕەشنووس"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_user_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_user_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "بەکارهێنەری بەرپرسیار"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__rrule
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__rrule
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__rrule
 msgid "Rrule"
-msgstr ""
+msgstr "قاعدة"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_has_sms_error
@@ -3106,129 +3110,129 @@ msgstr "هەڵەی گەیاندنی کورتەنامە"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_notification_manager_sms_form
 msgid "SMS Notification Manager"
-msgstr ""
+msgstr "بەڕێوەبەری ئاگادارکردنەوەی کورتەنامە"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_notification_manager_sms
 #: model:ir.ui.menu,name:g2p_programs.menu_notification_manager_sms
 msgid "SMS Notification Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی ئاگادارکردنەوەی کورتەنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_notification_manager_sms
 #: model:ir.model.fields,field_description:g2p_programs.field_sms_template__g2p_sms_id
 msgid "SMS Program Notification Manager"
-msgstr ""
+msgstr "بەڕێوەبەری ئاگادارکردنەوەی بەرنامەی کورتەنامە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_sms_template
 msgid "SMS Templates"
-msgstr ""
+msgstr "قاڵبی کورتەنامە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__sat
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__sat
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__sat
 msgid "Sat"
-msgstr ""
+msgstr "دانیشت"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 msgid "Search Cycle Memberships"
-msgstr ""
+msgstr "ئەندامێتی خولی گەڕان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 msgid "Search Cycles"
-msgstr ""
+msgstr "ئەندامیەتی هەڵبژاردن"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_manager_default_filter
 msgid "Search Default Cycle Manager"
-msgstr ""
+msgstr "بەڕێوەبەری خولی پێشوەختە گەڕان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_manager_default_filter
 msgid "Search Default Entitlement Manager"
-msgstr ""
+msgstr "بەڕێوەبەری مافی پێشوەختە بگەڕێ"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_manager_default_filter
 msgid "Search Default Payment Manager"
-msgstr ""
+msgstr "گەڕان بەدوای بەڕێوەبەری پارەدانی پێشوەختە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_manager_default_filter
 msgid "Search Default Program Manager"
-msgstr ""
+msgstr "گەڕان بەدوای بەڕێوەبەری بەرنامەی پێشوەختە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.eligibility_manager_default_filter
 msgid "Search Eligibility Manager"
-msgstr ""
+msgstr "بەڕێوەبەری شایستەیی گەڕان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
 msgid "Search Entitlements"
-msgstr ""
+msgstr "گەڕان بەدوای مافەکاندا"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.eligibility_manager_id_dedup_filter
 msgid "Search ID Deduplication Eligibility Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی شایستەیی دووبارە نەکردنەوەی ناسنامەی گەڕان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_id_dedup_filter
 msgid "Search ID Deduplication Managers"
-msgstr ""
+msgstr "بەڕێوەبەرانی دووبارە نەکردنەوەی ناسنامەی گەڕان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_batch_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
 msgid "Search Payments"
-msgstr ""
+msgstr "گەڕان بەدوای پارەدان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.eligibility_manager_phone_number_filter
 msgid "Search Phone Number Deduplication Eligibility Managers"
-msgstr ""
+msgstr "گەڕان بەدوای ژمارەی تەلەفۆن بەڕێوەبەرانی شایستەیی دووبارە نەکردنەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_phone_number_filter
 msgid "Search Phone Number Deduplication Managers"
-msgstr ""
+msgstr "گەڕان بەدوای ژمارەی تەلەفۆن بەڕێوەبەرانی دووبارە نەکردنەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_report_filter
 msgid "Search Program Fund Report"
-msgstr ""
+msgstr "ڕاپۆرتی سندوقی بەرنامەی گەڕان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_filter
 msgid "Search Program Funds"
-msgstr ""
+msgstr "سندوقەکانی بەرنامەی گەڕان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Search Program Memberships"
-msgstr ""
+msgstr "گەڕان بەدوای ئەندامێتی بەرنامە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_list_filter
 msgid "Search Programs"
-msgstr ""
+msgstr "بەرنامەکانی گەڕان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.notification_manager_sms_filter
 msgid "Search SMS Notification Manager"
-msgstr ""
+msgstr "گەڕان بەدوای بەڕێوەبەری ئاگادارکردنەوەی کورتەنامە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__2
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__2
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__2
 msgid "Second"
-msgstr ""
+msgstr "دووەم"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
@@ -3249,100 +3253,100 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_form
 msgid "Select a program..."
-msgstr ""
+msgstr "بەرنامەیەک هەڵبژێرە..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 msgid "Send Payment"
-msgstr ""
+msgstr "ناردنی پارەدان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 msgid "Send Payments"
-msgstr ""
+msgstr "ناردنی پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_payment__state__sent
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
 msgid "Sent"
-msgstr ""
+msgstr "ناردی"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Sent Amount"
-msgstr ""
+msgstr "بڕی نێردراو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_sent_amount
 msgid "Sent Amount Statistics"
-msgstr ""
+msgstr "ئاماری بڕی نێردراو"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Sent Transactions"
-msgstr ""
+msgstr "مامەڵەی نێردراو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_sent_transactions
 msgid "Sent Transactions Statistics"
-msgstr ""
+msgstr "ئاماری مامەڵە نێردراوەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "زنجیرە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 msgid "Service Fee Entry"
-msgstr ""
+msgstr "چوونە ژوورەوەی کرێی خزمەتگوزاری"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__service_fee_disbursement_id
 msgid "Service Fee Journal Entry"
-msgstr ""
+msgstr "داخڵکردنی گۆڤاری کرێی خزمەتگوزاری"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__state__step1
 msgid "Set Defaults"
-msgstr ""
+msgstr "دابنێ بە شێوەی پێشوەختە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "Set as Ended"
-msgstr ""
+msgstr "دابنێ وەک کۆتایی هات"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Set entitlements to pending validation for cycle."
-msgstr ""
+msgstr "مافەکان دابنێ بۆ چەسپاندنی چاوەڕوانکراو بۆ خول."
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_create_wizard__transfer_fee_amt
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_amt
 msgid "Set fixed transfer fee amount"
-msgstr ""
+msgstr "مافەکان دابنێ بۆ چەسپاندنی چاوەڕوانکراو بۆ خول"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Setting %s entitlements to pending validation has started."
-msgstr ""
+msgstr "ڕێکخستنی مافەکانی %s بۆ چەسپاندنی چاوەڕوانکراو دەستی پێکردووە."
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_membership_manager_default
 msgid "Simple Eligibility"
-msgstr ""
+msgstr "شایستەیی سادە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund_report_view__name
 msgid "Source Document"
-msgstr ""
+msgstr "بەڵگەنامەی سەرچاوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__start_date
@@ -3371,19 +3375,19 @@ msgstr "بەرواری دەسپێكردن"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_tree
 msgid "State"
-msgstr ""
+msgstr "دۆخ"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Statistics"
-msgstr ""
+msgstr "ئامار"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_datetime
 msgid "Statistics Date/Time"
-msgstr ""
+msgstr "ئامار بەروار/کات"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_registrants__state
@@ -3397,12 +3401,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_registrant_ext_form
 msgid "Status"
-msgstr ""
+msgstr "دۆخ"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__status_datetime
 msgid "Status Datetime"
-msgstr ""
+msgstr "دۆخ بەروارکات"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_state
@@ -3414,46 +3418,50 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"ستاتۆس لەسەر بنەمای چالاکییەکان\n"
+"دواکەوتوو: بەرواری کۆتایی هاتنی پێشوەختە پێشتر تێپەڕیوە\n"
+"ئەمڕۆ: بەرواری چالاکی ئەمڕۆیە\n"
+"پلان بۆ داڕێژراو: چالاکییەکانی داهاتوو."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_form
 msgid "Status:"
-msgstr ""
+msgstr "دۆخ:"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__sun
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__sun
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__sun
 msgid "Sun"
-msgstr ""
+msgstr "خۆر"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_deduplication_manager_id_dedup__supported_id_document_types
 msgid "Supported ID Document Types"
-msgstr ""
+msgstr "جۆرەکانی بەڵگەنامەی ناسنامەی پشتگیریکراو"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_notification_manager_sms_form
 msgid "TEMPLATES"
-msgstr ""
+msgstr "قاڵبەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_wizard__target_type
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__target_type
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__target_type
 msgid "Target Type"
-msgstr ""
+msgstr "جۆری ئامانج"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Target Type:"
-msgstr ""
+msgstr "جۆری ئامانج:"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
 msgid "The"
-msgstr ""
+msgstr "ەکە"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/wizard/create_program_wizard.py:0
@@ -3462,12 +3470,14 @@ msgid ""
 "The 'Amount per cycle' or 'Amount per individual in group' must be filled-up "
 "for the default entitlement manager."
 msgstr ""
+"'بڕی هەر خولێک' یان 'بڕی هەر تاکێک لە گروپدا' دەبێت بۆ بەڕێوەبەری مافی "
+"پێشوەختە پڕبکرێتەوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "The Cycle is not in draft mode"
-msgstr ""
+msgstr "خولەکە لە دۆخی ڕەشنووسدا نییە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_entitlement__currency_id
@@ -3477,18 +3487,18 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__currency_id
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_payment_manager_default__currency_id
 msgid "The currency used to enter statement"
-msgstr ""
+msgstr "ئەو دراوەی کە بۆ داخڵکردنی بەیاننامە بەکاردێت"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "The cycle approver group is not specified!"
-msgstr ""
+msgstr "گروپی پەسەندکەری خولەکە دیاری نەکراوە!"
 
 #. module: g2p_programs
 #: model:ir.model.constraint,message:g2p_programs.constraint_g2p_entitlement_unique_entitlement_code
 msgid "The entitlement code must be unique."
-msgstr ""
+msgstr "کۆدی مافەکان دەبێت تایبەت بێت."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
@@ -3497,131 +3507,132 @@ msgid ""
 "The fund for the program: %(program)s [%(fund).2f] is insufficient for the "
 "entitlement: %(entitlement)s"
 msgstr ""
+"سندوقی بەرنامەکە: %(بەرنامە)s [%(سندووق).2ف] بەس نییە بۆ مافی: %(مافیات)s"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_account_journal_beneficiary
 msgid "There are no Beneficiary Fund Journal Entries Entered!"
-msgstr ""
+msgstr "هیچ زانیارییەک لە گۆڤاری سندوقی سودمەندەکاندا نییە!"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_account_journal_prog_benf
 msgid "There are no Program Beneficiary Fund Journal Entries Entered!"
-msgstr ""
+msgstr "هیچ زانیارییەک لە گۆڤاری سندوقی سودمەندانی بەرنامەدا نییە!"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_program_fund_report
 msgid "There are no Program Fund Entries based on the current filter!"
-msgstr ""
+msgstr "هیچ بەشداریکردنێکی سندوقی بەرنامە نییە بە پشتبەستن بە فلتەری ئێستا!"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_program_fund
 msgid "There are no Program Funds Entered!"
-msgstr ""
+msgstr "هیچ پارەیەکی بەرنامە داخڵ نەکراوە!"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
 #, python-format
 msgid "There are no new payments issued!"
-msgstr ""
+msgstr "هیچ پارەیەکی نوێ دەرناچێت!"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/wizard/assign_payments_batch_wizard.py:0
 #, python-format
 msgid "There are no selected payments!"
-msgstr ""
+msgstr "هیچ پارەیەکی هەڵبژێردراو نییە!"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
 #, python-format
 msgid "There are no selected registrants!"
-msgstr ""
+msgstr "تۆمارکەرێکی هەڵبژێردراو نییە!"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__3
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__byday__3
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__byday__3
 msgid "Third"
-msgstr ""
+msgstr "سێیەم"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #, python-format
 msgid "This fund is already posted and cannot be deleted."
-msgstr ""
+msgstr "ئەم سندوقە پێشتر پۆست کراوە و ناتوانرێت بسڕدرێتەوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #, python-format
 msgid "This fund is now posted!"
-msgstr ""
+msgstr "ئەم سندوقە ئێستا پۆست کراوە!"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "This fund was cancelled on"
-msgstr ""
+msgstr "ئەم سندوقە لە ڕۆژی"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__thu
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__thu
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__thu
 msgid "Thu"
-msgstr ""
+msgstr "پێنجشەممە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__event_tz
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__event_tz
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__event_tz
 msgid "Timezone"
-msgstr ""
+msgstr "کاتی ناوچەی جوگرافی"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__to_approve
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "To Approve"
-msgstr ""
+msgstr "بۆ پەسەندکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__transfer_fee
 msgid "Transfer Fee"
-msgstr ""
+msgstr "کرێی گواستنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__transfer_fee_amt
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_amt
 msgid "Transfer Fee Amount"
-msgstr ""
+msgstr "بڕی کرێی گواستنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__transfer_fee_pct
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_pct
 msgid "Transfer Fee(%)"
-msgstr ""
+msgstr "کرێی گواستنەوە(%)"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_create_wizard__transfer_fee_pct
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_pct
 msgid "Transfer fee will be a percentage of amount"
-msgstr ""
+msgstr "کرێی گواستنەوە ڕێژەیەک دەبێت لە بڕە پارەکە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__trans2fsp
 msgid "Transferred to FSP"
-msgstr ""
+msgstr "گواستراوەتەوە بۆ FSP"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__tue
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__tue
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__tue
 msgid "Tue"
-msgstr ""
+msgstr "سێشەممە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_exception_decoration
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__activity_exception_decoration
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "جۆری چالاکیی ئیستسنای تۆمارکراو."
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_unread
@@ -3643,55 +3654,55 @@ msgstr "ژمێرەری پەیامە نەخوێندراوەکان"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__valid_from
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
 msgid "Valid From"
-msgstr ""
+msgstr "دروستە لە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 msgid "Valid From:"
-msgstr ""
+msgstr "دروستە لە:"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 msgid "Valid To:"
-msgstr ""
+msgstr "دروستە بۆ:"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__valid_until
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
 msgid "Valid Until"
-msgstr ""
+msgstr "کارایە تا"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Validate %s entitlements started."
-msgstr ""
+msgstr "چەسپاندنی مافەکانی %s دەستی پێکردووە."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "Validate Entitlements"
-msgstr ""
+msgstr "چەسپاندنی مافەکان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Validate and approve entitlements for cycle."
-msgstr ""
+msgstr "چەسپاندنی مافەکان."
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership__deduplication_status__verified
 msgid "Verified"
-msgstr ""
+msgstr "پشتڕاستکراوەتەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "Verify Eligibility"
-msgstr ""
+msgstr "شایستەیی پشتڕاست بکەرەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Verify eligibility"
-msgstr ""
+msgstr "شایستەیی پشتڕاست بکەرەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__website_message_ids
@@ -3699,7 +3710,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__website_message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "پەیامەکانی ماڵپەڕ"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__website_message_ids
@@ -3707,106 +3718,106 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__website_message_ids
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "مێژووی پەیوەندی ماڵپەڕ"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__wed
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__wed
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__wed
 msgid "Wed"
-msgstr ""
+msgstr "چوارشەممە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__weekday
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__weekday
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__weekday
 msgid "Weekday"
-msgstr ""
+msgstr "ڕۆژی هەفتە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__rrule_type__weekly
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__rrule_type__weekly
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__rrule_type__weekly
 msgid "Weeks"
-msgstr ""
+msgstr "هەفتەکان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "Would you like to import the matching registrants to this program?"
-msgstr ""
+msgstr "حەز دەکەیت تۆمارکەرانی هاوتا هاوردە بکەیت بۆ ئەم بەرنامەیە؟"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__rrule_type__yearly
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__rrule_type__yearly
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__rrule_type__yearly
 msgid "Years"
-msgstr ""
+msgstr "ساڵ"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__import_beneficiaries__yes
 msgid "Yes"
-msgstr ""
+msgstr "بەڵێ"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "You are not allowed to approve this cycle!"
-msgstr ""
+msgstr "ڕێگەت پێنادرێت ئەم خولە پەسەند بکەیت!"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/wizard/multi_entitlement_approval_wizard.py:0
 #, python-format
 msgid "You can approve only entitlements from approved cycles."
-msgstr ""
+msgstr "تەنها دەتوانیت مافەکان لە خولەکانی پەسەندکراو پەسەند بکەیت."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/entitlement.py:0
 #, python-format
 msgid "You have no access in the Entitlement List View"
-msgstr ""
+msgstr "لە دیمەنی لیستی مافەکاندا هیچ دەستڕاگەیشتنێکت نییە"
 
 #. module: g2p_programs
 #. openerp-web
 #: code:addons/g2p_programs/static/src/js/create_program.js:0
 #, python-format
 msgid "action_invoices"
-msgstr ""
+msgstr "فاکتورەکانی_کردەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 msgid "barcode"
-msgstr ""
+msgstr "فاکتورەکانی_کردەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "button."
-msgstr ""
+msgstr "دوگمە."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "code..."
-msgstr ""
+msgstr "کۆد..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 msgid "cycle..."
-msgstr ""
+msgstr "سووڕ..."
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership__deduplication_status__duplicated
 msgid "duplicated"
-msgstr ""
+msgstr "دووبارە کراوەتەوە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "program..."
-msgstr ""
+msgstr "بەرنامە..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "section of the"
-msgstr ""
+msgstr "بەشی"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -3814,21 +3825,24 @@ msgid ""
 "tab.\n"
 "                    You can also create a new journal by clicking this"
 msgstr ""
+"تاب.\n"
+"                     هەروەها دەتوانیت بە کلیککردن لەسەر ئەم گۆڤارێکی نوێ "
+"دروست بکەیت"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_report_tree
 msgid "total_amount"
-msgstr ""
+msgstr "کۆی مەبلەغ"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_default_tree
 msgid "total_amount_per_cycle"
-msgstr ""
+msgstr "کۆی_بڕی_بۆ هەر خولێک"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_default_tree
 msgid "total_amount_per_individual_in_group"
-msgstr ""
+msgstr "کۆی_بڕی_بۆ هەر تاکێک لە گروپەکەدا"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
