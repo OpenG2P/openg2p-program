@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-15 09:24+0000\n"
+"PO-Revision-Date: 2023-07-16 14:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -3010,7 +3010,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval__partner_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__partner_id
 msgid "Registrant"
-msgstr ""
+msgstr "تۆمارکراو"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_assign_program_registrants
@@ -3813,4 +3813,4 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "| Company:"
-msgstr ""
+msgstr "کۆمپانیا:"
