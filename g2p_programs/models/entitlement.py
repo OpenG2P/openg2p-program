@@ -81,6 +81,12 @@ class G2PEntitlement(models.Model):
         copy=False,
     )
 
+    payment_ids = fields.One2many("g2p.payment", "entitlement_id", string="Payments")
+    payment_status = fields.Selection(
+        [("paid", "Paid"), ("notpaid", "Not Paid")], compute="_compute_payment_status"
+    )
+    payment_date = fields.Date(compute="_compute_payment_status")
+
     _sql_constraints = [
         (
             "unique_entitlement_code",
@@ -106,7 +112,7 @@ class G2PEntitlement(models.Model):
                     "g2p_programs.g2p_program_validator"
                 )
 
-                if group_g2p_registrar or g2p_program_validator:
+                if not (group_g2p_registrar or g2p_program_validator):
                     raise ValidationError(
                         _("You have no access in the Entitlement List View")
                     )
@@ -145,6 +151,20 @@ class G2PEntitlement(models.Model):
                 or None
             )
 
+    def _compute_payment_status(self):
+        for rec in self:
+            paid_payment = None
+            for payment in rec.payment_ids:
+                if payment.status == "paid":
+                    rec.payment_status = "paid"
+                    paid_payment = payment
+                    break
+            if not paid_payment:
+                rec.payment_status = "notpaid"
+                rec.payment_date = None
+            if paid_payment:
+                rec.payment_date = paid_payment.payment_datetime
+
     @api.autovacuum
     def _gc_mark_expired_entitlement(self):
         self.env["g2p.entitlement"].search(
@@ -156,12 +176,14 @@ class G2PEntitlement(models.Model):
         return self.state == "approved" and self.valid_until >= fields.Date.today()
 
     def unlink(self):
-        if self.state == "draft":
-            return super(G2PEntitlement, self).unlink()
-        else:
-            raise ValidationError(
-                _("Only draft entitlements are allowed to be deleted")
-            )
+        if self:
+            to_delete = self.filtered(lambda x: x.state == "draft")
+            if to_delete:
+                return super(G2PEntitlement, to_delete).unlink()
+            else:
+                raise ValidationError(
+                    _("Only draft entitlements are allowed to be deleted")
+                )
 
     def approve_entitlement(self):
         state_err, message = self.program_id.get_manager(

@@ -77,6 +77,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     />
                     <button
                         type="object"
+                        class="btn-success"
+                        icon="fa-thumbs-o-up"
+                        name="send_payment"
+                        states="approved"
+                        string="Send Payments"
+                        invisible="context.get('hide_cash')"
+                    />
+                    <button
+                        type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
                         name="mark_ended"
@@ -240,6 +249,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     /> -->
                                     <field name="name" />
                                     <field name="external_batch_ref" />
+                                    <field name="batch_has_started" />
                                     <field name="batch_has_completed" />
                                     <field name="stats_datetime" />
                                     <field name="payment_ids" string="# Payments" />
@@ -260,6 +270,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field name="name" readonly="1" />
                                         <field name="program_id" readonly="1" options="{'no_open':true}" />
                                         <field name="external_batch_ref" />
+                                        <field name="batch_has_started" />
                                         <field name="batch_has_completed" />
                                     </group>
                                     <notebook>
@@ -315,8 +326,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     />
                                                     <field
                                                         name="status"
-                                                        decoration-success="state=='paid'"
-                                                        decoration-danger="state=='failed'"
+                                                        decoration-success="status=='paid'"
+                                                        decoration-danger="status=='failed'"
                                                         widget="badge"
                                                         string="Payment Status"
                                                     />

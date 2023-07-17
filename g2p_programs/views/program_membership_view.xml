@@ -42,6 +42,35 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <form string="Program Membership">
                 <header>
                     <field name="state" widget="statusbar" statusbar_visible="draft,enrolled,paused,exited" />
+                    <button
+                        name="verify_eligibility"
+                        type="object"
+                        string="Verify Eligibility"
+                        class="btn-primary"
+                        states="draft,enrolled"
+                    />
+                    <button
+                        name="enroll_eligible_registrants"
+                        type="object"
+                        string="Enroll"
+                        class="btn-primary"
+                        states="draft"
+                    />
+                    <button
+                        name="deduplicate_beneficiaries"
+                        type="object"
+                        string="Deduplicate"
+                        class="btn-primary"
+                        states="draft,enrolled"
+                    />
+
+                    <button
+                        name="Back_to_draft"
+                        type="object"
+                        string="Back to draft"
+                        class="btn-primary"
+                        states="not_eligible,duplicated"
+                    />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -70,6 +99,18 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         bg_color="bg-danger"
                         attrs="{'invisible': [('state', '!=', 'exited')]}"
                     />
+                    <widget
+                        name="web_ribbon"
+                        title="DUPLICATE"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('state', '!=', 'duplicated')]}"
+                    />
+                    <widget
+                        name="web_ribbon"
+                        title="NOT ELIGIBLE"
+                        bg_color="bg-danger"
+                        attrs="{'invisible': [('state', '!=', 'not_eligible')]}"
+                    />
                     <div class="oe_title mb24">
                         <label for="partner_id" string="Registrant:" />
                         <h1>
@@ -92,11 +133,178 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             />
                         </h2>
                     </div>
+                    <group>
+                        <field name="registrant_id" />
+                        <field
+                            name="tags_ids"
+                            widget="many2many_tags"
+                            string="Tags:"
+                            options="{'color_field': 'color'}"
+                        />
+                    </group>
                     <group colspan="4" col="4">
-                        <field name="enrollment_date" />
+                        <field name="registration_date" readonly="1" />
+                        <field name="enrollment_date" readonly="1" />
                         <field name="exit_date" />
                         <field name="delivery_mechanism_value" colspan="4" />
                     </group>
+                    <field name="is_group" invisible="1" />
+                    <field name="is_registrant" invisible="1" />
+                    <notebook name="registrant_detail">
+                        <page name="basic_info" string="Basic Info">
+                            <group col="6" colspan="6">
+                                <field name="address" class="o_address_format" colspan="6" />
+                                <field name="email" widget="email" colspan="3" />
+                                <field name="phone_number_ids" nolabel="1" colspan="3">
+                                    <tree>
+                                        <field
+                                            name="phone_no"
+                                            string="Phone Numbers"
+                                            widget="phone"
+                                            options="{'enable_sms': false}"
+                                        />
+                                        <field name="country_id" />
+                                        <field name="date_collected" />
+                                        <field name="disabled" invisible="1" />
+                                    </tree>
+                                </field>
+                                <field name="birthdate" colspan="2" />
+                                <field name="age" colspan="2" />
+                                <field name="birth_place" colspan="2" />
+                                <field name="gender" colspan="6" />
+                            </group>
+                        </page>
+                        <page string="Bank Details" name="banks">
+                            <field name="bank_ids" nolabel="1">
+                                <tree>
+                                    <field name="bank_id" />
+                                    <field name="acc_number" />
+                                    <field name="acc_type" invisible="1" />
+                                    <field name="iban" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="IDs" name="ids">
+                            <field name="reg_ids" nolabel="1">
+                                <tree>
+                                    <field name="id_type" />
+                                    <field name="value" string="ID Number" />
+                                    <field name="expiry_date" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Relationships" name="relationships">
+                            <group colspan="4" col="4" string="Registrant is related to:">
+                                <field name="related_1_ids" nolabel="1">
+                                    <tree>
+                                        <field
+                                            name="source"
+                                            domain="[('is_registrant','=',True),('id','!=',active_id)]"
+                                            string="Registrant"
+                                        />
+                                        <field name="relation" string="Relation" />
+                                        <field name="start_date" />
+                                        <field name="end_date" />
+                                        <field name="disabled" />
+                                        <field name="disabled_by" />
+                                    </tree>
+                                </field>
+                            </group>
+                            <group colspan="4" col="4" string="Others Related to this Registrant:">
+                                <field name="related_2_ids" nolabel="1">
+                                    <tree>
+                                        <field
+                                            name="destination"
+                                            domain="[('is_registrant','=',True),('id','!=',active_id)]"
+                                            string="Registrant"
+                                        />
+                                        <field name="relation" string="Relation" />
+                                        <field name="start_date" />
+                                        <field name="end_date" />
+                                        <field name="disabled" />
+                                        <field name="disabled_by" />
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page
+                            name="group_members"
+                            string="Members of Group"
+                            attrs="{'invisible':[('is_group','!=',True)]}"
+                        >
+                            <group>
+                                <field name="group_membership_ids" nolabel="1">
+                                    <tree>
+                                        <field
+                                            name="individual"
+                                            domain="[('is_registrant','=',True),('is_group','=',False)]"
+                                            string="Member Name"
+                                            context="{'form_view_ref':'g2p_registry_individual.view_individuals_form'}"
+                                        />
+                                        <field name="individual_birthdate" string="Date of Birth" />
+                                        <field name="individual_gender" string="Gender" />
+                                        <field name="kind" string="Role" widget="many2many_tags" />
+                                        <field name="start_date" />
+                                        <field name="ended_date" />
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page
+                            name="individual_groups"
+                            string="Groups"
+                            attrs="{'invisible':[('is_group','!=',False)]}"
+                        >
+                            <group>
+                                <field name="individual_membership_ids" nolabel="1">
+                                    <tree>
+                                        <field
+                                            name="group"
+                                            domain="[('is_registrant','=',True),('is_group','=',True)]"
+                                            string="Group Name"
+                                            context="{'form_view_ref':'g2p_registry_group.view_groups_form'}"
+                                        />
+                                        <field name="kind" string="Role" widget="many2many_tags" />
+                                        <field name="start_date" />
+                                        <field name="ended_date" />
+                                    </tree>
+                                </field>
+                            </group>
+                        </page>
+                        <page name="program" string="Other Programs">
+                            <field name="program_membership_ids" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="program_id" />
+                                    <field name="enrollment_date" />
+                                    <field name="exit_date" />
+                                    <field name="delivery_mechanism_value" />
+                                    <field
+                                        name="state"
+                                        decoration-primary="state=='draft'"
+                                        decoration-warning="state=='paused'"
+                                        decoration-success="state=='enrolled'"
+                                        decoration-danger="state=='exited'"
+                                        widget="badge"
+                                        string="Status"
+                                    />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="entitlement" string="Entitlements">
+                            <field name="entitlement_ids" readonly="1" nolabel="1">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="code" />
+                                    <field name="cycle_id" />
+                                    <field name="valid_from" />
+                                    <field name="valid_until" />
+                                    <field name="state" />
+                                    <field name="payment_status" />
+                                    <field name="payment_date" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

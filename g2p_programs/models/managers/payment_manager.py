@@ -5,7 +5,10 @@ import logging
 from io import StringIO
 from uuid import uuid4
 
-from odoo import Command, _, api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+
+from odoo.addons.queue_job.delay import group
 
 _logger = logging.getLogger(__name__)
 
@@ -64,82 +67,77 @@ class DefaultFilePaymentManager(models.Model):
     _inherit = ["g2p.base.program.payment.manager", "g2p.manager.source.mixin"]
     _description = "Default Payment Manager"
 
-    create_batch = fields.Boolean("Automatically Create Batch")
+    MAX_PAYMENTS_FOR_SYNC_PREPARE = 200
+    MAX_BATCHES_FOR_SYNC_SEND = 50
+
     currency_id = fields.Many2one(
         "res.currency", related="program_id.journal_id.currency_id", readonly=True
     )
 
-    # TODO: optimize code to do in a single query.
-    def prepare_payments(self, cycle):
-        entitlements = cycle.entitlement_ids.filtered(lambda a: a.state == "approved")
-        if entitlements:
-            entitlements_ids = entitlements.ids
+    create_batch = fields.Boolean("Automatically Create Batch")
 
-            # Filter out entitlements without payments
-            entitlements_with_payments = (
-                self.env["g2p.payment"]
-                .search([("entitlement_id", "in", entitlements_ids)])
-                .mapped("entitlement_id.id")
-            )
+    batch_tag_ids = fields.Many2many(
+        "g2p.payment.batch.tag",
+        "g2p_pay_batch_tag_pay_manager_def",
+        string="Batch Tags",
+        ondelete="cascade",
+    )
+    # batch_tag_ids = fields.One2many("g2p.payment.batch.tag", "default_payment_manager_id", string="Batch Tags")
 
-            # Todo: fix issue with variable payments_to_create is generating list of list
-            if entitlements_with_payments:
-                payments_to_create = [
-                    entitlements_ids
-                    for entitlement_id in entitlements_ids
-                    if entitlement_id not in entitlements_with_payments
-                ]
-            else:
-                payments_to_create = entitlements_ids
+    @api.onchange("create_batch")
+    def on_change_create_batch(self):
+        self.batch_tag_ids = [
+            (5,),
+            (
+                0,
+                0,
+                {
+                    "name": f"Default {self.program_id.name}",
+                    "order": 1,
+                },
+            ),
+        ]
 
-            entitlements_with_payments_to_create = self.env["g2p.entitlement"].browse(
-                payments_to_create
-            )
-            # _logger.debug("DEBUG! payments_to_create: %s", payments_to_create)
-
-            vals = []
-            payments_to_add_ids = []
-            for entitlement_id in entitlements_with_payments_to_create:
-                payment = self.env["g2p.payment"].create(
-                    {
-                        "name": str(uuid4()),
-                        "entitlement_id": entitlement_id.id,
-                        "cycle_id": entitlement_id.cycle_id.id,
-                        "amount_issued": entitlement_id.initial_amount,
-                        "payment_fee": entitlement_id.transfer_fee,
-                        "state": "issued",
-                        # "account_number": self._get_account_number(entitlement_id),
-                    }
-                )
-                # Link the issued payment record to the many2many field payment_ids.
-                # vals.append((Command.LINK, payment.id))
-                vals.append(Command.link(payment.id))
-                payments_to_add_ids.append(payment.id)
-            if payments_to_add_ids:
-                # Create payment batch
-                if self.create_batch:
-                    new_batch_vals = {
-                        "cycle_id": cycle.id,
-                        "payment_ids": vals,
-                        "stats_datetime": fields.Datetime.now(),
-                    }
-                    batch = self.env["g2p.payment.batch"].create(new_batch_vals)
-                    # Update processed payments batch_id
-                    self.env["g2p.payment"].browse(payments_to_add_ids).update(
-                        {"batch_id": batch.id}
+    @api.constrains("batch_tag_ids")
+    def constrains_batch_tag_ids(self):
+        for rec in self:
+            if rec.create_batch:
+                if not len(rec.batch_tag_ids):
+                    raise ValidationError(_("Batch Tags list cannot be empty."))
+                if rec.batch_tag_ids.sorted("order")[-1].domain != "[]":
+                    raise ValidationError(
+                        _("Last tag in the Batch Tags list must contain empty domain.")
                     )
 
-                kind = "success"
-                message = _("%s new payments was issued.", len(payments_to_add_ids))
-                links = [
-                    {
-                        "label": "Refresh Page",
-                    }
-                ]
-                refresh = " %s"
+    def prepare_payments(self, cycle, entitlements=None):
+        if not entitlements:
+            entitlements = cycle.entitlement_ids.filtered(
+                lambda a: a.state == "approved"
+            )
+        else:
+            entitlements = entitlements.filtered(lambda a: a.state == "approved")
+        entitlements_count = len(entitlements)
+        if entitlements_count:
+            if entitlements_count < self.MAX_PAYMENTS_FOR_SYNC_PREPARE:
+                payments, batches = self._prepare_payments(cycle, entitlements)
+                if payments:
+                    kind = "success"
+                    message = _("%s new payments was issued.", len(payments))
+                    links = [
+                        {
+                            "label": "Refresh Page",
+                        }
+                    ]
+                    refresh = " %s"
+                else:
+                    kind = "danger"
+                    message = _("There are no new payments issued!")
+                    links = []
+                    refresh = ""
             else:
-                kind = "danger"
-                message = _("There are no new payments issued!")
+                self._prepare_payments_async(cycle, entitlements, entitlements_count)
+                kind = "success"
+                message = _("Preparing Payments Asynchronously.")
                 links = []
                 refresh = ""
         else:
@@ -160,7 +158,100 @@ class DefaultFilePaymentManager(models.Model):
             },
         }
 
+    def _prepare_payments(self, cycle, entitlements):
+        if not entitlements:
+            return None, None
+        # Filter out entitlements without payments
+        entitlements = entitlements.filtered(
+            lambda x: x.state == "approved"
+            and all(payment.status == "failed" for payment in x.payment_ids)
+        )
+
+        is_create_batch = self.create_batch
+
+        # payments is a recordset of g2p.payment
+        # batches is a recordset of g2p.payment.batch
+        # curr_batch is loop variable.
+        payments = None
+        batches = None
+        curr_batch = None
+        for batch_tag in self.batch_tag_ids:
+            domain = self._safe_eval(batch_tag.domain)
+            # The following filtered_domain line is causing a problem in a particular use case
+            # hence using another way for now
+            # tag_entitlements = entitlements.filtered_domain(domain)
+            tag_entitlements = entitlements & entitlements.search(domain)
+            entitlements -= tag_entitlements
+            max_batch_size = batch_tag.max_batch_size
+
+            for i, entitlement_id in enumerate(tag_entitlements):
+                payment = self.env["g2p.payment"].create(
+                    {
+                        "name": str(uuid4()),
+                        "entitlement_id": entitlement_id.id,
+                        "cycle_id": entitlement_id.cycle_id.id,
+                        "amount_issued": entitlement_id.initial_amount,
+                        "payment_fee": entitlement_id.transfer_fee,
+                        "state": "issued",
+                    }
+                )
+                if not payments:
+                    payments = payment
+                else:
+                    payments += payment
+                if is_create_batch:
+                    if i % max_batch_size == 0:
+                        curr_batch = self.env["g2p.payment.batch"].create(
+                            {
+                                "name": str(uuid4()),
+                                "cycle_id": cycle.id,
+                                "stats_datetime": fields.Datetime.now(),
+                                "tag_id": batch_tag.id,
+                            }
+                        )
+                        if not batches:
+                            batches = curr_batch
+                        else:
+                            batches += curr_batch
+                    curr_batch.payment_ids = [(4, payment.id)]
+                    payment.batch_id = curr_batch
+        return payments, batches
+
+    def _prepare_payments_async(self, cycle, entitlements, entitlements_count):
+        _logger.debug("Prepare Payments asynchronously")
+        cycle.message_post(
+            body=_("Prepare payments started for %s entitlements.", entitlements_count)
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Prepare payments for entitlements in cycle."),
+            }
+        )
+
+        # Right now this is not divided into subjobs
+        main_job = group(
+            [
+                self.delayable()._prepare_payments(cycle, entitlements),
+            ]
+        )
+        main_job.on_done(
+            self.delayable().mark_job_as_done(cycle, _("Prepared payments."))
+        )
+        main_job.delay()
+
     def send_payments(self, batches):
+        # TODO: Return client action with proper message.
+        batches_count = len(batches)
+        if batches_count < self.MAX_BATCHES_FOR_SYNC_SEND:
+            self._send_payments(batches)
+        else:
+            cycles, cycle_batches = self._group_batches_by_cycle(batches)
+            for batches in cycle_batches:
+                cycle = batches[0].cycle_id
+                self._send_payments_async(cycle, batches)
+
+    def _send_payments(self, batches):
         # Create a payment list (CSV)
         # _logger.debug("DEBUG! send_payments Manager: DEFAULT")
         for rec in batches:
@@ -209,6 +300,37 @@ class DefaultFilePaymentManager(models.Model):
             )
 
             # _logger.debug("DEFAULT Payment Manager: data: %s" % csv_data)
+
+    def _send_payments_async(self, cycle, batches):
+        _logger.debug("Send Payments asynchronously")
+        cycle.message_post(
+            body=_("Send payments started for %s batches.", len(batches))
+        )
+        cycle.write(
+            {
+                "locked": True,
+                "locked_reason": _("Send payments for batches in cycle."),
+            }
+        )
+
+        # Right now this is not divided into subjobs
+        main_job = group(
+            [
+                self.delayable()._send_payments(batches),
+            ]
+        )
+        main_job.on_done(
+            self.delayable().mark_job_as_done(cycle, _("Send payments completed."))
+        )
+        main_job.delay()
+
+    @api.model
+    def _group_batches_by_cycle(self, batches):
+        cycles = set(map(lambda x: x.cycle_id, batches))
+        cycle_batches = [
+            batches.filtered_domain([("cycle_id", "=", cycle.id)]) for cycle in cycles
+        ]
+        return cycles, cycle_batches
 
     def _get_account_number(self, entitlement):
         return entitlement.partner_id.get_payment_token(entitlement.program_id)

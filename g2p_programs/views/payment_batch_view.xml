@@ -13,6 +13,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <field name="program_id" />
                 <field name="cycle_id" />
                 <field name="external_batch_ref" />
+                <field name="tag_id" />
+                <field name="batch_has_started" />
                 <field name="batch_has_completed" />
                 <field name="stats_datetime" />
                 <field name="payment_ids" string="# Payments" />
@@ -46,6 +48,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <field name="name" readonly="1" />
                         <field name="program_id" readonly="1" options="{'no_open':true}" />
                         <field name="external_batch_ref" />
+                        <field name="tag_id" />
+                        <field name="batch_has_started" />
                         <field name="batch_has_completed" />
                     </group>
                     <notebook>
@@ -78,12 +82,18 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <field name="company_id" groups="base.group_multi_company" />
                                     <field
                                         name="state"
-                                        decoration-primary="state=='sent'"
-                                        decoration-success="state=='paid'"
-                                        decoration-warning="state=='issued'"
-                                        decoration-danger="state=='failed'"
+                                        decoration-primary="state=='issued'"
+                                        decoration-warning="state=='sent'"
+                                        decoration-success="state=='reconciled'"
                                         widget="badge"
                                         string="State"
+                                    />
+                                    <field
+                                        name="status"
+                                        decoration-success="status=='paid'"
+                                        decoration-danger="status=='failed'"
+                                        widget="badge"
+                                        string="Payment Status"
                                     />
                                 </tree>
                             </field>
@@ -115,7 +125,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
     </record>
 
     <record id="action_payment_batch" model="ir.actions.act_window">
-        <field name="name">Payments</field>
+        <field name="name">Payment Batches</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">g2p.payment.batch</field>
         <field name="view_mode">tree,form</field>

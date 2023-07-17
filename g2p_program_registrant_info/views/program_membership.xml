@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_program_membership_reg_info_form" model="ir.ui.view">
+        <field name="name">view_program_membership_reg_info_form</field>
+        <field name="model">g2p.program_membership</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_membership_form" />
+        <field name="priority">920</field>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='entitlement']" position="before">
+                <page name="program_registrant_info" string="Registrant Info">
+                    <field name="program_registrant_info_ids" readonly="1" nolabel="1">
+                        <tree default_order="create_date desc">
+                            <field name="create_date" invisible="1" />
+                            <field name="program_registrant_info" widget="g2p_addl_info_widget" />
+                            <field name="application_id" />
+                            <field name="state" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='ids']" position="replace">
+                <page string="Bank Details" name="banks">
+                    <field name="bank_ids" nolabel="1">
+                        <tree>
+                            <field name="bank_id" />
+                            <field name="acc_number" />
+                            <field name="acc_type" invisible="1" />
+                            <field name="iban" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//page[@name='banks']" position="replace">
+                <page string="IDs" name="ids">
+                    <field name="reg_ids" nolabel="1">
+                        <tree>
+                            <field name="id_type" />
+                            <field name="value" string="ID Number" />
+                            <field name="expiry_date" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//field[@name='registrant_id']/.." position="inside">
+                <field
+                    name="latest_registrant_info_status"
+                    string="Latest Application Status"
+                    decoration-danger="latest_registrant_info_status=='rejected'"
+                />
+            </xpath>
+            <xpath expr="//button[@name='deduplicate_beneficiaries']" position="after">
+                <button
+                    name="create_program_registrant_info"
+                    type="object"
+                    string="Create Application"
+                    class="btn-primary"
+                    attrs="{'invisible': [('latest_registrant_info_status', 'in', ('active', 'inprogress'))]}"
+                />
+            </xpath>
+        </field>
+    </record>
+</odoo>

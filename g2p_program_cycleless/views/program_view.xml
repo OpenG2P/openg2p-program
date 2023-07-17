@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_program_ext_cycleless_form" model="ir.ui.view">
+        <field name="name">view_program_ext_cycleless_form</field>
+        <field name="model">g2p.program</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_list_form" />
+        <field name="priority">118</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <field name="is_cycleless" invisible="1" />
+            </xpath>
+            <xpath expr="//button[@name='create_new_cycle']" position="replace">
+                <button
+                    name="create_new_cycle"
+                    type="object"
+                    string="Create New Cycle"
+                    icon="fa-undo"
+                    class="btn-primary"
+                    attrs="{'invisible':['!', '&amp;', ('is_cycleless', '!=', True), ('state','=','active')]}"
+                />
+            </xpath>
+            <xpath expr="//field[@name='cycle_ids']/.." position="attributes">
+                <attribute name="attrs">
+                    {'invisible':[('is_cycleless', '=', True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='open_cycles_form']" position="attributes">
+                <attribute name="attrs">
+                    {'invisible':[('is_cycleless', '=', True)]}
+                </attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <field name="show_prepare_payments_button" invisible="1" />
+                <field name="show_send_payments_button" invisible="1" />
+                <button
+                    name="prepare_payments_cycleless"
+                    type="object"
+                    string="Prepare Payments"
+                    icon="fa-file-text-o"
+                    class="btn-primary"
+                    attrs="{'invisible':['!', ('show_prepare_payments_button', '=', True)]}"
+                />
+                <button
+                    name="send_payments_cycleless"
+                    type="object"
+                    string="Send Payments"
+                    icon="fa-thumbs-o-up"
+                    class="btn-success"
+                    attrs="{'invisible':['!', ('show_send_payments_button', '=', True)]}"
+                />
+            </xpath>
+            <xpath expr="//button[@name='open_cycles_form']" position="after">
+                <button
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-folder-open-o"
+                    name="open_entitlements_form"
+                    attrs="{'invisible':[('is_cycleless', '!=', True)]}"
+                >
+                    <div class="o_form_field o_stat_info">
+                        <field name="entitlements_count" class="o_stat_value" />
+                        <span class="o_stat_text"><field name="show_entitlement_field_name" /></span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree view Inheritance for program-->
+    <record id="view_program_list_inherit_program_tree" model="ir.ui.view">
+        <field name="name">view_program_inherit_program_list</field>
+        <field name="model">g2p.program</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_list_tree" />
+        <field name="arch" type="xml">
+            <field name="cycles_count" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

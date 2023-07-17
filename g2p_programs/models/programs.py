@@ -39,6 +39,7 @@ class G2PProgram(models.Model):
             return None
 
     name = fields.Char(required=True)
+    description = fields.Text(string="description")
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company)
     target_type = fields.Selection(
         selection=[("group", "Group"), ("individual", "Individual")], default="group"
@@ -96,9 +97,13 @@ class G2PProgram(models.Model):
 
     # Statistics
     eligible_beneficiaries_count = fields.Integer(
-        string="# Eligible Beneficiaries", readonly=True
+        string="# Eligible Beneficiaries",
+        readonly=True,
+        compute="_compute_eligible_beneficiary_count",
     )
-    beneficiaries_count = fields.Integer(string="# Beneficiaries", readonly=True)
+    beneficiaries_count = fields.Integer(
+        string="# Beneficiaries", readonly=True, compute="_compute_beneficiary_count"
+    )
 
     cycles_count = fields.Integer(
         string="# Cycles", compute="_compute_cycle_count", store=True
@@ -176,7 +181,6 @@ class G2PProgram(models.Model):
                 ret_vals.update({mgr_fld: mgr.id})
         return ret_vals
 
-    @api.depends("program_membership_ids")
     def _compute_duplicate_membership_count(self):
         for rec in self:
             count = rec.count_beneficiaries(["duplicated"])["value"]

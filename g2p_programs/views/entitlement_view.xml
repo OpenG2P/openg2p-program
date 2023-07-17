@@ -129,6 +129,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             string="Service Fee Entry"
                             readonly="1"
                         />
+                        <field name="payment_status" colspan="4" />
+                        <field name="payment_date" colspan="4" />
                         <field name="currency_id" invisible="1" />
                     </group>
                 </sheet>
@@ -158,6 +160,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <filter name="approved_state" string="Approved" domain="[('state','=','approved')]" />
                 <filter name="cancelled_state" string="Cancelled" domain="[('state','=','cancelled')]" />
                 <filter name="expired_state" string="Exited" domain="[('state','=','expired')]" />
+                <separator />
+                <filter name="to_be_paid" string="To be Paid" domain="[('payment_ids','=',False)]" />
+                <filter
+                    name="payment_in_progress"
+                    string="Payment In Progress"
+                    domain="[('payment_ids','!=',False)]"
+                />
                 <group expand="0" string="Group By">
                     <filter string="Valid From" name="valid_from" context="{'group_by':'valid_from'}" />
                     <filter string="Valid Until" name="valid_until" context="{'group_by':'valid_until'}" />

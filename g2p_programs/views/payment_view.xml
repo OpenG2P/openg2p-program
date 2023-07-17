@@ -31,8 +31,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 />
                 <field
                     name="status"
-                    decoration-success="state=='paid'"
-                    decoration-danger="state=='failed'"
+                    decoration-success="status=='paid'"
+                    decoration-danger="status=='failed'"
                     widget="badge"
                     string="Payment Status"
                 />
@@ -109,7 +109,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <field name="entitlement_id" readonly="1" options="{'no_open':true}" />
                         <field
                             name="account_number"
-                            attrs="{'readonly':[('state','in',('paid','failed'))]}"
+                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
                         />
                         <field name="cycle_id" readonly="1" options="{'no_open':true}" />
                         <field name="batch_id" readonly="1" options="{'no_open':true}" />
@@ -119,18 +119,24 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             groups="base.group_multi_company"
                             options="{'no_create': True}"
                             force_save="1"
-                            attrs="{'readonly':[('state','in',('paid','failed'))]}"
+                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
                         />
                     </group>
                     <group string="Payment" colspan="4" col="4">
-                        <field name="amount_issued" attrs="{'readonly':[('state','in',('paid','failed'))]}" />
-                        <field name="issuance_date" attrs="{'readonly':[('state','in',('paid','failed'))]}" />
-                        <field name="amount_paid" attrs="{'readonly':[('state','in',('paid','failed'))]}" />
+                        <field
+                            name="amount_issued"
+                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
+                        />
+                        <field
+                            name="issuance_date"
+                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
+                        />
+                        <field name="amount_paid" attrs="{'readonly':[('status','in',('paid','failed'))]}" />
                         <field
                             name="payment_datetime"
-                            attrs="{'readonly':[('state','in',('paid','failed'))]}"
+                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
                         />
-                        <field name="payment_fee" attrs="{'readonly':[('state','in',('paid','failed'))]}" />
+                        <field name="payment_fee" attrs="{'readonly':[('status','in',('paid','failed'))]}" />
                         <field name="currency_id" invisible="1" />
                         <field name="status" invisible="1" />
                     </group>
@@ -155,12 +161,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <separator />
                 <filter name="issued_state" string="Issued" domain="[('state','=','issued')]" />
                 <filter name="sent_state" string="Sent" domain="[('state','=','sent')]" />
-                <filter name="paid_state" string="Paid" domain="[('state','=','paid')]" />
-                <filter name="failed_state" string="Failed" domain="[('state','=','failed')]" />
+                <filter name="paid_status" string="Paid" domain="[('status','=','paid')]" />
+                <filter name="failed_status" string="Failed" domain="[('status','=','failed')]" />
                 <group expand="0" string="Group By">
                     <filter string="Cycle" name="grp_cycle" context="{'group_by': 'cycle_id'}" />
                     <separator orientation="vertical" />
                     <filter string="State" name="grp_state" context="{'group_by': 'state'}" />
+                    <filter string="Status" name="grp_status" context="{'group_by': 'status'}" />
                     <filter string="Company" name="grp_company_id" context="{'group_by': 'company_id'}" />
                 </group>
                 <!-- <searchpanel>

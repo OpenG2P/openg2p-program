@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_entitlement_ext_reimbursement_form" model="ir.ui.view">
+        <field name="name">view_entitlement_ext_reimbursement_form</field>
+        <field name="model">g2p.entitlement</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='cycle_id']/.." position="inside">
+                <!-- TODO: Edit the below domain to include
+                program_membership_ids.program_id in program_id.reimbursement_program_id.id -->
+                <field
+                    name="service_provider_id"
+                    attrs="{'readonly':[('state','!=','draft')]}"
+                    options="{'no_open':True,'no_quick_create':True,'no_create':True}"
+                    domain="[('supplier_rank', '>', 0)]"
+                />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_entitlement_reimbursement_form" model="ir.ui.view">
+        <field name="name">view_entitlement_reimbursement_form</field>
+        <field name="model">g2p.entitlement</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">
+                    0
+                </attribute>
+            </xpath>
+            <xpath expr="//button[@name='approve_entitlement']" position="attributes">
+                <attribute name="string">
+                    Approve Reimbursement
+                </attribute>
+            </xpath>
+            <xpath expr="//label[@for='name']" position="attributes">
+                <attribute name="string">
+                    Reimbursement:
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="string">
+                    Service Provider
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='initial_amount']" position="attributes">
+                <attribute name="string">
+                    Actual Amount
+                </attribute>
+            </xpath>
+            <xpath expr="//field[@name='initial_amount']" position="after">
+                <field name="recommended_amount" string="Recommended Amount" />
+            </xpath>
+            <field name="service_provider_id" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+        </field>
+    </record>
+    <record id="view_entitlement_reimbursement_tree" model="ir.ui.view">
+        <field name="name">view_entitlement_reimbursement_tree</field>
+        <field name="model">g2p.entitlement</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_tree" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+             <field name="partner_id" position="attributes">
+                <attribute name="string">Service Provider</attribute>
+            </field>
+            <field name="valid_from" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+            <field name="valid_until" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
+         </field>
+    </record>
+
+    <record id="action_reimbursement" model="ir.actions.act_window">
+        <field name="name">Reimbursements</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">g2p.entitlement</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="g2p_programs.entitlement_filter" />
+        <field name="context">{}</field>
+        <field name="domain">[("cycle_id", "=", context.get('default_cycle_id'))]</field>
+    </record>
+
+    <record id="action_reimbursement_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_entitlement_reimbursement_tree" />
+        <field name="act_window_id" ref="action_reimbursement" />
+    </record>
+
+    <record id="action_reimbursement_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_entitlement_reimbursement_form" />
+        <field name="act_window_id" ref="action_reimbursement" />
+    </record>
+</odoo>

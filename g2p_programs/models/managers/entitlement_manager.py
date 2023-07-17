@@ -41,7 +41,7 @@ class BaseEntitlementManager(models.AbstractModel):
         This method is used to prepare the entitlement list of the beneficiaries.
         :param cycle: The cycle.
         :param beneficiaries: The beneficiaries.
-        :return:
+        :return entitlements:
         """
         raise NotImplementedError()
 
@@ -363,7 +363,7 @@ class DefaultCashEntitlementManager(models.Model):
         This method is used to prepare the entitlement list of the beneficiaries.
         :param cycle: The cycle.
         :param beneficiaries: The beneficiaries.
-        :return:
+        :return entitlements:
         """
         benecifiaries_ids = beneficiaries.mapped("partner_id.id")
 
@@ -415,7 +415,8 @@ class DefaultCashEntitlementManager(models.Model):
                 }
             )
         if entitlements:
-            self.env["g2p.entitlement"].create(entitlements)
+            return self.env["g2p.entitlement"].create(entitlements)
+        return None
 
     def set_pending_validation_entitlements(self, cycle):
         """Set entitlements to pending validation.
@@ -659,3 +660,12 @@ class DefaultCashEntitlementManager(models.Model):
             "type": "ir.actions.act_window",
             "target": "new",
         }
+
+    @api.model
+    def _group_entitlements_by_cycle(self, entitlements):
+        cycles = set(map(lambda x: x.cycle_id, entitlements))
+        cycle_entitlements = [
+            entitlements.filtered_domain([("cycle_id", "=", cycle.id)])
+            for cycle in cycles
+        ]
+        return cycles, cycle_entitlements

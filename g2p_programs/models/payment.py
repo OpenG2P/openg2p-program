@@ -109,6 +109,7 @@ class G2PPaymentBatch(models.Model):
     )
     external_batch_ref = fields.Char("External Batch Reference #")
 
+    batch_has_started = fields.Boolean()
     batch_has_completed = fields.Boolean()
 
     payment_ids = fields.Many2many("g2p.payment", string="Payments")
@@ -134,8 +135,24 @@ class G2PPaymentBatch(models.Model):
 
     stats_datetime = fields.Datetime("Statistics Date/Time")
 
+    tag_id = fields.Many2one("g2p.payment.batch.tag", string="Tag")
+
     def send_payment(self):
         # 1. Issue the payment of the beneficiaries using payment_manager.send_payments()
         return self.program_id.get_manager(
             self.program_id.MANAGER_PAYMENT
         ).send_payments(self)
+
+
+class G2PPaymentBatchTag(models.Model):
+    _name = "g2p.payment.batch.tag"
+    _description = "Payment Batch Tag"
+    _order = "order asc"
+
+    name = fields.Char()
+
+    order = fields.Integer()
+
+    domain = fields.Text(default="[]")
+
+    max_batch_size = fields.Integer(default=500)
