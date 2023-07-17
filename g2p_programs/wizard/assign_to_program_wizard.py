@@ -34,7 +34,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
     program_id = fields.Many2one(
         "g2p.program",
         "",
-        domain="[('target_type', '=', target_type)]",
+        domain="[('target_type', '=', target_type), ('state', '=', 'active')]",
         help="A program",
         required=True,
     )
