@@ -10,7 +10,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <field name="program_id" position="attributes">
-                <attribute name="domain">[('is_reimbursement_program', '=', True)]</attribute>
+                <attribute
+                    name="domain"
+                >[('is_reimbursement_program', '=', True), ('state', '=', 'active')]</attribute>
             </field>
         </field>
     </record>

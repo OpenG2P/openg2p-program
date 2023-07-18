@@ -17,8 +17,8 @@ odoo.define("g2p_program_documents.legacy.DocumentViewer", function (require) {
             "click .o_zoom_out": "_onZoomOut",
             "click .o_zoom_reset": "_onZoomReset",
             "click .o_close_btn, .o_viewer_img_wrapper": "_onClose",
-            "DOMMouseScroll .o_viewer_content": "_onScroll", // Firefox
-            "mousewheel .o_viewer_content": "_onScroll", // Chrome, Safari, IE
+            "DOMMouseScroll .o_viewer_content": "_onScroll",
+            "mousewheel .o_viewer_content": "_onScroll",
             "mousedown .o_viewer_img": "_onStartDrag",
             "mousemove .o_viewer_content": "_onDrag",
             "mouseup .o_viewer_content": "_onEndDrag",
@@ -100,7 +100,9 @@ odoo.define("g2p_program_documents.legacy.DocumentViewer", function (require) {
             this._reset();
             var new_angle = (this.angle || 0) + angle;
             this.$(".o_viewer_img").css("transform", this._getTransform(this.scale, new_angle));
+            // eslint-disable-next-line no-negated-condition
             this.$(".o_viewer_img").css("max-width", new_angle % 180 !== 0 ? $(document).height() : "100%");
+            // eslint-disable-next-line no-negated-condition
             this.$(".o_viewer_img").css("max-height", new_angle % 180 !== 0 ? $(document).width() : "100%");
             this.angle = new_angle;
         },
@@ -182,7 +184,7 @@ odoo.define("g2p_program_documents.legacy.DocumentViewer", function (require) {
         },
 
         _onScroll: function (e) {
-            var scale;
+            var scale = 0;
             if (e.originalEvent.wheelDelta > 0 || e.originalEvent.detail < 0) {
                 scale = this.scale + SCROLL_ZOOM_STEP;
                 this._zoom(scale);
@@ -250,11 +252,12 @@ odoo.define("g2p_program_documents.form_controller_one2many", function (require)
                     .closest(".o_data_row")
                     .find('.o_list_char[name="' + slugField + '"]');
                 var slugText = $slugElement.text();
-                var recordID;
+                var recordID = 0;
                 if (slugText.includes("-")) {
                     var parts = slugText.split("-");
                     var lastPart = parts[parts.length - 1].split(".")[0];
                     if (!isNaN(lastPart)) {
+                        // eslint-disable-next-line radix
                         recordID = parseInt(lastPart);
                     }
                 }
@@ -271,6 +274,7 @@ odoo.define("g2p_program_documents.form_controller_one2many", function (require)
                 method: "get_binary",
                 args: [[recordID]],
             }).then(function (result) {
+                // eslint-disable-next-line radix
                 var attach_id = parseInt(result.id);
                 var mimetype = result.mimetype;
                 var indexContent = result.index_content || "";
