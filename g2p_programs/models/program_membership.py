@@ -259,7 +259,7 @@ class G2PProgramMembership(models.Model):
                 "params": {
                     "title": _("Deduplication"),
                     "message": message,
-                    "sticky": True,
+                    "sticky": False,
                     "type": kind,
                     "next": {
                         "type": "ir.actions.act_window_close",

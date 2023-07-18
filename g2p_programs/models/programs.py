@@ -262,13 +262,53 @@ class G2PProgram(models.Model):
 
     def enroll_eligible_registrants(self):
         for rec in self:
-            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants()
+            program_manager = rec.get_manager(self.MANAGER_PROGRAM)
+            if program_manager:
+                return program_manager.enroll_eligible_registrants()
+
+            else:
+                message = _("No Program Manager defined.")
+                kind = "danger"
+
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Enrollement"),
+                        "message": message,
+                        "sticky": False,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                    },
+                }
 
     def verify_eligibility(self):
         for rec in self:
-            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants(
-                ["enrolled", "not_eligible"]
-            )
+            program_manager = rec.get_manager(self.MANAGER_PROGRAM)
+            if program_manager:
+                return program_manager.enroll_eligible_registrants(
+                    ["enrolled", "not_eligible"]
+                )
+
+            else:
+                message = _("No Program Manager defined.")
+                kind = "danger"
+
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Enrollement"),
+                        "message": message,
+                        "sticky": False,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                    },
+                }
 
     def deduplicate_beneficiaries(self):
         for rec in self:
@@ -295,7 +335,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Deduplication"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -329,7 +369,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Cycle"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",

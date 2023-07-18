@@ -175,22 +175,33 @@ class G2PCycle(models.Model):
     def copy_beneficiaries_from_program(self):
         # _logger.debug("Copying beneficiaries from program, cycles: %s", cycles)
         self.ensure_one()
-        return self.program_id.get_manager(
-            constants.MANAGER_CYCLE
-        ).copy_beneficiaries_from_program(self)
+        cycle_manager = self.program_id.get_manager(constants.MANAGER_CYCLE)
+        if cycle_manager:
+            cycle_manager.copy_beneficiaries_from_program(self)
+        else:
+            return self.display_error_message(manager="Cycle", title="Enrollement")
 
     def check_eligibility(self, beneficiaries=None):
-        self.program_id.get_manager(constants.MANAGER_CYCLE).check_eligibility(
-            self, beneficiaries
-        )
+        cycle_manager = self.program_id.get_manager(constants.MANAGER_CYCLE)
+
+        if cycle_manager:
+            cycle_manager.check_eligibility(self, beneficiaries)
+        else:
+            return self.display_error_message(manager="Cycle", title="Enrollement")
 
     def to_approve(self):
         for rec in self:
             if rec.state == self.STATE_DRAFT:
-                rec.update({"state": self.STATE_TO_APPROVE})
-                self.program_id.get_manager(
+                entitlement_manager = self.program_id.get_manager(
                     constants.MANAGER_ENTITLEMENT
-                ).set_pending_validation_entitlements(self)
+                )
+                if entitlement_manager:
+                    rec.update({"state": self.STATE_TO_APPROVE})
+                    entitlement_manager.set_pending_validation_entitlements(self)
+                else:
+                    return self.display_error_message(
+                        manager="Entitlement", title="Cycle"
+                    )
             else:
                 message = _("Ony 'draft' cycles can be set for approval.")
                 kind = "danger"
@@ -201,7 +212,7 @@ class G2PCycle(models.Model):
                     "params": {
                         "title": _("Cycle"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -223,7 +234,7 @@ class G2PCycle(models.Model):
                     "params": {
                         "title": _("Cycle"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -236,9 +247,13 @@ class G2PCycle(models.Model):
         # 2. Approve the cycle using the cycle manager
         for rec in self:
             cycle_manager = rec.program_id.get_manager(constants.MANAGER_CYCLE)
+            if not cycle_manager:
+                return self.display_error_message(manager="Cycle", title="Cycle")
             entitlement_manager = rec.program_id.get_manager(
                 constants.MANAGER_ENTITLEMENT
             )
+            if not entitlement_manager:
+                return self.display_error_message(manager="Entitlement", title="Cycle")
             return cycle_manager.approve_cycle(
                 rec,
                 auto_approve=cycle_manager.auto_approve_entitlements,
@@ -251,19 +266,24 @@ class G2PCycle(models.Model):
 
     def prepare_entitlement(self):
         # 1. Prepare the entitlement of the beneficiaries using entitlement_manager.prepare_entitlements()
-        self.program_id.get_manager(constants.MANAGER_CYCLE).prepare_entitlements(self)
+        cycle_manager = self.program_id.get_manager(constants.MANAGER_CYCLE)
+        if not cycle_manager:
+            return self.display_error_message(manager="Cycle", title="Entitlement")
+        cycle_manager.prepare_entitlements(self)
 
     def prepare_payment(self):
         # 1. Issue the payment of the beneficiaries using payment_manager.prepare_payments()
-        return self.program_id.get_manager(constants.MANAGER_PAYMENT).prepare_payments(
-            self
-        )
+        payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
+        if not payment_manager:
+            return self.display_error_message(manager="Payment", title="Payment")
+        payment_manager.prepare_payments(self)
 
     def send_payment(self):
         # 1. Send the payments using payment_manager.send_payments()
-        return self.program_id.get_manager(constants.MANAGER_PAYMENT).send_payments(
-            self.payment_batch_ids
-        )
+        payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
+        if not payment_manager:
+            return self.display_error_message(manager="Payment", title="Payment")
+        payment_manager.send_payments(self.payment_batch_ids)
 
     def mark_distributed(self):
         # 1. Mark the cycle as distributed using the cycle manager
@@ -280,9 +300,10 @@ class G2PCycle(models.Model):
     def validate_entitlement(self):
         # 1. Make sure the user has the right to do this
         # 2. Validate the entitlement of the beneficiaries using entitlement_manager.validate_entitlements()
-        return self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).validate_entitlements(self)
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        if not entitlement_manager:
+            return self.display_error_message(manager="Entitlement", title="Validate")
+        entitlement_manager.validate_entitlements(self)
 
     def export_distribution_list(self):
         # Not sure if this should be here.
@@ -295,11 +316,9 @@ class G2PCycle(models.Model):
         pass
 
     def open_cycle_form(self):
-        is_cash_entitlement = self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).IS_CASH_ENTITLEMENT
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
         hide_cash = True
-        if is_cash_entitlement:
+        if entitlement_manager and entitlement_manager.IS_CASH_ENTITLEMENT:
             hide_cash = False
 
         return {
@@ -332,9 +351,13 @@ class G2PCycle(models.Model):
         return action
 
     def open_entitlements_form(self):
-        return self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).open_entitlements_form(self)
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        if entitlement_manager:
+            return entitlement_manager.open_entitlements_form(self)
+        else:
+            return self.display_error_message(
+                manager="Entitlement", title="Entitlement"
+            )
 
     def open_payments_form(self):
         self.ensure_one()
@@ -361,3 +384,21 @@ class G2PCycle(models.Model):
         jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
         related_jobs = jobs.filtered(lambda r: self in r.args[0])
         return [("id", "in", related_jobs.ids)]
+
+    def display_error_message(self, manager, title):
+        message = _("No %s Manager defined.") % manager
+        kind = "danger"
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _(title),
+                "message": message,
+                "sticky": False,
+                "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
+            },
+        }
