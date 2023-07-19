@@ -317,7 +317,7 @@ class G2PProgram(models.Model):
             cycle_manager = rec.get_manager(self.MANAGER_CYCLE)
             program_manager = rec.get_manager(self.MANAGER_PROGRAM)
             if cycle_manager is None:
-                message = _("No Eligibility Manager defined.")
+                message = _("No Cycle Manager defined.")
                 kind = "danger"
             elif program_manager is None:
                 message = _("No Program Manager defined.")
