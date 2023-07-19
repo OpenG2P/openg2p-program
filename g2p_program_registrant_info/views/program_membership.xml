@@ -7,7 +7,7 @@
         <field name="priority">920</field>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='entitlement']" position="before">
-                <page name="program_registrant_info" string="Registrant Info">
+                <page name="program_registrant_info" string="Application Info">
                     <field name="program_registrant_info_ids" readonly="1" nolabel="1">
                         <tree default_order="create_date desc">
                             <field name="create_date" invisible="1" />
