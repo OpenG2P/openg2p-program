@@ -14,6 +14,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <xpath expr="//button[@name='approve_entitlement']" position="attributes">
                 <attribute name="states" />
                 <attribute name="attrs">{'invisible': ['!', ('show_approve_button', '=', True)]}</attribute>
+                <attribute name="class">btn-success oe_read_only</attribute>
             </xpath>
         </field>
     </record>
