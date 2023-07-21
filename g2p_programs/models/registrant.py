@@ -1,5 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-from odoo import api, fields, models
+from odoo import _, api, fields, models, tools
+from odoo.exceptions import ValidationError
 
 
 class G2PRegistrant(models.Model):
@@ -50,3 +51,11 @@ class G2PRegistrant(models.Model):
                 [("partner_id", "=", rec.id)]
             )
             rec.update({"cycles_count": cycles_count})
+
+    @api.constrains("email")
+    def _check_valid_email(self):
+        for record in self:
+            if record.email and not tools.single_email_re.match(record.email):
+                raise ValidationError(
+                    _("Invalid Email! Please enter a valid email address.")
+                )
