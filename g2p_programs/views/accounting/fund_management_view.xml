@@ -86,6 +86,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 name="program_id"
                                 options="{'no_create': True,'no_quick_create':True,'no_edit':True}"
                                 attrs="{'readonly':[('state','!=','draft')]}"
+                                domain="[('state','=','active')]"
                             />
                         </h2>
                         <div class="o_row">
