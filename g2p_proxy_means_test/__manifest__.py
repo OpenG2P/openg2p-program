@@ -11,9 +11,8 @@
     "depends": ["g2p_programs", "g2p_program_registrant_info"],
     "data": [
         "security/ir.model.access.csv",
-        "views/program_membership.xml",
         "views/proxy_means_test_view.xml",
-        "views/registry_form_view.xml",
+        "views/program_registrant_info.xml",
         "wizard/create_program_pmt_wizard.xml",
     ],
     "assets": {},

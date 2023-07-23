@@ -41,9 +41,8 @@ class G2PProgramRegistrantInfo(models.Model):
     _inherit = "g2p.program.registrant_info"
 
     pmt_score = fields.Integer("PMT Score", compute="_compute_pmt_score", store=True)
-    program_pmt_config = fields.Boolean(related="program_id.pmt_config", readonly=True)
 
-    @api.constrains("program_registrant_info")
+    @api.depends("program_id.proxy_means_params_ids", "program_registrant_info")
     def _compute_pmt_score(self):
 
         for rec in self:
