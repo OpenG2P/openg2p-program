@@ -123,29 +123,16 @@ class DefaultFilePaymentManager(models.Model):
                 if payments:
                     kind = "success"
                     message = _("%s new payments was issued.", len(payments))
-                    # Commented the refresh option
-                    # links = [
-                    #     {
-                    #         "label": "Refresh Page",
-                    #     }
-                    # ]
-                    # refresh = " %s"
                 else:
                     kind = "danger"
                     message = _("There are no new payments issued!")
-                    # links = []
-                    # refresh = ""
             else:
                 self._prepare_payments_async(cycle, entitlements, entitlements_count)
                 kind = "success"
                 message = _("Preparing Payments Asynchronously.")
-                # links = []
-                # refresh = ""
         else:
             kind = "danger"
             message = _("All entitlements selected are not approved!")
-            # links = []
-            # refresh = ""
 
         return {
             "type": "ir.actions.client",
@@ -153,7 +140,6 @@ class DefaultFilePaymentManager(models.Model):
             "params": {
                 "title": _("Payment"),
                 "message": message,
-                # "links": links,
                 "sticky": True,
                 "type": kind,
                 "next": {
