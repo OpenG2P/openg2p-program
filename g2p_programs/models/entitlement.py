@@ -186,31 +186,12 @@ class G2PEntitlement(models.Model):
                 )
 
     def approve_entitlement(self):
-        ent_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        state_err, message = self.program_id.get_manager(
+            constants.MANAGER_ENTITLEMENT
+        ).approve_entitlements(self)
 
-        if ent_manager:
-            state_err, message = ent_manager.approve_entitlements(self)
-
-            if state_err > 0:
-                kind = "danger"
-                return {
-                    "type": "ir.actions.client",
-                    "tag": "display_notification",
-                    "params": {
-                        "title": _("Entitlement"),
-                        "message": message,
-                        "sticky": False,
-                        "type": kind,
-                        "next": {
-                            "type": "ir.actions.act_window_close",
-                        },
-                    },
-                }
-
-        else:
-            message = _("No Entitlement Manager defined.")
+        if state_err > 0:
             kind = "danger"
-
             return {
                 "type": "ir.actions.client",
                 "tag": "display_notification",

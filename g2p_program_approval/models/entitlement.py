@@ -1,5 +1,4 @@
-from odoo import _, fields, models
-from odoo.exceptions import UserError
+from odoo import fields, models
 
 from odoo.addons.g2p_programs.models import constants
 
@@ -15,8 +14,4 @@ class G2PApprovalEntitlement(models.Model):
     def _compute_show_approve_button(self):
         for rec in self:
             ent_manager = rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-            if ent_manager:
-                rec.show_approve_button = ent_manager.show_approve_entitlements(rec)
-            else:
-                message = _("No Entitlement Manager defined.")
-                raise UserError(message)
+            rec.show_approve_button = ent_manager.show_approve_entitlements(rec)
