@@ -3,7 +3,7 @@ import logging
 from uuid import uuid4
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 from . import constants
 
@@ -186,25 +186,29 @@ class G2PEntitlement(models.Model):
                 )
 
     def approve_entitlement(self):
-        state_err, message = self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).approve_entitlements(self)
+        ent_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
 
-        if state_err > 0:
-            kind = "danger"
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": _("Entitlement"),
-                    "message": message,
-                    "sticky": True,
-                    "type": kind,
-                    "next": {
-                        "type": "ir.actions.act_window_close",
+        if ent_manager:
+            state_err, message = ent_manager.approve_entitlements(self)
+
+            if state_err > 0:
+                kind = "danger"
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Entitlement"),
+                        "message": message,
+                        "sticky": True,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
-                },
-            }
+                }
+
+        else:
+            raise UserError(_("No Entitlement Manager defined."))
 
     def open_entitlement_form(self):
         return self.program_id.get_manager(
