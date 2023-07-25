@@ -46,9 +46,10 @@ class G2pProgramRegistrantInfo(models.TransientModel):
                 if file and store:
                     binary_data = base64.b64decode(file.datas)
                     filestream = BytesIO(binary_data)
+                    document_extenstion = "." + file.mimetype.split("/")[1]
                     document_file = store.add_file(
                         filestream.read(),
-                        extension=None,
+                        extension=document_extenstion,
                         program_membership=program_membership,
                         tags=tags,
                     )
