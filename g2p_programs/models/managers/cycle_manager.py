@@ -3,7 +3,7 @@ import logging
 from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 from odoo.addons.queue_job.delay import group
 
@@ -362,8 +362,10 @@ class DefaultCycleManager(models.Model):
         beneficiaries = cycle.get_beneficiaries(
             ["enrolled"], offset=offset, limit=limit, order="id"
         )
-        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-        entitlement_manager.prepare_entitlements(cycle, beneficiaries)
+        ent_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        if not ent_manager:
+            raise UserError(_("No Entitlement Manager defined."))
+        ent_manager.prepare_entitlements(cycle, beneficiaries)
 
         if do_count:
             # Update Statistics
