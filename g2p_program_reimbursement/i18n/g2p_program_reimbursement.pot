@@ -1,0 +1,172 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_program_reimbursement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_cycle_reimbursement_form
+msgid "<span class=\"o_stat_text\">Reimbursements</span>"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_program_reimbursement_form
+msgid "<span class=\"o_stat_text\">Service Providers</span>"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,help:g2p_program_reimbursement.field_g2p_assign_program_wizard__program_id
+msgid "A program"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_entitlement_reimbursement_form
+msgid "Actual Amount"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model,name:g2p_program_reimbursement.model_g2p_assign_program_wizard
+msgid "Add Registrants to Program Wizard"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.actions.act_window,help:g2p_program_reimbursement.action_reimbursement_program
+msgid "Add a new program!"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_entitlement_reimbursement_form
+msgid "Approve Reimbursement"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.actions.act_window,help:g2p_program_reimbursement.action_reimbursement_program
+msgid "Click the create button to enter the new program information."
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model,name:g2p_program_reimbursement.model_g2p_program_create_wizard
+msgid "Create a New Program Wizard"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model,name:g2p_program_reimbursement.model_g2p_cycle
+msgid "Cycle"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model,name:g2p_program_reimbursement.model_g2p_program_entitlement_manager_default
+msgid "Default Entitlement Manager"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_cycle__edit_css
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_program__edit_css
+msgid "Edit Css"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: code:addons/g2p_program_reimbursement/models/entitlement.py:0
+#: model:ir.model,name:g2p_program_reimbursement.model_g2p_entitlement
+#, python-format
+msgid "Entitlement"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model,name:g2p_program_reimbursement.model_g2p_entitlement_create_wizard
+msgid "G2P Entitlement Create Wizard"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_entitlement__is_reimbursement
+msgid "Is Reimbursement"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_cycle__is_reimbursement_program
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_program__is_reimbursement_program
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_program_create_wizard__is_reimbursement_program
+msgid "Is Reimbursement Program"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_entitlement__reimbursement_original_entitlement_id
+msgid "Original Entitlement of this Reimbursement"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model,name:g2p_program_reimbursement.model_g2p_program
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_assign_program_wizard__program_id
+msgid "Program"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_entitlement_reimbursement_form
+msgid "Recommended Amount"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_entitlement__recommended_amount
+msgid "Recommended amount "
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: code:addons/g2p_program_reimbursement/models/entitlement.py:0
+#, python-format
+msgid "Reimbursement"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_entitlement__reimbursement_entitlement_ids
+msgid "Reimbursement Entitlement"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_program__reimbursement_program_id
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_program_ext_reimbursement_form
+msgid "Reimbursement Program"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.actions.act_window,name:g2p_program_reimbursement.action_reimbursement_program
+#: model:ir.ui.menu,name:g2p_program_reimbursement.menu_reimbursement_program_list
+msgid "Reimbursement Programs"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_entitlement_reimbursement_form
+msgid "Reimbursement:"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.actions.act_window,name:g2p_program_reimbursement.action_reimbursement
+msgid "Reimbursements"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_entitlement__service_provider_id
+#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_entitlement_create_wizard__service_provider_id
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_entitlement_reimbursement_form
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_entitlement_reimbursement_tree
+msgid "Service Provider"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: code:addons/g2p_program_reimbursement/models/programs.py:0
+#, python-format
+msgid "Service Providers"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_program_list_reimbursement_tree
+msgid "Vendors list"
+msgstr ""

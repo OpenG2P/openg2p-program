@@ -13,6 +13,17 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <xpath expr="//field[@name='entitlements_count']/../span" position="replace">
                 <span class="o_stat_text">Reimbursements</span>
             </xpath>
+
+        </field>
+    </record>
+    <record id="view_cycle_reimbursement_form_inherit" model="ir.ui.view">
+        <field name="name">view_cycle_reimbursement_form_inherit</field>
+        <field name="model">g2p.cycle</field>
+        <field name="inherit_id" ref="g2p_programs.view_cycle_form" />
+        <field name="arch" type="xml">
+            <field name="program_id" position="after">
+                <field name="edit_css" force_save="1" nolabel="1" />
+            </field>
         </field>
     </record>
 </odoo>

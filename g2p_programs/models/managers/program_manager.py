@@ -3,6 +3,7 @@ import logging
 from datetime import datetime, timedelta
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from odoo.addons.queue_job.delay import group
 
@@ -154,8 +155,7 @@ class DefaultProgramManager(models.Model):
 
         eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
         if len(eligibility_managers) == 0:
-            message = _("No Eligibility Manager defined.")
-            kind = "danger"
+            raise UserError(_("No Eligibility Manager defined."))
         elif members_count < self.MIN_ROW_JOB_QUEUE:
             count = self._enroll_eligible_registrants(state, do_count=True)
             message = _("%s Beneficiaries enrolled.", count)

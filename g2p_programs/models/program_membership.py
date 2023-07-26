@@ -1,7 +1,9 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+
 from lxml import etree
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from . import constants
 
@@ -39,7 +41,7 @@ class G2PProgramMembership(models.Model):
         copy=False,
     )
 
-    enrollment_date = fields.Date(compute="_compute_enrolled_date", store=True)
+    enrollment_date = fields.Datetime(compute="_compute_enrolled_date", store=True)
 
     last_deduplication = fields.Date("Last Deduplication Date")
     exit_date = fields.Date()
@@ -249,8 +251,7 @@ class G2PProgramMembership(models.Model):
                     message = _("%s Beneficiaries duplicate.", duplicates)
                     kind = "warning"
         else:
-            message = _("No Deduplication Manager defined.")
-            kind = "danger"
+            raise UserError(_("No Deduplication Manager defined."))
 
         if message:
             return {
@@ -259,7 +260,7 @@ class G2PProgramMembership(models.Model):
                 "params": {
                     "title": _("Deduplication"),
                     "message": message,
-                    "sticky": True,
+                    "sticky": False,
                     "type": kind,
                     "next": {
                         "type": "ir.actions.act_window_close",

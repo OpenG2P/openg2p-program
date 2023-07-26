@@ -32,7 +32,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="model">g2p.cycle</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Cycle">
+            <form string="Cycle" create="false">
                 <header>
                     <button
                         type="object"
