@@ -1,0 +1,309 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_program_assessment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,help:g2p_program_assessment.field_g2p_entitlement_create_wizard__partner_id
+msgid "A beneficiary"
+msgstr ""
+
+#. module: g2p_program_assessment
+#. openerp-web
+#: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
+#, python-format
+msgid "Add Assessment"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
+#, python-format
+msgid "Amount cannot be zero or empty or negative"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/models/program_membership.py:0
+#, python-format
+msgid "Application rejected."
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/models/program_membership.py:0
+#, python-format
+msgid "Application was not rejected."
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_create_entitlement_wizard_form
+msgid ""
+"Are you sure you want to create entitlement for this Beneficiary’s "
+"application?"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_form
+msgid "Are you sure you want to reject this Beneficiary’s application?"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement__assessment_ids
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership__assessment_ids
+msgid "Assessment"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/models/program_membership.py:0
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_entitlement_assessment_form
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_wizard_form
+#, python-format
+msgid "Assessments"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__author_id
+msgid "Author"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,help:g2p_program_assessment.field_g2p_program_assessment__author_id
+msgid ""
+"Author of the message. If not set, email_from may hold an email address that"
+" did not match any partner."
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_create_entitlement_wizard_form
+msgid "Beneficiary Name"
+msgstr ""
+
+#. module: g2p_program_assessment
+#. openerp-web
+#: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_create_entitlement_wizard_form
+#, python-format
+msgid "Cancel"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_create_entitlement_wizard_form
+msgid "Create"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_form
+msgid "Create Entitlement"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__create_uid
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__create_uid
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__create_date
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__create_date
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__cycle_id
+msgid "Cycle"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__assessment_date
+msgid "Date"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model,name:g2p_program_assessment.model_g2p_program_entitlement_manager_default
+msgid "Default Entitlement Manager"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__display_name
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__display_name
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
+#: model:ir.model,name:g2p_program_assessment.model_g2p_entitlement
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__entitlement_id
+#, python-format
+msgid "Entitlement"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
+#, python-format
+msgid "Entitlement already exists. Approve/Edit the existing entitlement."
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
+#, python-format
+msgid "Entitlement created."
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model,name:g2p_program_assessment.model_g2p_program_assessment
+msgid "G2P Assessment"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model,name:g2p_program_assessment.model_g2p_entitlement_create_wizard
+msgid "G2P Entitlement Create Wizard"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model,name:g2p_program_assessment.model_g2p_program_membership_assessment_wizard
+msgid "G2P Program Membership Assessment Wizard"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__id
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__id
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__initial_amount
+msgid "Initial Amount"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard____last_update
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment____last_update
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__write_uid
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__write_uid
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__write_date
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__write_date
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__name
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__name
+msgid "Name"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/models/program_membership.py:0
+#, python-format
+msgid "No Application found."
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_form
+msgid "Prepare Assessment"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__program_id
+msgid "Program"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model,name:g2p_program_assessment.model_g2p_program_membership
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__program_membership_id
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard__program_membership_id
+msgid "Program Membership"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_create_entitlement_wizard_form
+msgid "Recommended Amount"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__partner_id
+msgid "Registrant"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/models/program_membership.py:0
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_form
+#, python-format
+msgid "Reject"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__remarks_id
+msgid "Remarks"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership__show_create_entitlement_button
+msgid "Show Create Entitlement Button"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership__show_prepare_assessment_button
+msgid "Show Prepare Assessment Button"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership__show_reject_application_assessment_button
+msgid "Show Reject Application Assessment Button"
+msgstr ""
+
+#. module: g2p_program_assessment
+#. openerp-web
+#: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
+#, python-format
+msgid "Submit"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__transfer_fee
+msgid "Transfer Fee"
+msgstr ""
+
+#. module: g2p_program_assessment
+#. openerp-web
+#: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
+#, python-format
+msgid "Type your assessment..."
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__valid_from
+msgid "Valid From"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard__valid_until
+msgid "Valid Until"
+msgstr ""

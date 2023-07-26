@@ -1,0 +1,252 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_entitlement_voucher
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,help:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__max_individual_in_group
+msgid "0 means no limit"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model_terms:ir.actions.act_window,help:g2p_entitlement_voucher.action_entitlement_manager_voucher
+msgid "Add an Entitlement Manager!"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__amount_per_cycle
+msgid "Amount Per Cycle"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__amount_per_individual_in_group
+msgid "Amount Per Individual In Group"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__approval_mapping_ids
+msgid "Approval Mapping"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__auto_generate_voucher_on_approval
+msgid "Auto Generate Voucher On Approval"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model_terms:ir.actions.act_window,help:g2p_entitlement_voucher.action_entitlement_manager_voucher
+msgid "Click the create button to enter a new entitlement manager."
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__crypto_key_set
+msgid "Crypto Key Set"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model,name:g2p_entitlement_voucher.model_g2p_entitlement
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_payment_file_qrcode__entitlement_id
+msgid "Entitlement"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model,name:g2p_entitlement_voucher.model_g2p_program_entitlement_manager
+msgid "Entitlement Manager"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__entitlement_validation_group_id
+msgid "Entitlement Validation Group"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model,name:g2p_entitlement_voucher.model_g2p_crypto_key_set
+msgid "G2P Crypto Key Set"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.view_entitlement_voucher_form
+msgid "Generate Voucher"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.actions.server,name:g2p_entitlement_voucher.generate_couchers_server_action
+msgid "Generate Vouchers"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.entitlement_manager_voucher_filter
+msgid "Group By"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__id
+msgid "ID"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__name
+msgid "Manager Name"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__max_individual_in_group
+msgid "Maximum number of individual in group"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: code:addons/g2p_entitlement_voucher/models/entitlement_manager.py:0
+#, python-format
+msgid "Payment File Config"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model,name:g2p_entitlement_voucher.model_g2p_payment_file_qrcode
+msgid "Payment File QR Code"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.view_entitlement_voucher_form
+msgid "Print Voucher"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__program_id
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.entitlement_manager_voucher_filter
+msgid "Program"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_entitlement__qrcode_ids
+msgid "Qrcode"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.entitlement_manager_voucher_filter
+msgid "Search Voucher Entitlement Manager"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,help:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__transfer_fee_amt
+msgid "Set fixed transfer fee amount"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_entitlement__show_generate_voucher_button
+msgid "Show Generate Voucher Button"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_entitlement__show_print_voucher_button
+msgid "Show Print Voucher Button"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,help:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__currency_id
+msgid "The currency used to enter statement"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__transfer_fee_amt
+msgid "Transfer Fee Amount"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__transfer_fee_pct
+msgid "Transfer Fee(%)"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,help:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__transfer_fee_pct
+msgid "Transfer fee will be a percentage of amount"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: code:addons/g2p_entitlement_voucher/models/entitlement.py:0
+#: code:addons/g2p_entitlement_voucher/models/entitlement.py:0
+#, python-format
+msgid "Voucher"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.view_entitlement_manager_voucher_form
+msgid "Voucher Configuration"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_entitlement__voucher_document_id
+msgid "Voucher Document"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__voucher_document_store
+msgid "Voucher Document Store"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model,name:g2p_entitlement_voucher.model_g2p_program_entitlement_manager_voucher
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.view_entitlement_manager_voucher_form
+msgid "Voucher Entitlement Manager"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.actions.act_window,name:g2p_entitlement_voucher.action_entitlement_manager_voucher
+#: model:ir.ui.menu,name:g2p_entitlement_voucher.menu_entitlement_manager_voucher
+msgid "Voucher Entitlement Managers"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__voucher_file_config
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.view_entitlement_manager_voucher_form
+msgid "Voucher File Config"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_crypto_key_set__voucher_manager_id
+msgid "Voucher Manager"
+msgstr ""
