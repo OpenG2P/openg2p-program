@@ -1,0 +1,446 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_payment_files
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_crypto_key_set__size__2048
+msgid "2048"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_crypto_key_set__size__3072
+msgid "3072"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_crypto_key_set__size__4096
+msgid "4096"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_crypto_key_set__status__active
+msgid "Active"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model_terms:ir.actions.act_window,help:g2p_payment_files.action_payment_manager_file
+msgid "Add a File Payment Manager!"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__create_batch
+msgid "Automatically Create Batch"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__batch_tag_ids
+msgid "Batch Tags"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__body_string
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__body_string
+msgid "Body"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_config__type__csv
+msgid "CSV"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model_terms:ir.actions.act_window,help:g2p_payment_files.action_payment_manager_file
+msgid "Click the create button to enter a new payment manager."
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__type__code-128-barcode
+msgid "Code 128 Barcode"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__content_base64
+msgid "Content Base64"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__content_htmlsafe
+msgid "Content Htmlsafe"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__create_uid
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__create_uid
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__create_uid
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__create_uid
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__create_date
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__create_date
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__create_date
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__create_date
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__crypto_key_set
+msgid "Crypto Key Set"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__data
+msgid "Data"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__data_type
+msgid "Data Type"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__display_name
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__display_name
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__display_name
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__display_name
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__qrcode_error_correct__2
+msgid "ERROR_CORRECT_H"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__qrcode_error_correct__1
+msgid "ERROR_CORRECT_L"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__qrcode_error_correct__0
+msgid "ERROR_CORRECT_M"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__qrcode_error_correct__3
+msgid "ERROR_CORRECT_Q"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_crypto_key_set__use__enc
+msgid "Encryption"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_batch_tag__file_config_ids
+msgid "File Config"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__file_document_store
+msgid "File Document Store"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__file_payment_manager_id
+msgid "File Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.actions.act_window,name:g2p_payment_files.action_payment_manager_file
+#: model:ir.ui.menu,name:g2p_payment_files.menu_payment_manager_file
+msgid "File Payment Managers"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model,name:g2p_payment_files.model_g2p_program_payment_manager_file
+msgid "File based Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model_terms:ir.ui.view,arch_db:g2p_payment_files.view_payment_batch_file_form
+#: model_terms:ir.ui.view,arch_db:g2p_payment_files.view_payment_file_form
+msgid "Files"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model,name:g2p_payment_files.model_g2p_crypto_key_set
+msgid "G2P Crypto Key Set"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model_terms:ir.ui.view,arch_db:g2p_payment_files.view_payment_file_config_form
+msgid "G2P Payment File Configuration"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model_terms:ir.ui.view,arch_db:g2p_payment_files.payment_manager_file_filter
+msgid "Group By"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__id
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__id
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__id
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__id
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__id
+msgid "ID"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__data_type__json
+msgid "JSON"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__data_type__jwt
+msgid "JWT"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__jwk
+msgid "Jwk"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set____last_update
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config____last_update
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode____last_update
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config____last_update
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__write_uid
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__write_uid
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__write_uid
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__write_uid
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__write_date
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__write_date
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__write_date
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__write_date
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__name
+msgid "Manager Name"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__name
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__name
+msgid "Name"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.constraint,message:g2p_payment_files.constraint_g2p_crypto_key_set_name_unique
+msgid "Name/KID of the key set should be unique"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_config__type__pdf
+msgid "PDF"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model,name:g2p_payment_files.model_g2p_payment
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__payment_id
+msgid "Payment"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model,name:g2p_payment_files.model_g2p_payment_batch
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__payment_batch_id
+msgid "Payment Batch"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model,name:g2p_payment_files.model_g2p_payment_batch_tag
+msgid "Payment Batch Tag"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__payment_config_id
+msgid "Payment Config"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment__payment_file_ids
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_batch__payment_file_ids
+msgid "Payment File"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model,name:g2p_payment_files.model_g2p_payment_file_config
+#: model:ir.model,name:g2p_payment_files.model_g2p_payment_file_qrcode_config
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__payment_file_config_ids
+msgid "Payment File Config"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.ui.menu,name:g2p_payment_files.menu_payment_file_configs
+msgid "Payment File Configs"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model,name:g2p_payment_files.model_g2p_payment_file_qrcode
+msgid "Payment File QR Code"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model,name:g2p_payment_files.model_g2p_program_payment_manager
+msgid "Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.actions.act_window,name:g2p_payment_files.action_payment_file_config
+msgid "Payments File Configs"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__priv_key
+msgid "Priv Key"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_program_payment_manager_file__program_id
+#: model_terms:ir.ui.view,arch_db:g2p_payment_files.payment_manager_file_filter
+msgid "Program"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__pub_cert
+msgid "Pub Cert"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model_terms:ir.ui.view,arch_db:g2p_payment_files.view_payment_file_config_form
+msgid "QR Codes"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__type__qrcode
+msgid "QR code"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment__qrcode_ids
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_batch__qrcode_ids
+msgid "Qrcode"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__qrcode_border
+msgid "Qrcode Border"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__qrcode_box_size
+msgid "Qrcode Box Size"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__qrcode_config_ids
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode__qrcode_config_id
+msgid "Qrcode Config"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__qrcode_error_correct
+msgid "Qrcode Error Correct"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__qrcode_version
+msgid "Qrcode Version"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_crypto_key_set__type__rsa
+msgid "RSA"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_batch_tag__render_files_per_payment
+msgid "Render per payment instead of batch"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model_terms:ir.ui.view,arch_db:g2p_payment_files.payment_manager_file_filter
+msgid "Search File Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_crypto_key_set__use__sig
+msgid "Signature"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__size
+msgid "Size"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__status
+msgid "Status"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields.selection,name:g2p_payment_files.selection__g2p_payment_file_qrcode_config__data_type__string
+msgid "String"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model_terms:ir.ui.view,arch_db:g2p_payment_files.view_payment_file_config_form
+msgid "Template"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,help:g2p_payment_files.field_g2p_program_payment_manager_file__currency_id
+msgid "The currency used to enter statement"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__type
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__type
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__type
+msgid "Type"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__use
+msgid "Use"
+msgstr ""
+
+#. module: g2p_payment_files
+#: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__name
+msgid "kid"
+msgstr ""
