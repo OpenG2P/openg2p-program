@@ -22,7 +22,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="inherit_id" ref="g2p_programs.view_cycle_form" />
         <field name="arch" type="xml">
             <field name="program_id" position="after">
-                <field name="edit_css" force_save="1" />
+                <field name="edit_css" force_save="1" nolabel="1" />
             </field>
         </field>
     </record>
