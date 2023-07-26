@@ -17,6 +17,7 @@
     "data": [
         "views/program_registrant_info.xml",
         "views/program_membership.xml",
+        "wizard/g2p_program_registrant_info_wizard.xml",
         "security/ir.model.access.csv",
     ],
     "assets": {
