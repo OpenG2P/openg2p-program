@@ -1,0 +1,94 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_program_cycleless
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_program_cycleless
+#: model:ir.model.fields,field_description:g2p_program_cycleless.field_g2p_program__entitlements_count
+msgid "# Entitlements"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model_terms:ir.ui.view,arch_db:g2p_program_cycleless.view_program_ext_cycleless_form
+msgid "Create New Cycle"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model.fields,field_description:g2p_program_cycleless.field_g2p_program__default_active_cycle
+msgid "Default Active Cycle"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model,name:g2p_program_cycleless.model_g2p_program_entitlement_manager_default
+msgid "Default Entitlement Manager"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model,name:g2p_program_cycleless.model_g2p_program_manager_default
+msgid "Default Program Manager"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: code:addons/g2p_program_cycleless/models/entitlement_manager.py:0
+#: code:addons/g2p_program_cycleless/models/programs.py:0
+#, python-format
+msgid "Entitlements"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model.fields,field_description:g2p_program_cycleless.field_g2p_program__is_cycleless
+#: model:ir.model.fields,field_description:g2p_program_cycleless.field_g2p_program_manager_default__is_cycleless
+msgid "Is Cycleless"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model.fields,help:g2p_program_cycleless.field_g2p_program_manager_default__is_cycleless
+msgid "Mark this to make the program Cycleless"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model_terms:ir.ui.view,arch_db:g2p_program_cycleless.view_program_ext_cycleless_form
+msgid "Prepare Payments"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model,name:g2p_program_cycleless.model_g2p_program
+msgid "Program"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: code:addons/g2p_program_cycleless/models/entitlement_manager.py:0
+#: code:addons/g2p_program_cycleless/models/programs.py:0
+#, python-format
+msgid "Reimbursements"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model_terms:ir.ui.view,arch_db:g2p_program_cycleless.view_program_ext_cycleless_form
+msgid "Send Payments"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model.fields,field_description:g2p_program_cycleless.field_g2p_program__show_entitlement_field_name
+msgid "Show Entitlement Field Name"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model.fields,field_description:g2p_program_cycleless.field_g2p_program__show_prepare_payments_button
+msgid "Show Prepare Payments Button"
+msgstr ""
+
+#. module: g2p_program_cycleless
+#: model:ir.model.fields,field_description:g2p_program_cycleless.field_g2p_program__show_send_payments_button
+msgid "Show Send Payments Button"
+msgstr ""
