@@ -16,7 +16,7 @@ class DeduplicationManager(models.Model):
     _description = "Deduplication Manager"
     _inherit = "g2p.manager.mixin"
 
-    program_id = fields.Many2one("g2p.program", "Program")
+    program_id = fields.Many2one("g2p.program", "Program", ondelete="cascade")
 
     @api.model
     def _selection_manager_ref_id(self):
@@ -41,7 +41,9 @@ class BaseDeduplication(models.AbstractModel):
     _capability_group = False
 
     name = fields.Char("Manager Name", required=True)
-    program_id = fields.Many2one("g2p.program", string="Program", required=True)
+    program_id = fields.Many2one(
+        "g2p.program", string="Program", required=True, ondelete="cascade"
+    )
 
     def deduplicate_beneficiaries(self, states):
         raise NotImplementedError()

@@ -17,7 +17,7 @@ class ProgramManager(models.Model):
     _description = "Program Manager"
     _inherit = "g2p.manager.mixin"
 
-    program_id = fields.Many2one("g2p.program", "Program")
+    program_id = fields.Many2one("g2p.program", "Program", ondelete="cascade")
 
     @api.model
     def _selection_manager_ref_id(self):
@@ -36,7 +36,9 @@ class BaseProgramManager(models.AbstractModel):
     MAX_ROW_JOB_QUEUE = 10000
 
     name = fields.Char("Manager Name", required=True)
-    program_id = fields.Many2one("g2p.program", string="Program", required=True)
+    program_id = fields.Many2one(
+        "g2p.program", string="Program", required=True, ondelete="cascade"
+    )
 
     def last_cycle(self):
         """

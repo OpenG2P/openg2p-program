@@ -18,7 +18,7 @@ class PaymentManager(models.Model):
     _description = "Payment Manager"
     _inherit = "g2p.manager.mixin"
 
-    program_id = fields.Many2one("g2p.program", "Program")
+    program_id = fields.Many2one("g2p.program", "Program", ondelete="cascade")
 
     @api.model
     def _selection_manager_ref_id(self):
@@ -35,7 +35,9 @@ class BasePaymentManager(models.AbstractModel):
     _description = "Base Payment Manager"
 
     name = fields.Char("Manager Name", required=True)
-    program_id = fields.Many2one("g2p.program", string="Program", required=True)
+    program_id = fields.Many2one(
+        "g2p.program", string="Program", required=True, ondelete="cascade"
+    )
 
     def prepare_payments(self, entitlements):
         """

@@ -13,7 +13,7 @@ class EntitlementManager(models.Model):
     _description = "Entitlement Manager"
     _inherit = "g2p.manager.mixin"
 
-    program_id = fields.Many2one("g2p.program", "Program")
+    program_id = fields.Many2one("g2p.program", "Program", ondelete="cascade")
 
     @api.model
     def _selection_manager_ref_id(self):
@@ -34,7 +34,9 @@ class BaseEntitlementManager(models.AbstractModel):
     MAX_ROW_JOB_QUEUE = 2000
 
     name = fields.Char("Manager Name", required=True)
-    program_id = fields.Many2one("g2p.program", string="Program", required=True)
+    program_id = fields.Many2one(
+        "g2p.program", string="Program", required=True, ondelete="cascade"
+    )
 
     def prepare_entitlements(self, cycle, beneficiaries):
         """

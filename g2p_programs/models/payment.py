@@ -16,7 +16,9 @@ class G2PPayment(models.Model):
     name = fields.Char(
         "Internal Reference #", default=str(uuid4()), readonly=True, copy=False
     )
-    entitlement_id = fields.Many2one("g2p.entitlement", "Entitlement", required=True)
+    entitlement_id = fields.Many2one(
+        "g2p.entitlement", "Entitlement", required=True, ondelete="cascade"
+    )
     cycle_id = fields.Many2one("g2p.cycle", "Cycle", readonly=True)
     program_id = fields.Many2one(
         "g2p.program", related="cycle_id.program_id", readonly=True
