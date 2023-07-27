@@ -1,7 +1,7 @@
 
 # Program Management
 
-Refer to the documentation [here](https://docs.openg2p.org/modules/beneficiary-management).
+Refer to the documentation [here](https://docs.openg2p.org/beneficiary-management).
 
 ## Licenses
 
