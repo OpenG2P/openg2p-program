@@ -17,7 +17,7 @@ class CycleManager(models.Model):
     _description = "Cycle Manager"
     _inherit = "g2p.manager.mixin"
 
-    program_id = fields.Many2one("g2p.program", "Program", ondelete="cascade")
+    program_id = fields.Many2one("g2p.program", "Program")
 
     @api.model
     def _selection_manager_ref_id(self):
@@ -36,9 +36,7 @@ class BaseCycleManager(models.AbstractModel):
     MAX_ROW_JOB_QUEUE = 2000
 
     name = fields.Char("Manager Name", required=True)
-    program_id = fields.Many2one(
-        "g2p.program", string="Program", required=True, ondelete="cascade"
-    )
+    program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
     auto_approve_entitlements = fields.Boolean(
         string="Auto-approve Entitlements", default=False

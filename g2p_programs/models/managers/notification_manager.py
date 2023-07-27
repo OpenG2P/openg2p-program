@@ -7,7 +7,7 @@ class Notification(models.Model):
     _description = "Program Notification Manager"
     _inherit = "g2p.manager.mixin"
 
-    program_id = fields.Many2one("g2p.program", "Program", ondelete="cascade")
+    program_id = fields.Many2one("g2p.program", "Program")
 
     @api.model
     def _selection_manager_ref_id(self):
@@ -27,9 +27,7 @@ class BaseNotificationManager(models.AbstractModel):
     _description = "Base Program Notification Manager"
 
     name = fields.Char("Manager Name", required=True)
-    program_id = fields.Many2one(
-        "g2p.program", string="Program", required=True, ondelete="cascade"
-    )
+    program_id = fields.Many2one("g2p.program", string="Program", required=True)
     on_enrolled_in_program = fields.Boolean(default=True)
     on_cycle_started = fields.Boolean(default=True)
     on_cycle_ended = fields.Boolean(default=True)

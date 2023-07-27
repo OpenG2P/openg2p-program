@@ -23,12 +23,7 @@ class G2PProgramMembership(models.Model):
         domain=[("is_registrant", "=", True)],
     )
     program_id = fields.Many2one(
-        "g2p.program",
-        "",
-        help="A program",
-        required=True,
-        auto_join=True,
-        ondelete="cascade",
+        "g2p.program", "", help="A program", required=True, auto_join=True
     )
 
     # TODO: When the state is changed from "exited", "not_eligible" or "duplicate" to something else

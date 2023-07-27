@@ -13,7 +13,7 @@ class EligibilityManager(models.Model):
     _description = "Eligibility Manager"
     _inherit = "g2p.manager.mixin"
 
-    program_id = fields.Many2one("g2p.program", "Program", ondelete="cascade")
+    program_id = fields.Many2one("g2p.program", "Program")
 
     @api.model
     def _selection_manager_ref_id(self):
@@ -30,9 +30,7 @@ class BaseEligibilityManager(models.AbstractModel):
     _description = "Base Eligibility"
 
     name = fields.Char("Manager Name", required=True)
-    program_id = fields.Many2one(
-        "g2p.program", string="Program", required=True, ondelete="cascade"
-    )
+    program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
     def enroll_eligible_registrants(self, program_memberships):
         """

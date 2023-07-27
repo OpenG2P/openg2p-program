@@ -14,9 +14,7 @@ class ProgramFundManagement(models.Model):
 
     name = fields.Char("Reference Number", required=True, default="Draft")
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company)
-    program_id = fields.Many2one(
-        "g2p.program", "Program", required=True, ondelete="cascade"
-    )
+    program_id = fields.Many2one("g2p.program", "Program", required=True)
     journal_id = fields.Many2one(
         "account.journal",
         "Disbursement Journal",
