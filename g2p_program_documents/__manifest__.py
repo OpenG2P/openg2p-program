@@ -13,6 +13,7 @@
         "g2p_programs",
     ],
     "data": [
+        "security/program_documents_security.xml",
         "views/programs_view.xml",
         "views/program_membership_view.xml",
         "views/entitlement_view.xml",
