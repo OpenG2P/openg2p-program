@@ -11,10 +11,20 @@
     "depends": [
         "g2p_programs",
         "g2p_program_documents",
+        "g2p_programs_rest_api",
         "mail",
     ],
     "external_dependencies": {
-        "python": ["cryptography", "python-jose", "python-barcode", "pdfkit", "qrcode"]
+        "python": [
+            "base45",
+            "cryptography",
+            "cose",
+            "python-jose",
+            "python-barcode",
+            "pdfkit",
+            "qrcode",
+            "wkhtmltopdf",
+        ]
     },
     "data": [
         "security/ir.model.access.csv",

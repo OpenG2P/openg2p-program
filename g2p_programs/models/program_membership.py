@@ -1,10 +1,9 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-import random
-from datetime import datetime
 
 from lxml import etree
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from . import constants
 
@@ -12,6 +11,7 @@ from . import constants
 class G2PProgramMembership(models.Model):
     _name = "g2p.program_membership"
     _description = "Program Membership"
+    _inherits = {"res.partner": "partner_id"}
     _order = "id desc"
 
     partner_id = fields.Many2one(
@@ -41,40 +41,12 @@ class G2PProgramMembership(models.Model):
         copy=False,
     )
 
-    enrollment_date = fields.Date(default=lambda self: fields.Datetime.now())
+    enrollment_date = fields.Datetime(compute="_compute_enrolled_date", store=True)
+
     last_deduplication = fields.Date("Last Deduplication Date")
     exit_date = fields.Date()
 
-    application_id = fields.Char(
-        "Application ID", compute="_compute_application_id", store=True
-    )
-
     registrant_id = fields.Integer(string="Registrant ID", related="partner_id.id")
-    address = fields.Text(related="partner_id.address")
-    email = fields.Char(related="partner_id.email")
-    phone = fields.Char(related="partner_id.phone")
-    phone_number_ids = fields.One2many(related="partner_id.phone_number_ids")
-    birthdate = fields.Date(related="partner_id.birthdate")
-    age = fields.Char(related="partner_id.age")
-    birth_place = fields.Char(related="partner_id.birth_place")
-    gender = fields.Selection(related="partner_id.gender")
-    bank_ids = fields.One2many(related="partner_id.bank_ids")
-    reg_ids = fields.One2many(related="partner_id.reg_ids")
-    related_1_ids = fields.One2many(related="partner_id.related_1_ids")
-    related_2_ids = fields.One2many(related="partner_id.related_2_ids")
-    is_registrant = fields.Boolean(
-        related="partner_id.is_registrant", string="Is Registrant"
-    )
-    is_group = fields.Boolean(related="partner_id.is_group", string="Is Group")
-    group_membership_ids = fields.One2many(related="partner_id.group_membership_ids")
-    individual_membership_ids = fields.One2many(
-        related="partner_id.individual_membership_ids"
-    )
-    program_membership_ids = fields.One2many(
-        related="partner_id.program_membership_ids"
-    )
-    entitlement_ids = fields.One2many(related="partner_id.entitlement_ids")
-    registration_date = fields.Date(related="partner_id.registration_date")
 
     _sql_constraints = [
         (
@@ -108,6 +80,12 @@ class G2PProgramMembership(models.Model):
         default="new",
         copy=False,
     )
+
+    @api.depends("state")
+    def _compute_enrolled_date(self):
+        for rec in self:
+            if rec.state == "enrolled":
+                rec.enrollment_date = fields.Datetime.now()
 
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
@@ -193,17 +171,6 @@ class G2PProgramMembership(models.Model):
                 "flags": {"mode": "readonly"},
             }
 
-    @api.depends("partner_id")
-    def _compute_application_id(self):
-        for rec in self:
-            d = datetime.today().strftime("%d")
-            m = datetime.today().strftime("%m")
-            y = datetime.today().strftime("%y")
-
-            random_number = str(random.randint(1, 100000))
-
-            rec.application_id = d + m + y + random_number.zfill(5)
-
     def verify_eligibility(self):
         eligibility_managers = self.program_id.get_managers(
             constants.MANAGER_ELIGIBILITY
@@ -224,6 +191,7 @@ class G2PProgramMembership(models.Model):
         member = self
         for em in eligibility_managers:
             member = em.enroll_eligible_registrants(member)
+
         if len(member) > 0:
             if self.state != "enrolled":
                 self.write(
@@ -283,8 +251,7 @@ class G2PProgramMembership(models.Model):
                     message = _("%s Beneficiaries duplicate.", duplicates)
                     kind = "warning"
         else:
-            message = _("No Deduplication Manager defined.")
-            kind = "danger"
+            raise UserError(_("No Deduplication Manager defined."))
 
         if message:
             return {
@@ -293,7 +260,7 @@ class G2PProgramMembership(models.Model):
                 "params": {
                     "title": _("Deduplication"),
                     "message": message,
-                    "sticky": True,
+                    "sticky": False,
                     "type": kind,
                     "next": {
                         "type": "ir.actions.act_window_close",

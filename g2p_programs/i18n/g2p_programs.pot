@@ -17,11 +17,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__members_count
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__beneficiaries_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 msgid "# Beneficiaries"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__entitlements_count
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__entitlements_count
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__entitlements_count
 msgid "# Cash Entitlements"
@@ -29,6 +29,7 @@ msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__cycles_count
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__cycles_count
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__cycles_count
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__cycles_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
@@ -41,14 +42,29 @@ msgid "# Eligible Beneficiaries"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
+msgid "# Enrolled Beneficiaries"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__entitlements_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
 msgid "# Entitlements"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__event_count
+msgid "# Events"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_tree
 msgid "# IDs"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__meeting_count
+msgid "# Meetings"
 msgstr ""
 
 #. module: g2p_programs
@@ -65,12 +81,20 @@ msgid "# Payments"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__program_membership_count
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__program_membership_count
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__program_membership_count
 msgid "# Program Memberships"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
+#, python-format
+msgid "%(registrant)s was already in the Program %(program)s"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/program_membership.py:0
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "%s Beneficiaries duplicate."
@@ -78,6 +102,7 @@ msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
+#: code:addons/g2p_programs/models/program_membership.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
 msgstr ""
@@ -102,11 +127,6 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "'Configuration'"
-msgstr ""
-
-#. module: g2p_programs
-#: model:ir.actions.report,print_report_name:g2p_programs.action_print_entitlement
-msgid "'Entitlement Card'"
 msgstr ""
 
 #. module: g2p_programs
@@ -212,6 +232,16 @@ msgid "Account Number"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__property_account_payable_id
+msgid "Account Payable"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__property_account_receivable_id
+msgid "Account Receivable"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.g2p_accounting_config_menu_root
 #: model:ir.ui.menu,name:g2p_programs.g2p_accounting_root
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -234,19 +264,27 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_needaction
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_needaction
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_needaction
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_needaction
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_needaction
 msgid "Action Needed"
 msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__active
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__active
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program__state__active
 msgid "Active"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__active_lang_count
+msgid "Active Lang Count"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_ids
 msgid "Activities"
 msgstr ""
@@ -254,6 +292,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_exception_decoration
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_exception_decoration
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_exception_decoration
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_decoration
 msgid "Activity Exception Decoration"
 msgstr ""
@@ -261,6 +300,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_state
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_state
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_state
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_state
 msgid "Activity State"
 msgstr ""
@@ -268,6 +308,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_type_icon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_type_icon
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_type_icon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_type_icon
 msgid "Activity Type Icon"
 msgstr ""
@@ -290,6 +331,11 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_cycle_manager_default
 msgid "Add a Cycle Manager!"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.actions.act_window,help:g2p_programs.action_deduplication_manager_default
+msgid "Add a Default Deduplication Manager!"
 msgstr ""
 
 #. module: g2p_programs
@@ -373,8 +419,33 @@ msgid "Add to Program"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__addl_name
+msgid "Additional Name"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__additional_info
+msgid "Additional info"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__address
+msgid "Address"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__type
+msgid "Address Type"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 msgid "Address:"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__age
+msgid "Age"
 msgstr ""
 
 #. module: g2p_programs
@@ -387,6 +458,13 @@ msgstr ""
 #: code:addons/g2p_programs/wizard/assign_payments_batch_wizard.py:0
 #, python-format
 msgid "All selected payments are already assigned to another batch."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__lang
+msgid ""
+"All the emails and documents sent to this contact will be translated in this"
+" language."
 msgstr ""
 
 #. module: g2p_programs
@@ -446,6 +524,11 @@ msgid "Approver Group"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__birthdate_not_exact
+msgid "Approximate Birthdate"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_list_filter
 msgid "Archived"
 msgstr ""
@@ -474,6 +557,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_attachment_count
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_attachment_count
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_attachment_count
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_attachment_count
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_attachment_count
 msgid "Attachment Count"
 msgstr ""
@@ -503,13 +587,63 @@ msgid "Automatically Create Batch"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__avatar_1920
+msgid "Avatar"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__avatar_1024
+msgid "Avatar 1024"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__avatar_128
+msgid "Avatar 128"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__avatar_256
+msgid "Avatar 256"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__avatar_512
+msgid "Avatar 512"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "Back"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Back to draft"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__balance
 msgid "Balance"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__bank_account_count
+msgid "Bank"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Bank Details"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__bank_ids
+msgid "Banks"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__barcode
+msgid "Barcode"
 msgstr ""
 
 #. module: g2p_programs
@@ -560,8 +694,30 @@ msgid "Base Program Notification Manager"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Basic Info"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__batch_has_completed
 msgid "Batch Has Completed"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__batch_has_started
+msgid "Batch Has Started"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager_default__batch_tag_ids
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_tag_form
+msgid "Batch Tags"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Batch Tags list cannot be empty."
 msgstr ""
 
 #. module: g2p_programs
@@ -576,6 +732,11 @@ msgstr ""
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "Beneficiaries Duplicates"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
+msgid "Beneficiaries list"
 msgstr ""
 
 #. module: g2p_programs
@@ -611,6 +772,31 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 msgid "Beneficiary:"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__birth_place
+msgid "Birth Place"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_blacklisted
+msgid "Blacklist"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__mobile_blacklisted
+msgid "Blacklisted Phone Is Mobile"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__phone_blacklisted
+msgid "Blacklisted Phone is Phone"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_bounce
+msgid "Bounce"
 msgstr ""
 
 #. module: g2p_programs
@@ -677,6 +863,36 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_group_ext_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_registrant_ext_form
 msgid "Cash Entitlements"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__channel_ids
+msgid "Channels"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__is_company
+msgid "Check if the contact is a company, otherwise it is a person"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__employee
+msgid "Check this box if this contact is an Employee."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__city
+msgid "City"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__civil_status
+msgid "CivilState"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.actions.act_window,help:g2p_programs.action_deduplication_manager_default
+msgid "Click the create button to enter a new Default deduplication manager."
 msgstr ""
 
 #. module: g2p_programs
@@ -790,6 +1006,11 @@ msgid "Code:"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__color
+msgid "Color Index"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_tree
 msgid "Comment"
 msgstr ""
@@ -800,12 +1021,23 @@ msgid "Comment:"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__commercial_partner_id
+msgid "Commercial Entity"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__ref_company_ids
+msgid "Companies that refers to partner"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__company_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__company_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__company_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__company_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__company_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund_report_view__company_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__company_id
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
@@ -816,8 +1048,33 @@ msgid "Company"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__company_name
+msgid "Company Name"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__commercial_company_name
+msgid "Company Name Entity"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__company_type
+msgid "Company Type"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__partner_gid
+msgid "Company database ID"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Company:"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__contact_address
+msgid "Complete Address"
 msgstr ""
 
 #. module: g2p_programs
@@ -850,6 +1107,7 @@ msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_res_partner
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__child_ids
 msgid "Contact"
 msgstr ""
 
@@ -868,6 +1126,21 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__count
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__count
 msgid "Count"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_bounce
+msgid "Counter of the number of bounced emails for this contact"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__country_id
+msgid "Country"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__country_code
+msgid "Country Code"
 msgstr ""
 
 #. module: g2p_programs
@@ -935,6 +1208,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__create_uid
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__create_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager__create_uid
@@ -973,6 +1247,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__create_date
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__create_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager__create_date
@@ -993,6 +1268,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__credit_limit
+msgid "Credit Limit"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__currency_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval__currency_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__currency_id
@@ -1000,8 +1280,19 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__currency_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__currency_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund_report_view__currency_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__currency_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager_default__currency_id
 msgid "Currency"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__property_payment_term_id
+msgid "Customer Payment Terms"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__customer_rank
+msgid "Customer Rank"
 msgstr ""
 
 #. module: g2p_programs
@@ -1066,6 +1357,7 @@ msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__cycle_membership_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__cycle_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__cycle_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__cycle_ids
 msgid "Cycle Memberships"
@@ -1115,13 +1407,24 @@ msgid "DRAFT"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "DUPLICATE"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund_report_view__date_posted
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__date
 msgid "Date"
 msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__date_approved
 msgid "Date Approved"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__disabled
+msgid "Date Disabled"
 msgstr ""
 
 #. module: g2p_programs
@@ -1139,6 +1442,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_report_filter
 msgid "Date Posted"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__birthdate
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Date of Birth"
 msgstr ""
 
 #. module: g2p_programs
@@ -1163,10 +1472,12 @@ msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Deduplicate"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/program_membership.py:0
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "Deduplication"
@@ -1219,7 +1530,14 @@ msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_deduplication_manager_default
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_default_form
 msgid "Default Deduplication Manager"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.actions.act_window,name:g2p_programs.action_deduplication_manager_default
+#: model:ir.ui.menu,name:g2p_programs.menu_deduplication_manager_default
+msgid "Default Deduplication Managers"
 msgstr ""
 
 #. module: g2p_programs
@@ -1267,8 +1585,23 @@ msgid "Default Program Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__trust
+msgid "Degree of trust you have in this debtor"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__delivery_mechanism_value
 msgid "Delivery Mechanism Value"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid "Description:"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__disabled_by
+msgid "Disabled By"
 msgstr ""
 
 #. module: g2p_programs
@@ -1312,6 +1645,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__display_name
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__display_name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager__display_name
@@ -1339,6 +1673,12 @@ msgid "Distributed"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__district
+msgid "District"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__domain
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__eligibility_domain
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_default__eligibility_domain
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_manager_id_dedup__eligibility_domain
@@ -1395,6 +1735,19 @@ msgid "EXITED"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__edit_css
+msgid "Edit Css"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__partner_share
+msgid ""
+"Either customer (not a user), either shared user. Indicated the current "
+"partner is a customer without access or with a limited access created for "
+"sharing data."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_eligibility_manager
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -1418,6 +1771,16 @@ msgstr ""
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check of %s beneficiaries started."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__email
+msgid "Email"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__employee
+msgid "Employee"
 msgstr ""
 
 #. module: g2p_programs
@@ -1446,6 +1809,11 @@ msgid "Ended"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Enroll"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Enroll Eligible Registrants"
 msgstr ""
@@ -1466,6 +1834,8 @@ msgstr ""
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
+#: code:addons/g2p_programs/models/program_membership.py:0
+#: code:addons/g2p_programs/models/program_membership.py:0
 #, python-format
 msgid "Enrollment"
 msgstr ""
@@ -1480,6 +1850,7 @@ msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_phone_number_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_default_form
@@ -1583,11 +1954,13 @@ msgstr ""
 #: model:ir.actions.act_window,name:g2p_programs.action_entitlement
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__entitlement_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__entitlement_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__entitlement_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__entitlement_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__entitlement_ids
 #: model:ir.ui.menu,name:g2p_programs.g2p_program_entitlement_root
 #: model:ir.ui.menu,name:g2p_programs.menu_entitlement
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 #, python-format
 msgid "Entitlements"
 msgstr ""
@@ -1678,6 +2051,18 @@ msgid "Failed Transactions Statistics"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__family_name
+msgid "Family Name"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__phone_sanitized
+msgid ""
+"Field used to store sanitized phone number. Helps speeding up searches and "
+"comparisons."
+msgstr ""
+
+#. module: g2p_programs
 #: model:res.groups,name:g2p_programs.g2p_finance_validator
 msgid "Finance Validator"
 msgstr ""
@@ -1690,9 +2075,15 @@ msgid "First"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__property_account_position_id
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_follower_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_follower_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_follower_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_follower_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_follower_ids
 msgid "Followers"
 msgstr ""
@@ -1701,6 +2092,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_partner_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_partner_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_partner_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_partner_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_partner_ids
 msgid "Followers (Partners)"
 msgstr ""
@@ -1708,8 +2100,24 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_type_icon
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__activity_type_icon
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__activity_type_icon
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__force_recompute_canary
+msgid "Force Recompute Canary"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__email_formatted
+msgid "Format email address \"Name <email@domain>\""
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__email_formatted
+msgid "Formatted Email"
 msgstr ""
 
 #. module: g2p_programs
@@ -1727,6 +2135,28 @@ msgid "Fri"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__gender
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Gender"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__partner_latitude
+msgid "Geo Latitude"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__partner_longitude
+msgid "Geo Longitude"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__given_name
+msgid "Given Name"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_group
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_wizard__target_type__group
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program__target_type__group
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__target_type__group
@@ -1737,6 +2167,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_manager_default_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
+#: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_default_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_id_dedup_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_phone_number_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.eligibility_manager_default_filter
@@ -1757,11 +2188,32 @@ msgid "Group By"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__group_membership_ids
+msgid "Group Members"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Group Name"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Groups"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__has_message
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__has_message
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__has_message
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__has_message
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__has_message
 msgid "Has Message"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__has_unreconciled_entries
+msgid "Has Unreconciled Entries"
 msgstr ""
 
 #. module: g2p_programs
@@ -1788,6 +2240,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager__id
@@ -1837,8 +2290,24 @@ msgid "ID Document Eligibility Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "ID Number"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "IDs"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__im_status
+msgid "IM Status"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_exception_icon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_exception_icon
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_exception_icon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_icon
 msgid "Icon"
 msgstr ""
@@ -1846,6 +2315,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_exception_icon
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__activity_exception_icon
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__activity_exception_icon
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_icon
 msgid "Icon to indicate an exception activity."
 msgstr ""
@@ -1857,6 +2327,8 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__message_unread
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__message_needaction
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__message_unread
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_needaction
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_unread
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_needaction
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_unread
 msgid "If checked, new messages require your attention."
@@ -1869,9 +2341,50 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__message_has_sms_error
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__message_has_error
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__message_has_sms_error
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_has_error
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_has_sms_error
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_has_error
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__is_blacklisted
+msgid ""
+"If the email address is on the blacklist, the contact won't receive mass "
+"mailing anymore, from any list"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__phone_sanitized_blacklisted
+msgid ""
+"If the sanitized phone number is on the blacklist, the contact won't receive"
+" mass mailing sms anymore, from any list"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__image_1920
+msgid "Image"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__image_1024
+msgid "Image 1024"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__image_128
+msgid "Image 128"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__image_256
+msgid "Image 256"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__image_512
+msgid "Image 512"
 msgstr ""
 
 #. module: g2p_programs
@@ -1903,10 +2416,36 @@ msgid "Importing beneficiaries."
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__income
+msgid "Income"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__mobile_blacklisted
+msgid ""
+"Indicates if a blacklisted sanitized phone number is a mobile number. Helps "
+"distinguish which number is blacklisted             when there is both a "
+"mobile and phone field in a model."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__phone_blacklisted
+msgid ""
+"Indicates if a blacklisted sanitized phone number is a phone number. Helps "
+"distinguish which number is blacklisted             when there is both a "
+"mobile and phone field in a model."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_assign_program_wizard__target_type__individual
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program__target_type__individual
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__target_type__individual
 msgid "Individual"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__industry_id
+msgid "Industry"
 msgstr ""
 
 #. module: g2p_programs
@@ -1935,11 +2474,40 @@ msgid "Interval"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/registrant.py:0
+#, python-format
+msgid "Invalid Email! Please enter a valid email address."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__invoice_warn
+msgid "Invoice"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__type
+msgid ""
+"Invoice & Delivery addresses are used in sales orders. Private addresses are"
+" only visible by authorized users."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__invoice_ids
+msgid "Invoices"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_is_follower
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_is_follower
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_is_follower
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_is_follower
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_is_follower
 msgid "Is Follower"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_company
+msgid "Is a Company"
 msgstr ""
 
 #. module: g2p_programs
@@ -1983,6 +2551,11 @@ msgid "Issued Transaction Statistics"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__function
+msgid "Job Position"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_job_relate_mixin
 msgid "Job Relate Mixin"
 msgstr ""
@@ -2002,8 +2575,24 @@ msgid "Journal Entry"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__journal_item_count
+msgid "Journal Items"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_account_journal_conf
 msgid "Journals"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__kind
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__kind_as_str
+msgid "Kind"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__lang
+msgid "Language"
 msgstr ""
 
 #. module: g2p_programs
@@ -2037,6 +2626,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch____last_update
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard____last_update
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager____last_update
@@ -2076,6 +2666,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__write_uid
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__write_uid
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager__write_uid
@@ -2114,6 +2705,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval_wizard__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__write_date
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager__write_date
@@ -2131,6 +2723,30 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager__write_date
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager_default__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__calendar_last_notif_ack
+msgid "Last notification marked as read from base Calendar"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Last tag in the Batch Tags list must contain empty domain."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__last_time_entries_checked
+msgid ""
+"Last time the invoices & payments matching was performed for this partner. "
+"It is set either if there's not at least an unreconciled debit and an "
+"unreconciled credit or if you click the \"Done\" button."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__last_time_entries_checked
+msgid "Latest Invoices & Payments Matching Date"
 msgstr ""
 
 #. module: g2p_programs
@@ -2162,6 +2778,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_main_attachment_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_main_attachment_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_main_attachment_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_main_attachment_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_main_attachment_id
 msgid "Main Attachment"
 msgstr ""
@@ -2230,25 +2847,62 @@ msgid "Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__max_batch_size
+msgid "Max Batch Size"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__max_individual_in_group
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__max_individual_in_group
 msgid "Maximum number of individual in group"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__meeting_ids
+msgid "Meetings"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Member Name"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Members of Group"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__individual_membership_ids
+msgid "Membership to Groups"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_has_error
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_has_error
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_has_error
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_has_error
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_has_error
 msgid "Message Delivery error"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__invoice_warn_msg
+msgid "Message for Invoice"
 msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_ids
 msgid "Messages"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__mobile
+msgid "Mobile"
 msgstr ""
 
 #. module: g2p_programs
@@ -2286,21 +2940,30 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__my_activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__my_activity_date_deadline
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__my_activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__my_activity_date_deadline
 msgid "My Activity Deadline"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "NOT ELIGIBLE"
 msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__name
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__name
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__name
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__name
 msgid "Name"
 msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_phone_number_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_default_form
@@ -2334,6 +2997,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_calendar_event_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_calendar_event_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_calendar_event_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_calendar_event_id
 msgid "Next Activity Calendar Event"
 msgstr ""
@@ -2341,6 +3005,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_date_deadline
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_date_deadline
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_date_deadline
 msgid "Next Activity Deadline"
 msgstr ""
@@ -2348,6 +3013,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_summary
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_summary
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_summary
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_summary
 msgid "Next Activity Summary"
 msgstr ""
@@ -2355,6 +3021,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_type_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_type_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_type_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_type_id
 msgid "Next Activity Type"
 msgstr ""
@@ -2370,6 +3037,17 @@ msgid "No Approved Entitlements Selected"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/programs.py:0
+#, python-format
+msgid "No Cycle Manager defined."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/program_membership.py:0
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "No Deduplication Manager defined."
@@ -2377,12 +3055,31 @@ msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
-#: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "No Eligibility Manager defined."
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/entitlement.py:0
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "No Entitlement Manager defined."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/cycle.py:0
+#, python-format
+msgid "No Payment Manager defined."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/programs.py:0
+#: code:addons/g2p_programs/models/programs.py:0
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "No Program Manager defined."
@@ -2392,6 +3089,11 @@ msgstr ""
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "No beneficiaries to import."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__email_normalized
+msgid "Normalized Email"
 msgstr ""
 
 #. module: g2p_programs
@@ -2405,6 +3107,16 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Not Eligible"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__payment_status__notpaid
+msgid "Not Paid"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__comment
+msgid "Notes"
 msgstr ""
 
 #. module: g2p_programs
@@ -2433,6 +3145,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_needaction_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_needaction_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_needaction_counter
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_needaction_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
@@ -2441,14 +3154,26 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_has_error_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_has_error_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_has_error_counter
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_has_error_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_has_error_counter
 msgid "Number of errors"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__event_count
+msgid "Number of events the partner has participated."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__z_ind_grp_num_individuals
+msgid "Number of individuals"
 msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__message_needaction_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__message_needaction_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__message_needaction_counter
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_needaction_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_needaction_counter
 msgid "Number of messages which requires an action"
 msgstr ""
@@ -2457,6 +3182,7 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__message_has_error_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__message_has_error_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__message_has_error_counter
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_has_error_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_has_error_counter
 msgid "Number of messages with delivery error"
 msgstr ""
@@ -2465,8 +3191,14 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__message_unread_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__message_unread_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__message_unread_counter
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__message_unread_counter
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__message_unread_counter
 msgid "Number of unread messages"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__occupation
+msgid "Occupation"
 msgstr ""
 
 #. module: g2p_programs
@@ -2545,12 +3277,28 @@ msgid "Ony 'to approve' cycles can be reset to draft."
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch_tag__order
+msgid "Order"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Other Programs"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Others Related to this Registrant:"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "PAUSED"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__payment_status__paid
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_payment__status__paid
 #: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
@@ -2582,11 +3330,36 @@ msgid "Paid Transactions Statistics"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__parent_name
+msgid "Parent name"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_partial_group
+msgid "Partial Group"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__contract_ids
+msgid "Partner Contracts"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__same_vat_partner_id
+msgid "Partner with same Tax ID"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_membership__state__paused
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership__state__paused
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Paused"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__debit_limit
+msgid "Payable Limit"
 msgstr ""
 
 #. module: g2p_programs
@@ -2605,11 +3378,27 @@ msgid "Payment Batch"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_g2p_payment_batch_tag
+msgid "Payment Batch Tag"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.ui.menu,name:g2p_programs.menu_payment_batch_tags
+msgid "Payment Batch Tags"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.actions.act_window,name:g2p_programs.action_payment_batch
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__payment_batch_ids
 #: model:ir.ui.menu,name:g2p_programs.menu_payment_batch
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Payment Batches"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__payment_date
+msgid "Payment Date"
 msgstr ""
 
 #. module: g2p_programs
@@ -2620,6 +3409,11 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__payment_fee
 msgid "Payment Fee"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
+msgid "Payment In Progress"
 msgstr ""
 
 #. module: g2p_programs
@@ -2637,11 +3431,28 @@ msgid "Payment Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__property_payment_method_id
+msgid "Payment Method"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__payment_status
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__status
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Payment Status"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__payment_token_count
+msgid "Payment Token Count"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__payment_token_ids
+msgid "Payment Tokens"
 msgstr ""
 
 #. module: g2p_programs
@@ -2653,7 +3464,7 @@ msgstr ""
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/cycle.py:0
 #: model:ir.actions.act_window,name:g2p_programs.action_payment
-#: model:ir.actions.act_window,name:g2p_programs.action_payment_batch
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__payment_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__payment_ids
 #: model:ir.ui.menu,name:g2p_programs.menu_payment
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
@@ -2664,9 +3475,24 @@ msgid "Payments"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.actions.act_window,name:g2p_programs.action_payment_batch_tag
+msgid "Payments Batch Tags"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__pending_validation
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
 msgid "Pending Validation"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__phone
+msgid "Phone"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__phone_sanitized_blacklisted
+msgid "Phone Blacklisted"
 msgstr ""
 
 #. module: g2p_programs
@@ -2698,6 +3524,17 @@ msgid "Phone Number Eligibility Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__phone_number_ids
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Phone Numbers"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__phone_mobile_search
+msgid "Phone/Mobile"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Post"
 msgstr ""
@@ -2706,6 +3543,14 @@ msgstr ""
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_fund__state__posted
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_filter
 msgid "Posted"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__property_payment_method_id
+msgid ""
+"Preferred payment method when paying this vendor. This is used to filter "
+"vendor bills by preferred payment method to register payments in mass. Use "
+"cases: create bank files for batch wires, check runs."
 msgstr ""
 
 #. module: g2p_programs
@@ -2731,8 +3576,32 @@ msgid "Prepare entitlement for beneficiaries."
 msgstr ""
 
 #. module: g2p_programs
-#: model:ir.actions.report,name:g2p_programs.action_print_entitlement
-msgid "Print Vouchers"
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Prepare payments for entitlements in cycle."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Prepare payments started for %s entitlements."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Prepared payments."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Preparing Payments Asynchronously."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__property_product_pricelist
+msgid "Pricelist"
 msgstr ""
 
 #. module: g2p_programs
@@ -2748,6 +3617,7 @@ msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
+#: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
 #: model:ir.model,name:g2p_programs.model_g2p_program
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_wizard__program_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_base_cycle_manager__program_id
@@ -2784,6 +3654,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_payment_manager_default__program_id
 #: model_terms:ir.ui.view,arch_db:g2p_programs.assign_to_program_wizard_form_view
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_manager_default_filter
+#: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_default_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_id_dedup_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_phone_number_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.eligibility_manager_default_filter
@@ -2869,6 +3740,7 @@ msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__program_membership_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__program_membership_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__program_membership_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__program_membership_ids
 msgid "Program Memberships"
@@ -2891,6 +3763,7 @@ msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_phone_number_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_default_form
@@ -2951,6 +3824,11 @@ msgid "Reason"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__disabled_reason
+msgid "Reason for Disabling"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_duplicate_form
 msgid "Reason:"
 msgstr ""
@@ -2980,6 +3858,11 @@ msgid "Redeemed/Paid to Beneficiary"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__ref
+msgid "Reference"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__name
 msgid "Reference Number"
 msgstr ""
@@ -2999,7 +3882,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__partner_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__partner_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_multi_entitlement_approval__partner_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_registrant
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__partner_id
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Registrant"
 msgstr ""
 
@@ -3009,9 +3894,35 @@ msgid "Registrant Assign to Program"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__registrant_id
+msgid "Registrant ID"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__reg_ids
+msgid "Registrant IDs"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Registrant is related to:"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
+#, python-format
+msgid "Registrant's was already in the Program %s"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Registrant:"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__registration_date
+msgid "Registration Date"
 msgstr ""
 
 #. module: g2p_programs
@@ -3027,6 +3938,31 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__rejected3
 msgid "Rejected: Other reason"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__parent_id
+msgid "Related Company"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__related_1_ids
+msgid "Related to registrant 1"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__related_2_ids
+msgid "Related to registrant 2"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Relation"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Relationships"
 msgstr ""
 
 #. module: g2p_programs
@@ -3055,8 +3991,14 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_user_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_user_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__activity_user_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_user_id
 msgid "Responsible User"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Role"
 msgstr ""
 
 #. module: g2p_programs
@@ -3070,6 +4012,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_has_sms_error
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_has_sms_error
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_has_sms_error
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_has_sms_error
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr ""
@@ -3097,6 +4040,16 @@ msgid "SMS Templates"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__user_id
+msgid "Salesperson"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__phone_sanitized
+msgid "Sanitized Number"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__sat
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__sat
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__sat
@@ -3116,6 +4069,11 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_manager_default_filter
 msgid "Search Default Cycle Manager"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.deduplication_manager_default_filter
+msgid "Search Default Deduplication Managers"
 msgstr ""
 
 #. module: g2p_programs
@@ -3204,6 +4162,7 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_phone_number_form
@@ -3223,13 +4182,45 @@ msgid "Select a program..."
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__invoice_warn
+msgid ""
+"Selecting the \"Warning\" option will notify user with the message, "
+"Selecting \"Blocking Message\" will throw an exception with the message and "
+"block the flow. The Message has to be written in the next field."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__self
+msgid "Self"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 msgid "Send Payment"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 msgid "Send Payments"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Send payments completed."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Send payments for batches in cycle."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Send payments started for %s batches."
 msgstr ""
 
 #. module: g2p_programs
@@ -3306,6 +4297,36 @@ msgid "Setting %s entitlements to pending validation has started."
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__partner_share
+msgid "Share Partner"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__signup_expiration
+msgid "Signup Expiration"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__signup_token
+msgid "Signup Token"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__signup_type
+msgid "Signup Token Type"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__signup_valid
+msgid "Signup Token is Valid"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__signup_url
+msgid "Signup URL"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_membership_manager_default
 msgid "Simple Eligibility"
 msgstr ""
@@ -3325,6 +4346,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__state
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__state
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__state
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__state_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__state
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
@@ -3364,7 +4386,9 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__state
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__state
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__state
+#: model_terms:ir.ui.view,arch_db:g2p_programs.payment_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_group_ext_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_registrant_ext_form
 msgid "Status"
@@ -3378,6 +4402,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_state
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__activity_state
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__activity_state
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__activity_state
 msgid ""
 "Status based on activities\n"
@@ -3392,10 +4417,25 @@ msgid "Status:"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__street
+msgid "Street"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__street2
+msgid "Street2"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__sun
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__sun
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__sun
 msgid "Sun"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__supplier_rank
+msgid "Supplier Rank"
 msgstr ""
 
 #. module: g2p_programs
@@ -3409,6 +4449,22 @@ msgid "TEMPLATES"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__tag_id
+msgid "Tag"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__category_id
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__tags_ids
+msgid "Tags"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
+msgid "Tags:"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_assign_program_wizard__target_type
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__target_type
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__target_type
@@ -3418,6 +4474,11 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Target Type:"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__vat
+msgid "Tax ID"
 msgstr ""
 
 #. module: g2p_programs
@@ -3438,6 +4499,20 @@ msgstr ""
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "The Cycle is not in draft mode"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__vat
+msgid ""
+"The Tax Identification Number. Complete it if the contact is subjected to "
+"government taxes. Used in some legal statements."
 msgstr ""
 
 #. module: g2p_programs
@@ -3462,11 +4537,29 @@ msgid "The entitlement code must be unique."
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__property_account_position_id
+msgid ""
+"The fiscal position determines the taxes/accounts used for this contact."
+msgstr ""
+
+#. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid ""
 "The fund for the program: %(program)s [%(fund).2f] is insufficient for the "
 "entitlement: %(entitlement)s"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__user_id
+msgid "The internal user in charge of this contact."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__has_unreconciled_entries
+msgid ""
+"The partner has at least one unreconciled debit and credit since last time "
+"the invoices & payments matching was performed."
 msgstr ""
 
 #. module: g2p_programs
@@ -3515,6 +4608,27 @@ msgid "Third"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__property_account_payable_id
+msgid ""
+"This account will be used instead of the default one as the payable account "
+"for the current partner"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__property_account_receivable_id
+msgid ""
+"This account will be used instead of the default one as the receivable "
+"account for the current partner"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__email_normalized
+msgid ""
+"This field is used to search on email address as the primary email field can"
+" contain more than strictly an email address."
+msgstr ""
+
+#. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #, python-format
 msgid "This fund is already posted and cannot be deleted."
@@ -3532,6 +4646,27 @@ msgid "This fund was cancelled on"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__property_supplier_payment_term_id
+msgid ""
+"This payment term will be used instead of the default one for purchase "
+"orders and vendor bills"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__property_payment_term_id
+msgid ""
+"This payment term will be used instead of the default one for sales orders "
+"and customer invoices"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__property_product_pricelist
+msgid ""
+"This pricelist will be used, instead of the default one, for sales to the "
+"current partner"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__thu
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__thu
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__thu
@@ -3542,7 +4677,18 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__event_tz
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__event_tz
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__event_tz
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__tz
 msgid "Timezone"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__tz_offset
+msgid "Timezone offset"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__title
+msgid "Title"
 msgstr ""
 
 #. module: g2p_programs
@@ -3550,6 +4696,44 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "To Approve"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
+msgid "To be Paid"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__total_invoiced
+msgid "Total Invoiced"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__debit
+msgid "Total Payable"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__credit
+msgid "Total Receivable"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__credit
+msgid "Total amount this customer owes you."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__debit
+msgid "Total amount you have to pay to this vendor."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
+#, python-format
+msgid ""
+"Total registrants:%(total)s, Already in program:%(existing)s, Newly "
+"added:%(new)s"
 msgstr ""
 
 #. module: g2p_programs
@@ -3590,6 +4774,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_exception_decoration
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__activity_exception_decoration
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__activity_exception_decoration
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr ""
@@ -3598,6 +4783,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_unread
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_unread
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_unread
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_unread
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_unread
 msgid "Unread Messages"
 msgstr ""
@@ -3606,8 +4792,24 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_unread_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__message_unread_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_unread_counter
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__message_unread_counter
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_unread_counter
 msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__barcode
+msgid "Use a barcode to identify this contact."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__user_ids
+msgid "Users"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__currency_id
+msgid "Utility field to express amount currency"
 msgstr ""
 
 #. module: g2p_programs
@@ -3650,12 +4852,18 @@ msgid "Validate and approve entitlements for cycle."
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__property_supplier_payment_term_id
+msgid "Vendor Payment Terms"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_membership__deduplication_status__verified
 msgid "Verified"
 msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Verify Eligibility"
 msgstr ""
 
@@ -3665,9 +4873,15 @@ msgid "Verify eligibility"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__website
+msgid "Website Link"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__website_message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__website_message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__website_message_ids
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__website_message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__website_message_ids
 msgid "Website Messages"
 msgstr ""
@@ -3676,6 +4890,7 @@ msgstr ""
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__website_message_ids
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__website_message_ids
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_fund__website_message_ids
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__website_message_ids
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__website_message_ids
 msgid "Website communication history"
 msgstr ""
@@ -3699,6 +4914,14 @@ msgstr ""
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_recurrence_mixin__rrule_type__weekly
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__rrule_type__weekly
 msgid "Weeks"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__tz
+msgid ""
+"When printing documents and exporting/importing data, time values are computed according to this timezone.\n"
+"If the timezone is not set, UTC (Coordinated Universal Time) is used.\n"
+"Anywhere else, time values are computed according to the time offset of your web client."
 msgstr ""
 
 #. module: g2p_programs
@@ -3737,6 +4960,11 @@ msgid "You have no access in the Entitlement List View"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__zip
+msgid "Zip"
+msgstr ""
+
+#. module: g2p_programs
 #. openerp-web
 #: code:addons/g2p_programs/static/src/js/create_program.js:0
 #, python-format
@@ -3762,6 +4990,11 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 msgid "cycle..."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__description
+msgid "description"
 msgstr ""
 
 #. module: g2p_programs

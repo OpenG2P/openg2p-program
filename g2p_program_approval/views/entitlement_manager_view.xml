@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_entitlement_manager_approval_default_form" model="ir.ui.view">
+        <field name="name">view_entitlement_manager_approval_default_form</field>
+        <field name="model">g2p.program.entitlement.manager.default</field>
+        <field name="inherit_id" ref="g2p_programs.view_entitlement_manager_default_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Approval Settings">
+                    <field name="approval_mapping_ids" nolabel="1" widget="one2many">
+                        <tree editable="top">
+                            <field name="sequence" widget="handle" />
+                            <field name="state" />
+                            <field name="group_id" />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

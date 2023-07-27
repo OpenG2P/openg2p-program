@@ -8,6 +8,11 @@ class G2PPrograms(models.Model):
 
     reimbursement_program_id = fields.Many2one("g2p.program")
 
+    edit_css = fields.Html(
+        sanitize=False,
+        compute="_compute_css",
+    )
+
     def open_eligible_beneficiaries_form(self):
         res = super(G2PPrograms, self).open_eligible_beneficiaries_form()
         if self.is_reimbursement_program:
@@ -28,3 +33,13 @@ class G2PPrograms(models.Model):
                 ],
             ]
         return res
+
+    def _compute_css(self):
+        for rec in self:
+            # To Remove Edit Option
+            if rec.state == "ended":
+                rec.edit_css = (
+                    "<style>.o_form_button_edit {display: none !important;}</style>"
+                )
+            else:
+                rec.edit_css = False

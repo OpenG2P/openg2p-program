@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="assign_service_provider_to_program_wizard_form_view" model="ir.ui.view">
+        <field name="name">assign_service_provider_to_program_wizard_form_view</field>
+        <field name="model">g2p.assign.program.wizard</field>
+        <field name="inherit_id" ref="g2p_programs.assign_to_program_wizard_form_view" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="program_id" position="attributes">
+                <attribute
+                    name="domain"
+                >[('is_reimbursement_program', '=', True), ('state', '=', 'active')]</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

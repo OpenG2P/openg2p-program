@@ -22,6 +22,14 @@ class PaymentManager(models.Model):
         return selection
 
 
+class G2PCryptoKeySet(models.Model):
+    _inherit = "g2p.crypto.key.set"
+
+    cash_payment_manager_id = fields.Many2one(
+        "g2p.program.payment.manager.cash", ondelete="cascade"
+    )
+
+
 class G2PPaymentManagerCash(models.Model):
     _name = "g2p.program.payment.manager.cash"
     _inherit = "g2p.program.payment.manager.file"
@@ -33,6 +41,9 @@ class G2PPaymentManagerCash(models.Model):
         string="Batch Tags",
         ondelete="cascade",
     )
+
+    # This is a one2one relation
+    crypto_key_set = fields.One2many("g2p.crypto.key.set", "cash_payment_manager_id")
 
     # This will just mark all the payments as done when then cash is given out
     def _send_payments(self, batches):
@@ -49,3 +60,22 @@ class G2PPaymentManagerCash(models.Model):
                     }
                 )
             batch.batch_has_completed = True
+
+
+class PaymentInherit(models.Model):
+    _inherit = "g2p.payment"
+
+    edit_css = fields.Html(
+        sanitize=False,
+        compute="_compute_css",
+    )
+
+    def _compute_css(self):
+        for rec in self:
+            # To Remove Edit Option
+            if rec.status == "paid":
+                rec.edit_css = (
+                    "<style>.o_form_button_edit {display: none !important;}</style>"
+                )
+            else:
+                rec.edit_css = False

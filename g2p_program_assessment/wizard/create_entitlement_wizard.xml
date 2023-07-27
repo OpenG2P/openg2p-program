@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_create_entitlement_wizard_form" model="ir.ui.view">
+        <field name="name">view_create_entitlement_wizard_form</field>
+        <field name="model">g2p.entitlement.create.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="partner_id" string="Beneficiary Name" readonly="1" />
+                        <field name="program_id" invisible="1" />
+                        <field name="initial_amount" string="Recommended Amount" />
+                        <field
+                            name="cycle_id"
+                            invisible="context.get('show_cycle_id', True)"
+                            options="{'no_create': True, 'no_create_edit':True, 'no_open': True}"
+                            domain="[('state', '=', 'approved'), ('program_id', '=', program_id)]"
+                        />
+                        <field name="valid_from" />
+                        <field name="valid_until" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button
+                        name="create_entitlement"
+                        type="object"
+                        string="Create"
+                        class="btn-primary"
+                        confirm="Are you sure you want to create entitlement for this Beneficiary’s application?"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

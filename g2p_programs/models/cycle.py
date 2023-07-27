@@ -6,6 +6,7 @@ import logging
 from lxml import etree
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from . import constants
 
@@ -90,7 +91,9 @@ class G2PCycle(models.Model):
 
     # Statistics
     members_count = fields.Integer(string="# Beneficiaries", readonly=True)
-    entitlements_count = fields.Integer(string="# Entitlements", readonly=True)
+    entitlements_count = fields.Integer(
+        string="# Entitlements", readonly=True, compute="_compute_entitlements_count"
+    )
     payments_count = fields.Integer(string="# Payments", readonly=True)
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
@@ -173,22 +176,31 @@ class G2PCycle(models.Model):
     def copy_beneficiaries_from_program(self):
         # _logger.debug("Copying beneficiaries from program, cycles: %s", cycles)
         self.ensure_one()
-        return self.program_id.get_manager(
-            constants.MANAGER_CYCLE
-        ).copy_beneficiaries_from_program(self)
+        cycle_manager = self.program_id.get_manager(constants.MANAGER_CYCLE)
+        if cycle_manager:
+            return cycle_manager.copy_beneficiaries_from_program(self)
+        else:
+            raise UserError(_("No Cycle Manager defined."))
 
     def check_eligibility(self, beneficiaries=None):
-        self.program_id.get_manager(constants.MANAGER_CYCLE).check_eligibility(
-            self, beneficiaries
-        )
+        cycle_manager = self.program_id.get_manager(constants.MANAGER_CYCLE)
+
+        if cycle_manager:
+            cycle_manager.check_eligibility(self, beneficiaries)
+        else:
+            raise UserError(_("No Cycle Manager defined."))
 
     def to_approve(self):
         for rec in self:
             if rec.state == self.STATE_DRAFT:
-                rec.update({"state": self.STATE_TO_APPROVE})
-                self.program_id.get_manager(
+                entitlement_manager = self.program_id.get_manager(
                     constants.MANAGER_ENTITLEMENT
-                ).set_pending_validation_entitlements(self)
+                )
+                if entitlement_manager:
+                    rec.update({"state": self.STATE_TO_APPROVE})
+                    entitlement_manager.set_pending_validation_entitlements(self)
+                else:
+                    raise UserError(_("No Entitlement Manager defined."))
             else:
                 message = _("Ony 'draft' cycles can be set for approval.")
                 kind = "danger"
@@ -199,7 +211,7 @@ class G2PCycle(models.Model):
                     "params": {
                         "title": _("Cycle"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -221,7 +233,7 @@ class G2PCycle(models.Model):
                     "params": {
                         "title": _("Cycle"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -234,9 +246,13 @@ class G2PCycle(models.Model):
         # 2. Approve the cycle using the cycle manager
         for rec in self:
             cycle_manager = rec.program_id.get_manager(constants.MANAGER_CYCLE)
+            if not cycle_manager:
+                raise UserError(_("No Cycle Manager defined."))
             entitlement_manager = rec.program_id.get_manager(
                 constants.MANAGER_ENTITLEMENT
             )
+            if not entitlement_manager:
+                raise UserError(_("No Entitlement Manager defined."))
             return cycle_manager.approve_cycle(
                 rec,
                 auto_approve=cycle_manager.auto_approve_entitlements,
@@ -249,19 +265,27 @@ class G2PCycle(models.Model):
 
     def prepare_entitlement(self):
         # 1. Prepare the entitlement of the beneficiaries using entitlement_manager.prepare_entitlements()
-        self.program_id.get_manager(constants.MANAGER_CYCLE).prepare_entitlements(self)
+        cycle_manager = self.program_id.get_manager(constants.MANAGER_CYCLE)
+        if not cycle_manager:
+            raise UserError(_("No Cycle Manager defined."))
+
+        return cycle_manager.prepare_entitlements(self)
 
     def prepare_payment(self):
         # 1. Issue the payment of the beneficiaries using payment_manager.prepare_payments()
-        return self.program_id.get_manager(constants.MANAGER_PAYMENT).prepare_payments(
-            self
-        )
+        payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
+        if not payment_manager:
+            raise UserError(_("No Payment Manager defined."))
+
+        return payment_manager.prepare_payments(self)
 
     def send_payment(self):
         # 1. Send the payments using payment_manager.send_payments()
-        return self.program_id.get_manager(constants.MANAGER_PAYMENT).send_payments(
-            self.payment_batch_ids
-        )
+        payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
+        if not payment_manager:
+            raise UserError(_("No Payment Manager defined."))
+
+        return payment_manager.send_payments(self.payment_batch_ids)
 
     def mark_distributed(self):
         # 1. Mark the cycle as distributed using the cycle manager
@@ -278,9 +302,11 @@ class G2PCycle(models.Model):
     def validate_entitlement(self):
         # 1. Make sure the user has the right to do this
         # 2. Validate the entitlement of the beneficiaries using entitlement_manager.validate_entitlements()
-        return self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).validate_entitlements(self)
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        if not entitlement_manager:
+            raise UserError(_("No Entitlement Manager defined."))
+
+        return entitlement_manager.validate_entitlements(self)
 
     def export_distribution_list(self):
         # Not sure if this should be here.
@@ -293,11 +319,9 @@ class G2PCycle(models.Model):
         pass
 
     def open_cycle_form(self):
-        is_cash_entitlement = self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).IS_CASH_ENTITLEMENT
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
         hide_cash = True
-        if is_cash_entitlement:
+        if entitlement_manager and entitlement_manager.IS_CASH_ENTITLEMENT:
             hide_cash = False
 
         return {
@@ -330,9 +354,11 @@ class G2PCycle(models.Model):
         return action
 
     def open_entitlements_form(self):
-        return self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).open_entitlements_form(self)
+        entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+        if entitlement_manager:
+            return entitlement_manager.open_entitlements_form(self)
+        else:
+            raise UserError(_("No Entitlement Manager defined."))
 
     def open_payments_form(self):
         self.ensure_one()

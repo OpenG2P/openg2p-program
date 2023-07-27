@@ -2,6 +2,7 @@
 import logging
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from . import constants
 
@@ -39,6 +40,7 @@ class G2PProgram(models.Model):
             return None
 
     name = fields.Char(required=True)
+    description = fields.Text(string="description")
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company)
     target_type = fields.Selection(
         selection=[("group", "Group"), ("individual", "Individual")], default="group"
@@ -96,9 +98,13 @@ class G2PProgram(models.Model):
 
     # Statistics
     eligible_beneficiaries_count = fields.Integer(
-        string="# Eligible Beneficiaries", readonly=True
+        string="# Eligible Beneficiaries",
+        readonly=True,
+        compute="_compute_eligible_beneficiary_count",
     )
-    beneficiaries_count = fields.Integer(string="# Beneficiaries", readonly=True)
+    beneficiaries_count = fields.Integer(
+        string="# Beneficiaries", readonly=True, compute="_compute_beneficiary_count"
+    )
 
     cycles_count = fields.Integer(
         string="# Cycles", compute="_compute_cycle_count", store=True
@@ -176,7 +182,6 @@ class G2PProgram(models.Model):
                 ret_vals.update({mgr_fld: mgr.id})
         return ret_vals
 
-    @api.depends("program_membership_ids")
     def _compute_duplicate_membership_count(self):
         for rec in self:
             count = rec.count_beneficiaries(["duplicated"])["value"]
@@ -258,13 +263,23 @@ class G2PProgram(models.Model):
 
     def enroll_eligible_registrants(self):
         for rec in self:
-            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants()
+            program_manager = rec.get_manager(self.MANAGER_PROGRAM)
+            if program_manager:
+                return program_manager.enroll_eligible_registrants()
+
+            else:
+                raise UserError(_("No Program Manager defined."))
 
     def verify_eligibility(self):
         for rec in self:
-            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants(
-                ["enrolled", "not_eligible"]
-            )
+            program_manager = rec.get_manager(self.MANAGER_PROGRAM)
+            if program_manager:
+                return program_manager.enroll_eligible_registrants(
+                    ["enrolled", "not_eligible"]
+                )
+
+            else:
+                raise UserError(_("No Program Manager defined."))
 
     def deduplicate_beneficiaries(self):
         for rec in self:
@@ -281,8 +296,7 @@ class G2PProgram(models.Model):
                     message = _("%s Beneficiaries duplicate.", duplicates)
                     kind = "warning"
             else:
-                message = _("No Deduplication Manager defined.")
-                kind = "danger"
+                raise UserError(_("No Deduplication Manager defined."))
 
             if message:
                 return {
@@ -291,7 +305,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Deduplication"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -313,11 +327,9 @@ class G2PProgram(models.Model):
             cycle_manager = rec.get_manager(self.MANAGER_CYCLE)
             program_manager = rec.get_manager(self.MANAGER_PROGRAM)
             if cycle_manager is None:
-                message = _("No Eligibility Manager defined.")
-                kind = "danger"
+                raise UserError(_("No Cycle Manager defined."))
             elif program_manager is None:
-                message = _("No Program Manager defined.")
-                kind = "danger"
+                raise UserError(_("No Program Manager defined."))
             if message is not None:
                 return {
                     "type": "ir.actions.client",

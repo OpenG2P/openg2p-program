@@ -6,12 +6,22 @@ class G2PEntitlement(models.Model):
 
     service_provider_id = fields.Many2one("res.partner")
 
+    is_reimbursement = fields.Boolean(
+        related="program_id.is_reimbursement_program",
+        string="Is Reimbursement",
+        readonly=True,
+    )
+
     reimbursement_original_entitlement_id = fields.Many2one(
         "g2p.entitlement", string="Original Entitlement of this Reimbursement"
     )
 
     reimbursement_entitlement_ids = fields.One2many(
         "g2p.entitlement", "reimbursement_original_entitlement_id"
+    )
+    recommended_amount = fields.Monetary(
+        string="Recommended amount ",
+        related="reimbursement_original_entitlement_id.initial_amount",
     )
 
     def _compute_name(self):
@@ -45,7 +55,6 @@ class G2PEntitlement(models.Model):
         # return error_code, entitlement
         self.ensure_one()
 
-        # TODO: check active cycle in reimbursement program
         # TODO: Check if beneficiary of reimbursement program
 
         if not self.code == received_code:
@@ -72,7 +81,7 @@ class G2PEntitlement(models.Model):
                     "valid_from": reimbursement_cycle.start_date,
                     "valid_until": reimbursement_cycle.end_date,
                     "supporting_document_ids": [
-                        (4, file_id) for file_id in supporting_document_file_ids
+                        (4, file) for file in supporting_document_file_ids
                     ],
                     "reimbursement_original_entitlement_id": self.id,
                 }

@@ -8,15 +8,10 @@
     "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "depends": [
-        "g2p_programs",
-    ],
+    "depends": ["g2p_programs"],
     "data": [
-        "security/ir.model.access.csv",
         "views/program_view.xml",
-        "views/program_membership.xml",
         "views/program_manager_view.xml",
-        "wizard/create_entitlement_wizard.xml",
     ],
     "assets": {},
     "demo": [],

@@ -20,11 +20,17 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 class="btn-success"
                             />
                             <field name="program_id" />
-                            <field name="status" />
+                            <field name="state" />
                             <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                         </tree>
                     </field>
                 </page>
+            </xpath>
+            <xpath
+                expr="//field[@name='program_membership_ids']/tree/field[@name='partner_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">True</attribute>
             </xpath>
         </field>
     </record>
@@ -38,19 +44,26 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <xpath expr="//page[@name='other']" position="before">
                 <page name="program_info" string="Program Info">
                     <field name="program_registrant_info_ids" nolabel="1">
-                        <tree editable="none">
+                        <tree editable="top" default_order="create_date desc">
                             <button
                                 name="open_registrant_form"
                                 type="object"
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
+                            <field name="create_date" invisible="1" />
                             <field name="program_id" />
-                            <field name="status" />
+                            <field name="state" />
                             <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                         </tree>
                     </field>
                 </page>
+            </xpath>
+            <xpath
+                expr="//field[@name='program_membership_ids']/tree/field[@name='partner_id']"
+                position="attributes"
+            >
+                <attribute name="invisible">True</attribute>
             </xpath>
         </field>
     </record>

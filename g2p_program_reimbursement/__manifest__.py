@@ -10,12 +10,16 @@
     "development_status": "Alpha",
     "depends": [
         "g2p_programs",
+        # TODO: The following need not be a dependency
+        "g2p_program_assessment",
     ],
     "data": [
         "views/program_view.xml",
         "views/cycle_view.xml",
         "views/entitlement_view.xml",
+        "wizard/assign_to_program_wizard.xml",
         "wizard/create_program_wizard.xml",
+        "wizard/create_entitlement_wizard.xml",
     ],
     "assets": {},
     "demo": [],

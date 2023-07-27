@@ -48,6 +48,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         action="action_payment_batch_tag"
         parent="g2p_programs.g2p_program_configuration_menu_root"
         sequence="1100"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
     />
 
 </odoo>

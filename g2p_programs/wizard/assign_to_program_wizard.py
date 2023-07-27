@@ -34,7 +34,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
     program_id = fields.Many2one(
         "g2p.program",
         "",
-        domain="[('target_type', '=', target_type)]",
+        domain="[('target_type', '=', target_type), ('state', '=', 'active')]",
         help="A program",
         required=True,
     )
@@ -48,6 +48,8 @@ class G2PAssignToProgramWizard(models.TransientModel):
             ctr = 0
             ig_ctr = 0
             ok_ctr = 0
+            message = None
+            kind = "success"
             for rec in self.env["res.partner"].search([("id", "in", partner_ids)]):
                 if self.program_id not in rec.program_membership_ids.program_id:
                     ctr += 1
@@ -96,6 +98,45 @@ class G2PAssignToProgramWizard(models.TransientModel):
                 "Total selected registrants:%s, Total ignored:%s, Total added to group:%s"
                 % (ctr, ig_ctr, ok_ctr)
             )
+
+            if len(partner_ids) == 1:
+                if ig_ctr:
+                    message = _(
+                        "%(registrant)s was already in the Program %(program)s"
+                    ) % {
+                        "registrant": rec.name,
+                        "program": self.program_id.name,
+                    }
+                    kind = "danger"
+
+            else:
+                if not ctr:
+                    message = (
+                        _("Registrant's was already in the Program %s")
+                        % self.program_id.name
+                    )
+                    kind = "danger"
+
+                else:
+                    message = _(
+                        "Total registrants:%(total)s, Already in program:%(existing)s, Newly added:%(new)s"
+                    ) % {"total": ctr + ig_ctr, "existing": ig_ctr, "new": ok_ctr}
+                    kind = "warning"
+
+            if message:
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Program"),
+                        "message": message,
+                        "sticky": False,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
+                    },
+                }
 
     def open_wizard(self):
 

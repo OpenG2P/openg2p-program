@@ -3,7 +3,7 @@ import logging
 from uuid import uuid4
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 from . import constants
 
@@ -112,7 +112,7 @@ class G2PEntitlement(models.Model):
                     "g2p_programs.g2p_program_validator"
                 )
 
-                if group_g2p_registrar or g2p_program_validator:
+                if not (group_g2p_registrar or g2p_program_validator):
                     raise ValidationError(
                         _("You have no access in the Entitlement List View")
                     )
@@ -176,33 +176,39 @@ class G2PEntitlement(models.Model):
         return self.state == "approved" and self.valid_until >= fields.Date.today()
 
     def unlink(self):
-        if self.state == "draft":
-            return super(G2PEntitlement, self).unlink()
-        else:
-            raise ValidationError(
-                _("Only draft entitlements are allowed to be deleted")
-            )
+        if self:
+            to_delete = self.filtered(lambda x: x.state == "draft")
+            if to_delete:
+                return super(G2PEntitlement, to_delete).unlink()
+            else:
+                raise ValidationError(
+                    _("Only draft entitlements are allowed to be deleted")
+                )
 
     def approve_entitlement(self):
-        state_err, message = self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).approve_entitlements(self)
+        ent_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
 
-        if state_err > 0:
-            kind = "danger"
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": _("Entitlement"),
-                    "message": message,
-                    "sticky": True,
-                    "type": kind,
-                    "next": {
-                        "type": "ir.actions.act_window_close",
+        if ent_manager:
+            state_err, message = ent_manager.approve_entitlements(self)
+
+            if state_err > 0:
+                kind = "danger"
+                return {
+                    "type": "ir.actions.client",
+                    "tag": "display_notification",
+                    "params": {
+                        "title": _("Entitlement"),
+                        "message": message,
+                        "sticky": True,
+                        "type": kind,
+                        "next": {
+                            "type": "ir.actions.act_window_close",
+                        },
                     },
-                },
-            }
+                }
+
+        else:
+            raise UserError(_("No Entitlement Manager defined."))
 
     def open_entitlement_form(self):
         return self.program_id.get_manager(
