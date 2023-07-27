@@ -21,6 +21,42 @@ class ManagerSourceMixin(models.AbstractModel):
         #    ).manager_id = res.id
         return res
 
+    def unlink(self):
+        for rec in self:
+            program_id = rec.read()[0].get("program_id", None)
+            if program_id:
+                program_id = program_id[0]
+                program = self.env["g2p.program"].browse(program_id)
+                manager = self.get_manager_for_unlink(program, f"{rec._name},{rec.id}")
+                if manager:
+                    manager.unlink()
+        return super().unlink()
+
+    @api.model
+    def get_manager_for_unlink(self, program_id, manager_ref):
+        for manager in program_id.eligibility_managers:
+            if manager_ref == manager.read()[0].get("manager_ref_id", ""):
+                return manager
+        for manager in program_id.deduplication_managers:
+            if manager_ref == manager.read()[0].get("manager_ref_id", ""):
+                return manager
+        for manager in program_id.notification_managers:
+            if manager_ref == manager.read()[0].get("manager_ref_id", ""):
+                return manager
+        for manager in program_id.program_managers:
+            if manager_ref == manager.read()[0].get("manager_ref_id", ""):
+                return manager
+        for manager in program_id.cycle_managers:
+            if manager_ref == manager.read()[0].get("manager_ref_id", ""):
+                return manager
+        for manager in program_id.entitlement_managers:
+            if manager_ref == manager.read()[0].get("manager_ref_id", ""):
+                return manager
+        for manager in program_id.payment_managers:
+            if manager_ref == manager.read()[0].get("manager_ref_id", ""):
+                return manager
+        return None
+
     def get_manager_view_id(self):
         """Retrieve form view."""
         return (
