@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo noupdate="0">
+    <record id="g2p_programs.g2p_program_validator" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('g2p_documents.group_g2p_document_read'))]" />
+    </record>
+
+    <record id="g2p_programs.g2p_program_cycle_approver" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('g2p_documents.group_g2p_document_write'))]" />
+    </record>
+
+    <record id="g2p_programs.g2p_program_manager" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('g2p_documents.group_g2p_document_write'))]" />
+    </record>
+
+    <record id="g2p_programs.g2p_finance_validator" model="res.groups">
+        <field name="implied_ids" eval="[Command.link(ref('g2p_documents.group_g2p_document_read'))]" />
+    </record>
+</odoo>
