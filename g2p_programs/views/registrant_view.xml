@@ -27,7 +27,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                           <field name="program_id" />
                           <field name="enrollment_date" />
                           <field name="exit_date" />
-                          <field name="delivery_mechanism_value" />
+                          <field name="delivery_mechanism_value" invisible="1" />
                           <field
                                 name="state"
                                 decoration-primary="state=='draft'"
@@ -87,7 +87,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <field name="program_id" />
                         <field name="enrollment_date" />
                         <field name="exit_date" />
-                        <field name="delivery_mechanism_value" />
+                        <field name="delivery_mechanism_value" invisible="1" />
                         <field
                                 name="state"
                                 decoration-primary="state=='draft'"
