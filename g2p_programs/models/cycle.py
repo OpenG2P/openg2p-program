@@ -320,9 +320,14 @@ class G2PCycle(models.Model):
 
     def open_cycle_form(self):
         entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
-        hide_cash = True
-        if entitlement_manager and entitlement_manager.IS_CASH_ENTITLEMENT:
-            hide_cash = False
+        payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
+        hide_cash = (
+            False
+            if entitlement_manager and entitlement_manager.IS_CASH_ENTITLEMENT
+            else True
+        )
+        if not payment_manager:
+            hide_cash = True
 
         return {
             "name": "Cycle",
