@@ -7,12 +7,13 @@
     "author": "OpenG2P",
     "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
-    "development_status": "Alpha",
+    "development_status": "Production/Stable",
     "depends": [
         "g2p_documents",
         "g2p_programs",
     ],
     "data": [
+        "security/program_documents_security.xml",
         "views/programs_view.xml",
         "views/program_membership_view.xml",
         "views/entitlement_view.xml",

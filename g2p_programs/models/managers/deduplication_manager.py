@@ -237,9 +237,8 @@ class IDDocumentDeduplication(models.Model):
         # Check ID Documents of each individual
         for i in group_memberships:
             for x in i.individual.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
+                if x.id_type in self.supported_id_document_types and (
+                    (not x.expiry_date) or x.expiry_date > date.today()
                 ):
                     id_doc_id_with_id_type_and_value = {
                         x.id: x.id_type.name + "-" + x.value
@@ -249,9 +248,8 @@ class IDDocumentDeduplication(models.Model):
         # Check ID Docs of each group
         for ix in group:
             for x in ix.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
+                if x.id_type in self.supported_id_document_types and (
+                    (not x.expiry_date) or x.expiry_date > date.today()
                 ):
                     id_doc_id_with_id_type_and_value = {
                         x.id: x.id_type.name + "-" + x.value
@@ -335,9 +333,8 @@ class IDDocumentDeduplication(models.Model):
         # Check ID Documents of each individual
         for i in individuals:
             for x in i.reg_ids:
-                if (
-                    x.id_type in self.supported_id_document_types
-                    and x.expiry_date > date.today()
+                if x.id_type in self.supported_id_document_types and (
+                    (not x.expiry_date) or x.expiry_date > date.today()
                 ):
                     id_doc_id_with_id_type_and_value = {
                         x.id: x.id_type.name + "-" + x.value
@@ -663,7 +660,7 @@ class IDDocumentDeduplicationEligibilityManager(models.Model):
                 registrant_ids_with_id += [
                     i.id
                     for x in i.reg_ids
-                    if x.expiry_date and x.expiry_date > date.today()
+                    if (not x.expiry_date) or x.expiry_date > date.today()
                 ]
         registrant_ids_with_id = list(dict.fromkeys(registrant_ids_with_id))
         _logger.debug("Eligible registrants with ID: %s", registrant_ids_with_id)
