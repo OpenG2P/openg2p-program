@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-07-20 12:24+0000\n"
+"PO-Revision-Date: 2023-08-01 15:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -23,13 +23,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 msgid "# Beneficiaries"
-msgstr "سوودمەندبووان# سودمەندان"
+msgstr "# سودمەندبووان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__entitlements_count
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__entitlements_count
 msgid "# Cash Entitlements"
-msgstr "module: g2p_بەرنامەکان# مافی کاش"
+msgstr "# مافە نەختینەییەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__cycles_count
@@ -37,28 +37,28 @@ msgstr "module: g2p_بەرنامەکان# مافی کاش"
 #: model:ir.model.fields,field_description:g2p_programs.field_res_users__cycles_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 msgid "# Cycles"
-msgstr "# پاسکیلەکان"
+msgstr "# دابەشکردنی مانگانە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__eligible_beneficiaries_count
 msgid "# Eligible Beneficiaries"
-msgstr "# سودمەندانی شایستە"
+msgstr "# سودمەندبووانی شایستە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__entitlements_count
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_tree
 msgid "# Entitlements"
-msgstr "# مافەکان"
+msgstr "# ماددەکان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_id_dedup_tree
 msgid "# IDs"
-msgstr "# ناسنامە"
+msgstr "# ناسنامەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__duplicate_membership_count
 msgid "# Membership Duplicates"
-msgstr "# دووبارەکردنەوەی ئەندامێتی"
+msgstr "# ئەندامە دووبارەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__payments_count
@@ -66,7 +66,7 @@ msgstr "# دووبارەکردنەوەی ئەندامێتی"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_tree
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "# Payments"
-msgstr "# پارەدان"
+msgstr "# پارەدانەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_res_partner__program_membership_count
