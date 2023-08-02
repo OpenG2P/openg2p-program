@@ -250,6 +250,9 @@ class G2PProgramMembership(models.Model):
                 if duplicates > 0:
                     message = _("%s Beneficiaries duplicate.", duplicates)
                     kind = "warning"
+                else:
+                    message = _("No duplicates found.")
+                    kind = "success"
         else:
             raise UserError(_("No Deduplication Manager defined."))
 
