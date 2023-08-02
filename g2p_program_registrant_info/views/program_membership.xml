@@ -11,7 +11,7 @@
                     <field name="program_registrant_info_ids" readonly="1" nolabel="1">
                         <tree default_order="create_date desc">
                             <field name="create_date" invisible="1" />
-                            <field name="program_id"/>
+                            <field name="program_id" />
                             <field name="program_registrant_info" widget="g2p_addl_info_widget" />
                             <field name="application_id" />
                             <field name="state" />
