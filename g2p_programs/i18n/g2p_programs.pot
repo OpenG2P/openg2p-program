@@ -3092,6 +3092,13 @@ msgid "No beneficiaries to import."
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/program_membership.py:0
+#: code:addons/g2p_programs/models/programs.py:0
+#, python-format
+msgid "No duplicates found."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__email_normalized
 msgid "Normalized Email"
 msgstr ""
