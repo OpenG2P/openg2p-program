@@ -361,7 +361,10 @@ class IDDocumentDeduplication(models.Model):
         individual_ids = list(dict.fromkeys(individual_ids))
         _logger.debug("Individual IDS with Duplicated ID Documents: %s", individual_ids)
         individual_program_membership = self.env["g2p.program_membership"].search(
-            [("partner_id", "in", individual_ids)]
+            [
+                ("partner_id", "in", individual_ids),
+                ("program_id", "=", self.program_id.id),
+            ]
         )
 
         for duplicates in individual_program_membership:
@@ -600,7 +603,10 @@ class PhoneNumberDeduplication(models.Model):
             "Individual IDS with Duplicated Phone Numbers: %s", individual_ids
         )
         individual_program_membership = self.env["g2p.program_membership"].search(
-            [("partner_id", "in", individual_ids)]
+            [
+                ("partner_id", "in", individual_ids),
+                ("program_id", "=", self.program_id.id),
+            ]
         )
 
         for duplicates in individual_program_membership:

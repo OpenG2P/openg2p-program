@@ -1,0 +1,241 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_payment_interop_layer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_payment_interop_layer
+#: code:addons/g2p_payment_interop_layer/models/payment_manager.py:0
+#, python-format
+msgid "%s new payments was issued."
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.actions.act_window,help:g2p_payment_interop_layer.action_payment_manager_payment_interop
+msgid "Add a Payment Manager!"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: code:addons/g2p_payment_interop_layer/models/payment_manager.py:0
+#, python-format
+msgid "All entitlements selected are not approved!"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__create_batch
+msgid "Automatically Create Batch"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields.selection,name:g2p_payment_interop_layer.selection__g2p_program_payment_manager_payment_interop_layer__payee_id_type__bank_acc_no
+msgid "Bank Account Number"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__batch_tag_ids
+msgid "Batch Tags"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.actions.act_window,help:g2p_payment_interop_layer.action_payment_manager_payment_interop
+msgid ""
+"Click the create button to enter a new Payment Interoperability payment "
+"manager."
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields.selection,name:g2p_payment_interop_layer.selection__g2p_program_payment_manager_payment_interop_layer__payee_id_type__email
+msgid "Email"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "Enter the Manager Name..."
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.payment_manager_payment_interop_filter
+msgid "Group By"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields.selection,name:g2p_payment_interop_layer.selection__g2p_program_payment_manager_payment_interop_layer__payee_id_type__bank_acc_iban
+msgid "IBAN"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__id
+msgid "ID"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "ID Type for Payee ID"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__name
+msgid "Manager Name"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__max_batch_size
+msgid "Max Batch Size"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "Maximum Batch Size"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "Name:"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__reg_id_type_for_payee_id
+msgid "Payee DFSP ID Type"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__payee_id_type
+msgid "Payee ID Field"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "Payee ID Type Rewritten"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__payee_id_type_to_send
+msgid "Payee Id Type To Send"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: code:addons/g2p_payment_interop_layer/models/payment_manager.py:0
+#, python-format
+msgid "Payment"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__payment_endpoint_url
+msgid "Payment Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model,name:g2p_payment_interop_layer.model_g2p_program_payment_manager_payment_interop_layer
+msgid "Payment Interoperability Layer"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "Payment Interoperability Layer Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.ui.menu,name:g2p_payment_interop_layer.menu_payment_manager_payment_interop
+msgid "Payment Interoperability Layer Payment Managers"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model,name:g2p_payment_interop_layer.model_g2p_program_payment_manager
+msgid "Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.actions.act_window,name:g2p_payment_interop_layer.action_payment_manager_payment_interop
+msgid "Payment Managers"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields.selection,name:g2p_payment_interop_layer.selection__g2p_program_payment_manager_payment_interop_layer__payee_id_type__phone
+msgid "Phone"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__program_id
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.payment_manager_payment_interop_filter
+msgid "Program"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "Program:"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields.selection,name:g2p_payment_interop_layer.selection__g2p_program_payment_manager_payment_interop_layer__payee_id_type__reg_id
+msgid "Registrant ID"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.payment_manager_payment_interop_filter
+msgid "Search Payment Interoperability Layer Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "Select a program..."
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,help:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__currency_id
+msgid "The currency used to enter statement"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: code:addons/g2p_payment_interop_layer/models/payment_manager.py:0
+#, python-format
+msgid "There are no new payments issued!"
+msgstr ""
+
+#. module: g2p_payment_interop_layer
+#: model:ir.model.fields,help:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__payee_id_type_to_send
+msgid "This will be replaced for the payee ID type"
+msgstr ""

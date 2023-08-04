@@ -13,6 +13,34 @@ class G2pProgramRegistrantInfo(models.TransientModel):
     _name = "g2p.program.registrantinfo.wizard"
     _description = "G2P Program Registrant Info Wizard"
 
+    def create_registrantinfo(self):
+        membership = (
+            self.env["g2p.program_membership"]
+            .sudo()
+            .search([("id", "=", self._context.get("active_id"))])
+        )
+        partners = membership.partner_id
+        program = membership.program_id
+        if not partners or not program:
+            return
+        try:
+
+            # TODO: Add the program_registrant_info field logic
+
+            self.env["g2p.program.registrant_info"].sudo().create(
+                {
+                    "state": "active",
+                    "program_registrant_info": "",
+                    "program_id": program.id,
+                    "registrant_id": partners.id,
+                }
+            )
+
+        except Exception as e:
+            _logger.exception(
+                "An error occurred while creating registrant info: %s", str(e)
+            )
+
     def jsonize_form_data(self, data, program, membership=None):
         try:
             for key in data:
@@ -46,9 +74,10 @@ class G2pProgramRegistrantInfo(models.TransientModel):
                 if file and store:
                     binary_data = base64.b64decode(file.datas)
                     filestream = BytesIO(binary_data)
+                    document_extenstion = "." + file.mimetype.split("/")[1]
                     document_file = store.add_file(
                         filestream.read(),
-                        extension=None,
+                        extension=document_extenstion,
                         program_membership=program_membership,
                         tags=tags,
                     )

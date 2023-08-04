@@ -37,6 +37,10 @@ class ProgramFundManagement(models.Model):
         readonly=True,
         default="draft",
     )
+    edit_css = fields.Html(
+        sanitize=False,
+        compute="_compute_css",
+    )
 
     @api.ondelete(at_uninstall=False)
     def _unlink_fund(self):
@@ -114,3 +118,13 @@ class ProgramFundManagement(models.Model):
                         "type": kind,  # types: success,warning,danger,info
                     },
                 }
+
+    def _compute_css(self):
+        for rec in self:
+            # To Remove Edit Option
+            if rec.state == "posted":
+                rec.edit_css = (
+                    "<style>.o_form_button_edit {display: none !important;}</style>"
+                )
+            else:
+                rec.edit_css = False

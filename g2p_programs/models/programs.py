@@ -2,6 +2,7 @@
 import logging
 
 from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 from . import constants
 
@@ -262,13 +263,23 @@ class G2PProgram(models.Model):
 
     def enroll_eligible_registrants(self):
         for rec in self:
-            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants()
+            program_manager = rec.get_manager(self.MANAGER_PROGRAM)
+            if program_manager:
+                return program_manager.enroll_eligible_registrants()
+
+            else:
+                raise UserError(_("No Program Manager defined."))
 
     def verify_eligibility(self):
         for rec in self:
-            return rec.get_manager(self.MANAGER_PROGRAM).enroll_eligible_registrants(
-                ["enrolled", "not_eligible"]
-            )
+            program_manager = rec.get_manager(self.MANAGER_PROGRAM)
+            if program_manager:
+                return program_manager.enroll_eligible_registrants(
+                    ["enrolled", "not_eligible"]
+                )
+
+            else:
+                raise UserError(_("No Program Manager defined."))
 
     def deduplicate_beneficiaries(self):
         for rec in self:
@@ -285,8 +296,7 @@ class G2PProgram(models.Model):
                     message = _("%s Beneficiaries duplicate.", duplicates)
                     kind = "warning"
             else:
-                message = _("No Deduplication Manager defined.")
-                kind = "danger"
+                raise UserError(_("No Deduplication Manager defined."))
 
             if message:
                 return {
@@ -295,7 +305,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Deduplication"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -317,11 +327,9 @@ class G2PProgram(models.Model):
             cycle_manager = rec.get_manager(self.MANAGER_CYCLE)
             program_manager = rec.get_manager(self.MANAGER_PROGRAM)
             if cycle_manager is None:
-                message = _("No Cycle Manager defined.")
-                kind = "danger"
+                raise UserError(_("No Cycle Manager defined."))
             elif program_manager is None:
-                message = _("No Program Manager defined.")
-                kind = "danger"
+                raise UserError(_("No Program Manager defined."))
             if message is not None:
                 return {
                     "type": "ir.actions.client",
