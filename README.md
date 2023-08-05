@@ -10,7 +10,7 @@
 
 # OpenG2P Program
 
-Program Management. Refer to the documentation [here](https://docs.openg2p.org/beneficiary-management).
+Program Management. Refer to [OpenG2P Docs](https://docs.openg2p.org/v/1.1).
 
 <!-- /!\ do not modify below this line -->
 
