@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-02 12:24+0000\n"
+"PO-Revision-Date: 2023-08-06 08:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -97,7 +97,7 @@ msgstr "%s سودمەندبووان داخڵکران."
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
 #, python-format
 msgid "%s new payments was issued."
-msgstr "%s پارەی نوێ دەرچوو."
+msgstr "%s بەشە پارەی نوێ دەرچوو."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
