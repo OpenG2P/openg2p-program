@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-06 14:24+0000\n"
+"PO-Revision-Date: 2023-08-07 14:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -143,12 +143,12 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "<span class=\"o_stat_text\">Duplicates</span>"
-msgstr "<span class=\"o_stat_text\">دوبارەکردنەوە</span>"
+msgstr "<span class=\"o_stat_text\">دوبارەبووەکان</span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 msgid "<span class=\"o_stat_text\">Entitlements</span>"
-msgstr "<span class=\"o_stat_text\">مافیاتەکان</span>"
+msgstr "<span class=\"o_stat_text\">ماف و شایستەییەکان</span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
@@ -159,29 +159,29 @@ msgstr "<span class=\"o_stat_text\">پارەدانەکان</span>"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "<span class=\"o_stat_text\">Related Job(s)</span>"
-msgstr "<span class=\"o_stat_text\">پارەدانەکان</span>"
+msgstr "<span class=\"o_stat_text\">ئەرکە پەیوەندیدارەکان</span>"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "<span>Warning: Operation in progress: </span>"
-msgstr "<span>ئاگاداری: کارکردن لە پێشڕەویدایە: </span>"
+msgstr "<span>ئاگاداری: کارکردن بەردەوامە: </span>"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval__cycle_id
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval_wizard__cycle_id
 msgid "A Cycle"
-msgstr "خولێک"
+msgstr "دابەشکردنێکی مانگانە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval__entitlement_id
 msgid "A Entitlement"
-msgstr "مافێک"
+msgstr "شایستەییەک"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_multi_entitlement_approval__wizard_id
 msgid "A Wizard"
-msgstr "جادووگەرێک"
+msgstr "ڕێنمایی"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle_membership__partner_id
@@ -190,17 +190,17 @@ msgstr "جادووگەرێک"
 #: model:ir.model.fields,help:g2p_programs.field_g2p_payment__partner_id
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__partner_id
 msgid "A beneficiary"
-msgstr "سودمەندێک"
+msgstr "سودمەندبوویەک"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle_membership__cycle_id
 msgid "A cycle"
-msgstr "خولگەیەک"
+msgstr "دابەشکردنێکی مانگانە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "A journal must be defined for this program. Select a journal in the"
-msgstr "بۆ ئەم بەرنامەیە دەبێت گۆڤارێک دیاری بکرێت. گۆڤارێک لە ناو"
+msgstr "بۆ ئەم بەرنامەیە دەبێت بنەماکان پێناسەبکرێن. بنەماکان لە ناو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_assign_program_wizard__program_id
@@ -211,7 +211,7 @@ msgstr "بەرنامەیەک"
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_account_journal_conf
 msgid "Account Journals"
-msgstr "گۆڤاری ئەکاونت"
+msgstr "تۆمارکردنی هەژمار"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__account_number
@@ -235,7 +235,7 @@ msgstr "ژمێریاری"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Accounting Journal Entry"
-msgstr "نووسینی گۆڤاری ژمێریاری"
+msgstr "نووسینی ژمێریاری رۆژانە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_needaction
@@ -243,7 +243,7 @@ msgstr "نووسینی گۆڤاری ژمێریاری"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_needaction
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_needaction
 msgid "Action Needed"
-msgstr "کردەوەی پێویستە"
+msgstr "کردار پێویستە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__active
@@ -256,14 +256,14 @@ msgstr "چالاک"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_ids
 msgid "Activities"
-msgstr "چالاکیەکان"
+msgstr "چالاکییەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_exception_decoration
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_exception_decoration
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "ڕازاندنەوەی ئیستسنای چالاکییەکان"
+msgstr "دیاریکردنی چالاکییە تایبەتەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_state
@@ -277,7 +277,7 @@ msgstr "دۆخی چالاکییەکان"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__activity_type_icon
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "ئایکۆنی جۆری چالاکیی"
+msgstr "هێمای جۆری چالاکی"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_assign_payments_batch_wizard
