@@ -10,7 +10,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="priority" eval="170" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='date_approved']/../.." position="after">
-                <group string="Assessments">
+                <group string="Comments">
                     <field
                         name="assessment_ids"
                         nolabel="1"
