@@ -13,12 +13,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <button
                     name="prepare_assessment"
                     type="object"
-                    attrs="{'invisible':['|',('show_prepare_assessment_button', '!=', True),
-                                        '&amp;',
-                                            ('show_prepare_assessment_button', '=', True),
-                                        '&amp;',
-                                            ('show_create_entitlement_button', '!=', True),
-                                            ('show_reject_application_assessment_button', '=', True)]}"
+                    attrs="{'invisible':[('show_prepare_assessment_button', '!=', True)]}"
                     string="Prepare Assessment"
                     class="btn-primary"
                 />
