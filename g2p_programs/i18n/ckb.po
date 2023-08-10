@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-10 10:24+0000\n"
+"PO-Revision-Date: 2023-08-10 14:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -1102,12 +1102,12 @@ msgstr "ئەندامێتی لە دابەشکارییە مانگانەکان"
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_cycle_recurrence_mixin
 msgid "Cycle Recurrence Mixin"
-msgstr "دووبارەبوونەوەی خول میکسین"
+msgstr "دووبارە دابەشکردنەوەی تێکەڵاو"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
 msgid "Cycle Settings"
-msgstr "ڕێکخستنەکانی خول"
+msgstr "ڕێکخستنەکانی دابەشکردنی مانگانە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
@@ -1115,7 +1115,7 @@ msgstr "ڕێکخستنەکانی خول"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Cycle:"
-msgstr "سووڕ:"
+msgstr "دابەشکردنی مانگانە:"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
@@ -1124,17 +1124,17 @@ msgstr "سووڕ:"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, python-format
 msgid "Cycles"
-msgstr "خولەکان"
+msgstr "دابەشکردنەکانی مانگانە"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_notification_manager_sms_form
 msgid "Cycles Ended"
-msgstr "خولەکان کۆتایی هات"
+msgstr "دابەشکردن کۆتایی هات"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_notification_manager_sms_form
 msgid "Cycles Started"
-msgstr "خولەکان دەستی پێکرد"
+msgstr "دابەشکردنەکان دەستیپێکرد"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
@@ -1150,17 +1150,17 @@ msgstr "ڕێکەوت"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__date_approved
 msgid "Date Approved"
-msgstr "بەرواری پەسەندکراو"
+msgstr "ڕێکەوت پەسەندکرا"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__date_ended
 msgid "Date Ended"
-msgstr "بەرواری کۆتایی هاتنی"
+msgstr "ماوەکە کۆتایی هات"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "Date Entered"
-msgstr "بەرواری داخڵکردن"
+msgstr "ڕێکەوتی دیاریکراو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__date_posted
