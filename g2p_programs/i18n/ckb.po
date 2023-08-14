@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-10 14:24+0000\n"
+"PO-Revision-Date: 2023-08-14 12:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -1167,7 +1167,7 @@ msgstr "ڕێکەوتی دیاریکراو"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_fund_report_filter
 msgid "Date Posted"
-msgstr "به‌رواری پۆستکردنی"
+msgstr "ڕێکەوتی پۆستکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__day
@@ -1192,18 +1192,18 @@ msgstr "ڕۆژەکان"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Deduplicate"
-msgstr "دووبارە نەکردنەوە"
+msgstr "دووبارە نەبوونەوە"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "Deduplication"
-msgstr "دووبارە نەکردنەوە"
+msgstr "سڕینەوەی دووبارەبووان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__comment
 msgid "Deduplication Comment"
-msgstr "دووبارە نەکردنەوە"
+msgstr "تێبینی لەسەر سڕینەوەی دووبارەبووان"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_deduplication_manager
@@ -1211,88 +1211,88 @@ msgstr "دووبارە نەکردنەوە"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_deduplication_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Deduplication Manager"
-msgstr "بەڕێوەبەری دووبارە نەکردنەوە"
+msgstr "بەڕێوەبەری سڕینەوەی دووبارەبووان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__deduplication_managers
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Deduplication Managers"
-msgstr "بەڕێوەبەری دووبارە نەکردنەوە"
+msgstr "بەڕێوەبەرانی سڕینەوەی دووبارەبووان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__reason
 msgid "Deduplication Reason"
-msgstr "هۆکاری دووبارە نەکردنەوە"
+msgstr "هۆکاری دووبارە بوونەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__deduplication_status
 msgid "Deduplication Status"
-msgstr "دۆخی دووبارە نەکردنەوە"
+msgstr "دۆخی سڕینەوەی دووبارەبووان"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__entitlement_kind__default
 msgid "Default"
-msgstr "بنەڕەتی"
+msgstr "پێشوەختە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_cycle_manager_default
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
 msgid "Default Cycle Manager"
-msgstr "بەڕێوەبەری خولی پێشوەختە"
+msgstr "بەڕێوەبەریی پێشوەختەی دابەشکردنی مانگانە"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_cycle_manager_default
 msgid "Default Cycle Managers"
-msgstr "بەڕێوەبەرانی خولی پێشوەختە"
+msgstr "بەڕێوەبەرانی پێشوەختەی دابەشکردنی مانگانە"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_deduplication_manager_default
 msgid "Default Deduplication Manager"
-msgstr "بەڕێوەبەری دووبارە نەکردنەوە بە شێوەی پێشوەختە"
+msgstr "بەڕێوەبەری پێشوەختەی سڕینەوەی دووبارەبووان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_eligibility_manager_default_form
 msgid "Default Eligibility Manager"
-msgstr "بەڕێوەبەری شایستەیی پێشوەختە"
+msgstr "بەڕێوەبەریی پێشوەختە شایستەیی"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_eligibility_manager_default
 #: model:ir.ui.menu,name:g2p_programs.menu_eligibility_manager_default
 msgid "Default Eligibility Managers"
-msgstr "بەڕێوەبەرانی شایستەیی پێشوەختە"
+msgstr "بەڕێوەبەرانیی پێشوەختەی شایستەیی"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager_default
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_default_form
 msgid "Default Entitlement Manager"
-msgstr "بەڕێوەبەری مافی پێشوەختە"
+msgstr "بەڕێوەبەری پێشوەختەی شایستەییەکان"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_entitlement_manager_default
 msgid "Default Entitlement Managers"
-msgstr "بەڕێوەبەرانی مافی پێشوەختە"
+msgstr "بەڕێوەبەرانی پێشوەختەی شایستەییەکان"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_payment_manager_default
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_manager_default_form
 msgid "Default Payment Manager"
-msgstr "بەڕێوەبەری پارەدانی پێشوەختە"
+msgstr "بەڕێوەبەریی پێشوەختە پارەدان"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_payment_manager_default
 msgid "Default Payment Managers"
-msgstr "بەڕێوەبەرانی پارەدانی پێشوەختە"
+msgstr "بەڕێوەبەرانی پێشوەختەی پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_manager_default
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_default_form
 msgid "Default Program Manager"
-msgstr "بەڕێوەبەری بەرنامەی پێشوەختە"
+msgstr "بەڕێوەبەریی پێشوەختەی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.ui.menu,name:g2p_programs.menu_program_manager_default
 msgid "Default Program Managers"
-msgstr "بەڕێوەبەرانی بەرنامەی پێشوەختە"
+msgstr "بەڕێوەبەرانیی پێشوەختەی بەرنامە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__delivery_mechanism_value
