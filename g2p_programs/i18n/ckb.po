@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-16 10:24+0000\n"
+"PO-Revision-Date: 2023-08-16 12:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -1587,24 +1587,25 @@ msgstr "شایستەییەکان ئامادەن."
 msgid ""
 "Entitlement State Error! Entitlements not in 'pending validation' state:\n"
 msgstr ""
-"هەڵەی دۆخی ماف! ئەو مافانەی کە لە دۆخی 'چەسپاندنی چاوەڕوانکراو'دا نین:\n"
+"هەڵە لە دۆخی شایستەییەکان! ئەو شایستەییانەی کە لە 'چاوەڕوانی پەسەندکردن'دا "
+"نین:\n"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__entitlement_validation_group_id
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__entitlement_validation_group_id
 msgid "Entitlement Validation Group"
-msgstr "گروپی چەسپاندنی مافەکان"
+msgstr "گروپی پەسەندکردنی شایستەییەکان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "Entitlement manager"
-msgstr "بەڕێوەبەری مافەکان"
+msgstr "بەڕێوەبەری شایستەییەکان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement:"
-msgstr "ماف:"
+msgstr "شایستەیی:"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
@@ -1618,19 +1619,19 @@ msgstr "ماف:"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, python-format
 msgid "Entitlements"
-msgstr "مافەکان"
+msgstr "شایستەییەکان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements Cancelled."
-msgstr "مافەکان هەڵوەشاونەتەوە."
+msgstr "شایستەییەکان هەڵوەشانەوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements Set to Pending Validation."
-msgstr "مافەکان دانراون بۆ چەسپاندنی چاوەڕوانکراو."
+msgstr "شایستەییەکان لە چاوەڕوانی پەسەندکردن دان."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
