@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-15 09:24+0000\n"
+"PO-Revision-Date: 2023-08-16 10:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -1477,7 +1477,7 @@ msgstr "کۆتایی هات"
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Enroll Eligible Registrants"
-msgstr "ناوی تۆمارکەرانی شایستە تۆمار بکە"
+msgstr "تۆمارکەرانی شایستە تۆمار بکە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_membership__state__enrolled
@@ -1485,19 +1485,19 @@ msgstr "ناوی تۆمارکەرانی شایستە تۆمار بکە"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Enrolled"
-msgstr "ناوی تۆمار کراوە"
+msgstr "تۆمار کرا"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_notification_manager_sms_form
 msgid "Enrolled Programs"
-msgstr "پرۆگرامە ناونوسراوەکان"
+msgstr "بەرنامە تۆمارکراوەکان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Enrollment"
-msgstr "ناو تۆمارکردن"
+msgstr "تۆمارکردن"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_membership__enrollment_date
@@ -1505,7 +1505,7 @@ msgstr "ناو تۆمارکردن"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_membership_filter
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Enrollment Date"
-msgstr "بەرواری ناونوسکردن"
+msgstr "ڕێکەوتی تۆمارکردن"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_manager_default_form
@@ -1519,13 +1519,13 @@ msgstr "بەرواری ناونوسکردن"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_manager_default_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_manager_default_form
 msgid "Enter the Manager Name..."
-msgstr "ناوی بەڕێوەبەرەکە دابنێ..."
+msgstr "ناوی بەڕێوەبەرەکە بنووسە..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Enter the cycle name..."
-msgstr "ناوی خولەکە بنووسە..."
+msgstr "ناوی دابەشکردنەکە بنووسە..."
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
@@ -1542,7 +1542,7 @@ msgstr "هۆکارەکە بنووسە..."
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Enter the registrant name..."
-msgstr "ناوی تۆمارکەرەکە بنووسە..."
+msgstr "ناوی تۆمارکەر بنووسە..."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/entitlement.py:0
@@ -1554,32 +1554,32 @@ msgstr "ناوی تۆمارکەرەکە بنووسە..."
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, python-format
 msgid "Entitlement"
-msgstr "مافی وەرگرتن"
+msgstr "شایستەییەکان"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 msgid "Entitlement Cash"
-msgstr "نەختینەیی نیه"
+msgstr "شایستەییە نەختینەییەکان"
 
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement Manager"
-msgstr "بەڕێوەبەری مافەکان"
+msgstr "بەڕێوەبەری شایستەییەکان"
 
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_entitlement_manager_default
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__entitlement_managers
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement Managers"
-msgstr "بەڕێوەبەرانی مافەکان"
+msgstr "بەڕێوەبەرانی شایستەییەکان"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "Entitlement Ready."
-msgstr "ئامادەیە بۆ ماف."
+msgstr "شایستەییەکان ئامادەن."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
