@@ -45,6 +45,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         states="draft,pending_validation"
                         string="Approve Entitlement"
                     />
+                    <button
+                        type="object"
+                        class="btn btn-dark"
+                        icon="fa-thumbs-o-up"
+                        name="approve_entitlement"
+                        attrs="{'invisible': [('state', '!=', 'approved')]}"
+                        disabled="1"
+                        string="Entitlement Approved"
+                    />
                     <field
                         name="state"
                         widget="statusbar"
