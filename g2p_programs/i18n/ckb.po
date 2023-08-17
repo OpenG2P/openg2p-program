@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-16 12:24+0000\n"
+"PO-Revision-Date: 2023-08-17 12:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -1637,19 +1637,19 @@ msgstr "شایستەییەکان لە چاوەڕوانی پەسەندکردن د
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements Validated and Approved."
-msgstr "مافەکان دانراون بۆ چەسپاندنی چاوەڕوانکراو."
+msgstr "شایستەییەکان پەسەند و پشتڕاست کرانەوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements are validated and approved."
-msgstr "مافەکان دانراون بۆ چەسپاندنی چاوەڕوانکراو."
+msgstr "شایستەییەکان پەسەند و پشتڕاست کرانەوە."
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__exit_date
 #: model_terms:ir.ui.view,arch_db:g2p_programs.program_membership_filter
 msgid "Exit Date"
-msgstr "بەرواری دەرچوون"
+msgstr "ڕێکەوتی دەرچوون"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_membership__state__exited
@@ -1663,17 +1663,17 @@ msgstr "دەرچووە"
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__expired
 msgid "Expired"
-msgstr "دەرچووە"
+msgstr "بەسەرچووە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__external_batch_ref
 msgid "External Batch Reference #"
-msgstr "ئاماژەی وەجبەی دەرەکی #"
+msgstr "ئاماژەی بەشی دەرەکی #"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "FILTER:"
-msgstr "فلتەر:"
+msgstr "پاڵاوتن:"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_payment__status__failed
@@ -1687,29 +1687,29 @@ msgstr "شکستی هێنا"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Failed Amount"
-msgstr "بڕی شکستخواردوو"
+msgstr "بڕەپارەی نەگەیشتوو"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_failed_amount
 msgid "Failed Amount Statistics"
-msgstr "ئاماری بڕی شکستخواردوو"
+msgstr "ئاماری بڕەپارەی نەگەیشتوو"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_batch_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Failed Transactions"
-msgstr "مامەڵە شکستخواردووەکان"
+msgstr "مامەڵە ناسەرکەتووەکان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_failed_transactions
 msgid "Failed Transactions Statistics"
-msgstr "ئاماری مامەڵە شکستخواردووەکان"
+msgstr "ئاماری مامەڵە ناسەرکەوتووەکان"
 
 #. module: g2p_programs
 #: model:res.groups,name:g2p_programs.g2p_finance_validator
 msgid "Finance Validator"
-msgstr "چەسپێنەری دارایی"
+msgstr "پشتڕاستکەرەوەی دارایی"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__1
@@ -1724,7 +1724,7 @@ msgstr "یەکەم"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_follower_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_follower_ids
 msgid "Followers"
-msgstr "فۆڵۆوەرەکان"
+msgstr "شوێنکەوتووان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_partner_ids
@@ -1732,7 +1732,7 @@ msgstr "فۆڵۆوەرەکان"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__message_partner_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "فۆڵۆوەرەکان (هاوبەشەکان)"
+msgstr "شوێنکەوتووان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_cycle__activity_type_icon
