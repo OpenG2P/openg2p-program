@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-21 09:24+0000\n"
+"PO-Revision-Date: 2023-08-21 14:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -3532,7 +3532,7 @@ msgstr "هیچ زانیارییەک لە بەشی پارەی سودمەندان�
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_program_fund_report
 msgid "There are no Program Fund Entries based on the current filter!"
-msgstr "هیچ بەشداریکردنێکی سندوقی بەرنامە نییە بە پشتبەستن بە فلتەری ئێستا!"
+msgstr "بەو فلتەرانەی ئێستا، هیچ زانیارییەک لەسەر پارەی بەرنامە نییە!"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_program_fund
@@ -3543,19 +3543,19 @@ msgstr "هیچ پارەیەکی بەرنامە داخڵ نەکراوە!"
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
 #, python-format
 msgid "There are no new payments issued!"
-msgstr "هیچ پارەیەکی نوێ دەرناچێت!"
+msgstr "هیچ پارەدانێکی نوێ دەرنەچووە!"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/wizard/assign_payments_batch_wizard.py:0
 #, python-format
 msgid "There are no selected payments!"
-msgstr "هیچ پارەیەکی هەڵبژێردراو نییە!"
+msgstr "هیچ پارەدانێکی دەستنیشانکراو نییە!"
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
 #, python-format
 msgid "There are no selected registrants!"
-msgstr "تۆمارکەرێکی هەڵبژێردراو نییە!"
+msgstr "هیچ تۆمارکەرێکی دەستنیشانکراو نییە!"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle_manager_default__byday__3
