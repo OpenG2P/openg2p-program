@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-08-21 14:24+0000\n"
+"PO-Revision-Date: 2023-08-21 16:24+0000\n"
 "Last-Translator: mansour rehman <mansour.rehman@gmail.com>\n"
 "Language-Team: Kurdish (Central) <https://translate.openspp.org/projects/"
 "openg2p/g2p_programs/ckb/>\n"
@@ -3568,18 +3568,18 @@ msgstr "سێیەم"
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #, python-format
 msgid "This fund is already posted and cannot be deleted."
-msgstr "ئەم سندوقە پێشتر پۆست کراوە و ناتوانرێت بسڕدرێتەوە."
+msgstr "ئەم پارەیە پێشتر یەکلا بووەتەوە و ناتوانرێت بسڕدرێتەوە."
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/accounting/fund_management.py:0
 #, python-format
 msgid "This fund is now posted!"
-msgstr "ئەم سندوقە ئێستا پۆست کراوە!"
+msgstr "ئەم پارەیە ئێستا خراوەتەڕوو!"
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_fund_form
 msgid "This fund was cancelled on"
-msgstr "ئەم سندوقە لە ڕۆژی"
+msgstr "ئەم پارەیە هەڵوەشایەوە لە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__thu
@@ -3593,7 +3593,7 @@ msgstr "پێنجشەممە"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_recurrence_mixin__event_tz
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__event_tz
 msgid "Timezone"
-msgstr "کاتی ناوچەی جوگرافی"
+msgstr "ناوچەی جوگرافی"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_cycle__state__to_approve
@@ -3605,30 +3605,30 @@ msgstr "بۆ پەسەندکردن"
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__transfer_fee
 msgid "Transfer Fee"
-msgstr "کرێی گواستنەوە"
+msgstr "نرخی گواستنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__transfer_fee_amt
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_amt
 msgid "Transfer Fee Amount"
-msgstr "بڕی کرێی گواستنەوە"
+msgstr "بڕی نرخی گواستنەوە"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_create_wizard__transfer_fee_pct
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_pct
 msgid "Transfer Fee(%)"
-msgstr "کرێی گواستنەوە(%)"
+msgstr "نرخی گواستنەوە(%)"
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_create_wizard__transfer_fee_pct
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_entitlement_manager_default__transfer_fee_pct
 msgid "Transfer fee will be a percentage of amount"
-msgstr "کرێی گواستنەوە ڕێژەیەک دەبێت لە بڕە پارەکە"
+msgstr "نرخی گواستنەوە ڕێژەیەک دەبێت لە بڕە پارەکە"
 
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__trans2fsp
 msgid "Transferred to FSP"
-msgstr "گواستراوەتەوە بۆ FSP"
+msgstr "گواستراوەتەوە بۆ لایەنی خزمەتگوزاری پارەدان"
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle_manager_default__tue
@@ -3642,7 +3642,7 @@ msgstr "سێشەممە"
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program__activity_exception_decoration
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership_duplicate__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "جۆری چالاکیی ئیستسنای تۆمارکراو."
+msgstr "جۆری چالاکیی تایبەتیی تۆمارکراو."
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__message_unread
