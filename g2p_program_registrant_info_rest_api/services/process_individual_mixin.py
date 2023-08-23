@@ -28,7 +28,7 @@ class ProcessIndividualMixin(AbstractComponent):
                             0,
                             {
                                 "program_id": program_id.id,
-                                "status": "active",
+                                "state": "active",
                                 "program_registrant_info": program_reg_info,
                             },
                         )

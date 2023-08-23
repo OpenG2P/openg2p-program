@@ -12,5 +12,7 @@ class DefaultEntitlementManagerForDocument(models.Model):
         ents = super(DefaultEntitlementManagerForDocument, self).prepare_entitlements(
             cycle, beneficiaries
         )
-        ents.copy_documents_from_beneficiary()
+
+        if ents:
+            ents.copy_documents_from_beneficiary()
         return ents

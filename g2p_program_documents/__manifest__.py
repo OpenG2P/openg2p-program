@@ -2,7 +2,7 @@
 {
     "name": "OpenG2P Program: Documents",
     "category": "G2P",
-    "version": "15.0.1.1.0",
+    "version": "15.0.1.2.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
@@ -13,6 +13,7 @@
         "g2p_programs",
     ],
     "data": [
+        "security/program_documents_security.xml",
         "views/programs_view.xml",
         "views/program_membership_view.xml",
         "views/entitlement_view.xml",

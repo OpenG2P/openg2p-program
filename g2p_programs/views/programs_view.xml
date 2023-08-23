@@ -38,7 +38,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="model">g2p.program</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <form string="Program">
+            <form string="Program" duplicate="false">
                 <header>
                     <button
                         name="enroll_eligible_registrants"

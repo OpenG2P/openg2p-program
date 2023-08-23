@@ -129,3 +129,15 @@ class G2PProgramRegistrantInfo(models.Model):
             reg_info = program_membership.latest_registrant_info
             if reg_info and reg_info.entitlement_id:
                 reg_info.entitlement_id.state = reject_state
+
+    def open_new_tab(self):
+        return {
+            "name": "Record View",
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "res_model": self._name,
+            "res_id": self.id,
+            "target": "new",
+            "flags": {"mode": "readonly"},
+            "context": {"create": False, "edit": False},
+        }

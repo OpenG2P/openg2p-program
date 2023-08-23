@@ -5,8 +5,8 @@ from odoo.addons.g2p_registry_rest_api.models import naive_orm_model
 
 
 class ProgramRegistrantInfoOut(naive_orm_model.NaiveOrmModel):
-    status: str = ""
-    program_registrant_info: str = ""
+    state: str = ""
+    program_registrant_info: Union[Dict, List[Dict]] = {}
 
 
 class ProgramMembershipIn(

@@ -102,8 +102,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 attrs="{'invisible':[('entitlement_kind','!=', 'default')]}"
                             >
                                 <field name="amount_per_cycle" />
-                                <field name="amount_per_individual_in_group" />
-                                <field name="max_individual_in_group" />
+                                <field
+                                    name="amount_per_individual_in_group"
+                                    attrs="{'invisible':[('target_type','!=','group')]}"
+                                />
+                                <field
+                                    name="max_individual_in_group"
+                                    attrs="{'invisible':[('target_type','!=','group')]}"
+                                />
                                 <newline />
                                 <field name="transfer_fee_pct" />
                                 <field name="transfer_fee_amt" />
