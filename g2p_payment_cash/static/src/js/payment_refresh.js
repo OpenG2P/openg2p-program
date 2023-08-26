@@ -1,4 +1,4 @@
-odoo.define("g2p_payment_cash.paymentr_refresh", function (require) {
+odoo.define("g2p_payment_cash.payment_refresh", function (require) {
     var FormController = require("web.FormController");
     FormController.include({
         _onOpenOne2ManyRecord: function (ev) {
