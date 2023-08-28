@@ -1,5 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import ValidationError
 
 
 class G2PAssignToProgramWizard(models.TransientModel):
@@ -21,6 +22,10 @@ class G2PAssignToProgramWizard(models.TransientModel):
                 ("id", "=", partner_id),
             ]
         )
+        if not partner.active:
+            raise ValidationError(
+                _("This process shouldn't allow for an Inactive records.")
+            )
 
         if partner.supplier_rank > 0:
             return {
