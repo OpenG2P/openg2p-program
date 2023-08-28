@@ -53,6 +53,7 @@ class G2PEntitlementWizard(models.TransientModel):
                     "start_date", reverse=True
                 )[0]
                 if program.cycle_ids
+                and program.cycle_ids.filtered(lambda x: x.state == "draft")
                 else None
             )
             if not active_cycle:
