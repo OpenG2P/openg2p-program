@@ -40,10 +40,7 @@
         <field name="state">code</field>
         <field name="code">
             if records:
-                try:
-                    action = records.generate_vouchers_action()
-                except Exception as err:
-                    raise UserError(err)
+                action = records.generate_vouchers_action()
         </field>
     </record>
 </odoo>
