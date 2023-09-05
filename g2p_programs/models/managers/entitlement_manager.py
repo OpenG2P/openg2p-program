@@ -472,7 +472,7 @@ class DefaultCashEntitlementManager(models.Model):
                     "params": {
                         "title": _("Entitlement"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -487,7 +487,7 @@ class DefaultCashEntitlementManager(models.Model):
                     "params": {
                         "title": _("Entitlement"),
                         "message": _("Entitlements are validated and approved."),
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
