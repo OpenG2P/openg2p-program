@@ -14,7 +14,7 @@
         "views/program_membership.xml",
         "views/proxy_means_test_view.xml",
         "views/registry_form_view.xml",
-        "wizard/create_program_pmt_wizard.xml",
+        "wizard/create_program_wizard.xml",
     ],
     "assets": {},
     "demo": [],
