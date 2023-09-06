@@ -31,6 +31,11 @@ class G2PProgramMembership(models.Model):
                     latest_reg_info
                     and latest_reg_info.state not in ("completed", "rejected")
                 )
+                if (
+                    rec.show_reject_application_assessment_button
+                    and not rec.show_create_entitlement_button
+                ):
+                    show_prepare = False
             except Exception as e:
                 _logger.warning("Program Registrant info not installed. %s", e)
             rec.show_prepare_assessment_button = show_prepare
