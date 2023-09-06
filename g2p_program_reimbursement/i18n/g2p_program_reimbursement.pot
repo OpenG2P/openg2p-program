@@ -167,6 +167,12 @@ msgid "Service Providers"
 msgstr ""
 
 #. module: g2p_program_reimbursement
+#: code:addons/g2p_program_reimbursement/wizard/assign_to_program.py:0
+#, python-format
+msgid "This process shouldn't allow for an Inactive records."
+msgstr ""
+
+#. module: g2p_program_reimbursement
 #: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_program_list_reimbursement_tree
 msgid "Vendors list"
 msgstr ""
