@@ -90,6 +90,7 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
             element.body = markup(element.body);
         });
         res.readonly = this.readonly;
+        res.resModel = this.resModel;
         return res;
     },
 });
