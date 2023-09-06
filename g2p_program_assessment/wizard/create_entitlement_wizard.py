@@ -81,9 +81,6 @@ class G2PEntitlementWizard(models.TransientModel):
         }
 
     def create_entitlement(self):
-        if not self.initial_amount or self.initial_amount < 0:
-            raise ValidationError(_("Amount cannot be zero or empty or negative"))
-
         existing_entitlements_count = self.env["g2p.entitlement"].search_count(
             [
                 ("partner_id", "=", self.partner_id.id),
