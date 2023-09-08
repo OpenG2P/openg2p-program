@@ -100,6 +100,10 @@ class G2PCycle(models.Model):
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 
+    show_approve_entitlements_button = fields.Boolean(
+        compute="_compute_show_approve_entitlement"
+    )
+
     def _compute_members_count(self):
         for rec in self:
             domain = rec._get_beneficiaries_domain(["enrolled"])
@@ -119,6 +123,16 @@ class G2PCycle(models.Model):
                 [("cycle_id", "=", rec.id)]
             )
             rec.update({"payments_count": payments_count})
+
+    @api.onchange("entitlement_ids.state")
+    def _compute_show_approve_entitlement(self):
+        for rec in self:
+            show_button = True  # Initialize show_button to True
+            for entitlement in rec.entitlement_ids:
+                if entitlement.state != "approved":
+                    show_button = False  # Set show_button to False if any entitlement is not approved
+                    break  # Exit the loop as soon as an unapproved entitlement is found
+            rec.show_approve_entitlements_button = show_button
 
     @api.onchange("start_date")
     def on_start_date_change(self):
