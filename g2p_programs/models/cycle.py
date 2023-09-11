@@ -127,11 +127,11 @@ class G2PCycle(models.Model):
     @api.onchange("entitlement_ids.state")
     def _compute_show_approve_entitlement(self):
         for rec in self:
-            show_button = True  # Initialize show_button to True
+            show_button = True
             for entitlement in rec.entitlement_ids:
                 if entitlement.state != "approved":
-                    show_button = False  # Set show_button to False if any entitlement is not approved
-                    break  # Exit the loop as soon as an unapproved entitlement is found
+                    show_button = False
+                    break
             rec.show_approve_entitlements_button = show_button
 
     @api.onchange("start_date")

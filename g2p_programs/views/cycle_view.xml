@@ -34,7 +34,6 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <form string="Cycle" create="false">
                 <header>
-                    <field name="show_approve_entitlements_button" invisible='1' />
                     <button
                         type="object"
                         class="btn-primary"
@@ -59,6 +58,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         states="draft"
                         string="Prepare Entitlement"
                     />
+                    <field name="show_approve_entitlements_button" invisible='1' />
                     <button
                         type="object"
                         class="btn-primary"
