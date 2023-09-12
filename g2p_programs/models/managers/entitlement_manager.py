@@ -462,7 +462,6 @@ class DefaultCashEntitlementManager(models.Model):
             entitlement_model="g2p.entitlement",
         )
         entitlements_count = len(entitlements)
-        print(entitlements_count)
         if entitlements_count < self.MIN_ROW_JOB_QUEUE:
             err, message = self._validate_entitlements(entitlements)
             if err > 0:
@@ -485,9 +484,15 @@ class DefaultCashEntitlementManager(models.Model):
                 approved_entitlements_count = (
                     len(entitlements) - err
                 )  # Calculate the approved count
-                message = _(
-                    "Entitlements are validated and {} are approved and {} are pending."
-                ).format(approved_entitlements_count, err)
+                if err != 0:
+                    message = _(
+                        "{} Entitlements are successfully approved and {} are not approved."
+                    ).format(approved_entitlements_count, err)
+                else:
+                    message = _("{} Entitlements are successfully approved.").format(
+                        approved_entitlements_count
+                    )
+
                 return {
                     "type": "ir.actions.client",
                     "tag": "display_notification",

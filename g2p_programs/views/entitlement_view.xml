@@ -163,7 +163,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <filter name="draft_state" string="Draft" domain="[('state','=','draft')]" />
                 <filter
                     name="pending_validation_state"
-                    string="Pending Validation"
+                    string="Pending Approval"
                     domain="[('state','=','pending_validation')]"
                 />
                 <filter name="approved_state" string="Approved" domain="[('state','=','approved')]" />
