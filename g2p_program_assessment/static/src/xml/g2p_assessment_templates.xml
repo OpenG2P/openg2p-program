@@ -38,9 +38,10 @@
             <t t-if="readonly != true">
                 <div class="o_Chatter_fixedPanel">
                     <button class="btn o_ChatterTopbar_buttonAddAssess">
-                        <span class="o_ChatterTopbar_buttonAddAssessText"><i
-                                class="fa fa-plus"
-                            /> Add Assessment</span>
+                        <span class="o_ChatterTopbar_buttonAddAssessText"><i class="fa fa-plus" />
+                            <t t-if="resModel == 'g2p.entitlement'">Add Comments</t>
+                            <t t-else="">Add Assessment</t>
+                            </span>
                     </button>
                     <!-- The following o_Composer will be replaced by above template -->
                     <div class="o_Composer" />

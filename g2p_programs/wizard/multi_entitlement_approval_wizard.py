@@ -61,7 +61,8 @@ class G2PMultiEntitlementApprovalWiz(models.TransientModel):
     )
 
     def approve_entitlements(self):
-        self.entitlement_ids.entitlement_id.approve_entitlement()
+        if self.entitlement_ids:
+            self.entitlement_ids.entitlement_id.approve_entitlement()
 
     def open_wizard(self):
 

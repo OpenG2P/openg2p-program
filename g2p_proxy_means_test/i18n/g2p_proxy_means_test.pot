@@ -50,6 +50,11 @@ msgid "Field"
 msgstr ""
 
 #. module: g2p_proxy_means_test
+#: model:ir.model,name:g2p_proxy_means_test.model_ir_model_fields
+msgid "Fields"
+msgstr ""
+
+#. module: g2p_proxy_means_test
 #: model:ir.model.fields,field_description:g2p_proxy_means_test.field_g2p_proxy_means_test_params__id
 #: model:ir.model.fields,field_description:g2p_proxy_means_test.field_g2p_proxy_means_test_params_wizard__id
 msgid "ID"
