@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <form string="G2P Payment File Configuration">
                 <group>
+                    <field name="name" />
                     <field name="type" />
                 </group>
                 <notebook>
