@@ -511,3 +511,28 @@ class G2PProgram(models.Model):
         jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
         related_jobs = jobs.filtered(lambda r: self in r.records.program_id)
         return [("id", "in", related_jobs.ids)]
+
+    @api.constrains(
+        "entitlement_managers", "program_managers", "cycle_managers", "payment_managers"
+    )
+    def check_managers_limit(self):
+        for record in self:
+            error_messages = []
+
+            if len(record.entitlement_managers) > 1:
+                error_messages.append("Entitlement Managers")
+
+            if len(record.program_managers) > 1:
+                error_messages.append("Program Managers")
+
+            if len(record.cycle_managers) > 1:
+                error_messages.append("Cycle Managers")
+
+            if len(record.payment_managers) > 1:
+                error_messages.append("Payment Managers")
+
+            if error_messages:
+                combined_message = ", ".join(error_messages)
+                raise UserError(
+                    f"Only one manager can be configured under {combined_message}. Please delete any new manager(s) before saving your changes."  # noqa: B950
+                )
