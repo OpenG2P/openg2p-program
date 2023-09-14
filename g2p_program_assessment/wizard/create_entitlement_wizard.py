@@ -52,12 +52,12 @@ class G2PEntitlementWizard(models.TransientModel):
                 program.cycle_ids.filtered(lambda x: x.state == "draft").sorted(
                     "start_date", reverse=True
                 )[0]
-                if program.cycle_ids
+                if program.cycle_ids.filtered(lambda x: x.state == "draft")
                 else None
             )
             if not active_cycle:
                 raise UserError(
-                    _("No cycle is present for program: %s. Create a cycle.")
+                    _("No cycle is present for program: %s. Create a new cycle.")
                     % program.name
                 )
             valid_from = active_cycle.start_date
