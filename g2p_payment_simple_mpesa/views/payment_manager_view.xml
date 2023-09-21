@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_payment_manager_simple_mpesa_tree" model="ir.ui.view">
+        <field name="name">view_payment_manager_simple_mpesa_tree</field>
+        <field name="model">g2p.program.payment.manager.simple.mpesa</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="name" />
+                <field name="program_id" />
+                <field name="create_batch" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_payment_manager_simple_mpesa_form" model="ir.ui.view">
+        <field name="name">view_payment_manager_simple_mpesa_form</field>
+        <field name="model">g2p.program.payment.manager.simple.mpesa</field>
+        <field name="inherit_id" ref="g2p_programs.view_payment_manager_default_form" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+
+            </xpath>
+        </field>
+    </record>
+
+    <record id="payment_manager_simple_mpesa_filter" model="ir.ui.view">
+        <field name="name">payment_manager_simple_mpesa_filter</field>
+        <field name="model">g2p.program.payment.manager.simple.mpesa</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <search string="Simple Mpesa Payment Manager">
+                <field name="name" />
+                <field name="program_id" />
+                <group expand="0" string="Group By">
+                    <filter string="Program" name="grp_program_id" context="{'group_by': 'program_id'}" />
+                </group>
+                <!--<searchpanel>
+                    <field name="group" icon="fa-users"/>
+                </searchpanel> -->
+            </search>
+        </field>
+    </record>
+
+    <record id="action_payment_manager_simple_mpesa" model="ir.actions.act_window">
+        <field name="name">Payment Managers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">g2p.program.payment.manager.simple.mpesa</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="payment_manager_simple_mpesa_filter" />
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a Payment Manager!
+            </p><p>
+                Click the create button to enter a new simple mpesa payment manager.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_payment_manager_simple_mpesa_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_payment_manager_simple_mpesa_tree" />
+        <field name="act_window_id" ref="action_payment_manager_simple_mpesa" />
+    </record>
+
+    <record id="action_payment_manager_simple_mpesa_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_payment_manager_simple_mpesa_form" />
+        <field name="act_window_id" ref="action_payment_manager_simple_mpesa" />
+    </record>
+
+    <menuitem
+        id="menu_payment_manager_simple_mpesa"
+        name="Simple Mpesa Payment Managers"
+        action="action_payment_manager_simple_mpesa"
+        parent="g2p_programs.g2p_manager_menu_root"
+        sequence="630"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
+    />
+
+</odoo>
