@@ -2,7 +2,7 @@
 {
     "name": "OpenG2P Program Payment: Cash",
     "category": "G2P",
-    "version": "15.0.1.1.0",
+    "version": "15.0.1.2.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
@@ -18,7 +18,11 @@
         "views/entitlement_view.xml",
         "views/g2p_payment_views.xml",
     ],
-    "assets": {},
+    "assets": {
+        "web.assets_backend": [
+            "/g2p_payment_cash/static/src/js/payment_refresh.js",
+        ],
+    },
     "demo": [],
     "images": [],
     "application": True,

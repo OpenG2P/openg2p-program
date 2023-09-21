@@ -26,7 +26,15 @@ msgid "Add Assessment"
 msgstr ""
 
 #. module: g2p_program_assessment
-#: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
+#. openerp-web
+#: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
+#, python-format
+msgid "Add Comments"
+msgstr ""
+
+#. module: g2p_program_assessment
+#. openerp-web
+#: code:addons/g2p_program_assessment/static/src/js/entitlement_amount_validation.js:0
 #, python-format
 msgid "Amount cannot be zero or empty or negative"
 msgstr ""
@@ -63,7 +71,6 @@ msgstr ""
 
 #. module: g2p_program_assessment
 #: code:addons/g2p_program_assessment/models/program_membership.py:0
-#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_entitlement_assessment_form
 #: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_wizard_form
 #, python-format
 msgid "Assessments"
@@ -92,6 +99,11 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_create_entitlement_wizard_form
 #, python-format
 msgid "Cancel"
+msgstr ""
+
+#. module: g2p_program_assessment
+#: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_entitlement_assessment_form
+msgid "Comments"
 msgstr ""
 
 #. module: g2p_program_assessment

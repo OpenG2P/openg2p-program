@@ -101,6 +101,16 @@ msgid "Show Approve Button"
 msgstr ""
 
 #. module: g2p_program_approval
+#: model_terms:ir.ui.view,arch_db:g2p_program_approval.view_entitlement_manager_approval_default_form
+msgid "Stage"
+msgstr ""
+
+#. module: g2p_program_approval
+#: model:ir.model.constraint,message:g2p_program_approval.constraint_g2p_program_approval_mapping_approval_stage_manager_unique
+msgid "Stage name must be unique per each manager."
+msgstr ""
+
+#. module: g2p_program_approval
 #: model:ir.model.fields,field_description:g2p_program_approval.field_g2p_program_approval_mapping__state
 msgid "State"
 msgstr ""

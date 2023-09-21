@@ -16,6 +16,14 @@ class ProgramApprovalMapping(models.Model):
 
     entitlement_manager_ref = fields.Char()
 
+    _sql_constraints = [
+        (
+            "approval_stage_manager_unique",
+            "unique (state, entitlement_manager_ref)",
+            "Stage name must be unique per each manager.",
+        ),
+    ]
+
     @api.model
     def create(self, vals):
         if vals and not isinstance(vals, list):

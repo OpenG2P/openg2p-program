@@ -2,7 +2,7 @@
 {
     "name": "G2P: Proxy Means Test",
     "category": "G2P",
-    "version": "15.0.1.1.0",
+    "version": "15.0.1.2.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
@@ -14,7 +14,7 @@
         "views/program_membership.xml",
         "views/proxy_means_test_view.xml",
         "views/registry_form_view.xml",
-        "wizard/create_program_pmt_wizard.xml",
+        "wizard/create_program_wizard.xml",
     ],
     "assets": {},
     "demo": [],

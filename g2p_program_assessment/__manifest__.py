@@ -2,7 +2,7 @@
 {
     "name": "OpenG2P Program: Assessment",
     "category": "G2P",
-    "version": "15.0.1.1.0",
+    "version": "15.0.1.2.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
@@ -23,6 +23,7 @@
         "web.assets_backend": [
             "/g2p_program_assessment/static/src/js/g2p_assessment.js",
             "/g2p_program_assessment/static/src/scss/g2p_assessment.scss",
+            "/g2p_program_assessment/static/src/js/entitlement_amount_validation.js",
         ],
         "web.assets_qweb": [
             "/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml",

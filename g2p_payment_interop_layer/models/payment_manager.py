@@ -274,10 +274,10 @@ class G2PPaymentInteropLayerManager(models.Model):
             return payee_id_type_to_send, payment.partner_id.email
         elif payee_id_type == "reg_id":
             if not payee_id_type_to_send:
-                payee_id_type_to_send = self.id_for_payee_id.name
+                payee_id_type_to_send = self.reg_id_type_for_payee_id.name
 
             for reg_id in payment.partner_id.reg_ids:
-                if reg_id.id_type.id == self.id_for_payee_id.id:
+                if reg_id.id_type.id == self.reg_id_type_for_payee_id.id:
                     return payee_id_type_to_send, reg_id.value
         # TODO: Deal with no bank acc and/or ID type not matching any available IDs
         return None, None

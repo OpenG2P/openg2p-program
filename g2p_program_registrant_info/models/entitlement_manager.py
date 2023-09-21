@@ -12,10 +12,11 @@ class DefaultEntitlementManagerRegInfo(models.Model):
         ents = super(DefaultEntitlementManagerRegInfo, self).prepare_entitlements(
             cycle, beneficiaries
         )
-        for ent in ents:
-            self.env[
-                "g2p.program.registrant_info"
-            ].assign_reg_info_to_entitlement_from_membership(ent)
+        if ents:
+            for ent in ents:
+                self.env[
+                    "g2p.program.registrant_info"
+                ].assign_reg_info_to_entitlement_from_membership(ent)
         return ents
 
     def approve_entitlements(self, entitlements):
