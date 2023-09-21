@@ -14,7 +14,12 @@ _logger = logging.getLogger(__name__)
 
 
 class G2PCycle(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin", "job.relate.mixin"]
+    _inherit = [
+        "mail.thread",
+        "mail.activity.mixin",
+        "job.relate.mixin",
+        "disable.edit.mixin",
+    ]
     _name = "g2p.cycle"
     _description = "Cycle"
     _order = "sequence asc"
@@ -390,3 +395,13 @@ class G2PCycle(models.Model):
         jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
         related_jobs = jobs.filtered(lambda r: self in r.args[0])
         return [("id", "in", related_jobs.ids)]
+
+    def _compute_css(self):
+        for rec in self:
+            # To Remove Edit Option
+            if rec.state not in "draft":
+                rec.edit_css = (
+                    "<style>.o_form_button_edit {display: none !important;}</style>"
+                )
+            else:
+                rec.edit_css = False

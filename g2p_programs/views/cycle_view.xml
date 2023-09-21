@@ -188,6 +188,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Enter the cycle name..."
                                 attrs="{'readonly':[('state','!=','draft')]}"
                             />
+                            <field name="edit_css" force_save="1" nolabel="1" />
                         </h1>
                     </div>
                     <group colspan="4" col="4">
