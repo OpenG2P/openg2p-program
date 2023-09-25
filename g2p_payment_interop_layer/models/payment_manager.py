@@ -215,8 +215,7 @@ class G2PPaymentInteropLayerManager(models.Model):
                 )
                 continue
 
-            for pay in batch.payment_ids:
-                pay.state = "sent"
+            batch.payment_ids.write({"state": "sent"})
 
             paid_counter = 0
             for i, payee_result in enumerate(jsonResponse["payeeResults"]):
