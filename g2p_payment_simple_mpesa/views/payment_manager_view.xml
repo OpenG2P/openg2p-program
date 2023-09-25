@@ -23,7 +23,20 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
-
+                <group string="Payment Config">
+                    <field
+                        name="auth_endpoint_url"
+                        string="Authentication Endpoint URL (Agent Login URL)"
+                        colspan="2"
+                    />
+                    <field
+                        name="payment_endpoint_url"
+                        string="Payment Endpoint URL (Deposit URL)"
+                        colspan="2"
+                    />
+                    <field name="username" string="Username (Agent)" colspan="2" />
+                    <field name="password" string="Password (Agent)" colspan="2" password="1" />
+                </group>
             </xpath>
         </field>
     </record>
