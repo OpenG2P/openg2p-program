@@ -27,15 +27,25 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <field
                         name="auth_endpoint_url"
                         string="Authentication Endpoint URL (Agent Login URL)"
-                        colspan="2"
                     />
                     <field
                         name="payment_endpoint_url"
-                        string="Payment Endpoint URL (Deposit URL)"
-                        colspan="2"
+                        string="Payment Endpoint URL (Deposit/Transfer URL)"
                     />
-                    <field name="username" string="Username (Agent)" colspan="2" />
-                    <field name="password" string="Password (Agent)" colspan="2" password="1" />
+                    <field name="username" string="Email (Agent)"/>
+                    <field name="password" string="Password (Agent)" password="1" />
+                    <field name="customer_type"/>
+
+
+                </group>
+                <group>
+                        <field name="payee_id_type" />
+                        <field
+                            name="reg_id_type_for_payee_id"
+                            string="ID Type for Payee ID"
+                            attrs="{'invisible':[('payee_id_type','!=','reg_id')],
+                                    'required':[('payee_id_type','==','reg_id')]}"
+                        />
                 </group>
             </xpath>
         </field>
