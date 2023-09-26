@@ -136,6 +136,34 @@ msgid "0 means no limit"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid ""
+"<i class=\"fa fa-info-circle\" title=\"info\"/> Only one Cycle Manager can "
+"be entered"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid ""
+"<i class=\"fa fa-info-circle\" title=\"info\"/> Only one Entitlement Manager"
+" can be entered"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid ""
+"<i class=\"fa fa-info-circle\" title=\"info\"/> Only one Payment Manager can"
+" be entered"
+msgstr ""
+
+#. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
+msgid ""
+"<i class=\"fa fa-info-circle\" title=\"info\"/> Only one Program Manager can"
+" be entered"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "<span class=\"o_stat_text\">Beneficiaries</span>"
@@ -1338,7 +1366,6 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_cycle_manager_default
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__cycle_managers
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Cycle Managers"
 msgstr ""
 
@@ -1915,7 +1942,6 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_entitlement_manager_default
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__entitlement_managers
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement Managers"
 msgstr ""
 
@@ -3433,7 +3459,6 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_payment_manager_default
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__payment_managers
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Payment Managers"
 msgstr ""
 
@@ -3725,7 +3750,6 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.actions.act_window,name:g2p_programs.action_program_manager_default
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__program_managers
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Program Managers"
 msgstr ""
 
