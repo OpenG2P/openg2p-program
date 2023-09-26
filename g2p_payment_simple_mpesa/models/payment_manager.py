@@ -1,8 +1,10 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
+from datetime import datetime
+
 import requests
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -24,9 +26,11 @@ class PaymentManager(models.Model):
 
 class G2PPaymentManagerSimpleMpesa(models.Model):
     _name = "g2p.program.payment.manager.simple.mpesa"
-    _inherit = ["g2p.program.payment.manager.default",
-                "mail.thread",
-                "mail.activity.mixin"]
+    _inherit = [
+        "g2p.program.payment.manager.default",
+        "mail.thread",
+        "mail.activity.mixin",
+    ]
     _description = "Simple MPesa Payment Manager"
 
     batch_tag_ids = fields.Many2many(
@@ -38,23 +42,25 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
 
     create_batch = fields.Boolean("Automatically Create Batch", default=True)
     payee_id_type = fields.Selection(
-            [
-                ("bank_acc_no", "Bank Account Number"),
-                ("bank_acc_iban", "IBAN"),
-                ("phone", "Phone"),
-                ("email", "Email"),
-                ("reg_id", "Registrant ID"),
-                ],
-                "Payee ID Field",
-                required=True,
+        [
+            ("bank_acc_no", "Bank Account Number"),
+            ("bank_acc_iban", "IBAN"),
+            ("phone", "Phone"),
+            ("email", "Email"),
+            ("reg_id", "Registrant ID"),
+        ],
+        "Payee ID Field",
+        required=True,
     )
     reg_id_type_for_payee_id = fields.Many2one(
         "g2p.id.type", "Payee DFSP ID Type", required=False
     )
-    customer_type = fields.Char(default = "subscriber")
+    customer_type = fields.Char(default="subscriber")
 
     auth_endpoint_url = fields.Char("Authentication Endpoint URL", required=True)
     payment_endpoint_url = fields.Char("Payment Endpoint URL", required=True)
+
+    api_timeout = fields.Integer("API Timeout", default=10)
 
     username = fields.Char(required=True)
     password = fields.Char(required=True)
@@ -71,48 +77,73 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
             # TODO: Implement Logic
             # Perform Auth Here
             try:
-                data = {
-                    "email": self.username,
-                    "password": self.password
-                }
-                headers = {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-                
-                response = requests.post(self.auth_endpoint_url, data=data, headers=headers)
+                data = {"email": self.username, "password": self.password}
+                headers = {"Content-Type": "application/x-www-form-urlencoded"}
+
+                response = requests.post(
+                    self.auth_endpoint_url,
+                    data=data,
+                    headers=headers,
+                    timeout=self.api_timeout,
+                )
                 response.raise_for_status()
                 response_data = response.json()
                 auth_token = response_data.get("token")
 
+                completed_payments = 0
+
                 for payment in batch.payment_ids:
+                    if payment.state not in ("issued"):
+                        continue
+                    if payment.status == "paid":
+                        continue
                     payee_id_value = self._get_dfsp_id_and_type(payment)
-                    amount = payment.amount_issued
+                    amount = int(payment.amount_issued)
                     auth_header = "Bearer " + auth_token
                     # Define the headers
                     headers = {
                         "Authorization": auth_header,
-                        "Content-Type": "application/x-www-form-urlencoded"
+                        "Content-Type": "application/x-www-form-urlencoded",
                     }
                     data = {
                         "amount": amount,
                         "accountNo": payee_id_value,
-                        "customerType": self.customer_type
+                        "customerType": self.customer_type,
                     }
                     try:
-                        response = requests.post(self.payment_endpoint_url, headers=headers, data=data)            
-                        _logger.info("MPesa Payment Transfer response", response.content)
+                        response = requests.post(
+                            self.payment_endpoint_url,
+                            headers=headers,
+                            data=data,
+                            timeout=self.api_timeout,
+                        )
+                        _logger.info(
+                            "MPesa Payment Transfer response: %s", response.content
+                        )
                         response.raise_for_status()
+
+                        # TODO: Do Status check rather than hardcoding
+                        payment.state = "sent"
+                        payment.status = "paid"
+                        payment.amount_paid = amount
+                        payment.payment_datetime = datetime.utcnow()
+                        completed_payments += 1
                     except Exception as e:
-                        _logger.error("Mpesa Payment Failed with unknown reason",e)
-                        error_msg = "Mpesa Payment Failed during transfer with unknown reason"
-                        self.message_post(body=error_msg, subject="Mpesa Payment Transfer")
+                        _logger.error("Mpesa Payment Failed with unknown reason", e)
+                        error_msg = (
+                            "Mpesa Payment Failed during transfer with unknown reason"
+                        )
+                        self.message_post(
+                            body=error_msg, subject=_("Mpesa Payment Transfer")
+                        )
+
+                    if completed_payments == len(batch.payment_ids):
+                        batch.batch_has_completed = True
 
             except Exception as e:
-                _logger.error("Mpesa Payment Failed during authentication",e)
+                _logger.error("Mpesa Payment Failed during authentication", e)
                 error_msg = "Mpesa Payment Failed during authentication"
-                self.message_post(body=error_msg, subject="Mpesa Payment Auth")
-
-            batch.payment_ids.write({"state": "sent"})
+                self.message_post(body=error_msg, subject=_("Mpesa Payment Auth"))
 
     def _get_dfsp_id_and_type(self, payment):
         self.ensure_one()
@@ -135,4 +166,3 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
                     return reg_id.value
         # TODO: Deal with no bank acc and/or ID type not matching any available IDs
         return None
-
