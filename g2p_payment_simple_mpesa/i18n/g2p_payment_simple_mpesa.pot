@@ -1,0 +1,413 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_payment_simple_mpesa
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__api_timeout
+msgid "API Timeout"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.actions.act_window,help:g2p_payment_simple_mpesa.action_payment_manager_simple_mpesa
+msgid "Add a Payment Manager!"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__auth_endpoint_url
+msgid "Authentication Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.view_payment_manager_simple_mpesa_form
+msgid "Authentication Endpoint URL (Agent Login URL)"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__create_batch
+msgid "Automatically Create Batch"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields.selection,name:g2p_payment_simple_mpesa.selection__g2p_program_payment_manager_simple_mpesa__payee_id_type__bank_acc_no
+msgid "Bank Account Number"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__batch_tag_ids
+msgid "Batch Tags"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.actions.act_window,help:g2p_payment_simple_mpesa.action_payment_manager_simple_mpesa
+msgid "Click the create button to enter a new simple mpesa payment manager."
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__customer_type
+msgid "Customer Type"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields.selection,name:g2p_payment_simple_mpesa.selection__g2p_program_payment_manager_simple_mpesa__payee_id_type__email
+msgid "Email"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.view_payment_manager_simple_mpesa_form
+msgid "Email (Agent)"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.payment_manager_simple_mpesa_filter
+msgid "Group By"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields.selection,name:g2p_payment_simple_mpesa.selection__g2p_program_payment_manager_simple_mpesa__payee_id_type__bank_acc_iban
+msgid "IBAN"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__id
+msgid "ID"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.view_payment_manager_simple_mpesa_form
+msgid "ID Type for Payee ID"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_needaction
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_has_error
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__name
+msgid "Manager Name"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: code:addons/g2p_payment_simple_mpesa/models/payment_manager.py:0
+#, python-format
+msgid "Mpesa Payment Auth"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: code:addons/g2p_payment_simple_mpesa/models/payment_manager.py:0
+#, python-format
+msgid "Mpesa Payment Transfer"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__password
+msgid "Password"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.view_payment_manager_simple_mpesa_form
+msgid "Password (Agent)"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__reg_id_type_for_payee_id
+msgid "Payee DFSP ID Type"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__payee_id_type
+msgid "Payee ID Field"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.view_payment_manager_simple_mpesa_form
+msgid "Payment Config"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__payment_endpoint_url
+msgid "Payment Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.view_payment_manager_simple_mpesa_form
+msgid "Payment Endpoint URL (Deposit/Transfer URL)"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model,name:g2p_payment_simple_mpesa.model_g2p_program_payment_manager
+msgid "Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.actions.act_window,name:g2p_payment_simple_mpesa.action_payment_manager_simple_mpesa
+msgid "Payment Managers"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields.selection,name:g2p_payment_simple_mpesa.selection__g2p_program_payment_manager_simple_mpesa__payee_id_type__phone
+msgid "Phone"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__program_id
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.payment_manager_simple_mpesa_filter
+msgid "Program"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields.selection,name:g2p_payment_simple_mpesa.selection__g2p_program_payment_manager_simple_mpesa__payee_id_type__reg_id
+msgid "Registrant ID"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model,name:g2p_payment_simple_mpesa.model_g2p_program_payment_manager_simple_mpesa
+msgid "Simple MPesa Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model_terms:ir.ui.view,arch_db:g2p_payment_simple_mpesa.payment_manager_simple_mpesa_filter
+msgid "Simple Mpesa Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.ui.menu,name:g2p_payment_simple_mpesa.menu_payment_manager_simple_mpesa
+msgid "Simple Mpesa Payment Managers"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__currency_id
+msgid "The currency used to enter statement"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__username
+msgid "Username"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,field_description:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: g2p_payment_simple_mpesa
+#: model:ir.model.fields,help:g2p_payment_simple_mpesa.field_g2p_program_payment_manager_simple_mpesa__website_message_ids
+msgid "Website communication history"
+msgstr ""
