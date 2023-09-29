@@ -57,6 +57,7 @@
     "assets": {
         "web.assets_backend": [
             "/g2p_programs/static/src/js/create_program.js",
+            "/g2p_programs/static/src/css/style.css",
         ],
         "web.assets_qweb": [
             "/g2p_programs/static/src/xml/create_program_template.xml",

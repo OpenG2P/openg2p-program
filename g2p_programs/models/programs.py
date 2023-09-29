@@ -30,6 +30,7 @@ class G2PProgram(models.Model):
     MANAGER_PAYMENT = constants.MANAGER_PAYMENT
 
     MANAGER_MODELS = constants.MANAGER_MODELS
+    DISABLE_EDIT_DOMAIN = [("state", "=", "ended")]
 
     # TODO: Associate a Wallet to each program using the accounting module
     # TODO: (For later) Associate a Warehouse to each program using the stock module for in-kind programs
@@ -527,13 +528,27 @@ class G2PProgram(models.Model):
         related_jobs = jobs.filtered(lambda r: self in r.records.program_id)
         return [("id", "in", related_jobs.ids)]
 
-    def _compute_css(self):
-        # Overriding this function
-        for rec in self:
-            # To Remove Edit Option
-            if rec.state == "ended":
-                rec.edit_css = (
-                    "<style>.o_form_button_edit {display: none !important;}</style>"
+    @api.constrains(
+        "entitlement_managers", "program_managers", "cycle_managers", "payment_managers"
+    )
+    def check_managers_limit(self):
+        for record in self:
+            error_messages = []
+
+            if len(record.entitlement_managers) > 1:
+                error_messages.append("Entitlement Managers")
+
+            if len(record.program_managers) > 1:
+                error_messages.append("Program Managers")
+
+            if len(record.cycle_managers) > 1:
+                error_messages.append("Cycle Managers")
+
+            if len(record.payment_managers) > 1:
+                error_messages.append("Payment Managers")
+
+            if error_messages:
+                combined_message = ", ".join(error_messages)
+                raise UserError(
+                    f"Only one manager can be configured under {combined_message}. Please delete any new manager(s) before saving your changes."  # noqa: B950
                 )
-            else:
-                rec.edit_css = False

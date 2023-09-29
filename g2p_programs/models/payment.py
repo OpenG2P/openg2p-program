@@ -14,6 +14,8 @@ class G2PPayment(models.Model):
     _inherit = ["disable.edit.mixin"]
     _order = "id desc"
 
+    DISABLE_EDIT_DOMAIN = [("status", "=", "paid")]
+
     name = fields.Char(
         "Internal Reference #", default=str(uuid4()), readonly=True, copy=False
     )
@@ -94,16 +96,6 @@ class G2PPayment(models.Model):
 
     def send_payment(self):
         pass
-
-    def _compute_css(self):
-        for rec in self:
-            # To Remove Edit Option
-            if rec.status == "paid":
-                rec.edit_css = (
-                    "<style>.o_form_button_edit {display: none !important;}</style>"
-                )
-            else:
-                rec.edit_css = False
 
 
 class G2PPaymentBatch(models.Model):

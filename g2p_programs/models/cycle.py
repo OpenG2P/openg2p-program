@@ -31,6 +31,7 @@ class G2PCycle(models.Model):
     STATE_CANCELED = constants.STATE_CANCELLED
     STATE_DISTRIBUTED = constants.STATE_DISTRIBUTED
     STATE_ENDED = constants.STATE_ENDED
+    DISABLE_EDIT_DOMAIN = [("state", "!=", "draft")]
 
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
@@ -395,13 +396,3 @@ class G2PCycle(models.Model):
         jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
         related_jobs = jobs.filtered(lambda r: self in r.args[0])
         return [("id", "in", related_jobs.ids)]
-
-    def _compute_css(self):
-        for rec in self:
-            # To Remove Edit Option
-            if rec.state not in "draft":
-                rec.edit_css = (
-                    "<style>.o_form_button_edit {display: none !important;}</style>"
-                )
-            else:
-                rec.edit_css = False

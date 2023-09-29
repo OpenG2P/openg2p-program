@@ -28,13 +28,3 @@ class G2PPrograms(models.Model):
                 ],
             ]
         return res
-
-    def _compute_css(self):
-        for rec in self:
-            # To Remove Edit Option
-            if rec.state == "ended":
-                rec.edit_css = (
-                    "<style>.o_form_button_edit {display: none !important;}</style>"
-                )
-            else:
-                rec.edit_css = False

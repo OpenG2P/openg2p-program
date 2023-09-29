@@ -9,8 +9,10 @@ from odoo.exceptions import UserError
 class ProgramFundManagement(models.Model):
     _name = "g2p.program.fund"
     _description = "Program Fund Entries"
-    _inherit = ["mail.thread"]
+    _inherit = ["mail.thread", "disable.edit.mixin"]
     _order = "id desc"
+
+    DISABLE_EDIT_DOMAIN = [("state", "=", "posted")]
 
     name = fields.Char("Reference Number", required=True, default="Draft")
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company)
@@ -36,10 +38,6 @@ class ProgramFundManagement(models.Model):
         "Status",
         readonly=True,
         default="draft",
-    )
-    edit_css = fields.Html(
-        sanitize=False,
-        compute="_compute_css",
     )
 
     @api.ondelete(at_uninstall=False)
@@ -118,13 +116,3 @@ class ProgramFundManagement(models.Model):
                         "type": kind,  # types: success,warning,danger,info
                     },
                 }
-
-    def _compute_css(self):
-        for rec in self:
-            # To Remove Edit Option
-            if rec.state == "posted":
-                rec.edit_css = (
-                    "<style>.o_form_button_edit {display: none !important;}</style>"
-                )
-            else:
-                rec.edit_css = False
