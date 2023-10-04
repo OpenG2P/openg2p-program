@@ -63,7 +63,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
     </record>
 
     <record id="action_payment_manager_simple_mpesa" model="ir.actions.act_window">
-        <field name="name">Payment Managers</field>
+        <field name="name">Simple Mpesa Payment Managers</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">g2p.program.payment.manager.simple.mpesa</field>
         <field name="view_mode">tree,form</field>
