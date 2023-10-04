@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_payment_manager_g2p_connect_tree" model="ir.ui.view">
+        <field name="name">view_payment_manager_g2p_connect_tree</field>
+        <field name="model">g2p.program.payment.manager.g2p.connect</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="name" />
+                <field name="program_id" />
+                <field name="create_batch" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_payment_manager_g2p_connect_form" model="ir.ui.view">
+        <field name="name">view_payment_manager_g2p_connect_form</field>
+        <field name="model">g2p.program.payment.manager.g2p.connect</field>
+        <field name="inherit_id" ref="g2p_programs.view_payment_manager_default_form" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Payment Config">
+                    <field name="payment_endpoint_url" string="Payment Endpoint URL" />
+                    <field name="api_timeout" />
+                </group>
+                <group>
+                    <field name="payer_fa" />
+                    <field name="payer_name" />
+                </group>
+                <group>
+                    <field name="payee_id_type" />
+                    <field
+                        name="reg_id_type_for_payee_id"
+                        string="ID Type for Payee ID"
+                        attrs="{'invisible':[('payee_id_type','!=','reg_id')],
+                                'required':[('payee_id_type','==','reg_id')]}"
+                    />
+                    <field name="locale" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="payment_manager_g2p_connect_filter" model="ir.ui.view">
+        <field name="name">payment_manager_g2p_connect_filter</field>
+        <field name="model">g2p.program.payment.manager.g2p.connect</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <search string="G2P Connect Payment Manager">
+                <field name="name" />
+                <field name="program_id" />
+                <group expand="0" string="Group By">
+                    <filter string="Program" name="grp_program_id" context="{'group_by': 'program_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_payment_manager_g2p_connect" model="ir.actions.act_window">
+        <field name="name">Payment Managers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">g2p.program.payment.manager.g2p.connect</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="payment_manager_g2p_connect_filter" />
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a Payment Manager!
+            </p><p>
+                Click the create button to enter a new g2p connect payment manager.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_payment_manager_g2p_connect_tree_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_payment_manager_g2p_connect_tree" />
+        <field name="act_window_id" ref="action_payment_manager_g2p_connect" />
+    </record>
+
+    <record id="action_payment_manager_g2p_connect_form_view" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_payment_manager_g2p_connect_form" />
+        <field name="act_window_id" ref="action_payment_manager_g2p_connect" />
+    </record>
+
+    <menuitem
+        id="menu_payment_manager_g2p_connect"
+        name="G2P Connect Payment Managers"
+        action="action_payment_manager_g2p_connect"
+        parent="g2p_programs.g2p_manager_menu_root"
+        sequence="630"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
+    />
+
+</odoo>
