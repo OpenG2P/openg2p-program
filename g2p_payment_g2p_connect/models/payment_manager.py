@@ -63,7 +63,22 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     payer_fa = fields.Char(string="Payer Financial Address", required=True)
     payer_name = fields.Char(required=True)
+
+    payee_prefix = fields.Char()
+    payee_suffix = fields.Char()
+
     locale = fields.Char(required=True)
+
+    @api.onchange("payee_id_type")
+    def _onchange_payee_id_type(self):
+        prefix_mapping = {
+            "bank_acc_no": "account_no:",
+            "bank_acc_iban": "iban:",
+            "phone": "phone:",
+            "email": "email:",
+            # TODO: Need to add key:value pair for reg_id
+        }
+        self.payee_prefix = prefix_mapping.get(self.payee_id_type)
 
     def _send_payments(self, batches):
         _logger.info("DEBUG! send_payments Manager: G2P Connect.")
@@ -141,18 +156,18 @@ class G2PPaymentManagerG2PConnect(models.Model):
         if payee_id_type == "bank_acc_no":
             # TODO: Compute which bank_acc_no to choose from bank account list
             for bank_id in payment.partner_id.bank_ids:
-                return bank_id.acc_number
+                return f"{self.payee_prefix}{bank_id.acc_number}@{bank_id.bank_id.bic}"
         elif payee_id_type == "bank_acc_iban":
             # TODO: Compute which iban to choose from bank account list
             for bank_id in payment.partner_id.bank_ids:
-                return bank_id.iban
+                return f"{self.payee_prefix}{bank_id.iban}@{bank_id.bank_id.bic}"
         elif payee_id_type == "phone":
-            return payment.partner_id.phone
+            return f"{self.payee_prefix}{payment.partner_id.phone}"
         elif payee_id_type == "email":
-            return payment.partner_id.email
+            return f"{self.payee_prefix}{payment.partner_id.email}"
         elif payee_id_type == "reg_id":
             for reg_id in payment.partner_id.reg_ids:
                 if reg_id.id_type.id == self.reg_id_type_for_payee_id.id:
-                    return reg_id.value
+                    return f"{self.payee_prefix}{reg_id.value}{self.payee_suffix}"
         # TODO: Deal with no bank acc and/or ID type not matching any available IDs
         return None

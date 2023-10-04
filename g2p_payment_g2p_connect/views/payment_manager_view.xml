@@ -39,6 +39,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         attrs="{'invisible':[('payee_id_type','!=','reg_id')],
                                 'required':[('payee_id_type','==','reg_id')]}"
                     />
+                    <field
+                        name="payee_prefix"
+                        attrs="{'invisible':[('payee_id_type','==', False)],
+                                                        'required':[('payee_id_type','!=', True)]}"
+                    />
+                    <field
+                        name="payee_suffix"
+                        attrs="{'invisible':[('payee_id_type','!=','reg_id')],
+                                                        'required':[('payee_id_type','==','reg_id')]}"
+                    />
                     <field name="locale" />
                 </group>
             </xpath>
@@ -61,7 +71,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
     </record>
 
     <record id="action_payment_manager_g2p_connect" model="ir.actions.act_window">
-        <field name="name">Payment Managers</field>
+        <field name="name">G2P Connect Payment Managers</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">g2p.program.payment.manager.g2p.connect</field>
         <field name="view_mode">tree,form</field>
