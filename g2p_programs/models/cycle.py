@@ -404,3 +404,17 @@ class G2PCycle(models.Model):
         jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
         related_jobs = jobs.filtered(lambda r: self in r.args[0])
         return [("id", "in", related_jobs.ids)]
+
+    def unlink(self):
+        for cycle in self:
+            if cycle.state not in ["draft", "canceled"]:
+                raise UserError(_("You can only delete cycles in Draft status"))
+
+        cycles_to_delete = self.filtered(lambda cycle: cycle.state in ["draft"])
+        cycles_to_delete.cycle_membership_ids.unlink()
+        cycles_to_delete.entitlement_ids.unlink()
+        cycles_to_delete.payment_batch_ids.unlink()
+
+        result = super(G2PCycle, cycles_to_delete).unlink()
+
+        return result
