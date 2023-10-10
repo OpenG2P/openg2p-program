@@ -323,11 +323,6 @@ msgid "Payment Manager"
 msgstr ""
 
 #. module: g2p_payment_simple_mpesa
-#: model:ir.actions.act_window,name:g2p_payment_simple_mpesa.action_payment_manager_simple_mpesa
-msgid "Payment Managers"
-msgstr ""
-
-#. module: g2p_payment_simple_mpesa
 #: model:ir.model.fields.selection,name:g2p_payment_simple_mpesa.selection__g2p_program_payment_manager_simple_mpesa__payee_id_type__phone
 msgid "Phone"
 msgstr ""
@@ -364,6 +359,7 @@ msgid "Simple Mpesa Payment Manager"
 msgstr ""
 
 #. module: g2p_payment_simple_mpesa
+#: model:ir.actions.act_window,name:g2p_payment_simple_mpesa.action_payment_manager_simple_mpesa
 #: model:ir.ui.menu,name:g2p_payment_simple_mpesa.menu_payment_manager_simple_mpesa
 msgid "Simple Mpesa Payment Managers"
 msgstr ""
