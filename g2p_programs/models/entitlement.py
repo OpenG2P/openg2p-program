@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 class G2PEntitlement(models.Model):
     _name = "g2p.entitlement"
     _description = "Entitlement"
-    _order = "id desc"
+    _order = "partner_id asc,id desc"
     _check_company_auto = True
 
     @api.model
