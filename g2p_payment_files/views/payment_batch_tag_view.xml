@@ -10,6 +10,9 @@
                 <field name="render_files_per_payment" />
                 <field name="file_config_ids" widget="many2many_tags" />
             </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="required">1</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -22,6 +25,9 @@
             <xpath expr="//field[@name='name']/.." position="inside">
                 <field name="render_files_per_payment" />
                 <field name="file_config_ids" widget="many2many_tags" />
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="required">1</attribute>
             </xpath>
         </field>
     </record>
