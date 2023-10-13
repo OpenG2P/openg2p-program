@@ -2,7 +2,7 @@
 import logging
 from datetime import datetime
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -60,3 +60,19 @@ class G2PPaymentManagerCash(models.Model):
                     }
                 )
             batch.batch_has_completed = True
+
+        message = _("Payment files created successfully")
+        kind = "success"
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Payment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
+            },
+        }

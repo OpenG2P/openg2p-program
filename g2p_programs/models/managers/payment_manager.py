@@ -150,6 +150,7 @@ class DefaultFilePaymentManager(models.Model):
 
     def _prepare_payments(self, cycle, entitlements):
         if not entitlements:
+
             return None, None
         # Filter out entitlements without payments
         entitlements = entitlements.filtered(
@@ -230,17 +231,6 @@ class DefaultFilePaymentManager(models.Model):
         )
         main_job.delay()
 
-    def send_payments(self, batches):
-        # TODO: Return client action with proper message.
-        batches_count = len(batches)
-        if batches_count < self.MAX_BATCHES_FOR_SYNC_SEND:
-            self._send_payments(batches)
-        else:
-            cycles, cycle_batches = self._group_batches_by_cycle(batches)
-            for batches in cycle_batches:
-                cycle = batches[0].cycle_id
-                self._send_payments_async(cycle, batches)
-
     def _send_payments(self, batches):
         # Create a payment list (CSV)
         # _logger.debug("DEBUG! send_payments Manager: DEFAULT")
@@ -288,8 +278,48 @@ class DefaultFilePaymentManager(models.Model):
                     "datas": csv_data,
                 }
             )
-
             # _logger.debug("DEFAULT Payment Manager: data: %s" % csv_data)
+        message = _("Payment CSV created successfully")
+        kind = "success"
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Payment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
+            },
+        }
+
+    def send_payments(self, batches):
+        # TODO: Return client action with proper message.
+        batches_count = len(batches)
+        if batches_count < self.MAX_BATCHES_FOR_SYNC_SEND:
+            return self._send_payments(batches)
+        else:
+            cycles, cycle_batches = self._group_batches_by_cycle(batches)
+            for batches in cycle_batches:
+                cycle = batches[0].cycle_id
+                self._send_payments_async(cycle, batches)
+            message = _("Sending Payments Asynchronously")
+            kind = "success"
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Payment"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
 
     def _send_payments_async(self, cycle, batches):
         _logger.debug("Send Payments asynchronously")
