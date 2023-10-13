@@ -84,15 +84,25 @@ class DefaultDeduplication(models.Model):
         #  2. Otherwise we update the record.
 
         _logger.debug("Record duplicate: %s", beneficiary_ids)
-        data = {
-            "beneficiary_ids": [(6, 0, beneficiary_ids)],
-            "state": "duplicate",
-            "reason": reason,
-            "deduplication_manager_id": manager,
-        }
-        _logger.debug("Record duplicate: %s", data)
 
-        self.env["g2p.program.membership.duplicate"].create(data)
+        existing_record = self.env["g2p.program.membership.duplicate"].search(
+            [
+                ("beneficiary_ids", "in", beneficiary_ids),
+                ("state", "=", "duplicate"),
+                ("deduplication_manager_id", "=", manager.id),
+                ("reason", "=", reason),
+            ]
+        )
+        if not existing_record:
+            data = {
+                "beneficiary_ids": [(6, 0, beneficiary_ids)],
+                "state": "duplicate",
+                "reason": reason,
+                "deduplication_manager_id": manager,
+            }
+            _logger.debug("Record duplicate: %s", data)
+
+            self.env["g2p.program.membership.duplicate"].create(data)
 
     def _check_duplicate_by_individual_ids(self, beneficiaries):
         """
@@ -206,15 +216,25 @@ class IDDocumentDeduplication(models.Model):
         #  2. Otherwise we update the record.
 
         _logger.debug("Record duplicate: %s", beneficiary_ids)
-        data = {
-            "beneficiary_ids": [(6, 0, beneficiary_ids)],
-            "state": "duplicate",
-            "reason": reason,
-            "deduplication_manager_id": manager,
-        }
-        _logger.debug("Record duplicate: %s", data)
 
-        self.env["g2p.program.membership.duplicate"].create(data)
+        existing_record = self.env["g2p.program.membership.duplicate"].search(
+            [
+                ("beneficiary_ids", "in", beneficiary_ids),
+                ("state", "=", "duplicate"),
+                ("deduplication_manager_id", "=", manager.id),
+                ("reason", "=", reason),
+            ]
+        )
+        if not existing_record:
+            data = {
+                "beneficiary_ids": [(6, 0, beneficiary_ids)],
+                "state": "duplicate",
+                "reason": reason,
+                "deduplication_manager_id": manager,
+            }
+            _logger.debug("Record duplicate: %s", data)
+
+            self.env["g2p.program.membership.duplicate"].create(data)
 
     def _check_duplicate_by_group_with_individual(self, beneficiaries):
         """
@@ -422,15 +442,25 @@ class PhoneNumberDeduplication(models.Model):
         #  2. Otherwise we update the record.
 
         _logger.debug("Record duplicate: %s", beneficiary_ids)
-        data = {
-            "beneficiary_ids": [(6, 0, beneficiary_ids)],
-            "state": "duplicate",
-            "reason": reason,
-            "deduplication_manager_id": manager,
-        }
-        _logger.debug("Record duplicate: %s", data)
 
-        self.env["g2p.program.membership.duplicate"].create(data)
+        existing_record = self.env["g2p.program.membership.duplicate"].search(
+            [
+                ("beneficiary_ids", "in", beneficiary_ids),
+                ("state", "=", "duplicate"),
+                ("deduplication_manager_id", "=", manager.id),
+                ("reason", "=", reason),
+            ]
+        )
+        if not existing_record:
+            data = {
+                "beneficiary_ids": [(6, 0, beneficiary_ids)],
+                "state": "duplicate",
+                "reason": reason,
+                "deduplication_manager_id": manager,
+            }
+            _logger.debug("Record duplicate: %s", data)
+
+            self.env["g2p.program.membership.duplicate"].create(data)
 
     def _check_duplicate_by_group_with_individual(self, beneficiaries):
         """
