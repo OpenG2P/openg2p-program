@@ -481,12 +481,24 @@ class DefaultCashEntitlementManager(models.Model):
                 }
             else:
                 kind = "success"
+                approved_entitlements_count = (
+                    len(entitlements) - err
+                )  # Calculate the approved count
+                if err != 0:
+                    message = _(
+                        "{} Entitlements are successfully approved and {} are not approved."
+                    ).format(approved_entitlements_count, err)
+                else:
+                    message = _("{} Entitlements are successfully approved.").format(
+                        approved_entitlements_count
+                    )
+
                 return {
                     "type": "ir.actions.client",
                     "tag": "display_notification",
                     "params": {
                         "title": _("Entitlement"),
-                        "message": _("Entitlements are validated and approved."),
+                        "message": message,
                         "sticky": True,
                         "type": kind,
                         "next": {
