@@ -9,25 +9,27 @@
         <field name="model">g2p.entitlement</field>
         <field name="inherit_id" ref="g2p_programs.view_entitlement_form" />
         <field name="arch" type="xml">
-            <xpath expr="//header" position="inside">
+            <xpath expr="//sheet/div[@name='button_box']" position="inside">
+                <div class="container oe_left">
                 <field name="show_generate_voucher_button" invisible="1" />
                 <field name="show_print_voucher_button" invisible="1" />
                 <button
-                    type="object"
-                    class="btn-primary"
-                    icon="fa-thumbs-o-up"
-                    name="generate_vouchers_action"
-                    string="Generate Voucher"
-                    attrs="{'invisible': [('show_generate_voucher_button','!=',True)]}"
-                />
+                        type="object"
+                        class="btn-primary mt-2 mb-1"
+                        icon="fa-thumbs-o-up"
+                        name="generate_vouchers_action"
+                        string="Generate Voucher"
+                        attrs="{'invisible': [('show_generate_voucher_button','!=',True)]}"
+                    />
                 <button
-                    type="object"
-                    class="btn-primary"
-                    icon="fa-print"
-                    name="print_voucher_action"
-                    string="Print Voucher"
-                    attrs="{'invisible': [('show_print_voucher_button','!=',True)]}"
-                />
+                        type="object"
+                        class="btn-primary mt-2 mb-1"
+                        icon="fa-print"
+                        name="print_voucher_action"
+                        string="Print Voucher"
+                        attrs="{'invisible': [('show_print_voucher_button','!=',True)]}"
+                    />
+            </div>
             </xpath>
         </field>
     </record>
@@ -40,7 +42,10 @@
         <field name="state">code</field>
         <field name="code">
             if records:
-                action = records.generate_vouchers_action()
+                try:
+                    action = records.generate_vouchers_action()
+                except Exception as err:
+                    raise UserError(err)
         </field>
     </record>
 </odoo>

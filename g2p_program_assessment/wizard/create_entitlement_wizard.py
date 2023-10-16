@@ -3,7 +3,7 @@ import logging
 from datetime import datetime
 
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -48,9 +48,18 @@ class G2PEntitlementWizard(models.TransientModel):
             valid_from = datetime.utcnow()
             valid_until = valid_from + (active_cycle.end_date - active_cycle.start_date)
         else:
-            active_cycle = program.cycle_ids.filtered(
-                lambda x: x.state == "draft"
-            ).sorted("start_date", reverse=True)[0]
+            active_cycle = (
+                program.cycle_ids.filtered(lambda x: x.state == "draft").sorted(
+                    "start_date", reverse=True
+                )[0]
+                if program.cycle_ids.filtered(lambda x: x.state == "draft")
+                else None
+            )
+            if not active_cycle:
+                raise UserError(
+                    _("No cycle is present for program: %s. Create a new cycle.")
+                    % program.name
+                )
             valid_from = active_cycle.start_date
             valid_until = active_cycle.end_date
 
