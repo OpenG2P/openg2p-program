@@ -353,7 +353,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Cycle"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -371,7 +371,7 @@ class G2PProgram(models.Model):
                 "params": {
                     "title": _("Cycle"),
                     "message": message,
-                    "sticky": True,
+                    "sticky": False,
                     "type": kind,
                     "next": {
                         "type": "ir.actions.act_window_close",
@@ -430,7 +430,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Program"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -457,7 +457,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Project"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",

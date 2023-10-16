@@ -123,16 +123,20 @@ class DefaultFilePaymentManager(models.Model):
                 if payments:
                     kind = "success"
                     message = _("%s new payments was issued.", len(payments))
+                    sticky = False
                 else:
                     kind = "danger"
                     message = _("There are no new payments issued!")
+                    sticky = False
             else:
                 self._prepare_payments_async(cycle, entitlements, entitlements_count)
                 kind = "success"
                 message = _("Preparing Payments Asynchronously.")
+                sticky = True
         else:
             kind = "danger"
             message = _("All entitlements selected are not approved!")
+            sticky = False
 
         return {
             "type": "ir.actions.client",
@@ -140,7 +144,7 @@ class DefaultFilePaymentManager(models.Model):
             "params": {
                 "title": _("Payment"),
                 "message": message,
-                "sticky": True,
+                "sticky": sticky,
                 "type": kind,
                 "next": {
                     "type": "ir.actions.act_window_close",

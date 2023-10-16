@@ -125,7 +125,7 @@ class BaseCycleManager(models.AbstractModel):
                 "params": {
                     "title": _("Cycle"),
                     "message": message,
-                    "sticky": True,
+                    "sticky": False,
                     "type": kind,
                     "next": {
                         "type": "ir.actions.act_window_close",
@@ -457,14 +457,17 @@ class DefaultCycleManager(models.Model):
         if len(beneficiaries) == 0:
             message = _("No beneficiaries to import.")
             kind = "warning"
+            sticky = False
         elif len(beneficiaries) < self.MIN_ROW_JOB_QUEUE:
             self._add_beneficiaries(cycle, beneficiaries, state, do_count=True)
             message = _("%s beneficiaries imported.", len(beneficiaries))
             kind = "success"
+            sticky = False
         else:
             self._add_beneficiaries_async(cycle, beneficiaries, state)
             message = _("Import of %s beneficiaries started.", len(beneficiaries))
             kind = "warning"
+            sticky = True
 
         return {
             "type": "ir.actions.client",
@@ -472,7 +475,7 @@ class DefaultCycleManager(models.Model):
             "params": {
                 "title": _("Enrollment"),
                 "message": message,
-                "sticky": True,
+                "sticky": sticky,
                 "type": kind,
                 "next": {
                     "type": "ir.actions.act_window_close",

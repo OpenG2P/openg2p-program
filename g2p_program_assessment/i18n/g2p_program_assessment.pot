@@ -238,6 +238,12 @@ msgid "No Application found."
 msgstr ""
 
 #. module: g2p_program_assessment
+#: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
+#, python-format
+msgid "No cycle is present for program: %s. Create a new cycle."
+msgstr ""
+
+#. module: g2p_program_assessment
 #: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_form
 msgid "Prepare Assessment"
 msgstr ""

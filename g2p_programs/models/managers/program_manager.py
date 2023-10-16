@@ -169,17 +169,19 @@ class DefaultProgramManager(models.Model):
                     f"Enrolled Beneficiaries: {count} successfully and {un_enrolled_count} unsuccessfully."
                 )
             kind = "success"
+            sticky = False
         else:
             self._enroll_eligible_registrants_async(state, members_count)
             message = _("Eligibility check of %s beneficiaries started.", members_count)
             kind = "warning"
+            sticky = True
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
                 "title": _("Enrollment"),
                 "message": message,
-                "sticky": True,
+                "sticky": sticky,
                 "type": kind,
                 "next": {
                     "type": "ir.actions.act_window_close",
