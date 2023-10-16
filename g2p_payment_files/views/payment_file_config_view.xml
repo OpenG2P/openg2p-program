@@ -60,7 +60,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" required="1" />
+                <field name="name" />
                 <field name="type" />
                 <field name="qrcode_config_ids" widget="many2many_tags" />
             </tree>
