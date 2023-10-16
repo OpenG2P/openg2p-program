@@ -122,7 +122,7 @@ class G2PEntitlementWizard(models.TransientModel):
             "params": {
                 "title": _("Entitlement"),
                 "message": message,
-                "sticky": True,
+                "sticky": False,
                 "type": kind,
                 "next": {
                     "type": "ir.actions.act_window_close",

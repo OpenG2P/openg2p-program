@@ -67,7 +67,7 @@ class G2PVoucherEntitlementManager(models.Model):
         )
 
         if self.auto_generate_voucher_on_approval:
-            err, message, vouchers = self.generate_vouchers(entitlements)
+            err, message, sticky, vouchers = self.generate_vouchers(entitlements)
 
         return res
 
@@ -75,7 +75,7 @@ class G2PVoucherEntitlementManager(models.Model):
         """Generate Voucher.
 
         :param entitlements: A recordset of entitlements
-        :return: err, message, vouchers recordset
+        :return: err, message, sticky, vouchers recordset
         """
         if not entitlements:
             entitlements = self.env["g2p.entitlement"].search(
@@ -91,6 +91,7 @@ class G2PVoucherEntitlementManager(models.Model):
         )
         if entitlements_count < self.MIN_ROW_JOB_QUEUE:
             err_count = 0
+            sticky = False
             return_list = None
             for cycle_entitlements in cycle_entitlements_list:
                 cycle = cycle_entitlements[0].cycle_id
@@ -112,7 +113,7 @@ class G2PVoucherEntitlementManager(models.Model):
                     )
             else:
                 message = _(f"{entitlements_count} Vouchers Generated.")
-            return err_count, message, return_list
+            return err_count, message, sticky, return_list
         else:
             for cycle_entitlements in cycle_entitlements_list:
                 cycle = cycle_entitlements[0].cycle_id
@@ -120,7 +121,12 @@ class G2PVoucherEntitlementManager(models.Model):
                 self._generate_vouchers_async(
                     cycle, cycle_entitlements, cycle_entitlements_count
                 )
-            return -1, _(f"Started Voucher generation for {entitlements_count}."), None
+            return (
+                -1,
+                _(f"Started Voucher generation for {entitlements_count}."),
+                True,
+                None,
+            )
 
     def _generate_vouchers(self, entitlements):
         # TODO: Handle errors

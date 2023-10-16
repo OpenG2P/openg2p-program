@@ -199,7 +199,7 @@ class G2PEntitlement(models.Model):
                     "params": {
                         "title": _("Entitlement"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
