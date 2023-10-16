@@ -66,7 +66,7 @@ class G2PEntitlement(models.Model):
     state = fields.Selection(
         [
             ("draft", "Draft"),
-            ("pending_validation", "Pending Validation"),
+            ("pending_validation", "Pending Approval"),
             ("approved", "Approved"),
             ("trans2FSP", "Transferred to FSP"),
             ("rdpd2ben", "Redeemed/Paid to Beneficiary"),
@@ -199,7 +199,7 @@ class G2PEntitlement(models.Model):
                     "params": {
                         "title": _("Entitlement"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
