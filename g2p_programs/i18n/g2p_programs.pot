@@ -532,6 +532,7 @@ msgid "Approve"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 msgid "Approve Entitlement"
 msgstr ""
@@ -1928,6 +1929,11 @@ msgid "Entitlement"
 msgstr ""
 
 #. module: g2p_programs
+#: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
+msgid "Entitlement Approved"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_entitlement_card
 msgid "Entitlement Cash"
 msgstr ""
@@ -2007,12 +2013,6 @@ msgstr ""
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements Validated and Approved."
-msgstr ""
-
-#. module: g2p_programs
-#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
-#, python-format
-msgid "Entitlements are validated and approved."
 msgstr ""
 
 #. module: g2p_programs
@@ -3514,7 +3514,7 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_entitlement__state__pending_validation
 #: model_terms:ir.ui.view,arch_db:g2p_programs.entitlement_filter
-msgid "Pending Validation"
+msgid "Pending Approval"
 msgstr ""
 
 #. module: g2p_programs
@@ -4333,6 +4333,11 @@ msgid "Share Partner"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__show_approve_entitlements_button
+msgid "Show Approve Entitlements Button"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__signup_expiration
 msgid "Signup Expiration"
 msgstr ""
@@ -4872,11 +4877,6 @@ msgid "Validate %s entitlements started."
 msgstr ""
 
 #. module: g2p_programs
-#: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
-msgid "Validate Entitlements"
-msgstr ""
-
-#. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Validate and approve entitlements for cycle."
@@ -5063,6 +5063,18 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_default_tree
 msgid "total_amount_per_individual_in_group"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "{} Entitlements are successfully approved and {} are not approved."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
+#, python-format
+msgid "{} Entitlements are successfully approved."
 msgstr ""
 
 #. module: g2p_programs

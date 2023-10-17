@@ -78,7 +78,7 @@ class ProgramFundManagement(models.Model):
                     "params": {
                         "title": _("Program Fund"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                     },
                 }
@@ -96,7 +96,7 @@ class ProgramFundManagement(models.Model):
                     "params": {
                         "title": _("Program Fund"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                     },
                 }
@@ -114,7 +114,7 @@ class ProgramFundManagement(models.Model):
                     "params": {
                         "title": _("Program Fund"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,  # types: success,warning,danger,info
                     },
                 }
