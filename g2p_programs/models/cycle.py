@@ -407,14 +407,31 @@ class G2PCycle(models.Model):
 
     def unlink(self):
         for cycle in self:
-            if cycle.state not in ["draft", "canceled"]:
-                raise UserError(_("You can only delete cycles in Draft status"))
-
-        cycles_to_delete = self.filtered(lambda cycle: cycle.state in ["draft"])
-        cycles_to_delete.cycle_membership_ids.unlink()
-        cycles_to_delete.entitlement_ids.unlink()
-        cycles_to_delete.payment_batch_ids.unlink()
-
-        result = super(G2PCycle, cycles_to_delete).unlink()
-
-        return result
+            if cycle.state in ["approved"]:
+                raise UserError(
+                    _("Once a cycle has been approved, it cannot be deleted")
+                )
+            elif any(
+                entitlement.state in ["approved"]
+                for entitlement in cycle.entitlement_ids
+            ):
+                raise UserError(
+                    _(
+                        "A cycle for which entitlements have been approved cannot be deleted"
+                    )
+                )
+            elif cycle.entitlement_ids:
+                raise UserError(
+                    _(
+                        "Cycle cannot be deleted when Entitlements have been added to the cycle"
+                    )
+                )
+            elif cycle.cycle_membership_ids:
+                raise UserError(
+                    _(
+                        "Cycle cannot be deleted when beneficiaries are present in the cycle"
+                    )
+                )
+            else:
+                result = super(G2PCycle, cycle).unlink()
+            return result
