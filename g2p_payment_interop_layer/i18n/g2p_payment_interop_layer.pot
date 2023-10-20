@@ -14,20 +14,8 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: g2p_payment_interop_layer
-#: code:addons/g2p_payment_interop_layer/models/payment_manager.py:0
-#, python-format
-msgid "%s new payments was issued."
-msgstr ""
-
-#. module: g2p_payment_interop_layer
 #: model_terms:ir.actions.act_window,help:g2p_payment_interop_layer.action_payment_manager_payment_interop
 msgid "Add a Payment Manager!"
-msgstr ""
-
-#. module: g2p_payment_interop_layer
-#: code:addons/g2p_payment_interop_layer/models/payment_manager.py:0
-#, python-format
-msgid "All entitlements selected are not approved!"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
@@ -78,11 +66,6 @@ msgid "Email"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
-#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
-msgid "Enter the Manager Name..."
-msgstr ""
-
-#. module: g2p_payment_interop_layer
 #: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.payment_manager_payment_interop_filter
 msgid "Group By"
 msgstr ""
@@ -123,21 +106,6 @@ msgid "Manager Name"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
-#: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__max_batch_size
-msgid "Max Batch Size"
-msgstr ""
-
-#. module: g2p_payment_interop_layer
-#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
-msgid "Maximum Batch Size"
-msgstr ""
-
-#. module: g2p_payment_interop_layer
-#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
-msgid "Name:"
-msgstr ""
-
-#. module: g2p_payment_interop_layer
 #: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__reg_id_type_for_payee_id
 msgid "Payee DFSP ID Type"
 msgstr ""
@@ -148,19 +116,13 @@ msgid "Payee ID Field"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
-#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
-msgid "Payee ID Type Rewritten"
-msgstr ""
-
-#. module: g2p_payment_interop_layer
 #: model:ir.model.fields,field_description:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__payee_id_type_to_send
 msgid "Payee Id Type To Send"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
-#: code:addons/g2p_payment_interop_layer/models/payment_manager.py:0
-#, python-format
-msgid "Payment"
+#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
+msgid "Payment Config"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
@@ -171,11 +133,6 @@ msgstr ""
 #. module: g2p_payment_interop_layer
 #: model:ir.model,name:g2p_payment_interop_layer.model_g2p_program_payment_manager_payment_interop_layer
 msgid "Payment Interoperability Layer"
-msgstr ""
-
-#. module: g2p_payment_interop_layer
-#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
-msgid "Payment Interoperability Layer Payment Manager"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
@@ -205,11 +162,6 @@ msgid "Program"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
-#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
-msgid "Program:"
-msgstr ""
-
-#. module: g2p_payment_interop_layer
 #: model:ir.model.fields.selection,name:g2p_payment_interop_layer.selection__g2p_program_payment_manager_payment_interop_layer__payee_id_type__reg_id
 msgid "Registrant ID"
 msgstr ""
@@ -220,19 +172,8 @@ msgid "Search Payment Interoperability Layer Payment Manager"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
-#: model_terms:ir.ui.view,arch_db:g2p_payment_interop_layer.view_payment_manager_payment_interop_form
-msgid "Select a program..."
-msgstr ""
-
-#. module: g2p_payment_interop_layer
 #: model:ir.model.fields,help:g2p_payment_interop_layer.field_g2p_program_payment_manager_payment_interop_layer__currency_id
 msgid "The currency used to enter statement"
-msgstr ""
-
-#. module: g2p_payment_interop_layer
-#: code:addons/g2p_payment_interop_layer/models/payment_manager.py:0
-#, python-format
-msgid "There are no new payments issued!"
 msgstr ""
 
 #. module: g2p_payment_interop_layer
