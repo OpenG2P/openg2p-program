@@ -1,5 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 
+from . import disable_edit_mixin
 from . import job_relate_mixin
 from . import constants
 from . import entitlement
