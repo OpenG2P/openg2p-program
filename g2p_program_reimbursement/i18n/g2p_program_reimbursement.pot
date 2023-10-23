@@ -69,12 +69,6 @@ msgid "Default Entitlement Manager"
 msgstr ""
 
 #. module: g2p_program_reimbursement
-#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_cycle__edit_css
-#: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_program__edit_css
-msgid "Edit Css"
-msgstr ""
-
-#. module: g2p_program_reimbursement
 #: code:addons/g2p_program_reimbursement/models/entitlement.py:0
 #: model:ir.model,name:g2p_program_reimbursement.model_g2p_entitlement
 #, python-format

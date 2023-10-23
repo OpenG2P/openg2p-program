@@ -10,11 +10,16 @@
                 <page name="program_registrant_info" string="Application Info">
                     <field name="program_registrant_info_ids" readonly="1" nolabel="1">
                         <tree default_order="create_date desc">
-                            <field name="create_date" invisible="1" />
-                            <field name="program_id" />
-                            <field name="program_registrant_info" widget="g2p_addl_info_widget" />
+                            <field name="sl_no" />
+                            <field name="program_id" string="Program Name" />
                             <field name="application_id" />
-                            <field name="state" />
+                            <field name="state" string="Application Status" />
+                            <field name="create_date" string="Date Submitted" />
+                            <field
+                                name="program_registrant_info"
+                                widget="g2p_addl_info_widget"
+                                invisible="1"
+                            />
                             <button
                                 name="open_new_tab"
                                 type="object"

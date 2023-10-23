@@ -101,7 +101,6 @@ msgid "%s Beneficiaries duplicate."
 msgstr ""
 
 #. module: g2p_programs
-#: code:addons/g2p_programs/models/managers/program_manager.py:0
 #: code:addons/g2p_programs/models/program_membership.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
@@ -1618,6 +1617,13 @@ msgid "Degree of trust you have in this debtor"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/cycle.py:0
+#: code:addons/g2p_programs/models/cycle.py:0
+#, python-format
+msgid "Delete only draft cycles with no approved entitlements."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__delivery_mechanism_value
 msgid "Delivery Mechanism Value"
 msgstr ""
@@ -1625,6 +1631,11 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Description:"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_disable_edit_mixin
+msgid "Disable Edit Option"
 msgstr ""
 
 #. module: g2p_programs
@@ -1746,11 +1757,6 @@ msgid "Duplicated"
 msgstr ""
 
 #. module: g2p_programs
-#: model:ir.ui.menu,name:g2p_programs.menu_program_membership_duplicate
-msgid "Duplicates"
-msgstr ""
-
-#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "ENROLLED"
@@ -1763,6 +1769,10 @@ msgid "EXITED"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_disable_edit_mixin__edit_css
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__edit_css
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment__edit_css
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program__edit_css
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_fund__edit_css
 msgid "Edit Css"
 msgstr ""
@@ -1792,13 +1802,6 @@ msgstr ""
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check finished."
-msgstr ""
-
-#. module: g2p_programs
-#: code:addons/g2p_programs/models/managers/program_manager.py:0
-#: code:addons/g2p_programs/models/managers/program_manager.py:0
-#, python-format
-msgid "Eligibility check of %s beneficiaries started."
 msgstr ""
 
 #. module: g2p_programs
@@ -1861,7 +1864,6 @@ msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
-#: code:addons/g2p_programs/models/managers/program_manager.py:0
 #: code:addons/g2p_programs/models/program_membership.py:0
 #: code:addons/g2p_programs/models/program_membership.py:0
 #, python-format
@@ -3112,6 +3114,12 @@ msgid "No Program Manager defined."
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/programs.py:0
+#, python-format
+msgid "No Registrants Added to Program"
+msgstr ""
+
+#. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #, python-format
 msgid "No beneficiaries to import."
@@ -3122,6 +3130,19 @@ msgstr ""
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "No duplicates found."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/programs.py:0
+#, python-format
+msgid ""
+"No enrolled registrants. Enroll registrants to program to create new cycle."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
+#, python-format
+msgid "No new beneficiaries enrolled."
 msgstr ""
 
 #. module: g2p_programs
@@ -3397,6 +3418,8 @@ msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
 #: model:ir.model,name:g2p_programs.model_g2p_payment
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_payment_form
 #, python-format
@@ -3427,6 +3450,12 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Payment Batches"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Payment CSV created successfully"
 msgstr ""
 
 #. module: g2p_programs
@@ -4252,6 +4281,12 @@ msgstr ""
 #: code:addons/g2p_programs/models/managers/payment_manager.py:0
 #, python-format
 msgid "Send payments started for %s batches."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/payment_manager.py:0
+#, python-format
+msgid "Sending Payments Asynchronously"
 msgstr ""
 
 #. module: g2p_programs

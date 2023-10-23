@@ -72,11 +72,6 @@ msgid "Display Name"
 msgstr ""
 
 #. module: g2p_payment_cash
-#: model:ir.model.fields,field_description:g2p_payment_cash.field_g2p_payment__edit_css
-msgid "Edit Css"
-msgstr ""
-
-#. module: g2p_payment_cash
 #: model:ir.model,name:g2p_payment_cash.model_g2p_entitlement
 msgid "Entitlement"
 msgstr ""
@@ -135,7 +130,7 @@ msgstr ""
 
 #. module: g2p_payment_cash
 #: code:addons/g2p_payment_cash/models/entitlement.py:0
-#: model:ir.model,name:g2p_payment_cash.model_g2p_payment
+#: code:addons/g2p_payment_cash/models/payment_manager.py:0
 #, python-format
 msgid "Payment"
 msgstr ""
@@ -148,6 +143,12 @@ msgstr ""
 #. module: g2p_payment_cash
 #: model:ir.model,name:g2p_payment_cash.model_g2p_program_payment_manager
 msgid "Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_cash
+#: code:addons/g2p_payment_cash/models/payment_manager.py:0
+#, python-format
+msgid "Payment files created successfully"
 msgstr ""
 
 #. module: g2p_payment_cash

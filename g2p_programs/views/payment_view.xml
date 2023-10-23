@@ -93,6 +93,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 readonly="1"
                                 options="{'no_open':true}"
                             />
+                            <field name="edit_css" force_save="1" nolabel="1" />
                         </h1>
                         <label for="program_id" string="Program:" />
                         <h2>
