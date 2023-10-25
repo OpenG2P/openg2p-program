@@ -429,6 +429,11 @@ msgid "The currency used to enter statement"
 msgstr ""
 
 #. module: g2p_payment_files
+#: model:ir.model.constraint,message:g2p_payment_files.constraint_g2p_payment_batch_tag_name_unique
+msgid "The name must be unique!!"
+msgstr ""
+
+#. module: g2p_payment_files
 #: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_crypto_key_set__type
 #: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_config__type
 #: model:ir.model.fields,field_description:g2p_payment_files.field_g2p_payment_file_qrcode_config__type

@@ -23,7 +23,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
-                          <field name="partner_id" />
+                          <field name="partner_id" invisible="1" />
                           <field name="program_id" />
                           <field name="enrollment_date" />
                           <field name="exit_date" />
@@ -83,7 +83,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
-                        <field name="partner_id" />
+                        <field name="partner_id" invisible="1" />
                         <field name="program_id" />
                         <field name="enrollment_date" />
                         <field name="exit_date" />
