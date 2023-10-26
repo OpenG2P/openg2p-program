@@ -1,5 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import ValidationError
 
 
 class G2PCycleMembership(models.Model):
@@ -83,3 +84,33 @@ class G2PCycleMembership(models.Model):
                 "context": {"default_is_group": False},
                 "flags": {"mode": "readonly"},
             }
+
+    def unlink(self):
+        if not self:
+            return
+
+        draft_records = self.filtered(lambda x: x.cycle_id.state == "draft")
+
+        if not draft_records:
+            raise ValidationError(
+                _(
+                    "Beneficiaries can only be deleted when both the cycle and entitlement are unapproved."
+                )
+            )
+
+        for record in draft_records:
+            beneficiary = record.cycle_id.entitlement_ids.filtered(
+                lambda x: x.partner_id.id == record.partner_id.id
+            )
+            if (
+                record.cycle_id.state == "approved"
+                or beneficiary
+                and beneficiary.state == "approved"
+            ):
+                raise ValidationError(
+                    _(
+                        "Beneficiaries can only be deleted when both the cycle and entitlement are unapproved."
+                    )
+                )
+
+        return super().unlink()

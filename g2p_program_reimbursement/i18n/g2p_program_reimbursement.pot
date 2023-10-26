@@ -149,6 +149,8 @@ msgstr ""
 #. module: g2p_program_reimbursement
 #: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_entitlement__service_provider_id
 #: model:ir.model.fields,field_description:g2p_program_reimbursement.field_g2p_entitlement_create_wizard__service_provider_id
+#: model:ir.ui.menu,name:g2p_program_reimbursement.menu_account_supplier
+#: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.res_partner_view_search_g2p_inherit
 #: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_entitlement_reimbursement_form
 #: model_terms:ir.ui.view,arch_db:g2p_program_reimbursement.view_entitlement_reimbursement_tree
 msgid "Service Provider"
