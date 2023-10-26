@@ -763,6 +763,15 @@ msgid "Beneficiaries Duplicates"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/cycle_membership.py:0
+#: code:addons/g2p_programs/models/cycle_membership.py:0
+#, python-format
+msgid ""
+"Beneficiaries can only be deleted when both the cycle and entitlement are "
+"unapproved."
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_tree
 msgid "Beneficiaries list"
 msgstr ""
