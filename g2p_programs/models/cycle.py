@@ -45,7 +45,7 @@ class G2PCycle(models.Model):
             # via copy+paste URL in browser.
             # Set all payment management components to invisible
             # if the form was loaded directly via URL.
-            if "hide_cash" not in self._context:
+            if not self._context.get("hide_cash"):
                 doc = etree.XML(res["arch"])
                 modifiers = json.dumps({"invisible": True})
 

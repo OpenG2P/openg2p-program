@@ -102,6 +102,8 @@ msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/program_membership.py:0
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
 msgstr ""
@@ -1808,6 +1810,7 @@ msgid "Eligibility Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check finished."
@@ -1821,6 +1824,12 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__employee
 msgid "Employee"
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
+#, python-format
+msgid "Eligibility check of %s beneficiaries started."
 msgstr ""
 
 #. module: g2p_programs
@@ -1875,6 +1884,8 @@ msgstr ""
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/program_membership.py:0
 #: code:addons/g2p_programs/models/program_membership.py:0
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Enrollment"
 msgstr ""
@@ -2590,6 +2601,8 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__function
 msgid "Job Position"
+#: model:ir.model,name:g2p_programs.model_queue_job_channel
+msgid "Job Channels"
 msgstr ""
 
 #. module: g2p_programs
@@ -3410,6 +3423,9 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__same_vat_partner_id
 msgid "Partner with same Tax ID"
+#: code:addons/g2p_programs/models/queue_job_channel.py:0
+#, python-format
+msgid "Parent channel required."
 msgstr ""
 
 #. module: g2p_programs

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2023-02-21 09:23+0000\n"
+"PO-Revision-Date: 2023-01-24 00:23+0000\n"
 "Last-Translator: Mohammed Alateya <mohammadalbaqer@gmail.com>\n"
 "Language-Team: Arabic <https://translate.openspp.org/projects/openg2p/"
 "g2p_programs/ar/>\n"
@@ -82,6 +82,7 @@ msgid "%s Beneficiaries duplicate."
 msgstr "%s مستفيدين مكررين."
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
@@ -894,7 +895,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 #, python-format
 msgid "Create"
-msgstr "انشاء"
+msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
@@ -1423,12 +1424,14 @@ msgid "Eligibility Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check finished."
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check of %s beneficiaries started."
@@ -1997,6 +2000,11 @@ msgid "Issued Transaction Statistics"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_queue_job_channel
+msgid "Job Channels"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_job_relate_mixin
 msgid "Job Relate Mixin"
 msgstr ""
@@ -2343,7 +2351,7 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.create_program_wizard_form_view
 msgid "Next"
-msgstr "التالي"
+msgstr ""
 
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__activity_calendar_event_id
@@ -2594,6 +2602,12 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_paid_transactions
 msgid "Paid Transactions Statistics"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/queue_job_channel.py:0
+#, python-format
+msgid "Parent channel required."
 msgstr ""
 
 #. module: g2p_programs
