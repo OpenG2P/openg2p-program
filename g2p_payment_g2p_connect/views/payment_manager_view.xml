@@ -24,12 +24,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <group string="Payment Config">
-                    <field name="payment_endpoint_url" string="Payment Endpoint URL" />
+                    <field name="payment_endpoint_url" />
+                    <field name="status_endpoint_url" />
                     <field name="api_timeout" />
-                </group>
-                <group>
-                    <field name="payer_fa" />
-                    <field name="payer_name" />
+                    <field name="status_check_cron_active" string="Status Check Cron Enabled" />
+                    <field name="status_cron_job_interval_minutes" />
                 </group>
                 <group>
                     <field name="payee_id_type" />
