@@ -238,7 +238,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
 
             if rec.import_beneficiaries == "yes":
                 eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
-                eligibility_managers[0].import_eligible_registrants()
+                eligibility_managers[0].import_eligible_registrants(state="enrolled")
 
             # Open the newly created program
             action = {
