@@ -227,22 +227,6 @@ class BaseCycleManager(models.AbstractModel):
         # Update Statistics
         cycle._compute_entitlements_count()
 
-    def mark_check_eligibility_as_done(self, cycle):
-        """Complete the enrollment of eligible beneficiaries.
-        Base :meth:`mark_check_eligibility_as_done`.
-        This is executed when all the jobs are completed.
-        Post a message in the chatter.
-
-        :param cycle: A recordset of cycle
-        :return:
-        """
-        cycle.locked = False
-        cycle.locked_reason = None
-        cycle.message_post(body=_("Eligibility check finished."))
-
-        # Compute Statistics
-        cycle._compute_members_count()
-
 
 class DefaultCycleManager(models.Model):
     _name = "g2p.cycle.manager.default"
@@ -286,111 +270,46 @@ class DefaultCycleManager(models.Model):
         for rec in self:
             rec._ensure_can_edit_cycle(cycle)
 
-            # Get all the draft, enrolled, and not eligible beneficiaries
+            # Get all the draft and enrolled beneficiaries
             if beneficiaries is None:
-                beneficiaries_count = cycle.get_beneficiaries(
-                    ["draft", "enrolled", "not_eligible"], count=True
+                beneficiaries = cycle.get_beneficiaries(["draft", "enrolled"])
+
+            eligibility_managers = rec.program_id.get_managers(
+                constants.MANAGER_ELIGIBILITY
+            )
+            filtered_beneficiaries = beneficiaries
+            for manager in eligibility_managers:
+                filtered_beneficiaries = manager.verify_cycle_eligibility(
+                    cycle, filtered_beneficiaries
                 )
-            else:
-                beneficiaries_count = len(beneficiaries)
-            if beneficiaries_count < self.MIN_ROW_JOB_QUEUE:
-                count = self._check_eligibility(
-                    cycle, beneficiaries=beneficiaries, do_count=True
-                )
-                message = _("%s Beneficiaries enrolled.", count)
-                kind = "success"
-            else:
-                self._check_eligibility_async(cycle, beneficiaries_count)
-                message = _(
-                    "Eligibility check of %s beneficiaries started.",
-                    beneficiaries_count,
-                )
-                kind = "warning"
-            return {
-                "type": "ir.actions.client",
-                "tag": "display_notification",
-                "params": {
-                    "title": _("Enrollment"),
-                    "message": message,
-                    "sticky": True,
-                    "type": kind,
-                    "next": {
-                        "type": "ir.actions.act_window_close",
-                    },
-                },
-            }
 
-    def _check_eligibility_async(self, cycle, beneficiaries_count):
-        self.ensure_one()
-        _logger.debug("Beneficiaries: %s", beneficiaries_count)
-        cycle.message_post(
-            body=_(
-                "Eligibility check of %s beneficiaries started.", beneficiaries_count
-            )
-        )
-        cycle.write(
-            {"locked": True, "locked_reason": "Eligibility check of beneficiaries"}
-        )
+            filtered_beneficiaries.write({"state": "enrolled"})
 
-        jobs = []
-        for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
-            jobs.append(
-                self.delayable(channel="root_program.cycle")._check_eligibility(
-                    cycle, offset=i, limit=self.MAX_ROW_JOB_QUEUE
-                )
-            )
-        main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable(channel="root_program.cycle").mark_check_eligibility_as_done(
-                cycle
-            )
-        )
-        main_job.delay()
-
-    def _check_eligibility(
-        self, cycle, beneficiaries=None, offset=0, limit=None, do_count=False
-    ):
-        if beneficiaries is None:
-            beneficiaries = cycle.get_beneficiaries(
-                ["draft", "enrolled", "not_eligible"],
-                offset=offset,
-                limit=limit,
-                order="id",
+            beneficiaries_ids = beneficiaries.ids
+            filtered_beneficiaries_ids = filtered_beneficiaries.ids
+            ids_to_remove = list(
+                set(beneficiaries_ids) - set(filtered_beneficiaries_ids)
             )
 
-        eligibility_managers = cycle.program_id.get_managers(
-            constants.MANAGER_ELIGIBILITY
-        )
-        filtered_beneficiaries = beneficiaries
-        for manager in eligibility_managers:
-            filtered_beneficiaries = manager.verify_cycle_eligibility(
-                cycle, filtered_beneficiaries
+            # Mark the beneficiaries as not eligible
+            memberships_to_remove = self.env["g2p.cycle.membership"].browse(
+                ids_to_remove
             )
-
-        filtered_beneficiaries.write({"state": "enrolled"})
-
-        beneficiaries_ids = beneficiaries.ids
-        filtered_beneficiaries_ids = filtered_beneficiaries.ids
-        ids_to_remove = list(set(beneficiaries_ids) - set(filtered_beneficiaries_ids))
-
-        # Mark the beneficiaries as not eligible
-        memberships_to_remove = self.env["g2p.cycle.membership"].browse(ids_to_remove)
-        memberships_to_remove.write({"state": "not_eligible"})
-
-        # Disable the entitlements of the beneficiaries
-        entitlements = self.env["g2p.entitlement"].search(
-            [
-                ("cycle_id", "=", cycle.id),
-                ("partner_id", "in", memberships_to_remove.mapped("partner_id.id")),
-            ]
-        )
-        entitlements.write({"state": "cancelled"})
-
-        if do_count:
-            # Compute Statistics
+            memberships_to_remove.write({"state": "not_eligible"})
+            # Update the members_count field
             cycle._compute_members_count()
 
-        return len(filtered_beneficiaries)
+            # TODO: Move this to the entitlement manager
+            # Disable the entitlements of the beneficiaries
+            entitlements = self.env["g2p.entitlement"].search(
+                [
+                    ("cycle_id", "=", cycle.id),
+                    ("partner_id", "in", memberships_to_remove.mapped("partner_id.id")),
+                ]
+            )
+            entitlements.write({"state": "cancelled"})
+
+            return filtered_beneficiaries
 
     def prepare_entitlements(self, cycle):
         for rec in self:
@@ -420,15 +339,13 @@ class DefaultCycleManager(models.Model):
         jobs = []
         for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable(channel="root_program.cycle")._prepare_entitlements(
-                    cycle, i, self.MAX_ROW_JOB_QUEUE
-                )
+                self.delayable()._prepare_entitlements(cycle, i, self.MAX_ROW_JOB_QUEUE)
             )
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable(
-                channel="root_program.cycle"
-            ).mark_prepare_entitlement_as_done(cycle, _("Entitlement Ready."))
+            self.delayable().mark_prepare_entitlement_as_done(
+                cycle, _("Entitlement Ready.")
+            )
         )
         main_job.delay()
 
@@ -532,11 +449,10 @@ class DefaultCycleManager(models.Model):
         self.ensure_one()
         self._ensure_can_edit_cycle(cycle)
         _logger.debug("Adding beneficiaries to the cycle %s", cycle.name)
-        _logger.debug("Beneficiaries: %s", len(beneficiaries))
+        _logger.debug("Beneficiaries: %s", beneficiaries)
 
         # Only add beneficiaries not added yet
         existing_ids = cycle.cycle_membership_ids.mapped("partner_id.id")
-        _logger.debug("Existing IDs: %s", len(existing_ids))
         beneficiaries = list(set(beneficiaries) - set(existing_ids))
         if len(beneficiaries) == 0:
             message = _("No beneficiaries to import.")
@@ -578,7 +494,7 @@ class DefaultCycleManager(models.Model):
         jobs = []
         for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable(channel="root_program.cycle")._add_beneficiaries(
+                self.delayable()._add_beneficiaries(
                     cycle,
                     beneficiaries[i : i + self.MAX_ROW_JOB_QUEUE],
                     state,
@@ -587,7 +503,7 @@ class DefaultCycleManager(models.Model):
 
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable(channel="root_program.cycle").mark_import_as_done(
+            self.delayable().mark_import_as_done(
                 cycle, _("Beneficiary import finished.")
             )
         )
