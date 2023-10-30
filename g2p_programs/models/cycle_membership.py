@@ -6,7 +6,7 @@ from odoo.exceptions import ValidationError
 class G2PCycleMembership(models.Model):
     _name = "g2p.cycle.membership"
     _description = "Cycle Membership"
-    _order = "id desc"
+    _order = "partner_id asc,id desc"
 
     partner_id = fields.Many2one(
         "res.partner", "Registrant", help="A beneficiary", required=True, index=True

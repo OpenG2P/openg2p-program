@@ -552,3 +552,23 @@ class G2PProgram(models.Model):
                 raise UserError(
                     f"Only one manager can be configured under {combined_message}. Please delete any new manager(s) before saving your changes."  # noqa: B950
                 )
+
+    def unlink(self):
+        managers_to_delete = [
+            self.eligibility_managers,
+            self.deduplication_managers,
+            self.notification_managers,
+            self.program_managers,
+            self.cycle_managers,
+            self.entitlement_managers,
+            self.payment_managers,
+            self.reconciliation_managers,
+        ]
+
+        for managers in managers_to_delete:
+            if managers:
+                for manager in managers:
+                    manager.manager_ref_id.unlink()
+                managers.unlink()
+            else:
+                return super(G2PProgram, self).unlink()
