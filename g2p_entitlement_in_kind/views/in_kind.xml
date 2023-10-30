@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_program_list_custom_spp_form_inherit" model="ir.ui.view">
+        <field name="name">view_program_list_custom_spp_form</field>
+        <field name="model">g2p.program</field>
+        <field name="inherit_id" ref="spp_programs.view_program_list_custom_spp_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='import_eligible_registrants']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//button[@name='enroll_eligible_registrants']" position="attributes">
+                <attribute
+                    name="groups"
+                >g2p_programs.g2p_program_validator, g2p_programs.g2p_program_cycle_approver, g2p_programs.g2p_program_manager</attribute>
+            </xpath>
+        </field>
+    </record>
+</odoo>
