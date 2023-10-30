@@ -101,9 +101,8 @@ msgid "%s Beneficiaries duplicate."
 msgstr ""
 
 #. module: g2p_programs
-#: code:addons/g2p_programs/models/program_membership.py:0
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
-#: code:addons/g2p_programs/models/managers/program_manager.py:0
+#: code:addons/g2p_programs/models/program_membership.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
 msgstr ""
@@ -1819,10 +1818,18 @@ msgstr ""
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
-#: code:addons/g2p_programs/models/managers/program_manager.py:0
-#: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check of %s beneficiaries started."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__email
+msgid "Email"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__employee
+msgid "Employee"
 msgstr ""
 
 #. module: g2p_programs
@@ -1875,10 +1882,9 @@ msgstr ""
 
 #. module: g2p_programs
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
-#: code:addons/g2p_programs/models/program_membership.py:0
-#: code:addons/g2p_programs/models/program_membership.py:0
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
-#: code:addons/g2p_programs/models/managers/program_manager.py:0
+#: code:addons/g2p_programs/models/program_membership.py:0
+#: code:addons/g2p_programs/models/program_membership.py:0
 #, python-format
 msgid "Enrollment"
 msgstr ""
@@ -2594,6 +2600,11 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model,name:g2p_programs.model_queue_job_channel
 msgid "Job Channels"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__function
+msgid "Job Position"
 msgstr ""
 
 #. module: g2p_programs
@@ -3400,6 +3411,26 @@ msgstr ""
 #: code:addons/g2p_programs/models/queue_job_channel.py:0
 #, python-format
 msgid "Parent channel required."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__parent_name
+msgid "Parent name"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_partial_group
+msgid "Partial Group"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__contract_ids
+msgid "Partner Contracts"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__same_vat_partner_id
+msgid "Partner with same Tax ID"
 msgstr ""
 
 #. module: g2p_programs
