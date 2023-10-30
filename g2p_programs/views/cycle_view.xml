@@ -58,13 +58,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         states="draft"
                         string="Prepare Entitlement"
                     />
+                    <field name="show_approve_entitlements_button" invisible='1' />
                     <button
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
                         name="validate_entitlement"
-                        attrs="{'invisible':['|',('state','!=','approved'),('auto_approve_entitlements','=',True)]}"
-                        string="Validate Entitlements"
+                        attrs="{'invisible':['|',('state','!=','approved'),'|',('auto_approve_entitlements','=',True),('show_approve_entitlements_button','=',True)]}"
+                        string="Approve Entitlement"
                     />
                     <button
                         type="object"
@@ -188,6 +189,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Enter the cycle name..."
                                 attrs="{'readonly':[('state','!=','draft')]}"
                             />
+                            <field name="edit_css" force_save="1" nolabel="1" />
                         </h1>
                     </div>
                     <group colspan="4" col="4">

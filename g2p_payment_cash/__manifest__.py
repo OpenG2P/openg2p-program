@@ -16,7 +16,6 @@
         "security/ir.model.access.csv",
         "views/payment_manager_view.xml",
         "views/entitlement_view.xml",
-        "views/g2p_payment_views.xml",
     ],
     "assets": {
         "web.assets_backend": [

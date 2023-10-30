@@ -309,6 +309,12 @@ msgid "Payer Name"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
+#, python-format
+msgid "Payment"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_manager_g2p_connect_form
 msgid "Payment Config"
 msgstr ""
@@ -322,6 +328,12 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model,name:g2p_payment_g2p_connect.model_g2p_program_payment_manager
 msgid "Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
+#, python-format
+msgid "Payment sent successfully"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect

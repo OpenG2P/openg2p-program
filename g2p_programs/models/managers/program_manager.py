@@ -158,19 +158,30 @@ class DefaultProgramManager(models.Model):
             raise UserError(_("No Eligibility Manager defined."))
         elif members_count < self.MIN_ROW_JOB_QUEUE:
             count = self._enroll_eligible_registrants(state, do_count=True)
-            message = _("%s Beneficiaries enrolled.", count)
+            un_enrolled_count = program.get_beneficiaries(
+                state="not_eligible", count=True
+            )
+            enrolled_count = program.get_beneficiaries(state="enrolled", count=True)
+            if (program.beneficiaries_count == enrolled_count) and not count:
+                message = _("No new beneficiaries enrolled.")
+            else:
+                message = _(
+                    f"Enrolled Beneficiaries: {count} successfully and {un_enrolled_count} unsuccessfully."
+                )
             kind = "success"
+            sticky = False
         else:
             self._enroll_eligible_registrants_async(state, members_count)
             message = _("Eligibility check of %s beneficiaries started.", members_count)
             kind = "warning"
+            sticky = True
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
                 "title": _("Enrollment"),
                 "message": message,
-                "sticky": True,
+                "sticky": sticky,
                 "type": kind,
                 "next": {
                     "type": "ir.actions.act_window_close",

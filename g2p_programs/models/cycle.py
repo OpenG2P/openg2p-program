@@ -6,7 +6,7 @@ import logging
 from lxml import etree
 
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 from . import constants
 
@@ -14,7 +14,12 @@ _logger = logging.getLogger(__name__)
 
 
 class G2PCycle(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin", "job.relate.mixin"]
+    _inherit = [
+        "mail.thread",
+        "mail.activity.mixin",
+        "job.relate.mixin",
+        "disable.edit.mixin",
+    ]
     _name = "g2p.cycle"
     _description = "Cycle"
     _order = "sequence asc"
@@ -26,6 +31,7 @@ class G2PCycle(models.Model):
     STATE_CANCELED = constants.STATE_CANCELLED
     STATE_DISTRIBUTED = constants.STATE_DISTRIBUTED
     STATE_ENDED = constants.STATE_ENDED
+    DISABLE_EDIT_DOMAIN = [("state", "!=", "draft")]
 
     def fields_view_get(
         self, view_id=None, view_type="form", toolbar=False, submenu=False
@@ -94,11 +100,17 @@ class G2PCycle(models.Model):
     entitlements_count = fields.Integer(
         string="# Entitlements", readonly=True, compute="_compute_entitlements_count"
     )
-    payments_count = fields.Integer(string="# Payments", readonly=True)
+    payments_count = fields.Integer(
+        string="# Payments", readonly=True, compute="_compute_payments_count"
+    )
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
+
+    show_approve_entitlements_button = fields.Boolean(
+        compute="_compute_show_approve_entitlement"
+    )
 
     def _compute_members_count(self):
         for rec in self:
@@ -119,6 +131,16 @@ class G2PCycle(models.Model):
                 [("cycle_id", "=", rec.id)]
             )
             rec.update({"payments_count": payments_count})
+
+    @api.onchange("entitlement_ids.state")
+    def _compute_show_approve_entitlement(self):
+        for rec in self:
+            show_button = True
+            for entitlement in rec.entitlement_ids:
+                if entitlement.state != "approved":
+                    show_button = False
+                    break
+            rec.show_approve_entitlements_button = show_button
 
     @api.onchange("start_date")
     def on_start_date_change(self):
@@ -390,3 +412,33 @@ class G2PCycle(models.Model):
         jobs = self.env["queue.job"].search([("model_name", "like", self._name)])
         related_jobs = jobs.filtered(lambda r: self in r.args[0])
         return [("id", "in", related_jobs.ids)]
+
+    def unlink(self):
+        # Admin also not able to delete the cycle bcz of beneficiaries mapped
+        # So this function common for who are all having delete access.
+
+        # TODO: Need to add the below logic for group based unlink options if necessary
+        # user = self.env.user
+        # group_g2p_admin = user.has_group("g2p_registry_base.group_g2p_admin")
+        # g2p_program_manager = user.has_group("g2p_programs.g2p_program_manager")
+        # if group_g2p_admin:
+        #     return super().unlink()
+
+        if self:
+            draft_records = self.filtered(lambda x: x.state == "draft")
+
+            if draft_records:
+                if any(
+                    record.entitlement_ids.filtered(lambda e: e.state == "approved")
+                    for record in draft_records
+                ):
+                    raise ValidationError(
+                        _("Delete only draft cycles with no approved entitlements.")
+                    )
+
+                draft_records.mapped("cycle_membership_ids").unlink()
+                return super().unlink()
+
+        raise ValidationError(
+            _("Delete only draft cycles with no approved entitlements.")
+        )

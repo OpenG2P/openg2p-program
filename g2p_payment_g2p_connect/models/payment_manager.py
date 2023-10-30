@@ -222,6 +222,22 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 body=error_msg, subject=_("G2P Connect Status Check")
             )
 
+        message = _("Payment sent successfully")
+        kind = "success"
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Payment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
+            },
+        }
+
     def _get_payee_fa(self, payment):
         self.ensure_one()
         payee_id_type = self.payee_id_type

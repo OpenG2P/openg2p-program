@@ -10,7 +10,12 @@ _logger = logging.getLogger(__name__)
 
 
 class G2PProgram(models.Model):
-    _inherit = ["mail.thread", "mail.activity.mixin", "job.relate.mixin"]
+    _inherit = [
+        "mail.thread",
+        "mail.activity.mixin",
+        "job.relate.mixin",
+        "disable.edit.mixin",
+    ]
     _name = "g2p.program"
     _description = "Program"
     _order = "id desc"
@@ -25,6 +30,7 @@ class G2PProgram(models.Model):
     MANAGER_PAYMENT = constants.MANAGER_PAYMENT
 
     MANAGER_MODELS = constants.MANAGER_MODELS
+    DISABLE_EDIT_DOMAIN = [("state", "=", "ended")]
 
     # TODO: Associate a Wallet to each program using the accounting module
     # TODO: (For later) Associate a Warehouse to each program using the stock module for in-kind programs
@@ -262,11 +268,12 @@ class G2PProgram(models.Model):
     # TODO: JJ - Add a way to link reports/Dashboard about this program.
 
     def enroll_eligible_registrants(self):
+        if self.beneficiaries_count <= 0:
+            raise UserError(_("No Registrants Added to Program"))
         for rec in self:
             program_manager = rec.get_manager(self.MANAGER_PROGRAM)
             if program_manager:
                 return program_manager.enroll_eligible_registrants()
-
             else:
                 raise UserError(_("No Program Manager defined."))
 
@@ -324,6 +331,12 @@ class G2PProgram(models.Model):
         # 1. Create the next cycle using cycles_manager.new_cycle()
         # 2. Import the beneficiaries from the previous cycle to this one. If it is the first one, import from the
         # program memberships.
+        if self.beneficiaries_count <= 0:
+            raise UserError(
+                _(
+                    "No enrolled registrants. Enroll registrants to program to create new cycle."
+                )
+            )
         for rec in self:
             message = None
             kind = "success"
@@ -340,7 +353,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Cycle"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -358,7 +371,7 @@ class G2PProgram(models.Model):
                 "params": {
                     "title": _("Cycle"),
                     "message": message,
-                    "sticky": True,
+                    "sticky": False,
                     "type": kind,
                     "next": {
                         "type": "ir.actions.act_window_close",
@@ -417,7 +430,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Program"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -444,7 +457,7 @@ class G2PProgram(models.Model):
                     "params": {
                         "title": _("Project"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",

@@ -66,7 +66,7 @@ class G2PEntitlement(models.Model):
     state = fields.Selection(
         [
             ("draft", "Draft"),
-            ("pending_validation", "Pending Validation"),
+            ("pending_validation", "Pending Approval"),
             ("approved", "Approved"),
             ("trans2FSP", "Transferred to FSP"),
             ("rdpd2ben", "Redeemed/Paid to Beneficiary"),
@@ -111,8 +111,13 @@ class G2PEntitlement(models.Model):
                 g2p_program_validator = self.env.user.has_group(
                     "g2p_programs.g2p_program_validator"
                 )
+                g2p_program_manager = self.env.user.has_group(
+                    "g2p_programs.g2p_program_manager"
+                )
 
-                if not (group_g2p_registrar or g2p_program_validator):
+                if not (
+                    group_g2p_registrar or g2p_program_validator or g2p_program_manager
+                ):
                     raise ValidationError(
                         _("You have no access in the Entitlement List View")
                     )
@@ -179,6 +184,8 @@ class G2PEntitlement(models.Model):
         if self:
             to_delete = self.filtered(lambda x: x.state == "draft")
             if to_delete:
+                # TODO: Need to add the logic if any one entitlements within the cycle have been approved
+                # to restrict the delete records even in the draft state.
                 return super(G2PEntitlement, to_delete).unlink()
             else:
                 raise ValidationError(
@@ -199,7 +206,7 @@ class G2PEntitlement(models.Model):
                     "params": {
                         "title": _("Entitlement"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",

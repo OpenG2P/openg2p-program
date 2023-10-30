@@ -208,7 +208,7 @@ class G2PProgramMembership(models.Model):
                     "params": {
                         "title": _("Enrollment"),
                         "message": message,
-                        "sticky": True,
+                        "sticky": False,
                         "type": kind,
                         "next": {
                             "type": "ir.actions.act_window_close",
@@ -226,7 +226,7 @@ class G2PProgramMembership(models.Model):
                 "params": {
                     "title": _("Enrollment"),
                     "message": message,
-                    "sticky": True,
+                    "sticky": False,
                     "type": kind,
                     "next": {
                         "type": "ir.actions.act_window_close",

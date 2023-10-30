@@ -41,7 +41,7 @@ class G2PEntitlement(models.Model):
                     rec.show_print_voucher_button = True
 
     def generate_vouchers_action(self):
-        err, message, vouchers = self.program_id.get_manager(
+        err, message, sticky, vouchers = self.program_id.get_manager(
             constants.MANAGER_ENTITLEMENT
         ).generate_vouchers(self)
         return {
@@ -50,7 +50,7 @@ class G2PEntitlement(models.Model):
             "params": {
                 "title": _("Voucher"),
                 "message": message,
-                "sticky": True,
+                "sticky": sticky,
                 "type": "success",
                 "next": {
                     "type": "ir.actions.act_window_close",
