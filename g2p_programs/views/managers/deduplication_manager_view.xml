@@ -35,6 +35,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             name="program_id"
                             placeholder="Select a program..."
                             options="{'no_open':True,'no_create':True,'no_create_edit':True}"
+                            domain="[('state','=','active')]"
                         />
                     </group>
                 </sheet>
@@ -80,6 +81,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Select a program..."
                                 options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                                 invisible="context.get('default_program_id',False)"
+                                domain="[('state','=','active')]"
                             />
                         </h2>
                         <div class="o_row">
@@ -187,6 +189,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Select a program..."
                                 options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                                 invisible="context.get('default_program_id',False)"
+                                domain="[('state','=','active')]"
                             />
                         </h2>
                         <div class="o_row">
@@ -301,6 +304,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Select a program..."
                                 options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                                 invisible="context.get('default_program_id',False)"
+                                domain="[('state','=','active')]"
                             />
                         </h2>
                         <div class="o_row">
@@ -408,6 +412,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Select a program..."
                                 options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                                 invisible="context.get('default_program_id',False)"
+                                domain="[('state','=','active')]"
                             />
                         </h2>
                         <div class="o_row">
@@ -515,6 +520,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Select a program..."
                                 options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                                 invisible="context.get('default_program_id',False)"
+                                domain="[('state','=','active')]"
                             />
                         </h2>
                         <div class="o_row">

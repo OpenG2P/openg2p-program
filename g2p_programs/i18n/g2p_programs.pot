@@ -101,6 +101,7 @@ msgid "%s Beneficiaries duplicate."
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/program_membership.py:0
 #, python-format
 msgid "%s Beneficiaries enrolled."
@@ -760,6 +761,15 @@ msgstr ""
 #: code:addons/g2p_programs/models/programs.py:0
 #, python-format
 msgid "Beneficiaries Duplicates"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/cycle_membership.py:0
+#: code:addons/g2p_programs/models/cycle_membership.py:0
+#, python-format
+msgid ""
+"Beneficiaries can only be deleted when both the cycle and entitlement are "
+"unapproved."
 msgstr ""
 
 #. module: g2p_programs
@@ -1799,9 +1809,17 @@ msgid "Eligibility Managers"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/program_manager.py:0
 #, python-format
 msgid "Eligibility check finished."
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
+#, python-format
+msgid "Eligibility check of %s beneficiaries started."
 msgstr ""
 
 #. module: g2p_programs
@@ -1863,6 +1881,7 @@ msgid "Enrolled Programs"
 msgstr ""
 
 #. module: g2p_programs
+#: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/managers/cycle_manager.py:0
 #: code:addons/g2p_programs/models/program_membership.py:0
 #: code:addons/g2p_programs/models/program_membership.py:0
@@ -2576,6 +2595,11 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_issued_transactions
 msgid "Issued Transaction Statistics"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_queue_job_channel
+msgid "Job Channels"
 msgstr ""
 
 #. module: g2p_programs
@@ -3381,6 +3405,12 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_payment_batch__stats_paid_transactions
 msgid "Paid Transactions Statistics"
+msgstr ""
+
+#. module: g2p_programs
+#: code:addons/g2p_programs/models/queue_job_channel.py:0
+#, python-format
+msgid "Parent channel required."
 msgstr ""
 
 #. module: g2p_programs
