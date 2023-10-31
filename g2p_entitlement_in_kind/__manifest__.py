@@ -1,6 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
-    "name": "OpenG2P Entitlement Inkind",
+    "name": "OpenG2P Entitlement: In-Kind",
     "category": "G2P",
     "version": "15.0.1.1.0",
     "sequence": 1,
