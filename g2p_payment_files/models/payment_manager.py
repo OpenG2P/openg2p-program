@@ -131,7 +131,3 @@ class G2PPaymentBatchTag(models.Model):
     )
 
     file_config_ids = fields.Many2many("g2p.payment.file.config")
-
-    _sql_constraints = [
-        ("name_unique", "unique(name)", "The name must be unique!!"),
-    ]
