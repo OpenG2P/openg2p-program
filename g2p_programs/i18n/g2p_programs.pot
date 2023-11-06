@@ -675,6 +675,11 @@ msgid "Cash Entitlement"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager
+msgid "Cash Entitlement Manager"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_group_ext_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_registrant_ext_form
 msgid "Cash Entitlements"
@@ -1540,7 +1545,6 @@ msgid "Entitlement Cash"
 msgstr ""
 
 #. module: g2p_programs
-#: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement Manager"

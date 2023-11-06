@@ -160,7 +160,6 @@ msgstr "<span class=\"o_stat_text\">Cycles</span>"
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 #, fuzzy
-#| msgid "<span class=\"o_stat_text\">Duplicates</span>"
 msgid "<span class=\"o_stat_text\">Related Job(s)</span>"
 msgstr "<span class=\"o_stat_text\">Doublons</span>"
 
@@ -693,6 +692,11 @@ msgstr "Annulé"
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_entitlement__is_cash_entitlement
 msgid "Cash Entitlement"
 msgstr "Prestation comptant"
+
+#. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager
+msgid "Cash Entitlement Manager"
+msgstr ""
 
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_group_ext_form
@@ -1579,7 +1583,6 @@ msgid "Entitlement Cash"
 msgstr "Paiement en espèces"
 
 #. module: g2p_programs
-#: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement Manager"

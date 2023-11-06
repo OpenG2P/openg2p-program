@@ -683,6 +683,11 @@ msgid "Cash Entitlement"
 msgstr "شایستەیی دارایی"
 
 #. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager
+msgid "Cash Entitlement Manager"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_group_ext_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_registrant_ext_form
 msgid "Cash Entitlements"
@@ -743,7 +748,8 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_eligibility_manager_default
 msgid "Click the create button to enter a new eligibility manager."
-msgstr "کلیک لەسەر دوگمەی دروستکردن بکە بۆ چوونە ناو بەڕێوەبەریی نوێی شایستەیی."
+msgstr ""
+"کلیک لەسەر دوگمەی دروستکردن بکە بۆ چوونە ناو بەڕێوەبەریی نوێی شایستەیی."
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_entitlement_manager_default
@@ -1562,7 +1568,6 @@ msgid "Entitlement Cash"
 msgstr "شایستەییە نەختینەییەکان"
 
 #. module: g2p_programs
-#: model:ir.model,name:g2p_programs.model_g2p_program_entitlement_manager
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_manager_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_list_form
 msgid "Entitlement Manager"
@@ -3331,7 +3336,8 @@ msgstr "دیاری بکە وەک کۆتاییهاتوو"
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Set entitlements to pending validation for cycle."
-msgstr "شایستەییەکان وەک 'چاوەڕێی پشتڕاستکردنەوە' لە دابەشکردنەکاندا دیاری بکە."
+msgstr ""
+"شایستەییەکان وەک 'چاوەڕێی پشتڕاستکردنەوە' لە دابەشکردنەکاندا دیاری بکە."
 
 #. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_create_wizard__transfer_fee_amt
@@ -3516,8 +3522,8 @@ msgid ""
 "The fund for the program: %(program)s [%(fund).2f] is insufficient for the "
 "entitlement: %(entitlement)s"
 msgstr ""
-"پارە بۆ بەرنامەکە: %(program)s [%(fund).2f] بەس نییە بۆ "
-"شایستەییەکانی%(entitlement)s"
+"پارە بۆ بەرنامەکە: %(program)s [%(fund).2f] بەس نییە بۆ شایستەییەکانی"
+"%(entitlement)s"
 
 #. module: g2p_programs
 #: model_terms:ir.actions.act_window,help:g2p_programs.action_account_journal_beneficiary
