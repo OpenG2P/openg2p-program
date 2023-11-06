@@ -67,6 +67,7 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
 
     def _send_payments(self, batches):
         # Transfer to Simple Mpesa
+        all_paid_counter = 0
         _logger.info("DEBUG! send_payments Manager: Simple Mpesa.")
         for batch in batches:
             if batch.batch_has_started:
@@ -74,8 +75,6 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
             else:
                 batch.batch_has_started = True
 
-            # TODO: Implement Logic
-            # Perform Auth Here
             try:
                 data = {"email": self.username, "password": self.password}
                 headers = {"Content-Type": "application/x-www-form-urlencoded"}
@@ -128,6 +127,7 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
                         payment.amount_paid = amount
                         payment.payment_datetime = datetime.utcnow()
                         completed_payments += 1
+                        all_paid_counter += 1
                     except Exception as e:
                         _logger.error("Mpesa Payment Failed with unknown reason", e)
                         error_msg = (
@@ -144,6 +144,34 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
                 _logger.error("Mpesa Payment Failed during authentication", e)
                 error_msg = "Mpesa Payment Failed during authentication"
                 self.message_post(body=error_msg, subject=_("Mpesa Payment Auth"))
+
+        total_payments_counter = sum(len(batch.payment_ids) for batch in batches)
+
+        if all_paid_counter == total_payments_counter:
+            message = _(f"{all_paid_counter} Payments sent successfully")
+            kind = "success"
+        elif all_paid_counter == 0:
+            message = _("Failed to sent payments")
+            kind = "danger"
+        else:
+            message = _(
+                f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}"
+            )
+            kind = "warning"
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Payment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
+            },
+        }
 
     def _get_dfsp_id_and_type(self, payment):
         self.ensure_one()

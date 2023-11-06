@@ -1,7 +1,7 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 {
     "name": "OpenG2P Programs",
-    "category": "G2P",
+    "category": "G2P/G2P",
     "version": "15.0.1.2.0",
     "sequence": 1,
     "author": "OpenG2P",
@@ -19,12 +19,14 @@
         "l10n_generic_coa",
         "event_sms",
         "calendar",
+        "queue_job",
     ],
     "data": [
         "security/program_security.xml",
         "security/ir.model.access.csv",
         "security/registrant_rule.xml",
         "data/sequences.xml",
+        "data/queue_data.xml",
         "report/voucher_card.xml",
         "report/report_format.xml",
         "views/main_view.xml",

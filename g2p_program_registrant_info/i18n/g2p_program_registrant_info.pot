@@ -34,6 +34,11 @@ msgid "Application Info"
 msgstr ""
 
 #. module: g2p_program_registrant_info
+#: model_terms:ir.ui.view,arch_db:g2p_program_registrant_info.view_program_membership_reg_info_form
+msgid "Application Status"
+msgstr ""
+
+#. module: g2p_program_registrant_info
 #: model:ir.model.fields.selection,name:g2p_program_registrant_info.selection__g2p_program_registrant_info__state__active
 msgid "Applied"
 msgstr ""
@@ -83,6 +88,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_program_registrant_info.field_g2p_program_registrant_info__create_date
 #: model:ir.model.fields,field_description:g2p_program_registrant_info.field_g2p_program_registrantinfo_wizard__create_date
 msgid "Created on"
+msgstr ""
+
+#. module: g2p_program_registrant_info
+#: model_terms:ir.ui.view,arch_db:g2p_program_registrant_info.view_program_membership_reg_info_form
+msgid "Date Submitted"
 msgstr ""
 
 #. module: g2p_program_registrant_info
@@ -185,6 +195,11 @@ msgid "Program Membership"
 msgstr ""
 
 #. module: g2p_program_registrant_info
+#: model_terms:ir.ui.view,arch_db:g2p_program_registrant_info.view_program_membership_reg_info_form
+msgid "Program Name"
+msgstr ""
+
+#. module: g2p_program_registrant_info
 #: model:ir.model,name:g2p_program_registrant_info.model_g2p_program_registrant_info
 #: model:ir.model.fields,field_description:g2p_program_registrant_info.field_g2p_entitlement__program_registrant_info_ids
 #: model:ir.model.fields,field_description:g2p_program_registrant_info.field_g2p_program_membership__program_registrant_info_ids
@@ -216,6 +231,11 @@ msgstr ""
 #. module: g2p_program_registrant_info
 #: model:ir.model.fields.selection,name:g2p_program_registrant_info.selection__g2p_program_registrant_info__state__rejected
 msgid "Rejected"
+msgstr ""
+
+#. module: g2p_program_registrant_info
+#: model:ir.model.fields,field_description:g2p_program_registrant_info.field_g2p_program_registrant_info__sl_no
+msgid "SNo."
 msgstr ""
 
 #. module: g2p_program_registrant_info

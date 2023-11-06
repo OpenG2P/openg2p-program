@@ -7,7 +7,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="name">create_program_wizard_form_view</field>
         <field name="model">g2p.program.create.wizard</field>
         <field name="arch" type="xml">
-            <form>
+            <form style="overflow:auto !important">
                 <header>
                     <field name="state" widget="statusbar" statusbar_visible="step1,step2" />
                 </header>

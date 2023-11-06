@@ -34,7 +34,6 @@
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
                 <field name="is_reimbursement_program" invisible="1" />
-                <field name="edit_css" force_save="1" nolabel="1" />
             </xpath>
             <xpath expr="//group[@name='accounting']/.." position="inside">
                 <group name="reimbursement_program" string="Reimbursement Program">

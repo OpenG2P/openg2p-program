@@ -2,7 +2,7 @@
 import logging
 from datetime import datetime
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -61,21 +61,18 @@ class G2PPaymentManagerCash(models.Model):
                 )
             batch.batch_has_completed = True
 
-
-class PaymentInherit(models.Model):
-    _inherit = "g2p.payment"
-
-    edit_css = fields.Html(
-        sanitize=False,
-        compute="_compute_css",
-    )
-
-    def _compute_css(self):
-        for rec in self:
-            # To Remove Edit Option
-            if rec.status == "paid":
-                rec.edit_css = (
-                    "<style>.o_form_button_edit {display: none !important;}</style>"
-                )
-            else:
-                rec.edit_css = False
+        message = _("Payment files created successfully")
+        kind = "success"
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Payment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
+            },
+        }

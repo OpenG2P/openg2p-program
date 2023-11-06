@@ -142,9 +142,9 @@ class DefaultProgramManager(models.Model):
 
     def enroll_eligible_registrants(self, state=None):
         self.ensure_one()
-        if state is None:
-            states = ["draft"]
-        elif isinstance(state, str):
+        # if state is None:
+        #    states = ["draft"]
+        if isinstance(state, str):
             states = [state]
         else:
             states = state
@@ -158,7 +158,16 @@ class DefaultProgramManager(models.Model):
             raise UserError(_("No Eligibility Manager defined."))
         elif members_count < self.MIN_ROW_JOB_QUEUE:
             count = self._enroll_eligible_registrants(state, do_count=True)
-            message = _("%s Beneficiaries enrolled.", count)
+            un_enrolled_count = program.get_beneficiaries(
+                state="not_eligible", count=True
+            )
+            enrolled_count = program.get_beneficiaries(state="enrolled", count=True)
+            if (program.beneficiaries_count == enrolled_count) and not count:
+                message = _("No new beneficiaries enrolled.")
+            else:
+                message = _(
+                    f"Enrolled Beneficiaries: {count} successfully and {un_enrolled_count} unsuccessfully."
+                )
             kind = "success"
             sticky = False
         else:
@@ -194,12 +203,16 @@ class DefaultProgramManager(models.Model):
         jobs = []
         for i in range(0, members_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable()._enroll_eligible_registrants(
-                    states, i, self.MAX_ROW_JOB_QUEUE
-                )
+                self.delayable(
+                    channel="root_program.program_manager"
+                )._enroll_eligible_registrants(states, i, self.MAX_ROW_JOB_QUEUE)
             )
         main_job = group(*jobs)
-        main_job.on_done(self.delayable().mark_enroll_eligible_as_done())
+        main_job.on_done(
+            self.delayable(
+                channel="root_program.program_manager"
+            ).mark_enroll_eligible_as_done()
+        )
         main_job.delay()
 
     def _enroll_eligible_registrants(
@@ -221,6 +234,7 @@ class DefaultProgramManager(models.Model):
         member_before = members
 
         eligibility_managers = program.get_managers(program.MANAGER_ELIGIBILITY)
+        # TODO: Handle multiple eligibility managers properly
         for el in eligibility_managers:
             members = el.enroll_eligible_registrants(members)
         # enroll the one not already enrolled:

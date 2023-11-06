@@ -170,6 +170,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Enter the program name..."
                                 attrs="{'readonly':[('state','=','ended')]}"
                             />
+                            <field name="edit_css" force_save="1" nolabel="1" />
                         </h1>
                          <label for="description" string="Description:" />
                         <field name="description" />

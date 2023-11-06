@@ -1,6 +1,5 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
-import uuid
 from datetime import datetime
 
 import requests
@@ -38,7 +37,6 @@ class G2PPaymentInteropLayerManager(models.Model):
     # details_endpoint_url = fields.Char("Details Endpoint URL", required=True)
 
     create_batch = fields.Boolean("Automatically Create Batch", default=True)
-    max_batch_size = fields.Integer(default=500)
 
     batch_tag_ids = fields.Many2many(
         "g2p.payment.batch.tag",
@@ -66,106 +64,9 @@ class G2PPaymentInteropLayerManager(models.Model):
         default="ACCOUNT_ID", help="This will be replaced for the payee ID type"
     )
 
-    def prepare_payments(self, cycle):
-        # TODO: Change the following into 15.0-1.0.x method of job queuing
-        return self.with_delay().prepare_payments_async(cycle)
-
-    def prepare_payments_async(self, cycle):
-        entitlements = cycle.entitlement_ids.filtered(lambda a: a.state == "approved")
-        if entitlements:
-            entitlements_ids = entitlements.ids
-
-            # Filter out entitlements without payments
-            entitlements_with_payments = (
-                self.env["g2p.payment"]
-                .search(
-                    [
-                        ("entitlement_id", "in", entitlements_ids),
-                        "!",
-                        "&",
-                        ("state", "=", "reconciled"),
-                        ("status", "=", "failed"),
-                    ]
-                )
-                .mapped("entitlement_id.id")
-            )
-            entitlements_to_pay = list(
-                set(entitlements_ids) - set(entitlements_with_payments)
-            )
-
-            if not entitlements_to_pay:
-                return cycle.mark_distributed()
-
-            entitlements_to_pay = self.env["g2p.entitlement"].browse(
-                entitlements_to_pay
-            )
-
-            max_batch_size = self.max_batch_size
-            is_create_batch = self.create_batch
-
-            payments = []
-            curr_batch = None
-            for i, entitlement_id in enumerate(entitlements_to_pay):
-                each_payment = self.env["g2p.payment"].create(
-                    {
-                        "name": str(uuid.uuid4()),
-                        "entitlement_id": entitlement_id.id,
-                        "cycle_id": entitlement_id.cycle_id.id,
-                        "amount_issued": entitlement_id.initial_amount,
-                        "payment_fee": entitlement_id.transfer_fee,
-                        "state": "issued",
-                    }
-                )
-                payments.append(each_payment)
-                if is_create_batch:
-                    if i % max_batch_size == 0:
-                        curr_batch = self.env["g2p.payment.batch"].create(
-                            {
-                                "name": str(uuid.uuid4()),
-                                "cycle_id": cycle.id,
-                                "stats_datetime": fields.Datetime.now(),
-                            }
-                        )
-                    curr_batch.payment_ids = [(4, each_payment.id)]
-                    each_payment.batch_id = curr_batch
-            if payments:
-                kind = "success"
-                message = _("%s new payments was issued.", len(payments))
-                links = [
-                    {
-                        "label": "Refresh Page",
-                    }
-                ]
-                refresh = " %s"
-            else:
-                kind = "danger"
-                message = _("There are no new payments issued!")
-                links = []
-                refresh = ""
-        else:
-            kind = "danger"
-            message = _("All entitlements selected are not approved!")
-            links = []
-            refresh = ""
-
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": _("Payment"),
-                "message": message + refresh,
-                "links": links,
-                "sticky": True,
-                "type": kind,
-            },
-        }
-
-    def send_payments(self, batches):
-        # TODO: Change the following into 15.0-1.0.x method of job queuing
-        return self.with_delay().send_payments_async(batches)
-
-    def send_payments_async(self, batches):
+    def _send_payments(self, batches):
         payment_endpoint_url = self.payment_endpoint_url
+        all_paid_counter = 0
         for batch in batches:
             if batch.batch_has_started:
                 continue
@@ -244,6 +145,34 @@ class G2PPaymentInteropLayerManager(models.Model):
                     )
             if paid_counter and paid_counter == len(batch.payment_ids):
                 batch.batch_has_completed = True
+            all_paid_counter += paid_counter
+
+        total_payments_counter = sum(len(batch.payment_ids) for batch in batches)
+        if all_paid_counter == total_payments_counter:
+            message = _(f"{all_paid_counter} Payments sent successfully")
+            kind = "success"
+        elif all_paid_counter == 0:
+            message = _("Failed to sent payments")
+            kind = "danger"
+        else:
+            message = _(
+                f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}"
+            )
+            kind = "warning"
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("Payment"),
+                "message": message,
+                "sticky": True,
+                "type": kind,
+                "next": {
+                    "type": "ir.actions.act_window_close",
+                },
+            },
+        }
 
     def _get_dfsp_id_and_type(self, payment):
         self.ensure_one()

@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 class G2PEntitlement(models.Model):
     _name = "g2p.entitlement"
     _description = "Entitlement"
-    _order = "id desc"
+    _order = "partner_id asc,id desc"
     _check_company_auto = True
 
     @api.model
@@ -111,8 +111,13 @@ class G2PEntitlement(models.Model):
                 g2p_program_validator = self.env.user.has_group(
                     "g2p_programs.g2p_program_validator"
                 )
+                g2p_program_manager = self.env.user.has_group(
+                    "g2p_programs.g2p_program_manager"
+                )
 
-                if not (group_g2p_registrar or g2p_program_validator):
+                if not (
+                    group_g2p_registrar or g2p_program_validator or g2p_program_manager
+                ):
                     raise ValidationError(
                         _("You have no access in the Entitlement List View")
                     )
@@ -179,6 +184,8 @@ class G2PEntitlement(models.Model):
         if self:
             to_delete = self.filtered(lambda x: x.state == "draft")
             if to_delete:
+                # TODO: Need to add the logic if any one entitlements within the cycle have been approved
+                # to restrict the delete records even in the draft state.
                 return super(G2PEntitlement, to_delete).unlink()
             else:
                 raise ValidationError(

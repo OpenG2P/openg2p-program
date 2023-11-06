@@ -51,6 +51,14 @@ class G2PProgramRegistrantInfo(models.Model):
 
     entitlement_id = fields.Many2one("g2p.entitlement")
 
+    sl_no = fields.Integer(string="SNo.", compute="_compute_sl_no")
+
+    def _compute_sl_no(self):
+        sl_no = 0
+        for record in self:
+            sl_no += 1
+            record.sl_no = sl_no
+
     @api.depends("registrant_id", "program_id")
     def _compute_program_membership(self):
         for rec in self:

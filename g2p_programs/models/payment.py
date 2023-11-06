@@ -3,7 +3,8 @@
 import logging
 from uuid import uuid4
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -11,7 +12,10 @@ _logger = logging.getLogger(__name__)
 class G2PPayment(models.Model):
     _name = "g2p.payment"
     _description = "Payment"
+    _inherit = ["disable.edit.mixin"]
     _order = "id desc"
+
+    DISABLE_EDIT_DOMAIN = [("status", "=", "paid")]
 
     name = fields.Char(
         "Internal Reference #", default=str(uuid4()), readonly=True, copy=False
@@ -94,6 +98,14 @@ class G2PPayment(models.Model):
     def send_payment(self):
         pass
 
+    def unlink(self):
+        for record in self:
+            if record.state != "issued":
+                raise ValidationError(
+                    _(f"You cannot delete records in {record.status} state.")
+                )
+        return super().unlink()
+
 
 class G2PPaymentBatch(models.Model):
     _name = "g2p.payment.batch"
@@ -143,6 +155,16 @@ class G2PPaymentBatch(models.Model):
             self.program_id.MANAGER_PAYMENT
         ).send_payments(self)
 
+    def unlink(self):
+        for record in self:
+            if record.batch_has_started:
+                raise ValidationError(
+                    _("Deletion is not allowed once the batch has started.")
+                )
+            else:
+                record.payment_ids.unlink()
+        return super().unlink()
+
 
 class G2PPaymentBatchTag(models.Model):
     _name = "g2p.payment.batch.tag"
@@ -156,3 +178,7 @@ class G2PPaymentBatchTag(models.Model):
     domain = fields.Text(default="[]")
 
     max_batch_size = fields.Integer(default=500)
+
+    _sql_constraints = [
+        ("name_unique", "unique(name)", "The name must be unique!!"),
+    ]
