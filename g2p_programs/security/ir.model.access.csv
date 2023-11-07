@@ -37,7 +37,7 @@ g2p_program_entitlement_manager_default_admin,Program Entitlement Manager Defaul
 g2p_program_payment_manager_admin,Program Payment Manager Admin Access,g2p_programs.model_g2p_program_payment_manager,g2p_registry_base.group_g2p_admin,1,1,1,1
 g2p_program_payment_manager_default_admin,Program Payment Manager Default Admin Access,g2p_programs.model_g2p_program_payment_manager_default,g2p_registry_base.group_g2p_admin,1,1,1,1
 
-g2p_assign_registrant_program_wizard_admin,Assign Registrant to Program Wizard Admin Access,g2p_programs.model_g2p_assign_program_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
+g2p_assign_registrant_program_wizard_admin,Assign Registrant to Program Wizard Admin Access,g2p_programs.model_g2p_assign_program_wizard,,1,1,1,1
 g2p_program_create_wizard_admin,Create Program Wizard Admin Access,g2p_programs.model_g2p_program_create_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
 g2p_multi_entitlement_approval_wizard_admin,Multi Entitlement Approval Wizard Admin Access,g2p_programs.model_g2p_multi_entitlement_approval_wizard,g2p_registry_base.group_g2p_admin,1,1,1,1
 g2p_multi_entitlement_approval_admin,Multi Entitlement Approval Admin Access,g2p_programs.model_g2p_multi_entitlement_approval,g2p_registry_base.group_g2p_admin,1,1,1,1
@@ -58,7 +58,7 @@ g2p_account_move_line_registrar,Account Move Line Registrar Access,account.model
 
 g2p_ui_view_program_manager,UI View Program Manager Access,base.model_ir_ui_view,g2p_programs.g2p_program_manager,1,1,0,0
 g2p_actions_client_program_manager,Actions Client Program Manager Access,base.model_ir_actions_client,g2p_programs.g2p_program_manager,1,1,0,0
-g2p_program_manager_access,Program Manager Access,g2p_programs.model_g2p_program,g2p_programs.g2p_program_manager,1,1,1,0
+g2p_program_manager_access,Program Manager Access,g2p_programs.model_g2p_program,,1,1,1,0
 g2p_account_journal_program_manager,Account Journal Program Manager Access,account.model_account_journal,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_account_type_program_manager,Account Type Program Manager Access,account.model_account_account_type,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_account_move_program_manager,Account Move Program Manager Access,account.model_account_move,g2p_programs.g2p_program_manager,1,1,1,0
