@@ -49,7 +49,7 @@ class G2PPaymentManagerCash(models.Model):
     def _send_payments(self, batches):
         if not batches:
             message = _("No payment batches to process.")
-            kind = "danger"  # Use a valid type like "danger" for an error message
+            kind = "warning"
         else:
             _logger.info("DEBUG! send_payments Manager: Payment via CASH")
             for batch in batches:
