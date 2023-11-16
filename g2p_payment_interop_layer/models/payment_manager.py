@@ -67,98 +67,120 @@ class G2PPaymentInteropLayerManager(models.Model):
     def _send_payments(self, batches):
         payment_endpoint_url = self.payment_endpoint_url
         all_paid_counter = 0
-        for batch in batches:
-            if batch.batch_has_started:
-                continue
-            else:
-                batch.batch_has_started = True
-
-            disbursement_id = batch.name
-
-            cycle_id = batch.cycle_id
-            disbursement_note = (
-                f"Program: {cycle_id.program_id.name}. Cycle ID - {cycle_id.name}"
-            )
-
-            final_json_request_dict = {
-                "note": disbursement_note,
-                "disbursementId": disbursement_id,
-                "payeeList": [],
-            }
-
-            for payment_id in batch.payment_ids:
-                payee_id_type, payee_id_value = self._get_dfsp_id_and_type(payment_id)
-                payee_item = {
-                    "payeeIdType": payee_id_type,
-                    "payeeIdValue": payee_id_value,
-                    "amount": payment_id.amount_issued,
-                    "currency": payment_id.currency_id.name,
-                }
-                final_json_request_dict["payeeList"].append(payee_item)
-
-            # TODO: Add authentication mechanism
-            try:
-                res = requests.post(payment_endpoint_url, json=final_json_request_dict)
-                res.raise_for_status()
-                jsonResponse = res.json()
-                _logger.info(
-                    f"Interop Layer Disbursement API: jsonResponse: {jsonResponse}"
-                )
-
-            except HTTPError as http_err:
-                _logger.error(
-                    f"Interop Layer Disbursement API: HTTP error occurred: {http_err}. res: {res} - {res.content}"
-                )
-                continue
-            except Exception as err:
-                _logger.error(
-                    f"Interop Layer Disbursement API: Other error occurred: {err}. res: {res} - {res.content}"
-                )
-                continue
-
-            batch.payment_ids.write({"state": "sent"})
-
-            paid_counter = 0
-            for i, payee_result in enumerate(jsonResponse["payeeResults"]):
-                if payee_result["status"] == "COMPLETED":
-                    paid_counter += 1
-                    batch.payment_ids[i].update(
-                        {
-                            "state": "reconciled",
-                            "status": "paid",
-                            "amount_paid": payee_result["amountCredited"],
-                            "payment_datetime": datetime.strptime(
-                                payee_result["timestamp"], "%Y-%m-%dT%H:%M:%S.%fZ"
-                            ),
-                        }
-                    )
-                elif payee_result["status"] in [
-                    "REJECTED",
-                    "ABORTED",
-                    "ERROR_OCCURRED",
-                ]:
-                    batch.payment_ids[i].update(
-                        {
-                            "state": "reconciled",
-                            "status": "failed",
-                        }
-                    )
-            if paid_counter and paid_counter == len(batch.payment_ids):
-                batch.batch_has_completed = True
-            all_paid_counter += paid_counter
-
-        total_payments_counter = sum(len(batch.payment_ids) for batch in batches)
-        if all_paid_counter == total_payments_counter:
-            message = _(f"{all_paid_counter} Payments sent successfully")
-            kind = "success"
-        elif all_paid_counter == 0:
-            message = _("Failed to sent payments")
-            kind = "danger"
-        else:
-            message = _(
-                f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}"
-            )
+        if not batches:
+            message = _("No payment batches to process.")
             kind = "warning"
+        else:
+            for batch in batches:
+                if batch.batch_has_started:
+                    continue
+                else:
+                    batch.batch_has_started = True
+
+                disbursement_id = batch.name
+
+                cycle_id = batch.cycle_id
+                disbursement_note = (
+                    f"Program: {cycle_id.program_id.name}. Cycle ID - {cycle_id.name}"
+                )
+
+                final_json_request_dict = {
+                    "note": disbursement_note,
+                    "disbursementId": disbursement_id,
+                    "payeeList": [],
+                }
+
+                for payment_id in batch.payment_ids:
+                    payee_id_type, payee_id_value = self._get_dfsp_id_and_type(
+                        payment_id
+                    )
+                    payee_item = {
+                        "payeeIdType": payee_id_type,
+                        "payeeIdValue": payee_id_value,
+                        "amount": payment_id.amount_issued,
+                        "currency": payment_id.currency_id.name,
+                    }
+                    final_json_request_dict["payeeList"].append(payee_item)
+
+                # TODO: Add authentication mechanism
+                res = None
+                try:
+                    res = requests.post(
+                        payment_endpoint_url, json=final_json_request_dict
+                    )
+                    res.raise_for_status()
+                    jsonResponse = res.json()
+                    _logger.info(
+                        f"Interop Layer Disbursement API: jsonResponse: {jsonResponse}"
+                    )
+
+                except HTTPError as http_err:
+                    if res is not None:
+                        _logger.error(
+                            "Interop Layer Disbursement API: HTTP error occurred: "
+                            f"{http_err}. res: {res} - {res.content}"
+                        )
+
+                    else:
+                        _logger.error(
+                            f"Interop Layer Disbursement API: HTTP error occurred: {http_err}."
+                        )
+                    continue
+
+                except Exception as err:
+                    if res is not None:
+                        _logger.error(
+                            f"Interop Layer Disbursement API: Other error occurred: {err}. res: {res} - {res.content}"
+                        )
+                    else:
+                        _logger.error(
+                            f"Interop Layer Disbursement API: Other error occurred: {err}."
+                        )
+                    continue
+
+                batch.payment_ids.write({"state": "sent"})
+
+                paid_counter = 0
+                for i, payee_result in enumerate(jsonResponse["payeeResults"]):
+                    if payee_result["status"] == "COMPLETED":
+                        paid_counter += 1
+                        batch.payment_ids[i].update(
+                            {
+                                "state": "reconciled",
+                                "status": "paid",
+                                "amount_paid": payee_result["amountCredited"],
+                                "payment_datetime": datetime.strptime(
+                                    payee_result["timestamp"], "%Y-%m-%dT%H:%M:%S.%fZ"
+                                ),
+                            }
+                        )
+                    elif payee_result["status"] in [
+                        "REJECTED",
+                        "ABORTED",
+                        "ERROR_OCCURRED",
+                    ]:
+                        batch.payment_ids[i].update(
+                            {
+                                "state": "reconciled",
+                                "status": "failed",
+                            }
+                        )
+                if paid_counter and paid_counter == len(batch.payment_ids):
+                    batch.batch_has_completed = True
+                all_paid_counter += paid_counter
+
+            total_payments_counter = sum(len(batch.payment_ids) for batch in batches)
+            if all_paid_counter == total_payments_counter:
+                message = _(f"{all_paid_counter} Payments sent successfully")
+                kind = "success"
+            elif all_paid_counter == 0:
+                message = _("Failed to sent payments")
+                kind = "danger"
+            else:
+                message = _(
+                    f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}"
+                )
+                kind = "warning"
 
         return {
             "type": "ir.actions.client",

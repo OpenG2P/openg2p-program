@@ -81,77 +81,85 @@ class G2PPaymentManagerG2PConnect(models.Model):
         self.payee_prefix = prefix_mapping.get(self.payee_id_type)
 
     def _send_payments(self, batches):
-        _logger.info("DEBUG! send_payments Manager: G2P Connect.")
-        for batch in batches:
-            if batch.batch_has_started:
-                continue
-            batch.batch_has_started = True
-            batch_data = {
-                "signature": 'Signature: namespace="g2p", kidId="{sender_id}|{unique_key_id}|{algorithm}", '
-                'algorithm="ed25519", created="1606970629", expires="1607030629", '
-                'headers="(created) (expires) digest", signature="Base64(signing content)',
-                "header": {
-                    "version": "1.0.0",
-                    "message_id": "123",
-                    "message_ts": "",
-                    "action": "search",
-                    "sender_id": "spp.example.org",
-                    "sender_uri": "https://spp.example.org/{namespace}/callback/on-search",
-                    "receiver_id": "pymts.example.org",
-                    "total_count": 21800,
-                    "is_msg_encrypted": False,
-                    "meta": {},
-                },
-                "message": {"transaction_id": batch.name, "disbursements": []},
-            }
-            headers = {
-                "Content-Type": "application/json",
-            }
-            for payment in batch.payment_ids:
-                batch_data["message"]["disbursements"].append(
-                    {
-                        "reference_id": payment.name,
-                        "payer_fa": self.payer_fa,
-                        "payee_fa": self._get_payee_fa(payment),
-                        "amount": payment.amount_issued,
-                        "scheduled_timestamp": "",
-                        "payer_name": self.payer_name,
-                        "payee_name": payment.partner_id.name,
-                        "note": "string",
-                        "purpose": self.program_id.name,
-                        "instruction": "string",
-                        "currency_code": payment.currency_id.name,
-                        "locale": self.locale,
-                    }
-                )
-            try:
-                response = requests.post(
-                    self.payment_endpoint_url, json=batch_data, headers=headers
-                )
-                _logger.info("G2P Connect Disbursement response: %s", response.content)
-                response.raise_for_status()
-
-                # TODO: Do Status check rather than hardcoding
+        if not batches:
+            message = _("No payment batches to process.")
+            kind = "warning"
+        else:
+            _logger.info("DEBUG! send_payments Manager: G2P Connect.")
+            for batch in batches:
+                if batch.batch_has_started:
+                    continue
+                batch.batch_has_started = True
+                batch_data = {
+                    "signature": 'Signature: namespace="g2p", kidId="{sender_id}|{unique_key_id}|{algorithm}", '
+                    'algorithm="ed25519", created="1606970629", expires="1607030629", '
+                    'headers="(created) (expires) digest", signature="Base64(signing content)',
+                    "header": {
+                        "version": "1.0.0",
+                        "message_id": "123",
+                        "message_ts": "",
+                        "action": "search",
+                        "sender_id": "spp.example.org",
+                        "sender_uri": "https://spp.example.org/{namespace}/callback/on-search",
+                        "receiver_id": "pymts.example.org",
+                        "total_count": 21800,
+                        "is_msg_encrypted": False,
+                        "meta": {},
+                    },
+                    "message": {"transaction_id": batch.name, "disbursements": []},
+                }
+                headers = {
+                    "Content-Type": "application/json",
+                }
                 for payment in batch.payment_ids:
-                    payment.state = "sent"
-                    payment.status = "paid"
-                    payment.amount_paid = payment.amount_issued
-                    payment.payment_datetime = datetime.utcnow()
+                    batch_data["message"]["disbursements"].append(
+                        {
+                            "reference_id": payment.name,
+                            "payer_fa": self.payer_fa,
+                            "payee_fa": self._get_payee_fa(payment),
+                            "amount": payment.amount_issued,
+                            "scheduled_timestamp": "",
+                            "payer_name": self.payer_name,
+                            "payee_name": payment.partner_id.name,
+                            "note": "string",
+                            "purpose": self.program_id.name,
+                            "instruction": "string",
+                            "currency_code": payment.currency_id.name,
+                            "locale": self.locale,
+                        }
+                    )
+                try:
+                    response = requests.post(
+                        self.payment_endpoint_url, json=batch_data, headers=headers
+                    )
+                    _logger.info(
+                        "G2P Connect Disbursement response: %s", response.content
+                    )
+                    response.raise_for_status()
 
-            except Exception as e:
-                _logger.error(
-                    "G2P Connect Payment Failed with unknown reason: %s", str(e)
-                )
-                error_msg = "G2P Connect Payment Failed with unknown reason: " + str(e)
-                self.message_post(
-                    body=error_msg, subject=_("G2P Connect Payment Disbursement")
-                )
+                    # TODO: Do Status check rather than hardcoding
+                    for payment in batch.payment_ids:
+                        payment.state = "sent"
+                        payment.status = "paid"
+                        payment.amount_paid = payment.amount_issued
+                        payment.payment_datetime = datetime.utcnow()
 
-            # TODO: Compute status of disbursement from API
-            batch.batch_has_completed = True
+                except Exception as e:
+                    _logger.error(
+                        "G2P Connect Payment Failed with unknown reason: %s", str(e)
+                    )
+                    error_msg = (
+                        "G2P Connect Payment Failed with unknown reason: " + str(e)
+                    )
+                    self.message_post(
+                        body=error_msg, subject=_("G2P Connect Payment Disbursement")
+                    )
 
-        message = _("Payment sent successfully")
-        kind = "success"
+                # TODO: Compute status of disbursement from API
+                batch.batch_has_completed = True
+
+            message = _("Payment sent successfully")
+            kind = "success"
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
