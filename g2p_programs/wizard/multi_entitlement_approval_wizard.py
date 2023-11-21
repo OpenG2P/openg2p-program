@@ -1,8 +1,7 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
 
-from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -40,10 +39,6 @@ class G2PMultiEntitlementApprovalWiz(models.TransientModel):
             if cycle:
                 if cycle.state == "approved":
                     res["cycle_id"] = cycle_id
-                else:
-                    raise ValidationError(
-                        _("You can approve only entitlements from approved cycles.")
-                    )
             res["entitlement_ids"] = entitlement_ids
 
         return res
