@@ -14,8 +14,10 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
     tagName: "div",
     events: {
         "click button.o_ChatterTopbar_buttonAddAssess": "triggerAddAssessment",
+        "click button.o_ChatterTopbar_buttonAddComment": "triggerAddComment",
         "click button.o_Composer_buttonCancel": "triggerAddAssessment",
         "click button.o_Composer_buttonSubmit": "submitAssessment",
+        // "click button.o_Composer_buttonSubmit": "submitComment",
         "keyup textarea.o_ComposerTextInput_textarea": "triggerButtonSubmitEnable",
     },
     init: function () {
@@ -32,6 +34,8 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
         } else if (this.nodeOptions.not_readonly_field) {
             this.readonly = !this.recordData[this.nodeOptions.not_readonly_field];
         }
+        this.showAddCommentsButton = this.nodeOptions.show_add_comments_button != false;
+        this.showAddAssessmentsButton = this.nodeOptions.show_add_assessments_button != false;
         console.log(this);
         this.assessmentAddMode = 0;
         this.assessmentAddModeStarted = 0;
@@ -39,34 +43,40 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
     _render: async function () {
         return this.$el.html(qweb.render("g2p_assessments_list", await this._getRenderingContext()));
     },
-    triggerAddAssessment: function () {
+    triggerAddComment: function (e) {
+        return this.triggerAddAssessment(e, true);
+    },
+    triggerAddAssessment: function (e, is_comment = false) {
         if (this.assessmentAddModeStarted === 0) {
             this.assessmentAddMode = 1;
             this.assessmentAddModeStarted = 1;
-            this.$(".o_ChatterTopbar_buttonAddAssess").addClass("o_invisible_modifier");
+            this.$(".o_Composer_header_buttons").addClass("o_invisible_modifier");
             this.$(".o_Composer").replaceWith(
                 qweb.render("g2p_assessments_add", {author_partner_id: session.partner_id})
             );
-            return;
-        }
-        if (this.assessmentAddMode === 0) {
+        } else if (this.assessmentAddMode === 0) {
             this.assessmentAddMode = 1;
             this.$(".o_Composer_Assessment").removeClass("o_invisible_modifier");
-            this.$(".o_ChatterTopbar_buttonAddAssess").addClass("o_invisible_modifier");
+            this.$(".o_Composer_header_buttons").addClass("o_invisible_modifier");
         } else {
             this.assessmentAddMode = 0;
             this.$(".o_Composer_Assessment").addClass("o_invisible_modifier");
-            this.$(".o_ChatterTopbar_buttonAddAssess").removeClass("o_invisible_modifier");
+            this.$(".o_Composer_header_buttons").removeClass("o_invisible_modifier");
         }
+        console.log("trigger ", is_comment);
+        if (is_comment) this.$(".o_Composer_Assessment").addClass("o_Composer_Comment");
+        else this.$(".o_Composer_Assessment").removeClass("o_Composer_Comment");
     },
     submitAssessment: function () {
         var self = this;
+        const is_comment = this.$(".o_Composer_Assessment").hasClass("o_Composer_Comment");
+        console.log(is_comment);
         let textareaBody = this.$("textarea.o_ComposerTextInput_textarea")[0].value;
         textareaBody = textareaBody.replace(/(?:\r\n|\r|\n)/g, "<br />");
         this._rpc({
             model: "g2p.program.assessment",
             method: "post_assessment",
-            args: [textareaBody, this.resModel, this.resId],
+            args: [textareaBody, this.resModel, this.resId, is_comment],
         }).then(function () {
             self.assessmentAddMode = 0;
             self.assessmentAddModeStarted = 0;
@@ -91,6 +101,8 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
         });
         res.readonly = this.readonly;
         res.resModel = this.resModel;
+        res.showAddCommentsButton = this.showAddCommentsButton;
+        res.showAddAssessmentsButton = this.showAddAssessmentsButton;
         return res;
     },
 });

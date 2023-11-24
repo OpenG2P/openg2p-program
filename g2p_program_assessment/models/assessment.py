@@ -23,6 +23,7 @@ class G2PProgramAssessment(models.Model):
     program_membership_id = fields.Many2one("g2p.program_membership")
 
     entitlement_id = fields.Many2one("g2p.entitlement")
+    is_comment = fields.Boolean(default=False)
 
     @api.model
     def post_assessment(
@@ -30,6 +31,7 @@ class G2PProgramAssessment(models.Model):
         body,
         res_model,
         res_ids,
+        is_comment=False,
         subject=None,
         message_type="comment",
         subtype_id=None,
@@ -72,6 +74,7 @@ class G2PProgramAssessment(models.Model):
                     "name": message.subject,
                     "remarks_id": message.id,
                     self.get_res_field_name(res_model): res_ids[i],
+                    "is_comment": is_comment,
                 }
                 for i, message in enumerate(messages)
             ]
@@ -162,6 +165,7 @@ class G2PProgramAssessment(models.Model):
                     "author_id": assess.author_id.id,
                     "assessment_date": assess.assessment_date,
                     "body": assess.remarks_id.body,
+                    "is_comment": assess.is_comment,
                 }
                 for assess in self.search(
                     [(self.get_res_field_name(res_model), "=", res_id)],
