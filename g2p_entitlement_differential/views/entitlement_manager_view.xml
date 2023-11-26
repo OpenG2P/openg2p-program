@@ -10,6 +10,17 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <field name="inherit_id" ref="g2p_entitlement_cash.view_entitlement_manager_cash_form" />
                 <field name="priority">100</field>
                 <field name="arch" type="xml">
+                <xpath expr="//field[@name='max_amount']" position="after">
+                        <div colspan="2">
+                            <field name="enable_inflation" />
+                            <label for="enable_inflation" string="Enable Inflation" />
+                        </div>
+                        <field
+                    name="inflation_rate"
+                    attrs="{'invisible':[('enable_inflation', '=', False)]}"
+                />
+
+                        </xpath>
                         <xpath
                 expr="//field[@name='entitlement_item_ids']/tree/field[@name='sequence']"
                 position="replace"
