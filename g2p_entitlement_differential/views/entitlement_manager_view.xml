@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+
+        <record id="view_entitlement_manager_cash_form_diff_inherit" model="ir.ui.view">
+                <field name="name">view_entitlement_manager_cash_form_diff_inherit</field>
+                <field name="model">g2p.program.entitlement.manager.cash</field>
+                <field name="inherit_id" ref="g2p_entitlement_cash.view_entitlement_manager_cash_form" />
+                <field name="priority">100</field>
+                <field name="arch" type="xml">
+                        <xpath
+                expr="//field[@name='entitlement_item_ids']/tree/field[@name='sequence']"
+                position="replace"
+            >
+                                <field name="name" />
+                        </xpath>
+                        <xpath
+                expr="//field[@name='entitlement_item_ids']/form/group/field"
+                position="before"
+            >
+                                <field name="name" />
+                        </xpath>
+                </field>
+        </record>
+</odoo>
