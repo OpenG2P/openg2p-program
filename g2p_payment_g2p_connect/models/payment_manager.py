@@ -102,25 +102,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
         }
         self.payee_prefix = prefix_mapping.get(self.payee_id_type)
 
-    def _prepare_payments(self, cycle, entitlements):
-        if not entitlements:
-            return None, None
-
-        cash_entitlements = entitlements.filtered(
-            lambda x: x.partner_id.mode_of_payment == "cash"
-        )
-        voucher_entitlements = entitlements.filtered(
-            lambda x: x.partner_id.mode_of_payment == "voucher"
-        )
-        digital_entitlements = entitlements.filtered(
-            lambda x: x.partner_id.mode_of_payment == "digital"
-            or not x.partner_id.mode_of_payment
-        )
-
-        super()._prepare_payments(cycle, cash_entitlements)
-        super()._prepare_payments(cycle, voucher_entitlements)
-        super()._prepare_payments(cycle, digital_entitlements)
-
     def _send_payments(self, batches):
         if not self.status_check_cron_id:
             self.status_check_cron_id = (
@@ -278,7 +259,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def _get_payee_fa(self, payment):
         self.ensure_one()
-        partner = payment.partner_id.get_registrants_or_group_heads()
+        partner = self.get_registrant_or_group_head(payment.partner_id)
         if not partner:
             return None
 
@@ -301,3 +282,16 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     return f"{self.payee_prefix}{reg_id.value}{self.payee_suffix}"
         # TODO: Deal with no bank acc and/or ID type not matching any available IDs
         return None
+
+    @api.model
+    def get_registrant_or_group_head(self, partner):
+        partner.ensure_one()
+        head_membership = self.env.ref(
+            "g2p_registry_membership.group_membership_kind_head"
+        )
+        if partner.is_group:
+            partner = partner.group_membership_ids.filtered(
+                lambda x: head_membership.id in x.kind
+            )
+            partner = partner[0].individual if partner else None
+        return partner
