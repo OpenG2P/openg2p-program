@@ -1,8 +1,8 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-import base64
-import csv
+# import base64
+# import csv
+# from io import StringIO
 import logging
-from io import StringIO
 from uuid import uuid4
 
 from odoo import _, api, fields, models
@@ -235,70 +235,6 @@ class DefaultFilePaymentManager(models.Model):
         )
         main_job.delay()
 
-    def _send_payments(self, batches):
-        # Create a payment list (CSV)
-        # _logger.debug("DEBUG! send_payments Manager: DEFAULT")
-        for rec in batches:
-            filename = f"{rec.name}.csv"
-            data = StringIO()
-            csv_writer = csv.writer(data, quoting=csv.QUOTE_MINIMAL)
-            header = [
-                "row_number",
-                "internal_payment_reference",
-                "account_number",
-                "beneficiary_name",
-                "amount",
-                "currency",
-                "details_of_payment",
-            ]
-            csv_writer.writerow(header)
-            for row, payment_id in enumerate(rec.payment_ids):
-                account_number = ""
-                if payment_id.partner_id.bank_ids:
-                    account_number = payment_id.partner_id.bank_ids[0].iban
-                details_of_payment = (
-                    f"{payment_id.program_id.name} - {payment_id.cycle_id.name}"
-                )
-                row = [
-                    row,
-                    payment_id.name,
-                    account_number,
-                    payment_id.partner_id.name,
-                    payment_id.amount_issued,
-                    payment_id.currency_id.name,
-                    details_of_payment,
-                ]
-                csv_writer.writerow(row)
-            csv_data = base64.encodebytes(bytearray(data.getvalue(), "utf-8"))
-            # Attach the generated CSV to payment batch
-            self.env["ir.attachment"].create(
-                {
-                    "name": filename,
-                    "res_model": "g2p.payment.batch",
-                    "res_id": rec.id,
-                    "type": "binary",
-                    "store_fname": filename,
-                    "mimetype": "text/csv",
-                    "datas": csv_data,
-                }
-            )
-            # _logger.debug("DEFAULT Payment Manager: data: %s" % csv_data)
-        message = _("Payment CSV created successfully")
-        kind = "success"
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": _("Payment"),
-                "message": message,
-                "sticky": True,
-                "type": kind,
-                "next": {
-                    "type": "ir.actions.act_window_close",
-                },
-            },
-        }
-
     def send_payments(self, batches):
         # TODO: Return client action with proper message.
         batches_count = len(batches)
@@ -324,6 +260,76 @@ class DefaultFilePaymentManager(models.Model):
                     },
                 },
             }
+
+    def _send_payments(self, batches):
+        # Create a payment list (CSV)
+        # _logger.debug("DEBUG! send_payments Manager: DEFAULT")
+        if not batches:
+            message = _("No payment batches to process.")
+            kind = "warning"
+
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Payment"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
+        # TODO: Removed CSV Creation part after confirmation with team for timebeing.
+        # else:
+        # for rec in batches:
+        #     filename = f"{rec.name}.csv"
+        #     data = StringIO()
+        #     csv_writer = csv.writer(data, quoting=csv.QUOTE_MINIMAL)
+        #     header = [
+        #         "row_number",
+        #         "internal_payment_reference",
+        #         "account_number",
+        #         "beneficiary_name",
+        #         "amount",
+        #         "currency",
+        #         "details_of_payment",
+        #     ]
+        #     csv_writer.writerow(header)
+        #     for row, payment_id in enumerate(rec.payment_ids):
+        #         account_number = ""
+        #         if payment_id.partner_id.bank_ids:
+        #             account_number = payment_id.partner_id.bank_ids[0].iban
+        #         details_of_payment = (
+        #             f"{payment_id.program_id.name} - {payment_id.cycle_id.name}"
+        #         )
+        #         row = [
+        #             row,
+        #             payment_id.name,
+        #             account_number,
+        #             payment_id.partner_id.name,
+        #             payment_id.amount_issued,
+        #             payment_id.currency_id.name,
+        #             details_of_payment,
+        #         ]
+        #         csv_writer.writerow(row)
+        #     csv_data = base64.encodebytes(bytearray(data.getvalue(), "utf-8"))
+        #     # Attach the generated CSV to payment batch
+        #     self.env["ir.attachment"].create(
+        #         {
+        #             "name": filename,
+        #             "res_model": "g2p.payment.batch",
+        #             "res_id": rec.id,
+        #             "type": "binary",
+        #             "store_fname": filename,
+        #             "mimetype": "text/csv",
+        #             "datas": csv_data,
+        #         }
+        #     )
+        #     # _logger.debug("DEFAULT Payment Manager: data: %s" % csv_data)
+        # message = _("Payment CSV created successfully")
+        # kind = "success"
 
     def _send_payments_async(self, cycle, batches):
         _logger.debug("Send Payments asynchronously")

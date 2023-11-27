@@ -5,7 +5,7 @@ from odoo.addons.g2p_registry_rest_api.models import naive_orm_model
 
 
 class ProgramRegistrantInfoOut(naive_orm_model.NaiveOrmModel):
-    state: str = ""
+    state: Optional[str] = ""
     program_registrant_info: Union[Dict, List[Dict]] = {}
 
 

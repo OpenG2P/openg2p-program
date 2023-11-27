@@ -100,7 +100,13 @@ class G2PAssignToProgramWizard(models.TransientModel):
             )
 
             if len(partner_ids) == 1:
-                if ig_ctr:
+                if rec.disabled:
+                    message = _("Disabled group can't be added to the program.") % {
+                        "registrant": rec.name,
+                        "program": self.program_id.name,
+                    }
+                    kind = "danger"
+                if ig_ctr and not rec.disabled:
                     message = _(
                         "%(registrant)s was already in the Program %(program)s"
                     ) % {
@@ -108,7 +114,6 @@ class G2PAssignToProgramWizard(models.TransientModel):
                         "program": self.program_id.name,
                     }
                     kind = "danger"
-
             else:
                 if not ctr:
                     message = (

@@ -433,11 +433,32 @@ class G2PCycle(models.Model):
                     for record in draft_records
                 ):
                     raise ValidationError(
-                        _("Delete only draft cycles with no approved entitlements.")
+                        _(
+                            "A cycle for which entitlements have been approved cannot be deleted."
+                        )
+                    )
+                elif all(
+                    record.entitlement_ids.filtered(lambda e: e.state == "draft")
+                    for record in draft_records
+                ):
+                    raise ValidationError(
+                        _(
+                            "Cycle cannot be deleted when Entitlements have been added to the cycle."
+                        )
+                    )
+                elif draft_records.mapped("cycle_membership_ids"):
+                    raise ValidationError(
+                        _(
+                            "Cycle cannot be deleted when beneficiaries are present in the cycle."
+                        )
                     )
 
                 draft_records.mapped("cycle_membership_ids").unlink()
                 return super().unlink()
+            else:
+                raise ValidationError(
+                    _("Once a cycle has been approved, it cannot be deleted.")
+                )
 
         raise ValidationError(
             _("Delete only draft cycles with no approved entitlements.")
