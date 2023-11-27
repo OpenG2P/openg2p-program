@@ -25,4 +25,17 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_cycle_file_form" model="ir.ui.view">
+        <field name="name">view_cycle_file_form</field>
+        <field name="model">g2p.cycle</field>
+        <field name="inherit_id" ref="g2p_programs.view_cycle_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_batch_ids']/form/notebook" position="inside">
+                <page string="Files">
+                    <field name="payment_file_ids" nolabel="1" />
+                </page>
+            </xpath>
+        </field>
+    </record>
 </odoo>

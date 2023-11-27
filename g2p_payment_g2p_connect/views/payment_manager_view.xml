@@ -29,6 +29,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <field name="api_timeout" />
                     <field name="status_check_cron_active" string="Status Check Cron Enabled" />
                     <field name="status_cron_job_interval_minutes" />
+                    <field
+                        name="send_payments_domain"
+                        widget="domain"
+                        options="{'model': 'g2p.payment.batch'}"
+                    />
                 </group>
                 <group>
                     <field name="payee_id_type" />

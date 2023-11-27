@@ -90,6 +90,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
     crypto_key_set = fields.One2many(
         "g2p.crypto.key.set", "g2pconnect_payment_manager_id"
     )
+    send_payments_domain = fields.Text("Filter Batches to Send", default="[]")
 
     @api.onchange("payee_id_type")
     def _onchange_payee_id_type(self):
@@ -103,6 +104,10 @@ class G2PPaymentManagerG2PConnect(models.Model):
         self.payee_prefix = prefix_mapping.get(self.payee_id_type)
 
     def _send_payments(self, batches):
+        if batches:
+            batches = batches.filtered_domain(
+                self._safe_eval(self.send_payments_domain)
+            )
         if not self.status_check_cron_id:
             self.status_check_cron_id = (
                 self.env["ir.cron"]
@@ -248,14 +253,18 @@ class G2PPaymentManagerG2PConnect(models.Model):
         )
         if not batches:
             # If there are no batches like this .. the cron will be deleted
-            payment_manager.sudo().status_check_cron_id.unlink()
-            payment_manager.status_check_cron_id = None
+            payment_manager.sudo().with_delay().stop_status_check_cron()
         for batch in batches:
             no_payments_left = len(
                 batch.payment_ids.filtered(lambda x: x.status not in ("paid", "failed"))
             )
             if no_payments_left == 0:
                 batch.batch_has_completed = True
+
+    def stop_status_check_cron(self):
+        for rec in self:
+            rec.status_check_cron_id.unlink()
+            rec.status_check_cron_id = None
 
     def _get_payee_fa(self, payment):
         self.ensure_one()
