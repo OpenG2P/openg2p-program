@@ -61,6 +61,20 @@ class BasePaymentManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def mark_job_as_done(self, cycle, msg):
+        """
+        Base :meth:`mark_job_as_done`
+        Post a message in the chatter
+
+        :param cycle: A recordset of cycle
+        :param msg: A string to be posted in the chatter
+        :return:
+        """
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=msg)
+
 
 class DefaultFilePaymentManager(models.Model):
     _name = "g2p.program.payment.manager.default"
