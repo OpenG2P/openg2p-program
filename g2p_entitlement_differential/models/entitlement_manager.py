@@ -36,10 +36,11 @@ class G2PCashEntitlementManager(models.Model):
                     )
 
         return res
-   
+
     def show_approve_entitlements(self, entitlement):
-        #TODO: Enable the multi-stage entitlement approval
+        # TODO: Enable the multi-stage entitlement approval
         return True
+
 
 class G2PCashEntitlementItem(models.Model):
     _inherit = "g2p.program.entitlement.manager.cash.item"

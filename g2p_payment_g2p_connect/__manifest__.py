@@ -9,12 +9,14 @@
     "development_status": "Alpha",
     "depends": [
         "base",
-        "g2p_registry_base",
+        "g2p_registry_membership",
         "g2p_programs",
+        "g2p_payment_files",
     ],
     "data": [
         "security/ir.model.access.csv",
         "views/payment_manager_view.xml",
+        "views/registrant_view.xml",
     ],
     "assets": {},
     "demo": [],
