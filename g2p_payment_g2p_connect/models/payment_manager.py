@@ -24,11 +24,18 @@ class PaymentManager(models.Model):
             selection.append(new_manager)
         return selection
 
+class G2PCryptoKeySet(models.Model):
+    _inherit = "g2p.crypto.key.set"
+
+    g2pconnect_payment_manager_id = fields.Many2one(
+        "g2p.program.payment.manager.g2p.connect", ondelete="cascade"
+    )
+
 
 class G2PPaymentManagerG2PConnect(models.Model):
     _name = "g2p.program.payment.manager.g2p.connect"
     _inherit = [
-        "g2p.program.payment.manager.default",
+        "g2p.program.payment.manager.file",
         "mail.thread",
         "mail.activity.mixin",
     ]
@@ -76,6 +83,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
     )
     status_cron_job_interval_minutes = fields.Integer(default=1)
 
+    payment_file_config_ids = fields.Many2many("g2p.payment.file.config", "g2p_pay_file_config_pay_manager_g2pconnect")
+    crypto_key_set = fields.One2many("g2p.crypto.key.set", "g2pconnect_payment_manager_id")
+
     @api.onchange("payee_id_type")
     def _onchange_payee_id_type(self):
         prefix_mapping = {
@@ -86,6 +96,22 @@ class G2PPaymentManagerG2PConnect(models.Model):
             # TODO: Need to add key:value pair for reg_id
         }
         self.payee_prefix = prefix_mapping.get(self.payee_id_type)
+
+    def _prepare_payments(self, cycle, entitlements):
+        if not entitlements:
+            return None, None
+
+        cash_entitlements = entitlements.filtered(lambda x: x.partner_id.mode_of_payment == "cash")
+        voucher_entitlements = entitlements.filtered(lambda x: x.partner_id.mode_of_payment == "voucher")
+        digital_entitlements = entitlements.filtered(
+            lambda x: x.partner_id.mode_of_payment == "digital"
+            or not x.partner_id.mode_of_payment
+        )
+
+        super()._prepare_payments(cycle, cash_entitlements)
+        super()._prepare_payments(cycle, voucher_entitlements)
+        super()._prepare_payments(cycle, digital_entitlements)
+
 
     def _send_payments(self, batches):
         if not self.status_check_cron_id:
@@ -208,9 +234,11 @@ class G2PPaymentManagerG2PConnect(models.Model):
                         [("name", "=", res["reference_id"])]
                     )
                     if res["status"] == "succ":
-                        payments_by_ref["status"] = "paid"
+                        payments_by_ref.state = "reconciled"
+                        payments_by_ref.status = "paid"
                     elif res["status"] == "rjct":
-                        payments_by_ref["status"] = "failed"
+                        payments_by_ref.state = "reconciled"
+                        payments_by_ref.status = "failed"
 
         except Exception as e:
             _logger.exception(
@@ -222,23 +250,47 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 body=error_msg, subject=_("G2P Connect Status Check")
             )
 
+        batches = self.env["g2p.payment.batch"].search(
+            [
+                ("program_id", "=", payment_manager.program_id.id),
+                ("batch_has_started", "=", True),
+                ("batch_has_completed", "=", False)
+            ]
+        )
+        if not batches:
+            # If there are no batches like this .. the cron will be deleted
+            payment_manager.sudo().status_check_cron_id.unlink()
+            payment_manager.status_check_cron_id = None
+        for batch in batches:
+            no_payments_left = len(batch.payment_ids.filtered(lambda x: x.status not in ("paid", "failed")))
+            if no_payments_left==0:
+                batch.batch_has_completed = True
+
     def _get_payee_fa(self, payment):
         self.ensure_one()
+        partner = payment.partner_id
+        if partner.is_group:
+            head_membership = self.env.ref("g2p_registry_membership.group_membership_kind_head")
+            partner = partner.group_membership_ids.filtered(lambda x: head_membership.id in x.kind)
+            partner = partner[0].individual if partner else None
+        if not partner:
+            return None
+
         payee_id_type = self.payee_id_type
         if payee_id_type == "bank_acc_no":
             # TODO: Compute which bank_acc_no to choose from bank account list
-            for bank_id in payment.partner_id.bank_ids:
+            for bank_id in partner.bank_ids:
                 return f"{self.payee_prefix}{bank_id.acc_number}@{bank_id.bank_id.bic}"
         elif payee_id_type == "bank_acc_iban":
             # TODO: Compute which iban to choose from bank account list
-            for bank_id in payment.partner_id.bank_ids:
+            for bank_id in partner.bank_ids:
                 return f"{self.payee_prefix}{bank_id.iban}@{bank_id.bank_id.bic}"
         elif payee_id_type == "phone":
-            return f"{self.payee_prefix}{payment.partner_id.phone}"
+            return f"{self.payee_prefix}{partner.phone}"
         elif payee_id_type == "email":
-            return f"{self.payee_prefix}{payment.partner_id.email}"
+            return f"{self.payee_prefix}{partner.email}"
         elif payee_id_type == "reg_id":
-            for reg_id in payment.partner_id.reg_ids:
+            for reg_id in partner.reg_ids:
                 if reg_id.id_type.id == self.reg_id_type_for_payee_id.id:
                     return f"{self.payee_prefix}{reg_id.value}{self.payee_suffix}"
         # TODO: Deal with no bank acc and/or ID type not matching any available IDs
