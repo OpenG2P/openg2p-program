@@ -278,15 +278,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def _get_payee_fa(self, payment):
         self.ensure_one()
-        partner = payment.partner_id
-        if partner.is_group:
-            head_membership = self.env.ref(
-                "g2p_registry_membership.group_membership_kind_head"
-            )
-            partner = partner.group_membership_ids.filtered(
-                lambda x: head_membership.id in x.kind
-            )
-            partner = partner[0].individual if partner else None
+        partner = payment.partner_id.get_registrants_or_group_heads()
         if not partner:
             return None
 

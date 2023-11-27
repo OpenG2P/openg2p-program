@@ -9,7 +9,7 @@
     "development_status": "Alpha",
     "depends": [
         "base",
-        "g2p_registry_base",
+        "g2p_registry_membership",
         "g2p_programs",
         "g2p_payment_files",
     ],
