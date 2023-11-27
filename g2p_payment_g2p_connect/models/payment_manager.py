@@ -300,7 +300,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         )
         if partner.is_group:
             partner = partner.group_membership_ids.filtered(
-                lambda x: head_membership.id in x.kind
+                lambda x: head_membership in x.kind
             )
             partner = partner[0].individual if partner else None
         return partner
