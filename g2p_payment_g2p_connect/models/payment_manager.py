@@ -24,6 +24,7 @@ class PaymentManager(models.Model):
             selection.append(new_manager)
         return selection
 
+
 class G2PCryptoKeySet(models.Model):
     _inherit = "g2p.crypto.key.set"
 
@@ -83,8 +84,12 @@ class G2PPaymentManagerG2PConnect(models.Model):
     )
     status_cron_job_interval_minutes = fields.Integer(default=1)
 
-    payment_file_config_ids = fields.Many2many("g2p.payment.file.config", "g2p_pay_file_config_pay_manager_g2pconnect")
-    crypto_key_set = fields.One2many("g2p.crypto.key.set", "g2pconnect_payment_manager_id")
+    payment_file_config_ids = fields.Many2many(
+        "g2p.payment.file.config", "g2p_pay_file_config_pay_manager_g2pconnect"
+    )
+    crypto_key_set = fields.One2many(
+        "g2p.crypto.key.set", "g2pconnect_payment_manager_id"
+    )
 
     @api.onchange("payee_id_type")
     def _onchange_payee_id_type(self):
@@ -101,8 +106,12 @@ class G2PPaymentManagerG2PConnect(models.Model):
         if not entitlements:
             return None, None
 
-        cash_entitlements = entitlements.filtered(lambda x: x.partner_id.mode_of_payment == "cash")
-        voucher_entitlements = entitlements.filtered(lambda x: x.partner_id.mode_of_payment == "voucher")
+        cash_entitlements = entitlements.filtered(
+            lambda x: x.partner_id.mode_of_payment == "cash"
+        )
+        voucher_entitlements = entitlements.filtered(
+            lambda x: x.partner_id.mode_of_payment == "voucher"
+        )
         digital_entitlements = entitlements.filtered(
             lambda x: x.partner_id.mode_of_payment == "digital"
             or not x.partner_id.mode_of_payment
@@ -111,7 +120,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
         super()._prepare_payments(cycle, cash_entitlements)
         super()._prepare_payments(cycle, voucher_entitlements)
         super()._prepare_payments(cycle, digital_entitlements)
-
 
     def _send_payments(self, batches):
         if not self.status_check_cron_id:
@@ -254,7 +262,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
             [
                 ("program_id", "=", payment_manager.program_id.id),
                 ("batch_has_started", "=", True),
-                ("batch_has_completed", "=", False)
+                ("batch_has_completed", "=", False),
             ]
         )
         if not batches:
@@ -262,16 +270,22 @@ class G2PPaymentManagerG2PConnect(models.Model):
             payment_manager.sudo().status_check_cron_id.unlink()
             payment_manager.status_check_cron_id = None
         for batch in batches:
-            no_payments_left = len(batch.payment_ids.filtered(lambda x: x.status not in ("paid", "failed")))
-            if no_payments_left==0:
+            no_payments_left = len(
+                batch.payment_ids.filtered(lambda x: x.status not in ("paid", "failed"))
+            )
+            if no_payments_left == 0:
                 batch.batch_has_completed = True
 
     def _get_payee_fa(self, payment):
         self.ensure_one()
         partner = payment.partner_id
         if partner.is_group:
-            head_membership = self.env.ref("g2p_registry_membership.group_membership_kind_head")
-            partner = partner.group_membership_ids.filtered(lambda x: head_membership.id in x.kind)
+            head_membership = self.env.ref(
+                "g2p_registry_membership.group_membership_kind_head"
+            )
+            partner = partner.group_membership_ids.filtered(
+                lambda x: head_membership.id in x.kind
+            )
             partner = partner[0].individual if partner else None
         if not partner:
             return None
