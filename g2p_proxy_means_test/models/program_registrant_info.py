@@ -6,7 +6,9 @@ from odoo import api, fields, models
 class G2PProgramRegistrantInfo(models.Model):
     _inherit = "g2p.program.registrant_info"
 
-    pmt_score = fields.Integer("PMT Score", compute="_compute_pmt_score", store=True)
+    pmt_score = fields.Float(
+        "PMT Score", compute="_compute_pmt_score", digits=(0, 4), store=True
+    )
     program_pmt_config = fields.Boolean(related="program_id.pmt_config", readonly=True)
 
     @api.depends(
@@ -16,7 +18,7 @@ class G2PProgramRegistrantInfo(models.Model):
     )
     def _compute_pmt_score(self):
         for rec in self:
-            score = 0
+            score = 0.0
 
             pmt_params = rec.program_id.proxy_means_params_ids
 

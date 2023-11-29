@@ -61,6 +61,20 @@ class BasePaymentManager(models.AbstractModel):
         """
         raise NotImplementedError()
 
+    def mark_job_as_done(self, cycle, msg):
+        """
+        Base :meth:`mark_job_as_done`
+        Post a message in the chatter
+
+        :param cycle: A recordset of cycle
+        :param msg: A string to be posted in the chatter
+        :return:
+        """
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=msg)
+
 
 class DefaultFilePaymentManager(models.Model):
     _name = "g2p.program.payment.manager.default"
@@ -225,11 +239,10 @@ class DefaultFilePaymentManager(models.Model):
         )
 
         # Right now this is not divided into subjobs
-        main_job = group(
-            [
-                self.delayable()._prepare_payments(cycle, entitlements),
-            ]
-        )
+        jobs = [
+            self.delayable()._prepare_payments(cycle, entitlements),
+        ]
+        main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_job_as_done(cycle, _("Prepared payments."))
         )
@@ -344,11 +357,10 @@ class DefaultFilePaymentManager(models.Model):
         )
 
         # Right now this is not divided into subjobs
-        main_job = group(
-            [
-                self.delayable()._send_payments(batches),
-            ]
-        )
+        jobs = [
+            self.delayable()._send_payments(batches),
+        ]
+        main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_job_as_done(cycle, _("Send payments completed."))
         )

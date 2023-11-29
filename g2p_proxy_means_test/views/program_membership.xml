@@ -8,7 +8,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="model">g2p.program_membership</field>
         <field name="inherit_id" ref="g2p_program_registrant_info.view_program_membership_reg_info_form" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='program_registrant_info_ids']/tree" position="inside">
+            <xpath expr="//field[@name='program_registrant_info_ids']/tree/button" position="before">
                 <field name="program_pmt_config" invisible="1" />
                 <field
                     name="pmt_score"
