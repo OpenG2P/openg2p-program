@@ -14,7 +14,6 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     name="program_info"
                     string="Program Info"
                     groups="g2p_programs.g2p_program_manager,g2p_programs.g2p_program_cycle_approver,g2p_registry_base.group_g2p_admin"
-                    invisible="1"
                 >
                     <field name="program_registrant_info_ids" nolabel="1">
                         <tree editable="none">
@@ -45,7 +44,6 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     name="program_info"
                     string="Program Info"
                     groups="g2p_programs.g2p_program_manager,g2p_programs.g2p_program_cycle_approver,g2p_registry_base.group_g2p_admin"
-                    invisible="1"
                 >
                     <field name="program_registrant_info_ids" nolabel="1">
                         <tree editable="top" default_order="create_date desc">
