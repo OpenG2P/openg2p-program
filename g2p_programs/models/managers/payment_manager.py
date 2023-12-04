@@ -136,7 +136,10 @@ class DefaultFilePaymentManager(models.Model):
                 payments, batches = self._prepare_payments(cycle, entitlements)
                 if payments:
                     kind = "success"
-                    message = _("%s new payments was issued.", len(payments))
+                    message = _(
+                        "Payment batch successfully created for %s beneficiaries.",
+                        len(payments),
+                    )
                     sticky = False
                 else:
                     kind = "danger"

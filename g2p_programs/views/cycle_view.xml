@@ -83,7 +83,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="send_payment"
                         states="approved"
                         string="Send Payments"
-                        invisible="context.get('hide_cash')"
+                        attrs="{'invisible':['|',('payments_count','=',0)]}"
                     />
                     <button
                         type="object"
@@ -100,6 +100,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="to_approve"
                         string="To Approve"
                         states="draft"
+                        attrs="{'invisible': ['|',('entitlements_count', '=', 0)]}"
                     />
                     <button
                         type="object"
