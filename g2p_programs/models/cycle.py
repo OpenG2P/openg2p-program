@@ -463,3 +463,16 @@ class G2PCycle(models.Model):
         raise ValidationError(
             _("Delete only draft cycles with no approved entitlements.")
         )
+
+    @api.onchange("name")
+    def on_cycle_name_change(self):
+        if self.name:
+            existing_cycle = self.env["g2p.cycle"].search(
+                [("name", "=", self.name), ("program_id", "=", self.program_id.id)]
+            )
+            if existing_cycle:
+                raise ValidationError(
+                    _(
+                        "Cycle with this name already exists. Please choose a different name."
+                    )
+                )
