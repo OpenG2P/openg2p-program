@@ -112,6 +112,14 @@ class G2PCycle(models.Model):
         compute="_compute_show_approve_entitlement"
     )
 
+    _sql_constraints = [
+        (
+            "unique_cycle_name_program",
+            "UNIQUE(name, program_id)",
+            "Cycle with this name already exists. Please choose a different name.",
+        )
+    ]
+
     def _compute_members_count(self):
         for rec in self:
             domain = rec._get_beneficiaries_domain(["enrolled"])
@@ -463,16 +471,3 @@ class G2PCycle(models.Model):
         raise ValidationError(
             _("Delete only draft cycles with no approved entitlements.")
         )
-
-    @api.onchange("name")
-    def on_cycle_name_change(self):
-        if self.name:
-            existing_cycle = self.env["g2p.cycle"].search(
-                [("name", "=", self.name), ("program_id", "=", self.program_id.id)]
-            )
-            if existing_cycle:
-                raise ValidationError(
-                    _(
-                        "Cycle with this name already exists. Please choose a different name."
-                    )
-                )
