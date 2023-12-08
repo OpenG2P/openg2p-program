@@ -23,6 +23,9 @@
     margin-bottom: 0.4%;
 }
 
+.o_Message.o_Message_Assessment.o_message_highlight {
+    background: #ffffff 0% 0% no-repeat padding-box;
+}
 .o_ChatterTopbar_buttonAddAssess {
     border-radius: 10px;
     border: 1px solid #0000001a;
@@ -33,11 +36,14 @@
 }
 
 .o_Composer_Assessment {
-    background: #ffffff 0% 0% no-repeat padding-box;
+    background: #f8f9fa 0% 0% no-repeat padding-box;
     box-shadow: 0px 2px 5px #0000001a;
     border-radius: 10px;
     border: 1px solid #0000001a;
     padding: 2% 1% 2% 1%;
+}
+.o_Composer_Assessment.o_Composer_Comment {
+    background: #ffffff 0% 0% no-repeat padding-box;
 }
 
 .o_Composer_Assessment .o_Message_sidebar {
@@ -73,5 +79,12 @@
     border: 1px solid #e27d21;
 }
 .o_Composer_buttonCancelText {
+    color: #e27d21;
+}
+.o_ChatterTopbar_buttonAddComment {
+    border-radius: 10px;
+    border: 1px solid #e27d21;
+}
+.o_ChatterTopbar_buttonAddCommentText {
     color: #e27d21;
 }

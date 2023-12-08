@@ -37,12 +37,22 @@
         <div class="o_Chatter">
             <t t-if="readonly != true">
                 <div class="o_Chatter_fixedPanel">
-                    <button class="btn o_ChatterTopbar_buttonAddAssess">
-                        <span class="o_ChatterTopbar_buttonAddAssessText"><i class="fa fa-plus" />
-                            <t t-if="resModel == 'g2p.entitlement'">Add Comments</t>
-                            <t t-else="">Add Assessment</t>
-                            </span>
-                    </button>
+                    <div class='o_Composer_header_buttons'>
+                        <t t-if="showAddAssessmentsButton">
+                            <button class="btn o_ChatterTopbar_buttonAddAssess">
+                                <span class="o_ChatterTopbar_buttonAddAssessText"><i class="fa fa-plus" />
+                                    Add Assessment
+                                </span>
+                            </button>
+                        </t>
+                        <t t-if="showAddCommentsButton">
+                            <button class="btn o_ChatterTopbar_buttonAddComment">
+                                <span class="o_ChatterTopbar_buttonAddCommentText"><i class="fa fa-plus" />
+                                    Add Comment
+                                </span>
+                            </button>
+                        </t>
+                    </div>
                     <!-- The following o_Composer will be replaced by above template -->
                     <div class="o_Composer" />
                 </div>
@@ -53,7 +63,9 @@
                         <div class="o_ThreadView_core d-flex flex-column flex-grow-1">
                             <div class="o_MessageList o_ThreadView_messageList">
                                 <t t-foreach="assessments" t-as="assess">
-                                    <div class="o_Message o_Message_Assessment o-not-discussion mt-3">
+                                    <div
+                                        t-att-class="'o_Message o_Message_Assessment o-not-discussion mt-3'+(assess.is_comment?' o_message_highlight':'')"
+                                    >
                                         <div class="d-flex flex-shrink-0">
                                             <div class="o_Message_sidebar">
                                                 <div
