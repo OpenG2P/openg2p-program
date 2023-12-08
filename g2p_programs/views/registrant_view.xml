@@ -50,6 +50,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 class="btn-success"
                             />
                           <field name="name" />
+                          <field name="ern"/>
                           <field name="code" />
                           <field name="cycle_id" />
                           <field name="valid_from" />
