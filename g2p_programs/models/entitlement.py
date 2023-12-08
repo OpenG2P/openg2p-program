@@ -1,9 +1,7 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
-from uuid import uuid4
-
 import random
-from datetime import datetime
+from uuid import uuid4
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -27,18 +25,14 @@ class G2PEntitlement(models.Model):
     code = fields.Char(
         default=lambda x: x._generate_code(), required=True, readonly=True, copy=False
     )
-    
-    @api.depends("state")
-    def _compute_generate_ern(self):
-        for rec in self:
-            if rec.state=="approved":
-                random_number = str(random.randint(1, 10**10 - 1)).zfill(10)
-                rec.ern = random_number
-            else:
-                rec.ern = False
 
     ern = fields.Char(
-        compute="_compute_generate_ern", string="ERN", required=True, readonly=True, copy=False,
+        compute="_compute_generate_ern",
+        string="ERN",
+        required=True,
+        readonly=True,
+        copy=False,
+        store=True,
     )
 
     partner_id = fields.Many2one(
@@ -185,6 +179,15 @@ class G2PEntitlement(models.Model):
                 rec.payment_date = None
             if paid_payment:
                 rec.payment_date = paid_payment.payment_datetime
+
+    @api.depends("state")
+    def _compute_generate_ern(self):
+        for rec in self:
+            if rec.state == "approved":
+                random_number = str(random.randint(1, 10**10 - 1)).zfill(10)
+                rec.ern = random_number
+            else:
+                rec.ern = False
 
     @api.autovacuum
     def _gc_mark_expired_entitlement(self):
