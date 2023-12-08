@@ -96,7 +96,9 @@ class G2PCycle(models.Model):
     auto_approve_entitlements = fields.Boolean("Auto-approve entitlements")
 
     # Statistics
-    members_count = fields.Integer(string="# Beneficiaries", readonly=True)
+    members_count = fields.Integer(
+        string="# Beneficiaries", readonly=True, compute="_compute_members_count"
+    )
     entitlements_count = fields.Integer(
         string="# Entitlements", readonly=True, compute="_compute_entitlements_count"
     )
