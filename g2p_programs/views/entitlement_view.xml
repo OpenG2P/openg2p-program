@@ -10,6 +10,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <tree create="0">
                 <field name="name" />
+                <field name="ern" />
                 <field name="code" />
                 <field name="partner_id" />
                 <field name="program_id" />
@@ -80,10 +81,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <h1>
                             <field id="name" name="name" placeholder="Enter the program name..." />
                         </h1>
-                        <label for="code" string="Code:" />
+                        <label for="ERN" string="ERN:" />
                         <h2>
-                            <field id="code" name="code" placeholder="code..." />
+                            <field id="ERN" name="ern" placeholder="ERN..." />
                         </h2>
+                        <label for="code" string="Code:" />
+                        <h3>
+                            <field id="code" name="code" placeholder="code..." />
+                        </h3>
+                        
                     </div>
                     <group>
                         <group>

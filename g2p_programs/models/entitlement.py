@@ -2,6 +2,9 @@
 import logging
 from uuid import uuid4
 
+import random
+from datetime import datetime
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
@@ -23,6 +26,19 @@ class G2PEntitlement(models.Model):
     name = fields.Char(compute="_compute_name")
     code = fields.Char(
         default=lambda x: x._generate_code(), required=True, readonly=True, copy=False
+    )
+    
+    @api.depends("state")
+    def _compute_generate_ern(self):
+        for rec in self:
+            if rec.state=="approved":
+                random_number = str(random.randint(1, 10**10 - 1)).zfill(10)
+                rec.ern = random_number
+            else:
+                rec.ern = False
+
+    ern = fields.Char(
+        compute="_compute_generate_ern", string="ERN", required=True, readonly=True, copy=False,
     )
 
     partner_id = fields.Many2one(
