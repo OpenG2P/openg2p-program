@@ -294,7 +294,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <field name="entitlement_ids" readonly="1" nolabel="1">
                                 <tree>
                                     <field name="name" />
-                                    <field name="ern"/>
+                                    <field name="ern" />
                                     <field name="code" />
                                     <field name="cycle_id" />
                                     <field name="valid_from" />
