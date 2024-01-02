@@ -13,7 +13,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 </header>
                 <sheet>
                     <!-- STEP 1 -->
-                    <group colspan="4" col="4" attrs="{'invisible':[('state','=','step2')]}">
+                    <group colspan="4" col="4" invisible="state == 'step2'">
                         <field name="name" colspan="4" />
                         <field name="target_type" widget="radio" options="{'horizontal': true}" />
                         <field
@@ -21,7 +21,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             options="{'no_open':True,'no_quick_create':True,'no_create':True}"
                         />
                     </group>
-                    <notebook colspan="4" attrs="{'invisible':[('state','=','step2')]}">
+                    <notebook colspan="4" invisible="state == 'step2'">
                         <page string="Configure the Default Eligibility Criteria" name="eligibility">
                             <group colspan="4" col="4">
                                 <label for="eligibility_domain" string="FILTER:" />
@@ -52,32 +52,29 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                 <field name="cycle_duration" />
                                                 <field name="rrule_type" />
                                             </div>
-                                            <widget
-                                                name="week_days"
-                                                attrs="{'invisible': [('rrule_type', '!=', 'weekly')]}"
-                                            />
+                                            <widget name="week_days" invisible="rrule_type != 'weekly'" />
                                         </div>
                                     </group>
-                                    <group attrs="{'invisible': [('rrule_type', '!=', 'monthly')]}">
+                                    <group invisible="rrule_type != 'monthly'">
                                         <label string="Day of Month" for="month_by" />
                                         <div class="o_row">
                                             <field name="month_by" />
                                             <field
                                                 name="day"
-                                                attrs="{'required': [('month_by', '=', 'date'), ('rrule_type', '=', 'monthly')],
-                                                        'invisible': [('month_by', '!=', 'date')]}"
+                                                required="month_by == 'date' and rrule_type == 'monthly'"
+                                                invisible="month_by != 'date'"
                                             />
                                             <field
                                                 name="byday"
                                                 string="The"
-                                                attrs="{'required': [('month_by', '=', 'day'), ('rrule_type', '=', 'monthly')],
-                                                        'invisible': [('month_by', '!=', 'day')]}"
+                                                required="month_by == 'day' and rrule_type == 'monthly'"
+                                                invisible="month_by != 'day'"
                                             />
                                             <field
                                                 name="weekday"
                                                 nolabel="1"
-                                                attrs="{'required': [('month_by', '=', 'day'), ('rrule_type', '=', 'monthly')],
-                                                        'invisible': [('month_by', '!=', 'day')]}"
+                                                required="month_by == 'day' and rrule_type == 'monthly'"
+                                                invisible="month_by != 'day'"
                                             />
                                         </div>
                                     </group>
@@ -99,26 +96,19 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 colspan="4"
                                 col="4"
                                 name="default"
-                                attrs="{'invisible':[('entitlement_kind','!=', 'default')]}"
+                                invisible="entitlement_kind != 'default'"
                             >
                                 <field name="amount_per_cycle" />
                                 <field
                                     name="amount_per_individual_in_group"
-                                    attrs="{'invisible':[('target_type','!=','group')]}"
+                                    invisible="target_type != 'group'"
                                 />
-                                <field
-                                    name="max_individual_in_group"
-                                    attrs="{'invisible':[('target_type','!=','group')]}"
-                                />
+                                <field name="max_individual_in_group" invisible="target_type != 'group'" />
                                 <newline />
                                 <field name="transfer_fee_pct" />
                                 <field name="transfer_fee_amt" />
                             </group>
-                            <group
-                                colspan="4"
-                                col="4"
-                                attrs="{'invisible':[('auto_approve_entitlements','=',True)]}"
-                            >
+                            <group colspan="4" col="4" invisible="auto_approve_entitlements">
                                 <field
                                     name="entitlement_validation_group_id"
                                     options="{'no_open':True,'no_create':True,'no_create_edit':True}"
@@ -129,7 +119,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </page>
                     </notebook>
                     <!-- STEP 2 -->
-                    <div attrs="{'invisible':[('state','=','step1')]}">
+                    <div invisible="state == 'step1'">
                         <label
                             for="import_beneficiaries"
                             string="Would you like to import the matching registrants to this program?"
@@ -144,7 +134,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-chevron-right"
                         type="object"
                         class="btn-warning"
-                        attrs="{'invisible':[('state','=','step2')]}"
+                        invisible="state == 'step2'"
                     />
                     <button
                         name="prev_step"
@@ -152,7 +142,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-chevron-left"
                         type="object"
                         class="btn-warning"
-                        attrs="{'invisible':[('state','=','step1')]}"
+                        invisible="state =='step1'"
                     />
                     <button
                         name="create_program"

@@ -12,7 +12,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <tree>
                 <field name="manager_ref_id" />
                 <field name="program_id" />
-                <field name="manager_id" invisible="1" />
+                <field name="manager_id" column_invisible="1" />
             </tree>
         </field>
     </record>
@@ -96,13 +96,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                         />
                     </group>
-                    <group
-                        name="tagconfig"
-                        colspan="4"
-                        col="4"
-                        attrs="{'invisible':[('create_batch','!=',True)]}"
-                    >
-                        <field name="batch_tag_ids" attrs="{'invisible':['!',('create_batch','=',True)]}">
+                    <group name="tagconfig" colspan="4" col="4" invisible="not create_batch">
+                        <field name="batch_tag_ids" invisible="not create_batch">
                             <tree>
                                 <field name="order" widget="handle" />
                                 <field name="name" />

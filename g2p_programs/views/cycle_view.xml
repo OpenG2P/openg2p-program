@@ -39,7 +39,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-primary"
                         icon="fa-files-o"
                         name="copy_beneficiaries_from_program"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Copy Beneficiaries from Program"
                     />
                     <button
@@ -47,7 +47,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-primary"
                         icon="fa-check-square-o"
                         name="check_eligibility"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Verify Eligibility"
                     />
                     <button
@@ -55,16 +55,17 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-primary"
                         icon="fa-file-text-o"
                         name="prepare_entitlement"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Prepare Entitlement"
                     />
                     <field name="show_approve_entitlements_button" invisible='1' />
+                    <field name="auto_approve_entitlements" invisible='1' />
                     <button
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
                         name="validate_entitlement"
-                        attrs="{'invisible':['|',('state','!=','approved'),'|',('auto_approve_entitlements','=',True),('show_approve_entitlements_button','=',True)]}"
+                        invisible="state != 'approved' or auto_approve_entitlements or show_approve_entitlements_button"
                         string="Approve Entitlement"
                     />
                     <button
@@ -72,25 +73,23 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-primary"
                         icon="fa-file-text-o"
                         name="prepare_payment"
-                        states="approved"
                         string="Prepare Payments"
-                        invisible="context.get('hide_cash')"
+                        invisible="context.get('hide_cash') or state != 'approved'"
                     />
                     <button
                         type="object"
                         class="btn-success"
                         icon="fa-thumbs-o-up"
                         name="send_payment"
-                        states="approved"
                         string="Send Payments"
-                        attrs="{'invisible':['|',('payments_count','=',0)]}"
+                        invisible="state != 'approved' or payments_count == 0"
                     />
                     <button
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
                         name="mark_ended"
-                        states="distributed"
+                        invisible="state != 'distributed'"
                         string="Set as Ended"
                     />
                     <button
@@ -99,8 +98,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-play"
                         name="to_approve"
                         string="To Approve"
-                        states="draft"
-                        attrs="{'invisible': ['|',('entitlements_count', '=', 0)]}"
+                        invisible="state != 'draft' or entitlements_count == 0"
                     />
                     <button
                         type="object"
@@ -108,7 +106,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-thumbs-o-up"
                         name="approve"
                         string="Approve"
-                        states="to_approve"
+                        invisible="state != 'to_approve'"
                     />
                     <button
                         type="object"
@@ -116,7 +114,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-undo"
                         name="reset_draft"
                         string="Reset to Draft"
-                        states="to_approve"
+                        invisible="state != 'to_approve'"
                     />
                     <field
                         name="state"
@@ -127,7 +125,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <div
                     class="alert alert-warning text-center o_form_header"
                     role="status"
-                    attrs="{'invisible': [('locked', '!=', True)]}"
+                    invisible="not locked"
                 >
                     <span>Warning: Operation in progress: </span>
                     <field name="locked_reason" class="o_stat_value" />
@@ -188,7 +186,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 id="name"
                                 name="name"
                                 placeholder="Enter the cycle name..."
-                                attrs="{'readonly':[('state','!=','draft')]}"
+                                invisible="state != 'draft'"
                             />
                             <field name="edit_css" force_save="1" nolabel="1" />
                         </h1>
@@ -202,14 +200,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         />
                         <field name="locked" invisible="True" />
                         <field name="locked_reason" invisible="True" />
-                        <field name="start_date" attrs="{'readonly':[('state','!=','draft')]}" />
-                        <field name="end_date" attrs="{'readonly':[('state','!=','draft')]}" />
+                        <field name="start_date" readonly="state != 'draft'" />
+                        <field name="end_date" readonly="state != 'draft'" />
                         <field
                             name="company_id"
                             groups="base.group_multi_company"
                             options="{'no_create': True}"
                             force_save="1"
-                            attrs="{'readonly':[('state','!=','draft')]}"
+                            readonly="state != 'draft'"
                         />
                     </group>
                     <notebook>
@@ -310,8 +308,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     <field name="name" />
                                                     <field name="partner_id" />
                                                     <field name="entitlement_id" />
-                                                    <field name="program_id" invisible="1" />
-                                                    <field name="cycle_id" invisible="1" />
+                                                    <field name="program_id" column_invisible="1" />
+                                                    <field name="cycle_id" column_invisible="1" />
                                                     <field name="account_number" />
                                                     <field name="amount_issued" />
                                                     <field name="issuance_date" />

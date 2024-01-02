@@ -2,7 +2,7 @@
 {
     "name": "OpenG2P Programs",
     "category": "G2P/G2P",
-    "version": "15.0.1.2.0",
+    "version": "17.0.1.0.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
@@ -16,7 +16,7 @@
         "g2p_registry_group",
         "g2p_registry_membership",
         "g2p_bank",
-        "l10n_generic_coa",
+        # "l10n_generic_coa",
         "event_sms",
         "calendar",
         "queue_job",
@@ -58,11 +58,11 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "/g2p_programs/static/src/js/create_program.js",
+            # "/g2p_programs/static/src/js/create_program.js",
             "/g2p_programs/static/src/css/style.css",
         ],
         "web.assets_qweb": [
-            "/g2p_programs/static/src/xml/create_program_template.xml",
+            # "/g2p_programs/static/src/xml/create_program_template.xml",
         ],
     },
     "demo": [],

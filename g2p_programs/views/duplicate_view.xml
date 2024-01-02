@@ -9,7 +9,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree sample="1">
-                <field name="deduplication_manager_id" invisible="1" />
+                <field name="deduplication_manager_id" column_invisible="1" />
                 <field name="beneficiary_ids" widget="many2many_tags" />
                 <field name="reason" string="Reason" />
                 <field name="comment" string="Comment" />

@@ -35,15 +35,15 @@ class G2PCycleMembership(models.Model):
         ),
     ]
 
-    def name_get(self):
-        res = super(G2PCycleMembership, self).name_get()
+    def _compute_display_name(self):
+        res = super()._compute_display_name()
         for rec in self:
             name = ""
             if rec.cycle_id:
                 name += "[" + rec.cycle_id.name + "] "
             if rec.partner_id:
                 name += rec.partner_id.name
-            res.append((rec.id, name))
+            rec.display_name = name
         return res
 
     def open_cycle_membership_form(self):

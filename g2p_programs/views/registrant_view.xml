@@ -8,13 +8,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="name">view_registrant_ext_form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="g2p_registry_individual.view_individuals_form" />
-        <field
-            name="groups_id"
-            eval="[(4, ref('g2p_registry_base.group_g2p_registrar')), (4, ref('g2p_registry_base.group_g2p_admin'))]"
-        />
         <field name="arch" type="xml">
             <xpath expr="//page[@name='other']" position="before">
-                <page string="Programs">
+                <page
+                    string="Programs"
+                    groups="g2p_registry_base.group_g2p_registrar,g2p_registry_base.group_g2p_admin"
+                >
                     <field name="program_membership_ids" readonly="1" nolabel="1">
                       <tree>
                           <button
@@ -23,11 +22,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
-                          <field name="partner_id" invisible="1" />
+                          <field name="partner_id" column_invisible="1" />
                           <field name="program_id" />
                           <field name="enrollment_date" />
                           <field name="exit_date" />
-                          <field name="delivery_mechanism_value" invisible="1" />
+                          <field name="delivery_mechanism_value" column_invisible="1" />
                           <field
                                 name="state"
                                 decoration-primary="state=='draft'"
@@ -40,7 +39,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                       </tree>
                     </field>
                 </page>
-                <page name="cash_entitlement" string="Cash Entitlements">
+                <page
+                    name="cash_entitlement"
+                    string="Cash Entitlements"
+                    groups="g2p_registry_base.group_g2p_registrar,g2p_registry_base.group_g2p_admin"
+                >
                     <field name="entitlement_ids" readonly="1" nolabel="1">
                       <tree>
                           <button
@@ -69,13 +72,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="name">view_group_ext_form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="g2p_registry_group.view_groups_form" />
-        <field
-            name="groups_id"
-            eval="[(4, ref('g2p_registry_base.group_g2p_registrar')), (4, ref('g2p_registry_base.group_g2p_admin'))]"
-        />
         <field name="arch" type="xml">
             <xpath expr="//page[@name='other']" position="before">
-                <page string="Programs">
+                <page
+                    string="Programs"
+                    groups="g2p_registry_base.group_g2p_registrar,g2p_registry_base.group_g2p_admin"
+                >
                   <field name="program_membership_ids" readonly="1" nolabel="1">
                     <tree>
                         <button
@@ -84,11 +86,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
-                        <field name="partner_id" invisible="1" />
+                        <field name="partner_id" column_invisible="1" />
                         <field name="program_id" />
                         <field name="enrollment_date" />
                         <field name="exit_date" />
-                        <field name="delivery_mechanism_value" invisible="1" />
+                        <field name="delivery_mechanism_value" column_invisible="1" />
                         <field
                                 name="state"
                                 decoration-primary="state=='draft'"
@@ -101,7 +103,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </tree>
                   </field>
                 </page>
-                <page name="cash_entitlement" string="Cash Entitlements">
+                <page
+                    name="cash_entitlement"
+                    string="Cash Entitlements"
+                    groups="g2p_registry_base.group_g2p_registrar,g2p_registry_base.group_g2p_admin"
+                >
                   <field name="entitlement_ids" readonly="1" nolabel="1">
                     <tree>
                         <button

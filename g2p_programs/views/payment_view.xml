@@ -52,7 +52,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-success"
                         icon="fa-thumbs-o-up"
                         name="send_payment"
-                        states="issued"
+                        invisible="state != 'issued'"
                         string="Send Payment"
                     />
                     <field name="state" widget="statusbar" statusbar_visible="issued,sent,reconciled" />
@@ -76,13 +76,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="web_ribbon"
                         title="Paid"
                         bg_color="bg-success"
-                        attrs="{'invisible': [('status', '!=', 'paid')]}"
+                        invisible="status != 'paid'"
                     />
                     <widget
                         name="web_ribbon"
                         title="Failed"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('status', '!=', 'failed')]}"
+                        invisible="status != 'failed'"
                     />
                     <div class="oe_title mb24">
                         <label for="partner_id" string="Beneficiary:" />
@@ -108,10 +108,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <group colspan="4" col="4">
                         <field name="name" readonly="1" />
                         <field name="entitlement_id" readonly="1" options="{'no_open':true}" />
-                        <field
-                            name="account_number"
-                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
-                        />
+                        <field name="account_number" readonly="status in ('paid','failed')" />
                         <field name="cycle_id" readonly="1" options="{'no_open':true}" />
                         <field name="batch_id" readonly="1" options="{'no_open':true}" />
                         <field name="journal_id" string="Journal" options="{'no_open':True}" readonly="1" />
@@ -120,24 +117,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             groups="base.group_multi_company"
                             options="{'no_create': True}"
                             force_save="1"
-                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
+                            readonly="status in ('paid','failed')"
                         />
                     </group>
                     <group string="Payment" colspan="4" col="4">
-                        <field
-                            name="amount_issued"
-                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
-                        />
-                        <field
-                            name="issuance_date"
-                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
-                        />
-                        <field name="amount_paid" attrs="{'readonly':[('status','in',('paid','failed'))]}" />
-                        <field
-                            name="payment_datetime"
-                            attrs="{'readonly':[('status','in',('paid','failed'))]}"
-                        />
-                        <field name="payment_fee" attrs="{'readonly':[('status','in',('paid','failed'))]}" />
+                        <field name="amount_issued" readonly="status in ('paid','failed')" />
+                        <field name="issuance_date" readonly="status in ('paid','failed')" />
+                        <field name="amount_paid" readonly="status in ('paid','failed')" />
+                        <field name="payment_datetime" readonly="status in ('paid','failed')" />
+                        <field name="payment_fee" readonly="status in ('paid','failed')" />
                         <field name="currency_id" invisible="1" />
                         <field name="status" invisible="1" />
                     </group>

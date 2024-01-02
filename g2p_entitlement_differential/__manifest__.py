@@ -2,7 +2,7 @@
     "name": "OpenG2P Entitlement: Differential",
     "category": "G2P",
     # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-    "version": "15.0.1.2.0",
+    "version": "17.0.1.0.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",

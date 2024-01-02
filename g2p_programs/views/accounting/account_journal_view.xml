@@ -42,7 +42,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         action="action_account_journal_beneficiary"
         groups="g2p_registry_base.group_g2p_admin,account.group_account_readonly"
         sequence="100"
-        parent="account.menu_finance_entries_accounting_journals"
+        parent="account.menu_finance_entries_accounting_miscellaneous"
     />
 
     <!-- Display in Programs > Accounting menu -->

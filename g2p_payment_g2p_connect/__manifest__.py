@@ -1,7 +1,7 @@
 {
     "name": "OpenG2P Program Payment: G2P Connect Payment Manager",
     "category": "G2P",
-    "version": "15.0.1.2.0",
+    "version": "17.0.1.0.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
