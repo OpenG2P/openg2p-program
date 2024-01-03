@@ -12,7 +12,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <tree>
                 <field name="manager_ref_id" />
                 <field name="program_id" />
-                <field name="manager_id" invisible="1" />
+                <field name="manager_id" column_invisible="1" />
             </tree>
         </field>
     </record>
@@ -108,32 +108,29 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field name="cycle_duration" />
                                         <field name="rrule_type" />
                                     </div>
-                                    <widget
-                                        name="week_days"
-                                        attrs="{'invisible': [('rrule_type', '!=', 'weekly')]}"
-                                    />
+                                    <widget name="week_days" invisible="rrule_type != 'weekly'" />
                                 </div>
                             </group>
-                            <group attrs="{'invisible': [('rrule_type', '!=', 'monthly')]}">
+                            <group invisible="rrule_type != 'monthly'">
                                 <label string="Day of Month" for="month_by" />
                                 <div class="o_row">
                                     <field name="month_by" />
                                     <field
                                         name="day"
-                                        attrs="{'required': [('month_by', '=', 'date'), ('rrule_type', '=', 'monthly')],
-                                                'invisible': [('month_by', '!=', 'date')]}"
+                                        required="month_by == 'date' and rrule_type == 'monthly'"
+                                        invisible="month_by != 'date'"
                                     />
                                     <field
                                         name="byday"
                                         string="The"
-                                        attrs="{'required': [('month_by', '=', 'day'), ('rrule_type', '=', 'monthly')],
-                                                'invisible': [('month_by', '!=', 'day')]}"
+                                        required="month_by == 'day' and rrule_type == 'monthly'"
+                                        invisible="month_by != 'day'"
                                     />
                                     <field
                                         name="weekday"
                                         nolabel="1"
-                                        attrs="{'required': [('month_by', '=', 'day'), ('rrule_type', '=', 'monthly')],
-                                                'invisible': [('month_by', '!=', 'day')]}"
+                                        required="month_by == 'day' and rrule_type == 'monthly'"
+                                        invisible="month_by != 'day'"
                                     />
                                 </div>
                             </group>

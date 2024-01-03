@@ -33,12 +33,8 @@ class G2PCycle(models.Model):
     STATE_ENDED = constants.STATE_ENDED
     DISABLE_EDIT_DOMAIN = [("state", "!=", "draft")]
 
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
-        res = super(G2PCycle, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
-        )
+    def _get_view(self, view_id=None, view_type="form", **options):
+        arch, view = super()._get_view(view_id, view_type, **options)
 
         if view_type == "form":
             # FIX: 'hide_cash' context is not set when form is loaded directly
@@ -46,7 +42,7 @@ class G2PCycle(models.Model):
             # Set all payment management components to invisible
             # if the form was loaded directly via URL.
             if "hide_cash" not in self._context:
-                doc = etree.XML(res["arch"])
+                doc = etree.XML(arch)
                 modifiers = json.dumps({"invisible": True})
 
                 prepare_payment_button = doc.xpath("//button[@name='prepare_payment']")
@@ -63,8 +59,9 @@ class G2PCycle(models.Model):
                 payment_batches_page = doc.xpath("//page[@name='payment_batches']")
                 payment_batches_page[0].set("modifiers", modifiers)
 
-                res["arch"] = etree.tostring(doc, encoding="unicode")
-        return res
+                arch = etree.tostring(doc, encoding="unicode")
+
+        return arch, view
 
     name = fields.Char(required=True)
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company)

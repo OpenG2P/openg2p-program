@@ -87,16 +87,14 @@ class G2PProgramMembership(models.Model):
             if rec.state == "enrolled":
                 rec.enrollment_date = fields.Datetime.now()
 
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
+    @api.model
+    def _get_view(self, view_id=None, view_type="form", **options):
         context = self.env.context
-        result = super(G2PProgramMembership, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
-        )
+        arch, view = super()._get_view(view_id, view_type, **options)
+
         if view_type == "form":
             update_arch = False
-            doc = etree.XML(result["arch"])
+            doc = etree.XML(arch)
 
             # Check if we need to change the partner_id domain filter
             target_type = context.get("target_type", False)
@@ -113,8 +111,8 @@ class G2PProgramMembership(models.Model):
                         node.set("domain", domain)
 
             if update_arch:
-                result["arch"] = etree.tostring(doc, encoding="unicode")
-        return result
+                arch = etree.tostring(doc, encoding="unicode")
+        return arch, view
 
     def name_get(self):
         res = super(G2PProgramMembership, self).name_get()
@@ -124,7 +122,7 @@ class G2PProgramMembership(models.Model):
                 name += "[" + rec.program_id.name + "] "
             if rec.partner_id:
                 name += rec.partner_id.name
-            res.append((rec.id, name))
+            rec.display_name = name
         return res
 
     def open_beneficiaries_form(self):

@@ -28,7 +28,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     name="open_eligible_beneficiaries_form"
                     string="Beneficiaries list"
                 />
-                <field name="active" invisible="1" />
+                <field name="active" column_invisible="1" />
             </tree>
         </field>
     </record>
@@ -46,14 +46,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         string="Enroll Eligible Registrants"
                         icon="fa-download"
                         class="btn-primary"
-                        states="active"
+                        invisible="state != 'active'"
                     /><button
                         name="verify_eligibility"
                         type="object"
                         string="Verify eligibility"
                         icon="fa-download"
                         class="btn-primary"
-                        states="active"
+                        invisible="state != 'active'"
                     />
                     <button
                         name="notify_eligible_beneficiaries"
@@ -61,7 +61,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         string="Notify Registrants"
                         icon="fa-envelope-o"
                         class="btn-primary"
-                        states="active"
+                        invisible="state != 'active'"
                     />
                     <button
                         name="create_new_cycle"
@@ -69,7 +69,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         string="Create New Cycle"
                         icon="fa-undo"
                         class="btn-primary"
-                        states="active"
+                        invisible="state != 'active'"
                     />
                     <button
                         name="deduplicate_beneficiaries"
@@ -77,7 +77,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         string="Deduplicate"
                         icon="fa-download"
                         class="btn-primary"
-                        states="active"
+                        invisible="state != 'active'"
                     />
                     <field name="state" widget="statusbar" statusbar_visible="active,ended" />
                 </header>
@@ -87,7 +87,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     class="alert alert-danger"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': [('journal_id', '!=', False)]}"
+                    invisible="journal_id"
                 >
                     A journal must be defined for this program. Select a journal in the <bold
                     >'Accounting'</bold> section of the <bold>'Configuration'</bold> tab.
@@ -104,7 +104,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <div
                     class="alert alert-warning text-center o_form_header"
                     role="status"
-                    attrs="{'invisible': [('locked', '!=', True)]}"
+                    invisible="not locked"
                 >
                     <span>Warning: Operation in progress: </span>
                     <field name="locked_reason" class="o_stat_value" />
@@ -168,7 +168,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 id="name"
                                 name="name"
                                 placeholder="Enter the program name..."
-                                attrs="{'readonly':[('state','=','ended')]}"
+                                readonly="state == 'ended'"
                             />
                             <field name="edit_css" force_save="1" nolabel="1" />
                         </h1>
@@ -179,7 +179,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <label for="target_type" string="Target Type:" />
                             <field
                                 name="target_type"
-                                attrs="{'readonly':['|', ('state','=','ended'), ('have_members', '=', True)]}"
+                                readonly="state == 'ended' or have_members"
                                 widget="radio"
                             />
                             <label
@@ -193,7 +193,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 groups="base.group_multi_company"
                                 options="{'no_create': True}"
                                 force_save="1"
-                                attrs="{'readonly':[('state','=','ended')]}"
+                                readonly="state == 'ended'"
                                 invisible="1"
                             />
                         </div>
@@ -203,7 +203,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <field
                                 name="cycle_ids"
                                 nolabel="1"
-                                context="{'default_program_id':active_id}"
+                                context="{'default_program_id':id}"
                                 readonly="1"
                             >
                                 <tree default_order="id desc">
@@ -251,7 +251,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     id="name"
                                                     name="name"
                                                     placeholder="Enter the cycle name..."
-                                                    attrs="{'readonly':[('state','!=','draft')]}"
+                                                    readonly="state != 'draft'"
                                                 />
                                             </h1>
                                         </div>
@@ -260,22 +260,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                 name="program_id"
                                                 colspan="4"
                                                 invisible="context.get('default_program_id',False)"
-                                                attrs="{'readonly':[('state','!=','draft')]}"
+                                                readonly="state != 'draft'"
                                             />
-                                            <field
-                                                name="start_date"
-                                                attrs="{'readonly':[('state','!=','draft')]}"
-                                            />
-                                            <field
-                                                name="end_date"
-                                                attrs="{'readonly':[('state','!=','draft')]}"
-                                            />
+                                            <field name="start_date" readonly="state != 'draft'" />
+                                            <field name="end_date" readonly="state != 'draft'" />
                                             <field
                                                 name="company_id"
                                                 groups="base.group_multi_company"
                                                 options="{'no_create': True}"
                                                 force_save="1"
-                                                attrs="{'readonly':[('state','!=','draft')]}"
+                                                readonly="state != 'draft'"
                                             />
                                         </group>
                                         <notebook>
@@ -440,11 +434,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                                         <field name="entitlement_id" />
                                                                         <field
                                                                             name="program_id"
-                                                                            invisible="1"
+                                                                            column_invisible="1"
                                                                         />
                                                                         <field
                                                                             name="cycle_id"
-                                                                            invisible="1"
+                                                                            column_invisible="1"
                                                                         />
                                                                         <field name="account_number" />
                                                                         <field name="amount_issued" />
@@ -490,9 +484,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field
                                             name="eligibility_managers"
                                             nolabel="1"
-                                            context="{'default_program_id':active_id}"
-                                            domain="[('program_id','=',active_id)]"
-                                            attrs="{'readonly':[('state','=','ended')]}"
+                                            context="{'default_program_id':id}"
+                                            domain="[('program_id','=',id)]"
+                                            readonly="state == 'ended'"
                                         >
                                             <tree editable="top">
                                                 <button
@@ -500,16 +494,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     type="object"
                                                     icon="fa-external-link"
                                                     class="btn-success"
-                                                    attrs="{'invisible':[('manager_ref_id','=',False)]}"
-                                                    context="{'default_program_id':active_id, 'create': False}"
+                                                    invisible="not manager_ref_id"
+                                                    context="{'default_program_id':id, 'create': False}"
                                                 />
                                                 <field
                                                     name="manager_ref_id"
                                                     options="{'no_quick_create':True}"
                                                     string="Managers"
-                                                    context="{'default_program_id':active_id}"
+                                                    context="{'default_program_id':id}"
                                                 />
-                                                <field name="manager_id" invisible="1" />
+                                                <field name="manager_id" column_invisible="1" />
                                             </tree>
                                             <form string="Eligibility Manager">
                                                 <sheet>
@@ -532,9 +526,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field
                                             name="deduplication_managers"
                                             nolabel="1"
-                                            context="{'default_program_id':active_id}"
-                                            domain="[('program_id','=',active_id)]"
-                                            attrs="{'readonly':[('state','=','ended')]}"
+                                            context="{'default_program_id':id}"
+                                            domain="[('program_id','=',id)]"
+                                            readonly="state == 'ended'"
                                         >
                                             <tree editable="top">
                                                 <button
@@ -542,16 +536,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     type="object"
                                                     icon="fa-external-link"
                                                     class="btn-success"
-                                                    attrs="{'invisible':[('manager_ref_id','=',False)]}"
-                                                    context="{'default_program_id':active_id, 'create': False}"
+                                                    invisible="not manager_ref_id"
+                                                    context="{'default_program_id':id, 'create': False}"
                                                 />
                                                 <field
                                                     name="manager_ref_id"
                                                     options="{'no_quick_create':True}"
                                                     string="Managers"
-                                                    context="{'default_program_id':active_id}"
+                                                    context="{'default_program_id':id}"
                                                 />
-                                                <field name="manager_id" invisible="1" />
+                                                <field name="manager_id" column_invisible="1" />
                                             </tree>
                                             <form string="Deduplication Manager">
                                                 <sheet>
@@ -576,9 +570,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field
                                             name="notification_managers"
                                             nolabel="1"
-                                            context="{'default_program_id':active_id}"
-                                            domain="[('program_id','=',active_id)]"
-                                            attrs="{'readonly':[('state','=','ended')]}"
+                                            context="{'default_program_id':id}"
+                                            domain="[('program_id','=',id)]"
+                                            readonly="state == 'ended'"
                                         >
                                             <tree editable="top">
                                                 <button
@@ -586,16 +580,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     type="object"
                                                     icon="fa-external-link"
                                                     class="btn-success"
-                                                    attrs="{'invisible':[('manager_ref_id','=',False)]}"
-                                                    context="{'default_program_id':active_id, 'create': False}"
+                                                    invisible="not manager_ref_id"
+                                                    context="{'default_program_id':id, 'create': False}"
                                                 />
                                                 <field
                                                     name="manager_ref_id"
                                                     options="{'no_quick_create':True}"
                                                     string="Managers"
-                                                    context="{'default_program_id':active_id}"
+                                                    context="{'default_program_id':id}"
                                                 />
-                                                <field name="manager_id" invisible="1" />
+                                                <field name="manager_id" column_invisible="1" />
                                             </tree>
                                             <form string="Notification Manager">
                                                 <sheet>
@@ -624,9 +618,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field
                                             name="program_managers"
                                             nolabel="1"
-                                            context="{'default_program_id':active_id}"
-                                            domain="[('program_id','=',active_id)]"
-                                            attrs="{'readonly':[('state','=','ended')]}"
+                                            context="{'default_program_id':id}"
+                                            domain="[('program_id','=',id)]"
+                                            readonly="state == 'ended'"
                                         >
                                             <tree editable="top">
                                                 <button
@@ -634,16 +628,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     type="object"
                                                     icon="fa-external-link"
                                                     class="btn-success"
-                                                    attrs="{'invisible':[('manager_ref_id','=',False)]}"
-                                                    context="{'default_program_id':active_id, 'create': False}"
+                                                    invisible="not manager_ref_id"
+                                                    context="{'default_program_id':id, 'create': False}"
                                                 />
                                                 <field
                                                     name="manager_ref_id"
                                                     options="{'no_quick_create':True}"
                                                     string="Managers"
-                                                    context="{'default_program_id':active_id}"
+                                                    context="{'default_program_id':id}"
                                                 />
-                                                <field name="manager_id" invisible="1" />
+                                                <field name="manager_id" column_invisible="1" />
                                             </tree>
                                             <form string="Program Manager">
                                                 <sheet>
@@ -674,9 +668,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field
                                             name="cycle_managers"
                                             nolabel="1"
-                                            context="{'default_program_id':active_id}"
-                                            domain="[('program_id','=',active_id)]"
-                                            attrs="{'readonly':[('state','=','ended')]}"
+                                            context="{'default_program_id':id}"
+                                            domain="[('program_id','=',id)]"
+                                            readonly="state == 'ended'"
                                         >
                                             <tree editable="top">
                                                 <button
@@ -684,16 +678,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     type="object"
                                                     icon="fa-external-link"
                                                     class="btn-success"
-                                                    attrs="{'invisible':[('manager_ref_id','=',False)]}"
-                                                    context="{'default_program_id':active_id, 'create': False}"
+                                                    invisible="not manager_ref_id"
+                                                    context="{'default_program_id':id, 'create': False}"
                                                 />
                                                 <field
                                                     name="manager_ref_id"
                                                     options="{'no_quick_create':True}"
                                                     string="Managers"
-                                                    context="{'default_program_id':active_id}"
+                                                    context="{'default_program_id':id}"
                                                 />
-                                                <field name="manager_id" invisible="1" />
+                                                <field name="manager_id" column_invisible="1" />
                                             </tree>
                                             <form string="Cycle Manager">
                                                 <sheet>
@@ -722,9 +716,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field
                                             name="entitlement_managers"
                                             nolabel="1"
-                                            context="{'default_program_id':active_id}"
-                                            domain="[('program_id','=',active_id)]"
-                                            attrs="{'readonly':[('state','=','ended')]}"
+                                            context="{'default_program_id':id}"
+                                            domain="[('program_id','=',id)]"
+                                            readonly="state == 'ended'"
                                         >
                                             <tree editable="top">
                                                 <button
@@ -732,16 +726,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     type="object"
                                                     icon="fa-external-link"
                                                     class="btn-success"
-                                                    attrs="{'invisible':[('manager_ref_id','=',False)]}"
-                                                    context="{'default_program_id':active_id, 'create': False}"
+                                                    invisible="not manager_ref_id"
+                                                    context="{'default_program_id':id, 'create': False}"
                                                 />
                                                 <field
                                                     name="manager_ref_id"
                                                     options="{'no_quick_create':True}"
                                                     string="Managers"
-                                                    context="{'default_program_id':active_id}"
+                                                    context="{'default_program_id':id}"
                                                 />
-                                                <field name="manager_id" invisible="1" />
+                                                <field name="manager_id" column_invisible="1" />
                                             </tree>
                                             <form string="Entitlement Manager">
                                                 <sheet>
@@ -770,9 +764,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         <field
                                             name="payment_managers"
                                             nolabel="1"
-                                            context="{'default_program_id':active_id}"
-                                            domain="[('program_id','=',active_id)]"
-                                            attrs="{'readonly':[('state','=','ended')]}"
+                                            context="{'default_program_id':id}"
+                                            domain="[('program_id','=',id)]"
+                                            readonly="state == 'ended'"
                                         >
                                             <tree editable="top">
                                                 <button
@@ -780,16 +774,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     type="object"
                                                     icon="fa-external-link"
                                                     class="btn-success"
-                                                    attrs="{'invisible':[('manager_ref_id','=',False)]}"
-                                                    context="{'default_program_id':active_id, 'create': False}"
+                                                    invisible="not manager_ref_id"
+                                                    context="{'default_program_id':id, 'create': False}"
                                                 />
                                                 <field
                                                     name="manager_ref_id"
                                                     options="{'no_quick_create':True}"
                                                     string="Managers"
-                                                    context="{'default_program_id':active_id}"
+                                                    context="{'default_program_id':id}"
                                                 />
-                                                <field name="manager_id" invisible="1" />
+                                                <field name="manager_id" column_invisible="1" />
                                             </tree>
                                             <form string="Payment Manager">
                                                 <sheet>
@@ -813,7 +807,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     name="journal_id"
                                     string="Journal"
                                     options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                    attrs="{'readonly':[('state','=','ended')]}"
+                                    readonly="state == 'ended'"
                                 />
                                 <button
                                     type="object"
@@ -821,7 +815,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     icon="fa-plus"
                                     name="create_journal"
                                     string="Create New Journal"
-                                    states="active"
+                                    invisible="state != 'active'"
                                 />
                             </group>
                         </page>

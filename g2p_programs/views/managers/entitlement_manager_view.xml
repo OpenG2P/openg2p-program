@@ -12,7 +12,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <tree>
                 <field name="manager_ref_id" />
                 <field name="program_id" />
-                <field name="manager_id" invisible="1" />
+                <field name="manager_id" column_invisible="1" />
             </tree>
         </field>
     </record>

@@ -47,7 +47,7 @@ g2p_program_fund_admin,Program Fund Admin Access,g2p_programs.model_g2p_program_
 
 g2p_program_fund_report_view_admin,Program Fund Report View Admin Access,g2p_programs.model_g2p_program_fund_report_view,g2p_registry_base.group_g2p_admin,1,0,0,0
 g2p_account_journal_admin,Account Journal Admin Access,account.model_account_journal,g2p_registry_base.group_g2p_admin,1,1,1,0
-g2p_account_type_admin,Account Type Admin Access,account.model_account_account_type,g2p_registry_base.group_g2p_admin,1,1,1,0
+
 
 g2p_program_membership_registrar,Program Membership Registrar Access,g2p_programs.model_g2p_program_membership,g2p_registry_base.group_g2p_registrar,1,1,1,0
 g2p_cycle_membership_registrar,Cycle Membership Registrar Access,g2p_programs.model_g2p_cycle_membership,g2p_registry_base.group_g2p_registrar,1,1,1,0
@@ -60,7 +60,6 @@ g2p_ui_view_program_manager,UI View Program Manager Access,base.model_ir_ui_view
 g2p_actions_client_program_manager,Actions Client Program Manager Access,base.model_ir_actions_client,g2p_programs.g2p_program_manager,1,1,0,0
 g2p_program_manager_access,Program Manager Access,g2p_programs.model_g2p_program,,1,1,1,0
 g2p_account_journal_program_manager,Account Journal Program Manager Access,account.model_account_journal,g2p_programs.g2p_program_manager,1,1,1,0
-g2p_account_type_program_manager,Account Type Program Manager Access,account.model_account_account_type,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_account_move_program_manager,Account Move Program Manager Access,account.model_account_move,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_account_move_line_program_manager,Account Move Line Program Manager Access,account.model_account_move_line,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_program_membership_program_manager,Program Membership Program Manager Access,g2p_programs.model_g2p_program_membership,g2p_programs.g2p_program_manager,1,1,1,0

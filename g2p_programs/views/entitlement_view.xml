@@ -43,7 +43,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-success"
                         icon="fa-thumbs-o-up"
                         name="approve_entitlement"
-                        states="draft,pending_validation"
+                        invisible="state not in ('draft','pending_validation')"
                         string="Approve Entitlement"
                     />
                     <button
@@ -51,7 +51,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn btn-dark"
                         icon="fa-thumbs-o-up"
                         name="approve_entitlement"
-                        attrs="{'invisible': [('state', '!=', 'approved')]}"
+                        invisible="state != 'approved'"
                         disabled="1"
                         string="Entitlement Approved"
                     />
@@ -68,7 +68,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             class="oe_stat_button"
                             icon="fa-folder-open-o"
                             name="open_disb_form"
-                            attrs="{'invisible':[('state','!=','approved')]}"
+                            invisible="state != 'approved'"
                         >
                             <div class="o_form_field o_stat_info">
                                 <span class="o_stat_text">Disbursement</span>
@@ -104,7 +104,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             />
                             <field
                                 name="cycle_id"
-                                attrs="{'readonly':[('state','!=','draft')]}"
+                                readonly="state != 'draft'"
                                 options="{'no_open':True,'no_quick_create':True,'no_create':True}"
                             />
                             <field
@@ -112,19 +112,19 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 groups="base.group_multi_company"
                                 options="{'no_create': True}"
                                 force_save="1"
-                                attrs="{'readonly':[('state','!=','draft')]}"
+                                readonly="state != 'draft'"
                             />
                         </group>
                         <group>
-                            <field name="valid_from" attrs="{'readonly':[('state','!=','draft')]}" />
-                            <field name="valid_until" attrs="{'readonly':[('state','!=','draft')]}" />
+                            <field name="valid_from" readonly="state != 'draft'" />
+                            <field name="valid_until" readonly="state != 'draft'" />
                             <field name="date_approved" readonly="1" />
                         </group>
                     </group>
                     <group string="Disbursement" colspan="4" col="4">
                         <field name="is_cash_entitlement" colspan="4" invisible="1" />
-                        <field name="initial_amount" attrs="{'readonly':[('state','!=','draft')]}" />
-                        <field name="transfer_fee" attrs="{'readonly':[('state','!=','draft')]}" />
+                        <field name="initial_amount" readonly="state != 'draft'" />
+                        <field name="transfer_fee" readonly="state != 'draft'" />
                         <field
                             name="journal_id"
                             string="Journal"

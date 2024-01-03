@@ -40,7 +40,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-success"
                         icon="fa-money"
                         name="post_fund"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Post"
                     />
                     <button
@@ -48,7 +48,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-danger"
                         icon="fa-ban"
                         name="cancel_fund"
-                        states="draft"
+                        invisible="state != 'draft'"
                         string="Cancel"
                     />
                     <button
@@ -56,7 +56,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-warning"
                         icon="fa-undo"
                         name="reset_draft"
-                        states="cancelled"
+                        invisible="state != 'cancelled'"
                         string="Reset to Draft"
                     />
                     <field name="state" widget="statusbar" statusbar_visible="draft,posted,cancelled" />
@@ -65,7 +65,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     class="alert alert-danger"
                     role="alert"
                     style="margin-bottom:0px;"
-                    attrs="{'invisible': [('state', '!=', 'cancelled')]}"
+                    invisible="state != 'cancelled'"
                 >
                     This fund was cancelled on
                     <bold>
@@ -78,14 +78,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <div class="oe_title mb24">
                         <label for="name" string="Reference Number:" />
                         <h2>
-                            <field id="name" name="name" attrs="{'readonly':[('state','!=','draft')]}" />
+                            <field id="name" name="name" readonly="state != 'draft'" />
                         </h2>
                         <h2>
                             <label for="program_id" string="Program:" />
                             <field
                                 name="program_id"
                                 options="{'no_create': True,'no_quick_create':True,'no_edit':True}"
-                                attrs="{'readonly':[('state','!=','draft')]}"
+                                readonly="state != 'draft'"
                                 domain="[('state','=','active')]"
                             />
                         </h2>
@@ -95,7 +95,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 name="company_id"
                                 groups="base.group_multi_company"
                                 options="{'no_create': True}"
-                                attrs="{'readonly':[('state','!=','draft')]}"
+                                readonly="state != 'draft'"
                                 force_save="1"
                             />
                         </div>
@@ -104,19 +104,19 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <field name="journal_id" options="{'no_open':True}" readonly="1" />
                         <field name="edit_css" force_save="1" nolabel="1" />
                         <field name="create_date" string="Date Entered" readonly="1" />
-                        <field name="amount" attrs="{'readonly':[('state','!=','draft')]}" />
+                        <field name="amount" readonly="state != 'draft'" />
                         <field
                             name="currency_id"
                             options="{'no_open':True,'no_quick_create':True,'no_create':True}"
                         />
-                        <field name="remarks" colspan="4" attrs="{'readonly':[('state','!=','draft')]}" />
+                        <field name="remarks" colspan="4" readonly="state != 'draft'" />
                     </group>
                     <group string="Accounting Journal Entry" colspan="4" col="4">
-                        <field name="date_posted" attrs="{'readonly':[('state','!=','draft')]}" />
+                        <field name="date_posted" readonly="state != 'draft'" />
                         <field
                             name="account_move_id"
                             options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                            attrs="{'readonly':[('state','!=','draft')]}"
+                            readonly="state != 'draft'"
                         />
                     </group>
                 </sheet>

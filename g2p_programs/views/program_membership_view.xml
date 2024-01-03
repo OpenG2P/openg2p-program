@@ -20,7 +20,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <field name="program_id" />
                 <field name="enrollment_date" />
                 <field name="exit_date" />
-                <field name="delivery_mechanism_value" invisible="1" />
+                <field name="delivery_mechanism_value" column_invisible="1" />
                 <field
                     name="state"
                     decoration-primary="state=='draft'"
@@ -47,21 +47,21 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         string="Verify Eligibility"
                         class="btn-primary"
-                        states="draft,enrolled"
+                        invisible="state not in ('draft','enrolled')"
                     />
                     <button
                         name="enroll_eligible_registrants"
                         type="object"
                         string="Enroll"
                         class="btn-primary"
-                        states="draft"
+                        invisible="state != 'draft'"
                     />
                     <button
                         name="deduplicate_beneficiaries"
                         type="object"
                         string="Deduplicate"
                         class="btn-primary"
-                        states="draft,enrolled"
+                        invisible="state not in ('draft','enrolled')"
                     />
 
                     <button
@@ -69,7 +69,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         string="Back to draft"
                         class="btn-primary"
-                        states="not_eligible,duplicated"
+                        invisible="state not in ('not_eligible','duplicated')"
                     />
                 </header>
                 <sheet>
@@ -79,37 +79,37 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="web_ribbon"
                         title="DRAFT"
                         bg_color="bg-primary"
-                        attrs="{'invisible': [('state', '!=', 'draft')]}"
+                        invisible="state != 'draft'"
                     />
                     <widget
                         name="web_ribbon"
                         title="ENROLLED"
                         bg_color="bg-success"
-                        attrs="{'invisible': [('state', '!=', 'enrolled')]}"
+                        invisible="state != 'enrolled'"
                     />
                     <widget
                         name="web_ribbon"
                         title="PAUSED"
                         bg_color="bg-warning"
-                        attrs="{'invisible': [('state', '!=', 'paused')]}"
+                        invisible="state != 'paused'"
                     />
                     <widget
                         name="web_ribbon"
                         title="EXITED"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('state', '!=', 'exited')]}"
+                        invisible="state != 'exited'"
                     />
                     <widget
                         name="web_ribbon"
                         title="DUPLICATE"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('state', '!=', 'duplicated')]}"
+                        invisible="state != 'duplicated'"
                     />
                     <widget
                         name="web_ribbon"
                         title="NOT ELIGIBLE"
                         bg_color="bg-danger"
-                        attrs="{'invisible': [('state', '!=', 'not_eligible')]}"
+                        invisible="state != 'not_eligible'"
                     />
                     <div class="oe_title mb24">
                         <label for="partner_id" string="Registrant:" />
@@ -165,7 +165,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         />
                                         <field name="country_id" />
                                         <field name="date_collected" />
-                                        <field name="disabled" invisible="1" />
+                                        <field name="disabled" column_invisible="1" />
                                     </tree>
                                 </field>
                                 <field name="birthdate" colspan="2" />
@@ -199,7 +199,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <tree>
                                         <field
                                             name="source"
-                                            domain="[('is_registrant','=',True),('id','!=',active_id)]"
+                                            domain="[('is_registrant','=',True),('id','!=',id)]"
                                             string="Registrant"
                                         />
                                         <field name="relation" string="Relation" />
@@ -215,7 +215,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <tree>
                                         <field
                                             name="destination"
-                                            domain="[('is_registrant','=',True),('id','!=',active_id)]"
+                                            domain="[('is_registrant','=',True),('id','!=',id)]"
                                             string="Registrant"
                                         />
                                         <field name="relation" string="Relation" />
@@ -227,11 +227,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 </field>
                             </group>
                         </page>
-                        <page
-                            name="group_members"
-                            string="Members of Group"
-                            attrs="{'invisible':[('is_group','!=',True)]}"
-                        >
+                        <page name="group_members" string="Members of Group" invisible="not is_group">
                             <group>
                                 <field name="group_membership_ids" nolabel="1">
                                     <tree>
@@ -250,11 +246,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 </field>
                             </group>
                         </page>
-                        <page
-                            name="individual_groups"
-                            string="Groups"
-                            attrs="{'invisible':[('is_group','!=',False)]}"
-                        >
+                        <page name="individual_groups" string="Groups" invisible="is_group">
                             <group>
                                 <field name="individual_membership_ids" nolabel="1">
                                     <tree>
@@ -277,7 +269,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <field name="program_id" />
                                     <field name="enrollment_date" />
                                     <field name="exit_date" />
-                                    <field name="delivery_mechanism_value" invisible="1" />
+                                    <field name="delivery_mechanism_value" column_invisible="1" />
                                     <field
                                         name="state"
                                         decoration-primary="state=='draft'"
