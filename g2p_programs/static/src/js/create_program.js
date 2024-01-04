@@ -1,48 +1,25 @@
-odoo.define("g2p_programs.create_program_button", function (require) {
-    var core = require("web.core");
-    var ListController = require("web.ListController");
-    var rpc = require("web.rpc");
-    var session = require("web.session");
-    var _t = core._t;
-    ListController.include({
-        renderButtons: function () {
-            this._super.apply(this, arguments);
-            if (this.$buttons) {
-                this.$buttons.find(".o_list_button_add_program").click(this.proxy("load_wizard"));
-            }
-        },
+/** @odoo-module **/
 
-        load_wizard: function () {
-            var self = this;
-            self.do_action({
-                name: "Set Program Settings",
-                type: "ir.actions.act_window",
-                res_model: "g2p.program.create.wizard",
-                views: [[false, "form"]],
-                view_mode: "form",
-                target: "new",
-            });
-            return window.location;
-        },
+import {patch} from "@web/core/utils/patch";
+import {ListController} from "@web/views/list/list_controller";
+import {useService} from "@web/core/utils/hooks";
 
-        load_wizard2: function () {
-            var self = this;
-            var user = session.uid;
-            rpc.query({
-                model: "g2p.program",
-                method: "get_values",
-                args: [[user], {id: user}],
-            }).then(function () {
-                self.do_action({
-                    name: _t("action_invoices"),
-                    type: "ir.actions.act_window",
-                    res_model: "name.name",
-                    views: [[false, "form"]],
-                    view_mode: "form",
-                    target: "new",
-                });
-                return window.location;
-            });
-        },
-    });
+patch(ListController.prototype, {
+    setup() {
+        super.setup();
+        this.action = useService("action");
+    },
+
+    load_wizard() {
+        var self = this;
+        self.action.doAction({
+            name: "Set Program Settings",
+            type: "ir.actions.act_window",
+            res_model: "g2p.program.create.wizard",
+            views: [[false, "form"]],
+            view_mode: "form",
+            target: "new",
+        });
+        return window.location;
+    },
 });

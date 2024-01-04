@@ -42,7 +42,7 @@ class G2PCycle(models.Model):
             # Set all payment management components to invisible
             # if the form was loaded directly via URL.
             if "hide_cash" not in self._context:
-                doc = etree.XML(arch)
+                doc = arch
                 modifiers = json.dumps({"invisible": True})
 
                 prepare_payment_button = doc.xpath("//button[@name='prepare_payment']")
@@ -59,7 +59,7 @@ class G2PCycle(models.Model):
                 payment_batches_page = doc.xpath("//page[@name='payment_batches']")
                 payment_batches_page[0].set("modifiers", modifiers)
 
-                arch = etree.tostring(doc, encoding="unicode")
+                arch = etree.fromstring(etree.tostring(doc, encoding="unicode"))
 
         return arch, view
 
@@ -169,8 +169,12 @@ class G2PCycle(models.Model):
             state = [state]
         for rec in self:
             domain = rec._get_beneficiaries_domain(state)
+            if count:
+                return self.env["g2p.cycle.membership"].search_count(
+                    domain, limit=limit
+                )
             return self.env["g2p.cycle.membership"].search(
-                domain, offset=offset, limit=limit, order=order, count=count
+                domain, offset=offset, limit=limit, order=order
             )
 
     def get_entitlements(

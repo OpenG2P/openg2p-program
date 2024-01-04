@@ -253,8 +253,11 @@ class G2PProgram(models.Model):
         domain = [("program_id", "=", self.id)]
         if state is not None:
             domain.append(("state", "in", state))
+        if count:
+            return self.env["g2p.program_membership"].search_count(domain, limit=limit)
+
         return self.env["g2p.program_membership"].search(
-            domain, offset=offset, limit=limit, order=order, count=count
+            domain, offset=offset, limit=limit, order=order
         )
 
     # TODO: JJ - Review
@@ -391,7 +394,7 @@ class G2PProgram(models.Model):
             account_chart = self.env["account.account"].search(
                 [
                     ("company_id", "=", self.env.company.id),
-                    ("user_type_id.type", "=", "liquidity"),
+                    ("account_type", "=", "asset_cash"),
                 ]
             )
             default_account_id = None

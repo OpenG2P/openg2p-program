@@ -264,7 +264,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         account_chart = self.env["account.account"].search(
             [
                 ("company_id", "=", self.env.company.id),
-                ("user_type_id.type", "=", "liquidity"),
+                ("account_type", "=", "asset_cash"),
             ]
         )
         # Check if code is unique
