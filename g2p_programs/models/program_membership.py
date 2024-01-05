@@ -94,8 +94,7 @@ class G2PProgramMembership(models.Model):
 
         if view_type == "form":
             update_arch = False
-            doc = etree.XML(arch)
-
+            doc = arch
             # Check if we need to change the partner_id domain filter
             target_type = context.get("target_type", False)
             if target_type:
