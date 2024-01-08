@@ -47,22 +47,25 @@ class G2PPaymentManagerCash(models.Model):
 
     # This will just mark all the payments as done when then cash is given out
     def _send_payments(self, batches):
-        _logger.info("DEBUG! send_payments Manager: Payment via CASH")
-        for batch in batches:
-            batch.batch_has_started = True
-            for payment in batch.payment_ids:
-                payment.update(
-                    {
-                        "state": "reconciled",
-                        "status": "paid",
-                        "amount_paid": payment.amount_issued,
-                        "payment_datetime": datetime.utcnow(),
-                    }
-                )
-            batch.batch_has_completed = True
-
-        message = _("Payment files created successfully")
-        kind = "success"
+        if not batches:
+            message = _("No payment batches to process.")
+            kind = "warning"
+        else:
+            _logger.info("DEBUG! send_payments Manager: Payment via CASH")
+            for batch in batches:
+                batch.batch_has_started = True
+                for payment in batch.payment_ids:
+                    payment.update(
+                        {
+                            "state": "reconciled",
+                            "status": "paid",
+                            "amount_paid": payment.amount_issued,
+                            "payment_datetime": datetime.utcnow(),
+                        }
+                    )
+                batch.batch_has_completed = True
+            message = _("Payment files created successfully")
+            kind = "success"
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",

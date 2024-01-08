@@ -206,7 +206,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 context="{'default_program_id':active_id}"
                                 readonly="1"
                             >
-                                <tree>
+                                <tree default_order="id desc">
                                     <button
                                         name="open_cycle_form"
                                         type="object"

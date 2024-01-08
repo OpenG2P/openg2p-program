@@ -10,14 +10,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="priority" eval="170" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='date_approved']/../.." position="after">
-                <group string="Comments">
-                    <field
-                        name="assessment_ids"
-                        nolabel="1"
-                        widget="g2p_assess_widget"
-                        options="{'res_model': 'g2p.entitlement', 'res_id_field': 'id'}"
-                        colspan="4"
-                    />
+                <group string="Assessments">
+                    <t t-if="len(assessment_ids)">
+                        <field
+                            name="assessment_ids"
+                            nolabel="1"
+                            widget="g2p_assess_widget"
+                            options="{'res_model': 'g2p.entitlement', 'res_id_field': 'id', 'show_add_assessments_button':false}"
+                            colspan="4"
+                        />
+                    </t>
                 </group>
             </xpath>
         </field>

@@ -19,17 +19,21 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
     <record id="view_payment_manager_g2p_connect_form" model="ir.ui.view">
         <field name="name">view_payment_manager_g2p_connect_form</field>
         <field name="model">g2p.program.payment.manager.g2p.connect</field>
-        <field name="inherit_id" ref="g2p_programs.view_payment_manager_default_form" />
+        <field name="inherit_id" ref="g2p_payment_files.view_payment_manager_file_form" />
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <group string="Payment Config">
-                    <field name="payment_endpoint_url" string="Payment Endpoint URL" />
+                    <field name="payment_endpoint_url" />
+                    <field name="status_endpoint_url" />
                     <field name="api_timeout" />
-                </group>
-                <group>
-                    <field name="payer_fa" />
-                    <field name="payer_name" />
+                    <field name="status_check_cron_active" string="Status Check Cron Enabled" />
+                    <field name="status_cron_job_interval_minutes" />
+                    <field
+                        name="send_payments_domain"
+                        widget="domain"
+                        options="{'model': 'g2p.payment.batch'}"
+                    />
                 </group>
                 <group>
                     <field name="payee_id_type" />

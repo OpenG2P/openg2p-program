@@ -96,7 +96,9 @@ class G2PCycle(models.Model):
     auto_approve_entitlements = fields.Boolean("Auto-approve entitlements")
 
     # Statistics
-    members_count = fields.Integer(string="# Beneficiaries", readonly=True)
+    members_count = fields.Integer(
+        string="# Beneficiaries", readonly=True, compute="_compute_members_count"
+    )
     entitlements_count = fields.Integer(
         string="# Entitlements", readonly=True, compute="_compute_entitlements_count"
     )
@@ -111,6 +113,14 @@ class G2PCycle(models.Model):
     show_approve_entitlements_button = fields.Boolean(
         compute="_compute_show_approve_entitlement"
     )
+
+    _sql_constraints = [
+        (
+            "unique_cycle_name_program",
+            "UNIQUE(name, program_id)",
+            "Cycle with this name already exists. Please choose a different name.",
+        )
+    ]
 
     def _compute_members_count(self):
         for rec in self:

@@ -83,7 +83,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="send_payment"
                         states="approved"
                         string="Send Payments"
-                        invisible="context.get('hide_cash')"
+                        attrs="{'invisible':['|',('payments_count','=',0)]}"
                     />
                     <button
                         type="object"
@@ -100,6 +100,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="to_approve"
                         string="To Approve"
                         states="draft"
+                        attrs="{'invisible': ['|',('entitlements_count', '=', 0)]}"
                     />
                     <button
                         type="object"
@@ -250,6 +251,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         class="btn-success"
                                     /> -->
                                     <field name="name" />
+                                    <field name="tag_id" />
                                     <field name="external_batch_ref" />
                                     <field name="batch_has_started" />
                                     <field name="batch_has_completed" />
@@ -270,6 +272,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     </div>
                                     <group colspan="4" col="4">
                                         <field name="name" readonly="1" />
+                                        <field name="tag_id" />
                                         <field name="program_id" readonly="1" options="{'no_open':true}" />
                                         <field name="external_batch_ref" />
                                         <field name="batch_has_started" />

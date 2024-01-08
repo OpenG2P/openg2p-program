@@ -1,8 +1,8 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
-import base64
-import csv
+# import base64
+# import csv
+# from io import StringIO
 import logging
-from io import StringIO
 from uuid import uuid4
 
 from odoo import _, api, fields, models
@@ -60,6 +60,20 @@ class BasePaymentManager(models.AbstractModel):
         :return:
         """
         raise NotImplementedError()
+
+    def mark_job_as_done(self, cycle, msg):
+        """
+        Base :meth:`mark_job_as_done`
+        Post a message in the chatter
+
+        :param cycle: A recordset of cycle
+        :param msg: A string to be posted in the chatter
+        :return:
+        """
+        self.ensure_one()
+        cycle.locked = False
+        cycle.locked_reason = None
+        cycle.message_post(body=msg)
 
 
 class DefaultFilePaymentManager(models.Model):
@@ -122,7 +136,10 @@ class DefaultFilePaymentManager(models.Model):
                 payments, batches = self._prepare_payments(cycle, entitlements)
                 if payments:
                     kind = "success"
-                    message = _("%s new payments was issued.", len(payments))
+                    message = _(
+                        "Payment batch successfully created for %s beneficiaries.",
+                        len(payments),
+                    )
                     sticky = False
                 else:
                     kind = "danger"
@@ -225,79 +242,14 @@ class DefaultFilePaymentManager(models.Model):
         )
 
         # Right now this is not divided into subjobs
-        main_job = group(
-            [
-                self.delayable()._prepare_payments(cycle, entitlements),
-            ]
-        )
+        jobs = [
+            self.delayable()._prepare_payments(cycle, entitlements),
+        ]
+        main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_job_as_done(cycle, _("Prepared payments."))
         )
         main_job.delay()
-
-    def _send_payments(self, batches):
-        # Create a payment list (CSV)
-        # _logger.debug("DEBUG! send_payments Manager: DEFAULT")
-        for rec in batches:
-            filename = f"{rec.name}.csv"
-            data = StringIO()
-            csv_writer = csv.writer(data, quoting=csv.QUOTE_MINIMAL)
-            header = [
-                "row_number",
-                "internal_payment_reference",
-                "account_number",
-                "beneficiary_name",
-                "amount",
-                "currency",
-                "details_of_payment",
-            ]
-            csv_writer.writerow(header)
-            for row, payment_id in enumerate(rec.payment_ids):
-                account_number = ""
-                if payment_id.partner_id.bank_ids:
-                    account_number = payment_id.partner_id.bank_ids[0].iban
-                details_of_payment = (
-                    f"{payment_id.program_id.name} - {payment_id.cycle_id.name}"
-                )
-                row = [
-                    row,
-                    payment_id.name,
-                    account_number,
-                    payment_id.partner_id.name,
-                    payment_id.amount_issued,
-                    payment_id.currency_id.name,
-                    details_of_payment,
-                ]
-                csv_writer.writerow(row)
-            csv_data = base64.encodebytes(bytearray(data.getvalue(), "utf-8"))
-            # Attach the generated CSV to payment batch
-            self.env["ir.attachment"].create(
-                {
-                    "name": filename,
-                    "res_model": "g2p.payment.batch",
-                    "res_id": rec.id,
-                    "type": "binary",
-                    "store_fname": filename,
-                    "mimetype": "text/csv",
-                    "datas": csv_data,
-                }
-            )
-            # _logger.debug("DEFAULT Payment Manager: data: %s" % csv_data)
-        message = _("Payment CSV created successfully")
-        kind = "success"
-        return {
-            "type": "ir.actions.client",
-            "tag": "display_notification",
-            "params": {
-                "title": _("Payment"),
-                "message": message,
-                "sticky": True,
-                "type": kind,
-                "next": {
-                    "type": "ir.actions.act_window_close",
-                },
-            },
-        }
 
     def send_payments(self, batches):
         # TODO: Return client action with proper message.
@@ -325,6 +277,76 @@ class DefaultFilePaymentManager(models.Model):
                 },
             }
 
+    def _send_payments(self, batches):
+        # Create a payment list (CSV)
+        # _logger.debug("DEBUG! send_payments Manager: DEFAULT")
+        if not batches:
+            message = _("No payment batches to process.")
+            kind = "warning"
+
+            return {
+                "type": "ir.actions.client",
+                "tag": "display_notification",
+                "params": {
+                    "title": _("Payment"),
+                    "message": message,
+                    "sticky": True,
+                    "type": kind,
+                    "next": {
+                        "type": "ir.actions.act_window_close",
+                    },
+                },
+            }
+        # TODO: Removed CSV Creation part after confirmation with team for timebeing.
+        # else:
+        # for rec in batches:
+        #     filename = f"{rec.name}.csv"
+        #     data = StringIO()
+        #     csv_writer = csv.writer(data, quoting=csv.QUOTE_MINIMAL)
+        #     header = [
+        #         "row_number",
+        #         "internal_payment_reference",
+        #         "account_number",
+        #         "beneficiary_name",
+        #         "amount",
+        #         "currency",
+        #         "details_of_payment",
+        #     ]
+        #     csv_writer.writerow(header)
+        #     for row, payment_id in enumerate(rec.payment_ids):
+        #         account_number = ""
+        #         if payment_id.partner_id.bank_ids:
+        #             account_number = payment_id.partner_id.bank_ids[0].iban
+        #         details_of_payment = (
+        #             f"{payment_id.program_id.name} - {payment_id.cycle_id.name}"
+        #         )
+        #         row = [
+        #             row,
+        #             payment_id.name,
+        #             account_number,
+        #             payment_id.partner_id.name,
+        #             payment_id.amount_issued,
+        #             payment_id.currency_id.name,
+        #             details_of_payment,
+        #         ]
+        #         csv_writer.writerow(row)
+        #     csv_data = base64.encodebytes(bytearray(data.getvalue(), "utf-8"))
+        #     # Attach the generated CSV to payment batch
+        #     self.env["ir.attachment"].create(
+        #         {
+        #             "name": filename,
+        #             "res_model": "g2p.payment.batch",
+        #             "res_id": rec.id,
+        #             "type": "binary",
+        #             "store_fname": filename,
+        #             "mimetype": "text/csv",
+        #             "datas": csv_data,
+        #         }
+        #     )
+        #     # _logger.debug("DEFAULT Payment Manager: data: %s" % csv_data)
+        # message = _("Payment CSV created successfully")
+        # kind = "success"
+
     def _send_payments_async(self, cycle, batches):
         _logger.debug("Send Payments asynchronously")
         cycle.message_post(
@@ -338,11 +360,10 @@ class DefaultFilePaymentManager(models.Model):
         )
 
         # Right now this is not divided into subjobs
-        main_job = group(
-            [
-                self.delayable()._send_payments(batches),
-            ]
-        )
+        jobs = [
+            self.delayable()._send_payments(batches),
+        ]
+        main_job = group(*jobs)
         main_job.on_done(
             self.delayable().mark_job_as_done(cycle, _("Send payments completed."))
         )

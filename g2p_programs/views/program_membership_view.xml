@@ -9,7 +9,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="model">g2p.program_membership</field>
         <field name="priority">1</field>
         <field name="arch" type="xml">
-            <tree default_order='state desc'>
+            <tree default_order='partner_id asc'>
                 <button
                     name="open_registrant_form"
                     type="object"

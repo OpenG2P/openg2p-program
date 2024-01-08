@@ -68,96 +68,98 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
     def _send_payments(self, batches):
         # Transfer to Simple Mpesa
         all_paid_counter = 0
-        _logger.info("DEBUG! send_payments Manager: Simple Mpesa.")
-        for batch in batches:
-            if batch.batch_has_started:
-                continue
-            else:
-                batch.batch_has_started = True
-
-            try:
-                data = {"email": self.username, "password": self.password}
-                headers = {"Content-Type": "application/x-www-form-urlencoded"}
-
-                response = requests.post(
-                    self.auth_endpoint_url,
-                    data=data,
-                    headers=headers,
-                    timeout=self.api_timeout,
-                )
-                response.raise_for_status()
-                response_data = response.json()
-                auth_token = response_data.get("token")
-
-                completed_payments = 0
-
-                for payment in batch.payment_ids:
-                    if payment.state not in ("issued"):
-                        continue
-                    if payment.status == "paid":
-                        continue
-                    payee_id_value = self._get_dfsp_id_and_type(payment)
-                    amount = int(payment.amount_issued)
-                    auth_header = "Bearer " + auth_token
-                    # Define the headers
-                    headers = {
-                        "Authorization": auth_header,
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    }
-                    data = {
-                        "amount": amount,
-                        "accountNo": payee_id_value,
-                        "customerType": self.customer_type,
-                    }
-                    try:
-                        response = requests.post(
-                            self.payment_endpoint_url,
-                            headers=headers,
-                            data=data,
-                            timeout=self.api_timeout,
-                        )
-                        _logger.info(
-                            "MPesa Payment Transfer response: %s", response.content
-                        )
-                        response.raise_for_status()
-
-                        # TODO: Do Status check rather than hardcoding
-                        payment.state = "sent"
-                        payment.status = "paid"
-                        payment.amount_paid = amount
-                        payment.payment_datetime = datetime.utcnow()
-                        completed_payments += 1
-                        all_paid_counter += 1
-                    except Exception as e:
-                        _logger.error("Mpesa Payment Failed with unknown reason", e)
-                        error_msg = (
-                            "Mpesa Payment Failed during transfer with unknown reason"
-                        )
-                        self.message_post(
-                            body=error_msg, subject=_("Mpesa Payment Transfer")
-                        )
-
-                    if completed_payments == len(batch.payment_ids):
-                        batch.batch_has_completed = True
-
-            except Exception as e:
-                _logger.error("Mpesa Payment Failed during authentication", e)
-                error_msg = "Mpesa Payment Failed during authentication"
-                self.message_post(body=error_msg, subject=_("Mpesa Payment Auth"))
-
-        total_payments_counter = sum(len(batch.payment_ids) for batch in batches)
-
-        if all_paid_counter == total_payments_counter:
-            message = _(f"{all_paid_counter} Payments sent successfully")
-            kind = "success"
-        elif all_paid_counter == 0:
-            message = _("Failed to sent payments")
-            kind = "danger"
-        else:
-            message = _(
-                f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}"
-            )
+        if not batches:
+            message = _("No payment batches to process.")
             kind = "warning"
+        else:
+            _logger.info("DEBUG! send_payments Manager: Simple Mpesa.")
+            for batch in batches:
+                if batch.batch_has_started:
+                    continue
+                else:
+                    batch.batch_has_started = True
+
+                try:
+                    data = {"email": self.username, "password": self.password}
+                    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+
+                    response = requests.post(
+                        self.auth_endpoint_url,
+                        data=data,
+                        headers=headers,
+                        timeout=self.api_timeout,
+                    )
+                    response.raise_for_status()
+                    response_data = response.json()
+                    auth_token = response_data.get("token")
+
+                    completed_payments = 0
+
+                    for payment in batch.payment_ids:
+                        if payment.state not in ("issued"):
+                            continue
+                        if payment.status == "paid":
+                            continue
+                        payee_id_value = self._get_dfsp_id_and_type(payment)
+                        amount = int(payment.amount_issued)
+                        auth_header = "Bearer " + auth_token
+                        # Define the headers
+                        headers = {
+                            "Authorization": auth_header,
+                            "Content-Type": "application/x-www-form-urlencoded",
+                        }
+                        data = {
+                            "amount": amount,
+                            "accountNo": payee_id_value,
+                            "customerType": self.customer_type,
+                        }
+                        try:
+                            response = requests.post(
+                                self.payment_endpoint_url,
+                                headers=headers,
+                                data=data,
+                                timeout=self.api_timeout,
+                            )
+                            _logger.info(
+                                "MPesa Payment Transfer response: %s", response.content
+                            )
+                            response.raise_for_status()
+
+                            # TODO: Do Status check rather than hardcoding
+                            payment.state = "sent"
+                            payment.status = "paid"
+                            payment.amount_paid = amount
+                            payment.payment_datetime = datetime.utcnow()
+                            completed_payments += 1
+                            all_paid_counter += 1
+                        except Exception as e:
+                            _logger.error("Mpesa Payment Failed with unknown reason", e)
+                            error_msg = "Mpesa Payment Failed during transfer with unknown reason"
+                            self.message_post(
+                                body=error_msg, subject=_("Mpesa Payment Transfer")
+                            )
+
+                        if completed_payments == len(batch.payment_ids):
+                            batch.batch_has_completed = True
+
+                except Exception as e:
+                    _logger.error("Mpesa Payment Failed during authentication", e)
+                    error_msg = "Mpesa Payment Failed during authentication"
+                    self.message_post(body=error_msg, subject=_("Mpesa Payment Auth"))
+
+            total_payments_counter = sum(len(batch.payment_ids) for batch in batches)
+
+            if all_paid_counter == total_payments_counter:
+                message = _(f"{all_paid_counter} Payments sent successfully")
+                kind = "success"
+            elif all_paid_counter == 0:
+                message = _("Failed to sent payments")
+                kind = "danger"
+            else:
+                message = _(
+                    f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}"
+                )
+                kind = "warning"
 
         return {
             "type": "ir.actions.client",
