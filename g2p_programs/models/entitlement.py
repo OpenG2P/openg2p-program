@@ -28,8 +28,7 @@ class G2PEntitlement(models.Model):
 
     ern = fields.Char(
         compute="_compute_generate_ern",
-        string="ERN",
-        required=True,
+        string="ERN",   
         readonly=True,
         copy=False,
         store=True,
