@@ -10,7 +10,7 @@
                 program_membership_ids.program_id in program_id.reimbursement_program_id.id -->
                 <field
                     name="service_provider_id"
-                    attrs="{'readonly':[('state','!=','draft')]}"
+                    readonly="state != 'draft'"
                     options="{'no_open':True,'no_quick_create':True,'no_create':True}"
                     domain="[('supplier_rank', '>', 0)]"
                 />
@@ -66,10 +66,10 @@
                 <attribute name="string">Service Provider</attribute>
             </field>
             <field name="valid_from" position="attributes">
-                <attribute name="invisible">True</attribute>
+                <attribute name="column_invisible">1</attribute>
             </field>
             <field name="valid_until" position="attributes">
-                <attribute name="invisible">True</attribute>
+                <attribute name="column_invisible">1</attribute>
             </field>
          </field>
     </record>
