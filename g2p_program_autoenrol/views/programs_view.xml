@@ -16,12 +16,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         string="Filter for Partners"
                         widget="domain"
                         options="{'model': 'res.partner'}"
-                        attrs="{'invisible': ['!', ('auto_enrol_partners', '=', True)]}"
+                        invisible="auto_enrol_partners!=True"
                     />
                     <field
                         name="auto_enrol_partners_delete_not_eligible"
                         string="Keep only Eligible Partners"
-                        attrs="{'invisible': ['!', ('auto_enrol_partners', '=', True)]}"
+                        invisible="auto_enrol_partners!=True"
                     />
                 </group>
             </xpath>
