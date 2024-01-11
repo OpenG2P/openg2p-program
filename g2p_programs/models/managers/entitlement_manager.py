@@ -643,7 +643,7 @@ class DefaultCashEntitlementManager(models.Model):
         return (state_err, message)
 
     def open_entitlements_form(self, cycle):
-        self.ensure_one()
+        # self.ensure_one()
         action = {
             "name": _("Cycle Entitlements"),
             "type": "ir.actions.act_window",
