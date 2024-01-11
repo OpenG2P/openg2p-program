@@ -178,7 +178,3 @@ class G2PPaymentBatchTag(models.Model):
     domain = fields.Text(default="[]")
 
     max_batch_size = fields.Integer(default=500)
-
-    _sql_constraints = [
-        ("name_unique", "unique(name)", "The name must be unique!!"),
-    ]
