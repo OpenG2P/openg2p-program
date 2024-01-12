@@ -16,7 +16,6 @@
     ],
     "assets": {
         "web.assets_backend": [],
-        "web.assets_qweb": [],
     },
     "demo": [],
     "images": [],
