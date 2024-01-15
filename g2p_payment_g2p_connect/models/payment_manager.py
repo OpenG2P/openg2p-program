@@ -263,8 +263,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def stop_status_check_cron(self):
         for rec in self:
-            rec.status_check_cron_id.unlink()
-            rec.status_check_cron_id = None
+            if rec.status_check_cron_id:
+                rec.status_check_cron_id.unlink()
+                rec.status_check_cron_id = None
 
     def _get_payee_fa(self, payment):
         self.ensure_one()
