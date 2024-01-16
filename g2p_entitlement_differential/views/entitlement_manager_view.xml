@@ -15,10 +15,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <field name="enable_inflation" />
                             <label for="enable_inflation" string="Enable Inflation" />
                         </div>
-                        <field
-                    name="inflation_rate"
-                    attrs="{'invisible':[('enable_inflation', '=', False)]}"
-                />
+                        <field name="inflation_rate" invisible="not enable_inflation" />
 
                         </xpath>
                         <xpath
