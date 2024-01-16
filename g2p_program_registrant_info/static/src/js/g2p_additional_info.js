@@ -1,56 +1,45 @@
 /** @odoo-module **/
 
-import {FieldText} from "web.basic_fields";
-import field_utils from "web.field_utils";
-import fieldsRegistry from "web.field_registry";
-import {qweb} from "web.core";
+import {_t} from "@web/core/l10n/translation";
+import {markup, registry, useState} from "@odoo/owl";
+import {TextField} from "@web/views/fields/text/text_field";
+import {useService} from "@web/core/utils/hooks";
 
-// eslint-disable-next-line no-undef
-const markup = QWeb2.tools.markup;
+export class G2PAdditionalInfoWidget extends TextField {
+    setup() {
+        super.setup();
+        this.state = useState({recordClicked: false});
+        this.notification = useService("notification");
+    }
 
-field_utils.format.json = function (value) {
-    return JSON.stringify(value, null, 2);
-};
-field_utils.parse.json = function (value) {
-    return JSON.parse(value);
-};
-
-var G2PAdditionalInfoWidget = FieldText.extend({
-    className: "o_field_g2p_addl_info",
-    supportedFieldTypes: ["json", "text", "html"],
-    tagName: "div",
-    _renderReadonly: function () {
+    renderjson() {
         try {
-            let valuesJsonOrig = this.value;
+            const valuesJsonOrig = this.props.record.data.additional_g2p_info;
             if (typeof valuesJsonOrig === "string" || valuesJsonOrig instanceof String) {
-                valuesJsonOrig = JSON.parse(this.value);
+                const parsedValue = JSON.parse(valuesJsonOrig);
+                return parsedValue;
             }
 
             if (Array.isArray(valuesJsonOrig)) {
                 const sectionsJson = {};
-                var self = this;
                 valuesJsonOrig.forEach((element) => {
-                    sectionsJson[element.name] = self.flattenJson(element.data);
+                    sectionsJson[element.name] = this.flattenJson(element.data);
                 });
-                return this.$el.html(
-                    qweb.render("addl_info_template", {
-                        sections: sectionsJson,
-                    })
-                );
+                return sectionsJson;
             }
-
             const valuesJson = this.flattenJson(valuesJsonOrig);
-            return this.$el.html(
-                qweb.render("addl_info_each_table", {
-                    flatJson: valuesJson,
-                })
-            );
+            return valuesJson;
         } catch (err) {
-            console.error(err);
+            this.notification.add(_t("Program Info"), {
+                title: _t("Invalid Json Value"),
+                type: "danger",
+            });
+            this.state.recordClicked = true;
+            return {};
         }
-        return this._super();
-    },
-    flattenJson: function (object) {
+    }
+
+    flattenJson(object) {
         const jsonObject = JSON.parse(JSON.stringify(object));
         for (const key in jsonObject) {
             if (!jsonObject[key]) continue;
@@ -76,12 +65,13 @@ var G2PAdditionalInfoWidget = FieldText.extend({
             }
         }
         return jsonObject;
-    },
-    _isSameValue: function (value) {
-        return _.isEqual(value, this.value);
-    },
-});
+    }
+}
 
-fieldsRegistry.add("g2p_addl_info_widget", G2PAdditionalInfoWidget);
+G2PAdditionalInfoWidget.template = "addl_info_table";
 
-export {G2PAdditionalInfoWidget};
+export const JsonField = {
+    component: G2PAdditionalInfoWidget,
+    supportedTypes: ["json", "text", "html"],
+};
+registry.category("fields").add("g2p_addl_info_widget", G2PAdditionalInfoWidget);
