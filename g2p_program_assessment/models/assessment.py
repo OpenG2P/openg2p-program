@@ -62,7 +62,7 @@ class G2PProgramAssessment(models.Model):
                     "message_type": message_type,
                     "subtype_id": subtype_id or self.env.ref("mail.mt_note").id,
                     "partner_ids": [partner.id for partner in partner_ids],
-                    "add_sign": add_sign,
+                    # "add_sign": add_sign,
                     "record_name": record_name,
                 }
             )
