@@ -13,7 +13,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <button
                     name="prepare_assessment"
                     type="object"
-                    attrs="{'invisible':[('show_prepare_assessment_button', '!=', True)]}"
+                    invisible="not show_prepare_assessment_button"
                     string="Prepare Assessment"
                     class="btn-primary"
                 />
@@ -21,7 +21,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <button
                     name="open_entitlement_form_wizard"
                     type="object"
-                    attrs="{'invisible':[('show_create_entitlement_button', '!=', True)]}"
+                    invisible="not show_create_entitlement_button"
                     string="Create Entitlement"
                     class="btn-primary"
                 />
@@ -29,7 +29,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <button
                     name="reject_application_assessment"
                     type="object"
-                    attrs="{'invisible':[('show_reject_application_assessment_button', '!=', True)]}"
+                    invisible=" not show_reject_application_assessment_button"
                     string="Reject"
                     class="btn-primary"
                     confirm="Are you sure you want to reject this Beneficiary’s application?"
