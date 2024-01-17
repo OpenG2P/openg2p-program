@@ -21,8 +21,6 @@
     "assets": {
         "web.assets_backend": [
             "/g2p_program_documents/static/src/js/preview_document.js",
-        ],
-        "web.assets_qweb": [
             "/g2p_program_documents/static/src/xml/preview_document_view.xml",
         ],
     },
