@@ -5,8 +5,6 @@ from datetime import datetime
 
 from odoo import api, fields, models
 
-from odoo.addons.g2p_json_field.models import json_field
-
 
 class G2PProgramRegistrantInfo(models.Model):
     _name = "g2p.program.registrant_info"
@@ -39,7 +37,7 @@ class G2PProgramRegistrantInfo(models.Model):
         default="active",
     )
 
-    program_registrant_info = json_field.JSONField("Program Information", default={})
+    program_registrant_info = fields.Json("Program Information", default={})
 
     program_membership_id = fields.Many2one(
         "g2p.program_membership", compute="_compute_program_membership", store=True

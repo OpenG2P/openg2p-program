@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='date_approved']/../.." position="after">
             <field name="document_count" invisible='1' />
-                <group string="Supporting Documents" attrs="{ 'invisible':[('document_count','=',0)] }">
+                <group string="Supporting Documents" invisible="document_count == 0">
                     <field name="supporting_document_ids" readonly="1" nolabel="1">
                         <tree default_order="id desc">
                             <field name="tags_ids" widget="many2many_tags" />
