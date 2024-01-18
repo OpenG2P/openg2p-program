@@ -40,6 +40,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-success"
                         icon="fa-money"
                         name="post_fund"
+                        title="Post fund"
                         invisible="state != 'draft'"
                         string="Post"
                     />
@@ -48,6 +49,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-danger"
                         icon="fa-ban"
                         name="cancel_fund"
+                        title="Cancel fund"
                         invisible="state != 'draft'"
                         string="Cancel"
                     />
@@ -56,6 +58,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         class="btn-warning"
                         icon="fa-undo"
                         name="reset_draft"
+                        title="Reset draft"
                         invisible="state != 'cancelled'"
                         string="Reset to Draft"
                     />

@@ -25,8 +25,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <field name="target_type" readonly="1" invisible="1" />
                 </sheet>
                 <footer>
-                    <button name="assign_registrant" string="Assign" type="object" class="oe_highlight" />
-                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                    <button
+                        name="assign_registrant"
+                        string="Assign"
+                        type="object"
+                        class="oe_highlight"
+                        title="Assign"
+                    />
+                    <button string="Cancel" class="btn-secondary" special="cancel" title="Cancel" />
                 </footer>
             </form>
         </field>

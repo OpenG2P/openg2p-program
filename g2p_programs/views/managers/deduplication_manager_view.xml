@@ -24,7 +24,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <form string="Deduplication Manager">
                 <sheet>
-                    <group colspan="4" col="4">
+                    <group>
                         <field
                             name="manager_ref_id"
                             options="{'no_quick_create':True}"

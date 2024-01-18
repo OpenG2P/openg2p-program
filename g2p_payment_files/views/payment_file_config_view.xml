@@ -28,7 +28,7 @@
                         </notebook> -->
                     </page>
                     <page name="qrcodes" string="QR Codes">
-                        <field name="qrcode_config_ids" nolabel="1">
+                        <field name="qrcode_config_ids" nolabel="1" colspan="2">
                             <tree>
                                 <field name="id" />
                                 <field name="name" required="1" />
