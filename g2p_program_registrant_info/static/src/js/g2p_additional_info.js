@@ -4,7 +4,6 @@ import {_t} from "@web/core/l10n/translation";
 import {markup, useState} from "@odoo/owl";
 import {TextField} from "@web/views/fields/text/text_field";
 import {useService} from "@web/core/utils/hooks";
-import {registry} from "@web/core/registry";
 
 export class G2PAdditionalInfoWidget extends TextField {
     setup() {
