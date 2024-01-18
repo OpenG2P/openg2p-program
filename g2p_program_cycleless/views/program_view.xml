@@ -16,17 +16,17 @@
                     string="Create New Cycle"
                     icon="fa-undo"
                     class="btn-primary"
-                    attrs="{'invisible':['!', '&amp;', ('is_cycleless', '!=', True), ('state','=','active')]}"
+                    invisible="not is_cycleless and state == 'active'"
                 />
             </xpath>
             <xpath expr="//field[@name='cycle_ids']/.." position="attributes">
-                <attribute name="attrs">
-                    {'invisible':[('is_cycleless', '=', True)]}
+                <attribute name="invisible">
+                    is_cycleless == True
                 </attribute>
             </xpath>
             <xpath expr="//button[@name='open_cycles_form']" position="attributes">
-                <attribute name="attrs">
-                    {'invisible':[('is_cycleless', '=', True)]}
+                <attribute name="invisible">
+                     is_cycleless == True
                 </attribute>
             </xpath>
             <xpath expr="//header" position="inside">
@@ -38,7 +38,7 @@
                     string="Prepare Payments"
                     icon="fa-file-text-o"
                     class="btn-primary"
-                    attrs="{'invisible':['!', ('show_prepare_payments_button', '=', True)]}"
+                    invisible="not show_prepare_payments_button"
                 />
                 <button
                     name="send_payments_cycleless"
@@ -46,7 +46,7 @@
                     string="Send Payments"
                     icon="fa-thumbs-o-up"
                     class="btn-success"
-                    attrs="{'invisible':['!', ('show_send_payments_button', '=', True)]}"
+                    invisible="not show_send_payments_button"
                 />
             </xpath>
             <xpath expr="//button[@name='open_cycles_form']" position="after">
@@ -55,7 +55,7 @@
                     class="oe_stat_button"
                     icon="fa-folder-open-o"
                     name="open_entitlements_form"
-                    attrs="{'invisible':[('is_cycleless', '!=', True)]}"
+                    invisible="not is_cycleless"
                 >
                     <div class="o_form_field o_stat_info">
                         <field name="entitlements_count" class="o_stat_value" />

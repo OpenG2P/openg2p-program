@@ -55,7 +55,7 @@ class ProxyMeanTestParamsWizard(models.TransientModel):
         ir_model_obj = self.env["ir.model.fields"]
 
         choice = []
-        for field in data.fields_get_keys():
+        for field in data._fields.items():
             ir_model_field = ir_model_obj.search(
                 [("model", "=", "g2p.program.registrant_info"), ("name", "=", field)]
             )

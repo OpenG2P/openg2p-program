@@ -244,6 +244,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 <tree>
                                     <!-- <button
                                         name="open_entitlement_form"
+                                        title="open_entitlement_form"
                                         type="object"
                                         icon="fa-external-link"
                                         class="btn-success"

@@ -1,7 +1,7 @@
-from odoo.tests import common
+from odoo.tests.common import TransactionCase
 
 
-class TestG2PRegistrant(common.TransactionCase):
+class TestG2PRegistrant(TransactionCase):
     def setUp(self):
         super(TestG2PRegistrant, self).setUp()
         self.program = self.env["g2p.program"].create(
@@ -33,6 +33,24 @@ class TestG2PRegistrant(common.TransactionCase):
         )
 
         # Assert no membership created
+        self.assertFalse(
+            self.env["g2p.program_membership"].search(
+                [
+                    ("partner_id", "=", registrant.id),
+                    ("program_id", "=", self.program.id),
+                ]
+            )
+        )
+
+    def test_create_with_enrollment_failure(self):
+        self.program.auto_enrol_partners_domain = (
+            "[('country_id', '=', 234)]"  # Set a non-matching domain
+        )
+        registrant = self.env["res.partner"].create(
+            {"name": "Failed Registrant", "country_id": 233}
+        )
+
+        # Assert no membership created due to enrollment failure
         self.assertFalse(
             self.env["g2p.program_membership"].search(
                 [
