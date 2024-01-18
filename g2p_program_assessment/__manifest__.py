@@ -24,8 +24,6 @@
             "/g2p_program_assessment/static/src/js/g2p_assessment.js",
             "/g2p_program_assessment/static/src/scss/g2p_assessment.scss",
             "/g2p_program_assessment/static/src/js/entitlement_amount_validation.js",
-        ],
-        "web.assets_qweb": [
             "/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml",
         ],
     },

@@ -19,7 +19,8 @@
                         icon="fa-thumbs-o-up"
                         name="generate_vouchers_action"
                         string="Generate Voucher"
-                        attrs="{'invisible': [('show_generate_voucher_button','!=',True)]}"
+                        invisible="not show_generate_voucher_button"
+                        title="generate voucher action"
                     />
                 <button
                         type="object"
@@ -27,7 +28,8 @@
                         icon="fa-print"
                         name="print_voucher_action"
                         string="Print Voucher"
-                        attrs="{'invisible': [('show_print_voucher_button','!=',True)]}"
+                        invisible="not show_generate_voucher_button"
+                        title="print voucher action"
                     />
             </div>
             </xpath>
