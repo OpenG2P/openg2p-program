@@ -49,7 +49,7 @@ class TestG2PAssessmentEntitlement(TransactionCase):
         )
 
     def test_copy_assessments_from_beneficiary(self):
-        previous_entitlement = self.env["g2p.entitlement"].create(
+        self.env["g2p.entitlement"].create(
             {
                 "partner_id": self.partner.id,
                 "program_id": self.program.id,

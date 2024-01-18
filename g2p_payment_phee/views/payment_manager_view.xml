@@ -54,22 +54,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </group>
                     <group colspan="4" col="4" string="Batch Parameters">
                         <field name="create_batch" colspan="2" />
-                        <field
-                            name="max_batch_size"
-                            colspan="2"
-                            attrs="{'invisible':[('create_batch','!=',True)]}"
-                        />
-                        <field
-                            name="make_csv_at_prepare"
-                            colspan="4"
-                            attrs="{'invisible':[('create_batch','!=',True)]}"
-                        />
+                        <field name="max_batch_size" colspan="2" invisible="not create_batch" />
+                        <field name="make_csv_at_prepare" colspan="4" invisible="not create_batch" />
                         <field
                             name="make_csv_at_prepare"
                             colspan="4"
                             string="Get CSV from Attachments"
                             help="Get CSV from Attachments"
-                            attrs="{'invisible':[('create_batch','=',True)]}"
+                            invisible="not create_batch"
                         />
                         <field name="batch_type_header" colspan="2" />
                         <field name="batch_purpose_header" colspan="2" />
@@ -86,8 +78,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <field
                             name="reg_id_type_for_payee_id"
                             string="ID Type for Payee ID"
-                            attrs="{'invisible':[('payee_id_type','!=','reg_id')],
-                                    'required':[('payee_id_type','==','reg_id')]}"
+                            invisible="payee_id_type != 'reg_id'"
+                            required="payee_id_type == 'reg_id'"
                         />
                     </group>
                     <group colspan="4" col="4" string="Authentication Parameters">
