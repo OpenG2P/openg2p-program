@@ -9,10 +9,10 @@ from odoo.exceptions import UserError
 class ProgramFundManagement(models.Model):
     _name = "g2p.program.fund"
     _description = "Program Fund Entries"
-    _inherit = ["mail.thread", "disable.edit.mixin"]
+    _inherit = ["mail.thread"]
     _order = "id desc"
 
-    DISABLE_EDIT_DOMAIN = [("state", "=", "posted")]
+    # DISABLE_EDIT_DOMAIN = [("state", "=", "posted")]
 
     name = fields.Char("Reference Number", required=True, default="Draft")
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company)

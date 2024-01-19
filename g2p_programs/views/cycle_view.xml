@@ -208,23 +208,25 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Enter the cycle name..."
                                 invisible="state != 'draft'"
                             />
-                            <field name="edit_css" force_save="1" nolabel="1" />
+                            <!-- <field name="edit_css" force_save="1" nolabel="1" /> -->
                         </h1>
                     </div>
                     <group>
                         <group>
                             <field
                                 name="program_id"
-                                colspan="4"
                                 invisible="context.get('default_program_id',False)"
                                 readonly="1"
                             />
-                        <field name="locked" invisible="True" />
-                        <field name="locked_reason" invisible="True" />
+                            <field name="locked" invisible="True" />
+                            <field name="locked_reason" invisible="True" />
                         </group>
+                    </group>
+                    <group>
                         <group>
                             <field name="start_date" readonly="state != 'draft'" />
-                            <field name="end_date" readonly="state != 'draft'" />
+                        </group>
+                        <group>
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
@@ -232,6 +234,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 force_save="1"
                                 readonly="state != 'draft'"
                             />
+                            <field name="end_date" readonly="state != 'draft'" />
                         </group>
                     </group>
                     <notebook>

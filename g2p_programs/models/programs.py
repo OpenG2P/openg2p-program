@@ -14,7 +14,7 @@ class G2PProgram(models.Model):
         "mail.thread",
         "mail.activity.mixin",
         "job.relate.mixin",
-        "disable.edit.mixin",
+        # "disable.edit.mixin",
     ]
     _name = "g2p.program"
     _description = "Program"
@@ -30,7 +30,7 @@ class G2PProgram(models.Model):
     MANAGER_PAYMENT = constants.MANAGER_PAYMENT
 
     MANAGER_MODELS = constants.MANAGER_MODELS
-    DISABLE_EDIT_DOMAIN = [("state", "=", "ended")]
+    # DISABLE_EDIT_DOMAIN = [("state", "=", "ended")]
 
     # TODO: Associate a Wallet to each program using the accounting module
     # TODO: (For later) Associate a Warehouse to each program using the stock module for in-kind programs

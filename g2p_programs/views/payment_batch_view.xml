@@ -45,26 +45,34 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <field id="cycle_id" name="cycle_id" readonly="1" options="{'no_open':true}" />
                         </h1>
                     </div>
-                    <group colspan="4" col="4">
-                        <field name="name" readonly="1" />
-                        <field name="program_id" readonly="1" options="{'no_open':true}" />
-                        <field name="external_batch_ref" />
-                        <field name="tag_id" />
-                        <field name="batch_has_started" />
-                        <field name="batch_has_completed" />
+                    <group>
+                        <group>
+                            <field name="name" readonly="1" />
+                            <field name="program_id" readonly="1" options="{'no_open':true}" />
+                            <field name="external_batch_ref" />
+                        </group>
+                        <group>
+                            <field name="tag_id" />
+                            <field name="batch_has_started" />
+                            <field name="batch_has_completed" />
+                        </group>
                     </group>
                     <notebook>
                         <page string="Statistics">
-                            <group colspan="4" col="4">
-                                <field name="stats_datetime" colspan="4" readonly="1" />
-                                <field name="stats_issued_transactions" string="Issued Transaction" />
-                                <field name="stats_issued_amount" string="Issued Amount" />
-                                <field name="stats_sent_transactions" string="Sent Transactions" />
-                                <field name="stats_sent_amount" string="Sent Amount" />
-                                <field name="stats_paid_transactions" string="Paid Transactions" />
-                                <field name="stats_paid_amount" string="Paid Amount" />
-                                <field name="stats_failed_transactions" string="Failed Transactions" />
-                                <field name="stats_failed_amount" string="Failed Amount" />
+                            <group>
+                                <group>
+                                    <field name="stats_datetime" readonly="1" />
+                                    <field name="stats_issued_transactions" string="Issued Transaction" />
+                                    <field name="stats_issued_amount" string="Issued Amount" />
+                                    <field name="stats_sent_transactions" string="Sent Transactions" />
+                                    <field name="stats_sent_amount" string="Sent Amount" />
+                                </group>
+                                <group>
+                                    <field name="stats_paid_transactions" string="Paid Transactions" />
+                                    <field name="stats_paid_amount" string="Paid Amount" />
+                                    <field name="stats_failed_transactions" string="Failed Transactions" />
+                                    <field name="stats_failed_amount" string="Failed Amount" />
+                                </group>
                             </group>
                         </page>
                         <page string="Payments">

@@ -14,9 +14,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <field
                         name="assessment_ids"
                         nolabel="1"
+                        colspan="2"
                         widget="g2p_assess_widget"
                         options="{'res_model': 'g2p.entitlement', 'res_id_field': 'id', 'show_add_assessments_button':false, 'invisible': [('len(assessment_ids)', '=', False)]}"
-                        colspan="4"
                     />
                 </group>
             </xpath>

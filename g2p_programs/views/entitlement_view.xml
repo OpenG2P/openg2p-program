@@ -124,17 +124,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <field name="date_approved" readonly="1" />
                         </group>
                     </group>
-                    <group string="Disbursement" colspan="4" col="4">
-                        <field name="is_cash_entitlement" colspan="4" invisible="1" />
+                    <group string="Disbursement">
+                        <field name="is_cash_entitlement" invisible="1" />
                         <field name="initial_amount" readonly="state != 'draft'" />
                         <field name="transfer_fee" readonly="state != 'draft'" />
-                        <field
-                            name="journal_id"
-                            string="Journal"
-                            options="{'no_open':True}"
-                            colspan="4"
-                            readonly="1"
-                        />
+                        <field name="journal_id" string="Journal" options="{'no_open':True}" readonly="1" />
                         <field
                             name="disbursement_id"
                             options="{'no_open':True}"
@@ -147,8 +141,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             string="Service Fee Entry"
                             readonly="1"
                         />
-                        <field name="payment_status" colspan="4" />
-                        <field name="payment_date" colspan="4" />
+                        <field name="payment_status" />
+                        <field name="payment_date" />
                         <field name="currency_id" invisible="1" />
                     </group>
                 </sheet>

@@ -103,18 +103,21 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             />
                         </div>
                     </div>
-                    <group colspan="4" col="4">
-                        <field name="journal_id" options="{'no_open':True}" readonly="1" />
-                        <field name="edit_css" force_save="1" nolabel="1" />
-                        <field name="create_date" string="Date Entered" readonly="1" />
-                        <field name="amount" readonly="state != 'draft'" />
-                        <field
-                            name="currency_id"
-                            options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                        />
-                        <field name="remarks" colspan="4" readonly="state != 'draft'" />
+                    <group>
+                        <group>
+                            <field name="journal_id" options="{'no_open':True}" readonly="1" />
+                            <field name="create_date" string="Date Entered" readonly="1" />
+                            <group>
+                                <field name="amount" readonly="state != 'draft'" />
+                                <field
+                                    name="currency_id"
+                                    options="{'no_open':True,'no_quick_create':True,'no_create':True}"
+                                />
+                                <field name="remarks" readonly="state != 'draft'" />
+                            </group>
+                        </group>
                     </group>
-                    <group string="Accounting Journal Entry" colspan="4" col="4">
+                    <group string="Accounting Journal Entry">
                         <field name="date_posted" readonly="state != 'draft'" />
                         <field
                             name="account_move_id"
