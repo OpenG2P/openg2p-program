@@ -38,6 +38,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-primary"
                         icon="fa-files-o"
+                        title="Copy beneficiaries from program"
                         name="copy_beneficiaries_from_program"
                         invisible="state != 'draft'"
                         string="Copy Beneficiaries from Program"
@@ -45,6 +46,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         type="object"
                         class="btn-primary"
+                        title="Check eligibility"
                         icon="fa-check-square-o"
                         name="check_eligibility"
                         invisible="state != 'draft'"
@@ -53,6 +55,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         type="object"
                         class="btn-primary"
+                        title="Prepare entitlement"
                         icon="fa-file-text-o"
                         name="prepare_entitlement"
                         invisible="state != 'draft'"
@@ -63,6 +66,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         type="object"
                         class="btn-primary"
+                        title="Validate entitlement"
                         icon="fa-file-text-o"
                         name="validate_entitlement"
                         invisible="state != 'approved' or auto_approve_entitlements or show_approve_entitlements_button"
@@ -72,6 +76,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
+                        title="Prepare payment"
                         name="prepare_payment"
                         string="Prepare Payments"
                         invisible="context.get('hide_cash') or state != 'approved'"
@@ -80,6 +85,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-success"
                         icon="fa-thumbs-o-up"
+                        title="Send payment"
                         name="send_payment"
                         string="Send Payments"
                         invisible="state != 'approved' or payments_count == 0"
@@ -88,6 +94,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-primary"
                         icon="fa-file-text-o"
+                        title="Mark ended"
                         name="mark_ended"
                         invisible="state != 'distributed'"
                         string="Set as Ended"
@@ -96,6 +103,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-success"
                         icon="fa-play"
+                        title="To approve"
                         name="to_approve"
                         string="To Approve"
                         invisible="state != 'draft' or entitlements_count == 0"
@@ -104,6 +112,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-success"
                         icon="fa-thumbs-o-up"
+                        title="Approve"
                         name="approve"
                         string="Approve"
                         invisible="state != 'to_approve'"
@@ -111,6 +120,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         type="object"
                         class="btn-warning"
+                        title="Reset draft"
                         icon="fa-undo"
                         name="reset_draft"
                         string="Reset to Draft"
@@ -132,6 +142,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         name="refresh_page"
                         type="object"
+                        title="Refresh page"
                         class="btn_warning"
                         icon="fa-refresh"
                         string="Refresh"
@@ -139,7 +150,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 </div>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <button type="object" class="oe_stat_button" icon="fa-users" name="open_members_form">
+                        <button
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-users"
+                            name="open_members_form"
+                            title="Open members form"
+                        >
                             <div class="o_form_field o_stat_info">
                                 <field name="members_count" class="o_stat_value" />
                                 <span class="o_stat_text">Beneficiaries</span>
@@ -149,6 +166,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             type="object"
                             class="oe_stat_button"
                             icon="fa-folder-open-o"
+                            title="Open entitlements form"
                             name="open_entitlements_form"
                         >
                             <div class="o_form_field o_stat_info">
@@ -160,6 +178,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             type="object"
                             class="oe_stat_button"
                             icon="fa-folder-open-o"
+                            title="Open payments form"
                             name="open_payments_form"
                             invisible="context.get('hide_cash')"
                         >
@@ -171,6 +190,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <button
                             type="object"
                             class="oe_stat_button"
+                            title="Action view related queue jobs"
                             icon="fa-bars"
                             name="action_view_related_queue_jobs"
                         >
@@ -191,24 +211,28 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <field name="edit_css" force_save="1" nolabel="1" />
                         </h1>
                     </div>
-                    <group colspan="4" col="4">
-                        <field
-                            name="program_id"
-                            colspan="4"
-                            invisible="context.get('default_program_id',False)"
-                            readonly="1"
-                        />
+                    <group>
+                        <group>
+                            <field
+                                name="program_id"
+                                colspan="4"
+                                invisible="context.get('default_program_id',False)"
+                                readonly="1"
+                            />
                         <field name="locked" invisible="True" />
                         <field name="locked_reason" invisible="True" />
-                        <field name="start_date" readonly="state != 'draft'" />
-                        <field name="end_date" readonly="state != 'draft'" />
-                        <field
-                            name="company_id"
-                            groups="base.group_multi_company"
-                            options="{'no_create': True}"
-                            force_save="1"
-                            readonly="state != 'draft'"
-                        />
+                        </group>
+                        <group>
+                            <field name="start_date" readonly="state != 'draft'" />
+                            <field name="end_date" readonly="state != 'draft'" />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                options="{'no_create': True}"
+                                force_save="1"
+                                readonly="state != 'draft'"
+                            />
+                        </group>
                     </group>
                     <notebook>
                         <!-- <page string="Dashboard" name="dashboard">
@@ -240,7 +264,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             string="Payment Batches"
                             invisible="context.get('hide_cash')"
                         >
-                            <field name="payment_batch_ids" nolabel="1" readonly="1">
+                            <field name="payment_batch_ids" nolabel="1" readonly="1" colspan="2">
                                 <tree>
                                     <!-- <button
                                         name="open_entitlement_form"
@@ -269,7 +293,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                             />
                                         </h1>
                                     </div>
-                                    <group colspan="4" col="4">
+                                    <group>
                                         <field name="name" readonly="1" />
                                         <field name="tag_id" />
                                         <field name="program_id" readonly="1" options="{'no_open':true}" />
@@ -279,8 +303,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     </group>
                                     <notebook>
                                         <page string="Statistics">
-                                            <group colspan="4" col="4">
-                                                <field name="stats_datetime" colspan="4" readonly="1" />
+                                            <group>
+                                                <field name="stats_datetime" readonly="1" />
                                                 <field
                                                     name="stats_issued_transactions"
                                                     string="Issued Transaction"
@@ -304,7 +328,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                             </group>
                                         </page>
                                         <page string="Payments">
-                                            <field name="payment_ids" nolabel="1" readonly="1">
+                                            <field name="payment_ids" nolabel="1" readonly="1" colspan="2">
                                                 <tree>
                                                     <field name="name" />
                                                     <field name="partner_id" />
