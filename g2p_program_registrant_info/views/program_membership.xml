@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='entitlement']" position="before">
                 <page name="program_registrant_info" string="Application Info">
-                    <field name="program_registrant_info_ids" readonly="1" nolabel="1">
+                    <field name="program_registrant_info_ids" readonly="1" nolabel="1" colspan="2">
                         <tree default_order="create_date desc">
                             <field name="sl_no" />
                             <field name="program_id" string="Program Name" />
@@ -32,7 +32,7 @@
             </xpath>
             <xpath expr="//page[@name='ids']" position="replace">
                 <page string="Bank Details" name="banks">
-                    <field name="bank_ids" nolabel="1">
+                    <field name="bank_ids" nolabel="1" colspan="2">
                         <tree>
                             <field name="bank_id" />
                             <field name="acc_number" />
@@ -44,7 +44,7 @@
             </xpath>
             <xpath expr="//page[@name='banks']" position="replace">
                 <page string="IDs" name="ids">
-                    <field name="reg_ids" nolabel="1">
+                    <field name="reg_ids" nolabel="1" colspan="2">
                         <tree>
                             <field name="id_type" />
                             <field name="value" string="ID Number" />

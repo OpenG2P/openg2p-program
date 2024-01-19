@@ -33,6 +33,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         type="object"
                         class="btn-success"
                         icon="fa-thumbs-o-up"
+                        title="Send payment"
                         name="send_payment"
                         string="Send Payments"
                     />
@@ -67,7 +68,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </group>
                         </page>
                         <page string="Payments">
-                            <field name="payment_ids" nolabel="1" readonly="1">
+                            <field name="payment_ids" nolabel="1" readonly="1" colspan="2">
                                 <tree>
                                     <field name="name" />
                                     <field name="partner_id" />

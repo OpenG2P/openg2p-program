@@ -24,7 +24,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <form string="Payment Manager">
                 <sheet>
-                    <group colspan="4" col="4">
+                    <group>
                         <field
                             name="manager_ref_id"
                             options="{'no_quick_create':True}"
@@ -89,15 +89,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <div class="o_row">
                         </div>
                     </div>
-                    <group colspan="4" col="4">
+                    <group>
                         <field name="create_batch" />
                         <field
                             name="currency_id"
                             options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                         />
                     </group>
-                    <group name="tagconfig" colspan="4" col="4" invisible="not create_batch">
-                        <field name="batch_tag_ids" invisible="not create_batch">
+                    <group name="tagconfig" invisible="not create_batch">
+                        <field name="batch_tag_ids" invisible="not create_batch" colspan="2">
                             <tree>
                                 <field name="order" widget="handle" />
                                 <field name="name" />

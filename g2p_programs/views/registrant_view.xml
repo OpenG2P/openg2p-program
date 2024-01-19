@@ -14,11 +14,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     string="Programs"
                     groups="g2p_registry_base.group_g2p_registrar,g2p_registry_base.group_g2p_admin"
                 >
-                    <field name="program_membership_ids" readonly="1" nolabel="1">
+                    <field name="program_membership_ids" readonly="1" nolabel="1" colspan="2">
                       <tree>
                           <button
                                 name="open_beneficiaries_form"
                                 type="object"
+                                title="Open beneficiaries form"
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
@@ -44,10 +45,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     string="Cash Entitlements"
                     groups="g2p_registry_base.group_g2p_registrar,g2p_registry_base.group_g2p_admin"
                 >
-                    <field name="entitlement_ids" readonly="1" nolabel="1">
+                    <field name="entitlement_ids" readonly="1" nolabel="1" colspan="2">
                       <tree>
                           <button
                                 name="open_entitlement_form"
+                                title="Open entitlement form"
                                 type="object"
                                 icon="fa-external-link"
                                 class="btn-success"
@@ -78,10 +80,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     string="Programs"
                     groups="g2p_registry_base.group_g2p_registrar,g2p_registry_base.group_g2p_admin"
                 >
-                  <field name="program_membership_ids" readonly="1" nolabel="1">
+                  <field name="program_membership_ids" readonly="1" nolabel="1" colspan="2">
                     <tree>
                         <button
                                 name="open_beneficiaries_form"
+                                title="Open beneficiaries form"
                                 type="object"
                                 icon="fa-external-link"
                                 class="btn-success"
@@ -108,10 +111,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     string="Cash Entitlements"
                     groups="g2p_registry_base.group_g2p_registrar,g2p_registry_base.group_g2p_admin"
                 >
-                  <field name="entitlement_ids" readonly="1" nolabel="1">
+                  <field name="entitlement_ids" readonly="1" nolabel="1" colspan="2">
                     <tree>
                         <button
                                 name="open_entitlement_form"
+                                title="Open entitlement form"
                                 type="object"
                                 icon="fa-external-link"
                                 class="btn-success"

@@ -132,6 +132,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="next_step"
                         string="Next"
                         icon="fa-chevron-right"
+                        title="Next step"
                         type="object"
                         class="btn-warning"
                         invisible="state == 'step2'"
@@ -139,6 +140,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         name="prev_step"
                         string="Back"
+                        title="Prev step"
                         icon="fa-chevron-left"
                         type="object"
                         class="btn-warning"
@@ -147,10 +149,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         name="create_program"
                         string="Create"
+                        title="Create program"
                         type="object"
                         class="oe_highlight btn-primary"
                     />
-                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" title="Cancel" />
                 </footer>
             </form>
         </field>
