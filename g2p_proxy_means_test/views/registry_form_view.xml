@@ -10,12 +10,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="inherit_id" ref="g2p_program_registrant_info.view_individual_registrant_info_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='program_registrant_info_ids']/tree" position="inside">
-                <field name="program_pmt_config" invisible="1" />
-                <field
-                    name="pmt_score"
-                    readonly="1"
-                    attrs="{'invisible': [('program_pmt_config', '=', False)]}"
-                />
+                <field name="program_pmt_config" column_invisible="1" />
+                <field name="pmt_score" readonly="1" invisible="not program_pmt_config" />
             </xpath>
         </field>
     </record>
@@ -27,12 +23,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="inherit_id" ref="g2p_program_registrant_info.view_group_registrant_info_form" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='program_registrant_info_ids']/tree" position="inside">
-                <field name="program_pmt_config" invisible="1" />
-                <field
-                    name="pmt_score"
-                    readonly="1"
-                    attrs="{'invisible': [('program_pmt_config', '=', False)]}"
-                />
+                <field name="program_pmt_config" column_invisible="1" />
+                <field name="pmt_score" readonly="1" invisible="not program_pmt_config" />
             </xpath>
         </field>
     </record>

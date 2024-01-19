@@ -12,10 +12,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <page string="PMT Configuration">
                     <group>
                         <field name="pmt_config" />
-                        <field
-                            name="proxy_means_params_ids"
-                            attrs="{'invisible':[('pmt_config', '=', False)]}"
-                        />
+                        <field name="proxy_means_params_ids" invisible="not pmt_config" />
                     </group>
                 </page>
             </xpath>
