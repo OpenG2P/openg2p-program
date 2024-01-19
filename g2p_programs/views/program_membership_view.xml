@@ -13,6 +13,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <button
                     name="open_registrant_form"
                     type="object"
+                    title="Open registrant form"
                     icon="fa-external-link"
                     class="btn-success"
                 />
@@ -46,12 +47,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         name="verify_eligibility"
                         type="object"
                         string="Verify Eligibility"
+                        title="Verify eligibility"
                         class="btn-primary"
                         invisible="state not in ('draft','enrolled')"
                     />
                     <button
                         name="enroll_eligible_registrants"
                         type="object"
+                        title="Enroll eligible registrants"
                         string="Enroll"
                         class="btn-primary"
                         invisible="state != 'draft'"
@@ -59,6 +62,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         name="deduplicate_beneficiaries"
                         type="object"
+                        title="Deduplicate beneficiaries"
                         string="Deduplicate"
                         class="btn-primary"
                         invisible="state not in ('draft','enrolled')"
@@ -67,6 +71,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         name="Back_to_draft"
                         type="object"
+                        title="Back to draft"
                         string="Back to draft"
                         class="btn-primary"
                         invisible="state not in ('not_eligible','duplicated')"
@@ -152,30 +157,36 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <field name="is_registrant" invisible="1" />
                     <notebook name="registrant_detail">
                         <page name="basic_info" string="Basic Info">
-                            <group col="6" colspan="6">
-                                <field name="address" class="o_address_format" colspan="6" />
-                                <field name="email" widget="email" colspan="3" />
-                                <field name="phone_number_ids" nolabel="1" colspan="3">
-                                    <tree>
-                                        <field
-                                            name="phone_no"
-                                            string="Phone Numbers"
-                                            widget="phone"
-                                            options="{'enable_sms': false}"
-                                        />
-                                        <field name="country_id" />
-                                        <field name="date_collected" />
-                                        <field name="disabled" column_invisible="1" />
-                                    </tree>
-                                </field>
-                                <field name="birthdate" colspan="2" />
-                                <field name="age" colspan="2" />
-                                <field name="birth_place" colspan="2" />
-                                <field name="gender" colspan="6" />
+                            <group>
+                                <group>
+                                    <field name="address" class="o_address_format" />
+                                    <field name="email" widget="email" />
+                                </group>
+                                <group>
+                                    <field name="phone_number_ids" nolabel="1" colspan="2">
+                                        <tree>
+                                            <field
+                                                name="phone_no"
+                                                string="Phone Numbers"
+                                                widget="phone"
+                                                options="{'enable_sms': false}"
+                                            />
+                                            <field name="country_id" />
+                                            <field name="date_collected" />
+                                            <field name="disabled" column_invisible="1" />
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group>
+                                    <field name="birthdate" />
+                                    <field name="age" />
+                                    <field name="birth_place" />
+                                    <field name="gender" />
+                                </group>
                             </group>
                         </page>
                         <page string="Bank Details" name="banks">
-                            <field name="bank_ids" nolabel="1">
+                            <field name="bank_ids" nolabel="1" colspan="2">
                                 <tree>
                                     <field name="bank_id" />
                                     <field name="acc_number" />
@@ -185,7 +196,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </field>
                         </page>
                         <page string="IDs" name="ids">
-                            <field name="reg_ids" nolabel="1">
+                            <field name="reg_ids" nolabel="1" colspan="2">
                                 <tree>
                                     <field name="id_type" />
                                     <field name="value" string="ID Number" />
@@ -194,8 +205,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </field>
                         </page>
                         <page string="Relationships" name="relationships">
-                            <group colspan="4" col="4" string="Registrant is related to:">
-                                <field name="related_1_ids" nolabel="1">
+                            <group string="Registrant is related to:">
+                                <field name="related_1_ids" nolabel="1" colspan="2">
                                     <tree>
                                         <field
                                             name="source"
@@ -210,8 +221,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     </tree>
                                 </field>
                             </group>
-                            <group colspan="4" col="4" string="Others Related to this Registrant:">
-                                <field name="related_2_ids" nolabel="1">
+                            <group string="Others Related to this Registrant:">
+                                <field name="related_2_ids" nolabel="1" colspan="2">
                                     <tree>
                                         <field
                                             name="destination"
@@ -229,7 +240,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </page>
                         <page name="group_members" string="Members of Group" invisible="not is_group">
                             <group>
-                                <field name="group_membership_ids" nolabel="1">
+                                <field name="group_membership_ids" nolabel="1" colspan="2">
                                     <tree>
                                         <field
                                             name="individual"
@@ -248,7 +259,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </page>
                         <page name="individual_groups" string="Groups" invisible="is_group">
                             <group>
-                                <field name="individual_membership_ids" nolabel="1">
+                                <field name="individual_membership_ids" nolabel="1" colspan="2">
                                     <tree>
                                         <field
                                             name="group"
@@ -264,7 +275,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </group>
                         </page>
                         <page name="program" string="Other Programs">
-                            <field name="program_membership_ids" readonly="1" nolabel="1">
+                            <field name="program_membership_ids" readonly="1" nolabel="1" colspan="2">
                                 <tree>
                                     <field name="program_id" />
                                     <field name="enrollment_date" />
@@ -283,7 +294,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             </field>
                         </page>
                         <page name="entitlement" string="Entitlements">
-                            <field name="entitlement_ids" readonly="1" nolabel="1">
+                            <field name="entitlement_ids" readonly="1" nolabel="1" colspan="2">
                                 <tree>
                                     <field name="name" />
                                     <field name="ern" />

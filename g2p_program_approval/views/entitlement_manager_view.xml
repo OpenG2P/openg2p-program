@@ -10,7 +10,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <group string="Approval Settings">
-                    <field name="approval_mapping_ids" nolabel="1" widget="one2many">
+                    <field name="approval_mapping_ids" nolabel="1" widget="one2many" colspan="2">
                         <tree editable="top">
                             <field name="sequence" widget="handle" />
                             <field name="state" string="Stage" />

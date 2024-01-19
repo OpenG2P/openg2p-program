@@ -36,8 +36,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <field
                         name="reg_id_type_for_payee_id"
                         string="ID Type for Payee ID"
-                        attrs="{'invisible':[('payee_id_type','!=','reg_id')],
-                                'required':[('payee_id_type','==','reg_id')]}"
+                        invisible="payee_id_type != 'reg_id'"
+                        required="payee_id_type == 'reg_id'"
                     />
                 </group>
             </xpath>

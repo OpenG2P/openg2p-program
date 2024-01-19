@@ -1,6 +1,7 @@
 /** @odoo-module **/
 
 import {_t} from "@web/core/l10n/translation";
+import {registry} from "@web/core/registry";
 import {markup, useState} from "@odoo/owl";
 import {TextField} from "@web/views/fields/text/text_field";
 import {useService} from "@web/core/utils/hooks";

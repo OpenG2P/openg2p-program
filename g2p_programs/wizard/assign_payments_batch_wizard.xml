@@ -27,10 +27,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         name="assign_payment"
                         string="Assign to Batch"
+                        title="Assign to Batch"
                         type="object"
                         class="oe_highlight"
                     />
-                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                    <button string="Cancel" class="btn-secondary" special="cancel" title="Cancel" />
                 </footer>
             </form>
         </field>

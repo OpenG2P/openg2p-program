@@ -19,7 +19,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <div class="o_row">
                         </div>
                     </div>
-                    <field name="entitlement_ids" nolabel="1">
+                    <field name="entitlement_ids" nolabel="1" colspan="2">
                         <tree create="0" editable="bottom">
                             <field name="cycle_id" invisible="1" />
                             <field name="entitlement_id" invisible="1" />
@@ -40,8 +40,20 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </field>
                 </sheet>
                 <footer>
-                    <button name="approve_entitlements" string="Approve" type="object" class="oe_highlight" />
-                    <button name="close_wizard" string="Cancel" type="object" class="btn-secondary" />
+                    <button
+                        name="approve_entitlements"
+                        string="Approve"
+                        type="object"
+                        class="oe_highlight"
+                        title="Approve entitlement"
+                    />
+                    <button
+                        name="close_wizard"
+                        string="Cancel"
+                        type="object"
+                        class="btn-secondary"
+                        title="Cancel"
+                    />
                     <!-- <button string="Cancel" class="btn-secondary" special="cancel" /> -->
                 </footer>
             </form>
