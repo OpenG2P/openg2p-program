@@ -71,7 +71,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <button
                         name="create_new_cycle"
                         type="object"
-                        title="Create bew cycle"
+                        title="Create new cycle"
                         string="Create New Cycle"
                         icon="fa-undo"
                         class="btn-primary"
@@ -184,7 +184,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 placeholder="Enter the program name..."
                                 readonly="state == 'ended'"
                             />
-                            <field name="edit_css" force_save="1" nolabel="1" />
+                            <!-- <field name="edit_css" force_save="1" nolabel="1" /> -->
                         </h1>
                         <label for="description" string="Description:" />
                         <field name="description" />
@@ -811,26 +811,24 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     </field>
                                 </group>
                             </group>
-                            <group>
-                                <group string="Accounting" name="accounting">
-                                    <group>
-                                        <field
-                                            name="journal_id"
-                                            string="Journal"
-                                            options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                            readonly="state == 'ended'"
-                                        />
-                                    </group>
-                                    <button
-                                        type="object"
-                                        class="btn-primary col-3"
-                                        icon="fa-plus"
-                                        title="Create new journal"
-                                        name="create_journal"
-                                        string="Create New Journal"
-                                        invisible="state != 'active'"
+                            <group string="Accounting" name="accounting">
+                                <group>
+                                    <field
+                                        name="journal_id"
+                                        string="Journal"
+                                        options="{'no_open':True,'no_quick_create':True,'no_create':True}"
+                                        readonly="state == 'ended'"
                                     />
                                 </group>
+                                <button
+                                    type="object"
+                                    class="btn-primary col-2"
+                                    icon="fa-plus"
+                                    title="Create new journal"
+                                    name="create_journal"
+                                    string="Create New Journal"
+                                    invisible="state != 'active'"
+                                />
                             </group>
                         </page>
                         <field name="date_ended" invisible="1" />

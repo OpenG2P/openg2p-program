@@ -15,11 +15,11 @@
                             <field name="application_id" />
                             <field name="state" string="Application Status" />
                             <field name="create_date" string="Date Submitted" />
-                            <field
+                            <!-- <field
                                 name="program_registrant_info"
                                 widget="g2p_addl_info_widget"
                                 invisible="1"
-                            />
+                            /> -->
                             <button
                                 name="open_new_tab"
                                 type="object"

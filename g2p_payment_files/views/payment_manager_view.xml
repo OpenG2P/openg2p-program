@@ -24,7 +24,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <xpath expr="//field[@name='create_batch']/.." position="inside">
                 <field name="file_document_store" />
-                <field name="payment_file_config_ids" colspan="4" invisible="create_batch" />
+                <field name="payment_file_config_ids" invisible="create_batch" />
             </xpath>
             <xpath expr="//field[@name='batch_tag_ids']/tree" position="inside">
                 <field name="render_files_per_payment" />

@@ -94,7 +94,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 readonly="1"
                                 options="{'no_open':true}"
                             />
-                            <field name="edit_css" force_save="1" nolabel="1" />
+                            <!-- <field name="edit_css" force_save="1" nolabel="1" /> -->
                         </h1>
                         <label for="program_id" string="Program:" />
                         <h2>
@@ -106,22 +106,31 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             />
                         </h2>
                     </div>
-                    <group colspan="4" col="4">
-                        <field name="name" readonly="1" />
-                        <field name="entitlement_id" readonly="1" options="{'no_open':true}" />
-                        <field name="account_number" readonly="status in ('paid','failed')" />
-                        <field name="cycle_id" readonly="1" options="{'no_open':true}" />
-                        <field name="batch_id" readonly="1" options="{'no_open':true}" />
-                        <field name="journal_id" string="Journal" options="{'no_open':True}" readonly="1" />
-                        <field
-                            name="company_id"
-                            groups="base.group_multi_company"
-                            options="{'no_create': True}"
-                            force_save="1"
-                            readonly="status in ('paid','failed')"
-                        />
+                    <group>
+                        <group>
+                            <field name="name" readonly="1" />
+                            <field name="entitlement_id" readonly="1" options="{'no_open':true}" />
+                            <field name="account_number" readonly="status in ('paid','failed')" />
+                        </group>
+                        <group>
+                            <field name="cycle_id" readonly="1" options="{'no_open':true}" />
+                            <field name="batch_id" readonly="1" options="{'no_open':true}" />
+                            <field
+                                name="journal_id"
+                                string="Journal"
+                                options="{'no_open':True}"
+                                readonly="1"
+                            />
+                            <field
+                                name="company_id"
+                                groups="base.group_multi_company"
+                                options="{'no_create': True}"
+                                force_save="1"
+                                readonly="status in ('paid','failed')"
+                            />
+                        </group>
                     </group>
-                    <group string="Payment" colspan="4" col="4">
+                    <group string="Payment">
                         <field name="amount_issued" readonly="status in ('paid','failed')" />
                         <field name="issuance_date" readonly="status in ('paid','failed')" />
                         <field name="amount_paid" readonly="status in ('paid','failed')" />

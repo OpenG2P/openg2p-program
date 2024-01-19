@@ -18,7 +18,7 @@ class G2PCycle(models.Model):
         "mail.thread",
         "mail.activity.mixin",
         "job.relate.mixin",
-        "disable.edit.mixin",
+        # "disable.edit.mixin",
     ]
     _name = "g2p.cycle"
     _description = "Cycle"
@@ -31,7 +31,7 @@ class G2PCycle(models.Model):
     STATE_CANCELED = constants.STATE_CANCELLED
     STATE_DISTRIBUTED = constants.STATE_DISTRIBUTED
     STATE_ENDED = constants.STATE_ENDED
-    DISABLE_EDIT_DOMAIN = [("state", "!=", "draft")]
+    # DISABLE_EDIT_DOMAIN = [("state", "!=", "draft")]
 
     def _get_view(self, view_id=None, view_type="form", **options):
         arch, view = super()._get_view(view_id, view_type, **options)

@@ -12,10 +12,10 @@ _logger = logging.getLogger(__name__)
 class G2PPayment(models.Model):
     _name = "g2p.payment"
     _description = "Payment"
-    _inherit = ["disable.edit.mixin"]
+    # _inherit = ["disable.edit.mixin"]
     _order = "id desc"
 
-    DISABLE_EDIT_DOMAIN = [("status", "=", "paid")]
+    # DISABLE_EDIT_DOMAIN = [("status", "=", "paid")]
 
     name = fields.Char(
         "Internal Reference #", default=str(uuid4()), readonly=True, copy=False
