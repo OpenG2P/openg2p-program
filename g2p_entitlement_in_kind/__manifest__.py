@@ -11,6 +11,7 @@
     "depends": ["spp_programs", "spp_entitlement_in_kind", "spp_service_points"],
     "data": [
         "views/cycle_view.xml",
+        "views/entitlement_view.xml",
         "views/inkind_view.xml",
     ],
     "assets": {
