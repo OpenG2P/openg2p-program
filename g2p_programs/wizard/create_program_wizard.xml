@@ -13,21 +13,20 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 </header>
                 <sheet>
                     <!-- STEP 1 -->
-                    <group colspan="4" col="4" invisible="state == 'step2'">
-                        <field name="name" colspan="4" />
+                    <group invisible="state == 'step2'">
+                        <field name="name" />
                         <field name="target_type" widget="radio" options="{'horizontal': true}" />
                         <field
                             name="currency_id"
                             options="{'no_open':True,'no_quick_create':True,'no_create':True}"
                         />
                     </group>
-                    <notebook colspan="4" invisible="state == 'step2'">
+                    <notebook invisible="state == 'step2'">
                         <page string="Configure the Default Eligibility Criteria" name="eligibility">
-                            <group colspan="4" col="4">
+                            <group>
                                 <label for="eligibility_domain" string="FILTER:" />
                                 <field
                                     name="eligibility_domain"
-                                    colspan="4"
                                     widget="domain"
                                     options="{'model': 'res.partner'}"
                                     nolabel="1"
@@ -83,21 +82,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </page>
 
                         <page string="Configure the Entitlement Manager" name="entitlement">
-                            <group colspan="4" col="4">
+                            <group>
                                 <field
                                     name="entitlement_kind"
-                                    colspan="4"
                                     widget="radio"
                                     options="{'horizontal': true}"
                                     string="Entitlement manager"
                                 />
                             </group>
-                            <group
-                                colspan="4"
-                                col="4"
-                                name="default"
-                                invisible="entitlement_kind != 'default'"
-                            >
+                            <group name="default" invisible="entitlement_kind != 'default'">
                                 <field name="amount_per_cycle" />
                                 <field
                                     name="amount_per_individual_in_group"
@@ -108,12 +101,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 <field name="transfer_fee_pct" />
                                 <field name="transfer_fee_amt" />
                             </group>
-                            <group colspan="4" col="4" invisible="auto_approve_entitlements">
+                            <group invisible="auto_approve_entitlements">
                                 <field
                                     name="entitlement_validation_group_id"
                                     options="{'no_open':True,'no_create':True,'no_create_edit':True}"
                                     domain="[('category_id','=',%(g2p_registry_base.openg2p_module)d)]"
-                                    colspan="4"
                                 />
                             </group>
                         </page>

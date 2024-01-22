@@ -2,22 +2,57 @@
 
 import {_t} from "@web/core/l10n/translation";
 import {registry} from "@web/core/registry";
-import {markup, useState} from "@odoo/owl";
+import {markup, onMounted, useExternalListener, useState} from "@odoo/owl";
 import {TextField} from "@web/views/fields/text/text_field";
 import {useService} from "@web/core/utils/hooks";
 
 export class G2PAdditionalInfoWidget extends TextField {
     setup() {
         super.setup();
-        this.state = useState({recordClicked: false});
+        this.state = useState({recordClicked: false, noValue: false});
         this.notification = useService("notification");
+        onMounted(() => this.validateValue());
+        useExternalListener(window, "click", this.onclick);
+        useExternalListener(window, "mouseup", this.onMouseup);
+    }
+
+    validateValue() {
+        const val = this.props.record.data.program_registrant_info;
+
+        if (val) {
+            if ((!(val.charAt(0) === "{") && !(val.charAt(val.length - 1) === "}")) || !val) {
+                this.state.noValue = true;
+            }
+        } else {
+            this.state.noValue = true;
+        }
+    }
+
+    onclick(event) {
+        if (this.editingRecord && event.target.closest(".json-widget")) {
+            this.state.recordClicked = true;
+            this.state.noValue = true;
+        }
+        this.validateValue();
+    }
+
+    onMouseup(ev) {
+        if (!ev.target.closest(".o_field_g2p_addl_info_widget textarea")) {
+            this.state.recordClicked = false;
+            this.state.noValue = false;
+        }
+        this.validateValue();
+    }
+
+    get editingRecord() {
+        return !this.props.readonly;
     }
 
     renderjson() {
         try {
-            const valuesJsonOrig = this.props.record.data.additional_g2p_info;
+            const valuesJsonOrig = this.props.record.data.program_registrant_info;
             if (typeof valuesJsonOrig === "string" || valuesJsonOrig instanceof String) {
-                const parsedValue = JSON.parse(valuesJsonOrig);
+                const parsedValue = this.flattenJson(valuesJsonOrig);
                 return parsedValue;
             }
 
@@ -31,6 +66,7 @@ export class G2PAdditionalInfoWidget extends TextField {
             const valuesJson = this.flattenJson(valuesJsonOrig);
             return valuesJson;
         } catch (err) {
+            console.error(err);
             this.notification.add(_t("Program Info"), {
                 title: _t("Invalid Json Value"),
                 type: "danger",
@@ -41,10 +77,9 @@ export class G2PAdditionalInfoWidget extends TextField {
     }
 
     flattenJson(object) {
-        const jsonObject = JSON.parse(JSON.stringify(object));
+        const jsonObject = JSON.parse(object);
         for (const key in jsonObject) {
             if (!jsonObject[key]) continue;
-
             if (
                 Array.isArray(jsonObject[key]) &&
                 jsonObject[key].length > 0 &&
@@ -71,8 +106,8 @@ export class G2PAdditionalInfoWidget extends TextField {
 
 G2PAdditionalInfoWidget.template = "addl_info_table";
 
-export const JsonField = {
+export const G2PAdditionalInfoWidgets = {
     component: G2PAdditionalInfoWidget,
     supportedTypes: ["json", "text", "html"],
 };
-registry.category("fields").add("g2p_addl_info_widget", G2PAdditionalInfoWidget);
+registry.category("fields").add("g2p_addl_info_widget", G2PAdditionalInfoWidgets);

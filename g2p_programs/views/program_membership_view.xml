@@ -139,19 +139,21 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </h2>
                     </div>
                     <group>
-                        <field name="registrant_id" />
-                        <field
-                            name="tags_ids"
-                            widget="many2many_tags"
-                            string="Tags:"
-                            options="{'color_field': 'color'}"
-                        />
-                    </group>
-                    <group colspan="4" col="4">
-                        <field name="registration_date" readonly="1" />
-                        <field name="enrollment_date" readonly="1" />
-                        <field name="exit_date" />
-                        <field name="delivery_mechanism_value" colspan="4" invisible="1" />
+                        <group>
+                            <field name="registrant_id" />
+                            <field
+                                name="tags_ids"
+                                widget="many2many_tags"
+                                string="Tags:"
+                                options="{'color_field': 'color'}"
+                            />
+                        </group>
+                        <group>
+                            <field name="registration_date" readonly="1" />
+                            <field name="enrollment_date" readonly="1" />
+                            <field name="exit_date" />
+                            <field name="delivery_mechanism_value" colspan="4" invisible="1" />
+                        </group>
                     </group>
                     <field name="is_group" invisible="1" />
                     <field name="is_registrant" invisible="1" />

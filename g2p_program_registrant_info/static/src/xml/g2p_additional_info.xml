@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
     <t t-name="addl_info_table">
-        <t t-if="! state.recordClicked">
+        <t t-if="! state.recordClicked and ! state.noValue">
             <table
                 class="o_group o_inner_group table table-bordered json-widget"
                 border="1"

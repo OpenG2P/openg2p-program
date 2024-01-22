@@ -53,7 +53,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 icon="fa-external-link"
                                 class="btn-success"
                             />
-                            <field name="create_date" invisible="1" />
+                            <field name="create_date" column_invisible="1" />
                             <field name="program_id" />
                             <field name="state" />
                             <field name="program_registrant_info" widget="g2p_addl_info_widget" />
