@@ -1,4 +1,4 @@
-.o_field_g2p_program_assessment {
+.o_field_g2p_assess_widget {
     width: 100%;
     block-size: 100%;
 }
@@ -62,7 +62,7 @@
     margin-bottom: 0.2%;
 }
 
-.o_ComposerTextInput_textareaStyle:not(.o-composer-is-compact) {
+.o-mail-Composer-input:not(.o-composer-is-compact) {
     max-height: 700px;
 }
 
@@ -87,4 +87,7 @@
 }
 .o_ChatterTopbar_buttonAddCommentText {
     color: #e27d21;
+}
+.o_invisible_modifier {
+    display: none !important;
 }

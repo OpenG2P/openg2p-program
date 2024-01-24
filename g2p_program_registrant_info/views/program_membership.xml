@@ -25,6 +25,7 @@
                                 type="object"
                                 icon="fa-external-link"
                                 class="btn-success"
+                                title="Open new tab"
                             />
                         </tree>
                     </field>
@@ -63,8 +64,9 @@
             <xpath expr="//button[@name='deduplicate_beneficiaries']" position="after">
                 <button
                     name="create_program_registrant_info"
+                    title="Create Application"
                     type="object"
-                    string="Create Application"
+                    string="Create application"
                     class="btn-primary"
                     invisible="latest_registrant_info_status in ('active', 'inprogress')"
                 />
