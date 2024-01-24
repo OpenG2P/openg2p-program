@@ -18,9 +18,7 @@
         "views/entitlement_view.xml",
     ],
     "assets": {
-        "web.assets_backend": [
-            "/g2p_payment_cash/static/src/js/payment_refresh.js",
-        ],
+        "web.assets_backend": [],
     },
     "demo": [],
     "images": [],
