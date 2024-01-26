@@ -31,6 +31,3 @@ class G2PDocument(models.Model):
                 "index_content": record.attachment_id.index_content,
                 "url": record.url if record.url else "#",
             }
-
-    def action_preview(self):
-        pass
