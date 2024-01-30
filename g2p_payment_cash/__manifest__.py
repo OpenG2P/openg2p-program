@@ -17,9 +17,7 @@
         "views/payment_manager_view.xml",
         "views/entitlement_view.xml",
     ],
-    "assets": {
-        "web.assets_backend": [],
-    },
+    "assets": {},
     "demo": [],
     "images": [],
     "application": True,

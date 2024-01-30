@@ -6,7 +6,7 @@
                 <div class="o_Message_sidebar">
                     <img
                         t-attf-src="/web/image/res.partner/{{ author_partner_id }}/avatar_128"
-                        class="o_Composer_currentPartnerAvatar rounded-circle"
+                        class="o-mail-Composer-avatar o_avatar rounded"
                     />
                 </div>
                 <div class="o_Composer_core">
@@ -14,7 +14,7 @@
                         <div class="o_ComposerTextInput o_Composer_textInput">
                             <textarea
                                 placeholder="Type your assessment..."
-                                class="o_ComposerTextInput_textarea o_ComposerTextInput_textareaStyle"
+                                class="o_ComposerTextInput_textarea o-mail-Composer-input form-control bg-view px-3 rounded-3 overflow-auto"
                                 oninput="this.style.height = '';this.style.height = this.scrollHeight + 'px'"
                             />
                         </div>
@@ -37,22 +37,12 @@
         <div class="o_Chatter">
             <t t-if="readonly != true">
                 <div class="o_Chatter_fixedPanel">
-                    <div class='o_Composer_header_buttons'>
-                        <t t-if="showAddAssessmentsButton">
-                            <button class="btn o_ChatterTopbar_buttonAddAssess">
-                                <span class="o_ChatterTopbar_buttonAddAssessText"><i class="fa fa-plus" />
-                                    Add Assessment
-                                </span>
-                            </button>
-                        </t>
-                        <t t-if="showAddCommentsButton">
-                            <button class="btn o_ChatterTopbar_buttonAddComment">
-                                <span class="o_ChatterTopbar_buttonAddCommentText"><i class="fa fa-plus" />
-                                    Add Comment
-                                </span>
-                            </button>
-                        </t>
-                    </div>
+                    <button class="btn o_ChatterTopbar_buttonAddAssess" t-on-click="triggerAddAssessment">
+                        <span class="o_ChatterTopbar_buttonAddAssessText"><i class="fa fa-plus" />
+                            <t t-if="resModel == 'g2p.entitlement'">Add Comments</t>
+                            <t t-else="">Add Assessment</t>
+                            </span>
+                    </button>
                     <!-- The following o_Composer will be replaced by above template -->
                     <div class="o_Composer" />
                 </div>
@@ -62,7 +52,7 @@
                     <div class="o_ThreadView_bottomPart d-flex flex-grow-1">
                         <div class="o_ThreadView_core d-flex flex-column flex-grow-1">
                             <div class="o_MessageList o_ThreadView_messageList">
-                                <t t-foreach="assessments" t-as="assess">
+                                <t t-foreach="state.assessments" t-as="assess" t-key="assess_index">
                                     <div
                                         t-att-class="'o_Message o_Message_Assessment o-not-discussion mt-3'+(assess.is_comment?' o_message_highlight':'')"
                                     >
@@ -73,20 +63,23 @@
                                                 >
                                                     <img
                                                         t-attf-src="/web/image/res.partner/{{ assess.author_id }}/avatar_128"
-                                                        class="o_Message_authorAvatar rounded-circle"
+                                                        class="o-mail-Composer-avatar o_avatar rounded"
                                                     />
                                                 </div>
                                             </div>
-                                            <div class="o_Message_core flex-grow-1">
-                                                <div class="o_Message_header">
-                                                    <div class="o_Message_authorName">
+                                            <div class="o-mail-Message-core flex-grow-1">
+                                                <div class="o-mail-Message-header">
+                                                    <div class="o-mail-Message-author">
                                                         <t t-out="assess.author_name" />
                                                     </div>
-                                                    <div class="o_Message_date o_Message_headerDate">
+                                                    <div
+                                                        class="o-mail-Message-date o_Message_headerDate text-muted opacity-75"
+                                                        t-att-class="{ 'me-2': !isAlignedRight }"
+                                                    >
                                                         <t t-out="assess.assessment_date" />
                                                     </div>
                                                 </div>
-                                                <div class="o_Message_content">
+                                                <div class="o-mail-Message-content">
                                                     <div class="o_Message_prettyBody">
                                                         <t t-out="assess.body" />
                                                     </div>

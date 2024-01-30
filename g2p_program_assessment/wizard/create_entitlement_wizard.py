@@ -81,6 +81,11 @@ class G2PEntitlementWizard(models.TransientModel):
         }
 
     def create_entitlement(self):
+        if not self.initial_amount or self.initial_amount <= 0:
+            raise ValidationError(
+                _("Amount cannot be zero or empty or negative.")
+            )
+
         existing_entitlements_count = self.env["g2p.entitlement"].search_count(
             [
                 ("partner_id", "=", self.partner_id.id),
@@ -131,14 +136,16 @@ class G2PEntitlementWizard(models.TransientModel):
         }
 
     def generate_create_entitlement_dict(self):
-        self.ensure_one()
-        return {
-            "cycle_id": self.cycle_id.id,
-            "partner_id": self.partner_id.id,
-            "initial_amount": self.initial_amount,
-            "transfer_fee": self.transfer_fee,
-            "state": "draft",
-            "is_cash_entitlement": True,
-            "valid_from": self.valid_from,
-            "valid_until": self.valid_until,
-        }
+        if self:
+            self.ensure_one()
+            return {
+                "cycle_id": self.cycle_id.id,
+                "partner_id": self.partner_id.id,
+                "initial_amount": self.initial_amount,
+                "transfer_fee": self.transfer_fee,
+                "state": "draft",
+                "is_cash_entitlement": True,
+                "valid_from": self.valid_from,
+                "valid_until": self.valid_until,
+            }
+        return {}

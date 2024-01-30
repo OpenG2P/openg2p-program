@@ -21,6 +21,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 name="open_registrant_form"
                                 type="object"
                                 icon="fa-external-link"
+                                title="Open registrant form"
                                 class="btn-success"
                             />
                             <field name="program_id" />
@@ -51,6 +52,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 name="open_registrant_form"
                                 type="object"
                                 icon="fa-external-link"
+                                title="Open registrant form"
                                 class="btn-success"
                             />
                             <field name="create_date" column_invisible="1" />

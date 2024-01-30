@@ -1,6 +1,8 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
 
+from markupsafe import escape
+
 from odoo import _, api, fields, models
 
 _logger = logging.getLogger(__name__)
@@ -36,8 +38,6 @@ class G2PProgramAssessment(models.Model):
         message_type="comment",
         subtype_id=None,
         partner_ids=None,
-        add_sign=True,
-        record_name="",
     ):
         if not isinstance(res_ids, list):
             res_ids = [
@@ -48,24 +48,20 @@ class G2PProgramAssessment(models.Model):
             self.trigger_application_state_change(res_model, res_id)
             subject = subject or self.compute_subject(res_model, res_id)
             partner_ids = partner_ids or self.compute_partner_ids(res_model, res_id)
-            record_name = (
-                record_name or (partner_ids and partner_ids[0].name) or subject
-            )
             message_dicts.append(
                 {
                     "author_id": self.env.user.partner_id.id,
                     "email_from": f'"{self.env.user.name}" <{self.env.user.email}>',
                     "model": res_model,
                     "res_id": res_id,
-                    "body": body,
+                    "body": escape(body),
                     "subject": subject,
                     "message_type": message_type,
                     "subtype_id": subtype_id or self.env.ref("mail.mt_note").id,
                     "partner_ids": [partner.id for partner in partner_ids],
-                    "add_sign": add_sign,
-                    "record_name": record_name,
                 }
             )
+
         messages = self.env["mail.thread"]._message_create(message_dicts)
 
         assessments = self.create(
