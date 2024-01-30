@@ -13,7 +13,7 @@
                     icon="fa-file-text-o"
                     name="prepare_and_send_payment_cash"
                     string="Record Cash Payment"
-                    attrs="{'invisible': [('show_payment_prepare','!=',True)]}"
+                    invisible="not show_payment_prepare"
                 />
             </xpath>
         </field>
