@@ -5,10 +5,11 @@ from io import BytesIO
 import qrcode
 import qrcode.image.svg
 from barcode import Code128  # pylint: disable=[W7936]
-from jose import jwt  # pylint: disable=[W7936]
+from jose import constants, jwk, jwt
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.addons.g2p_encryption.models.keymanager_api import EncryptionModule, OdooAuth
 
 
 class G2PPaymentFileQRCodeConfig(models.Model):
@@ -105,6 +106,54 @@ class G2PPaymentFileQRCodeConfig(models.Model):
             res_ids,
             engine=template_engine,
         )
+
+        # print("certificate Data:", get_certificate_by_id())
+        # data_to_encrypt = {
+        #     "applicationId": "KERNEL",
+        #     "referenceId": "SIGN",
+        #     "dataToSign": "aGVsbG8gd29ybGQ=",
+        #     "certificateUrl": certificate_data,
+        # }
+        # encrypted_data = keymanager_module_instance.jwt_sign(data_to_encrypt)
+        # print("Encrypted Data:", encrypted_data)
+
+        odoo_token = {
+            "auth_url": "https://keycloak.dev.openg2p.net/realms/openg2p/protocol/openid-connect/token",
+            "auth_client_id": "openg2p-admin-client",
+            "auth_client_secret": "x75SU2hqKQX7IPob",
+            "auth_grant_type": "client_credentials",
+        }
+
+        odoo_auth = OdooAuth(**odoo_token)
+        base_url = "https://dev.openg2p.net/v1/keymanager"
+        keymanager_module_instance = EncryptionModule(base_url, odoo_auth)
+        application_id = "KERNEL"
+        reference_id = "SIGN"
+
+        def get_certificate_by_id():
+            certificate_data = keymanager_module_instance.get_certificate(
+                {
+                    "applicationId": application_id,
+                    "referenceId": reference_id,
+                }
+            )
+            return certificate_data
+
+        certificate_data = get_certificate_by_id()
+        # print("certificate Data:", get_certificate_by_id())
+
+        def jwt_sign_data(data_payload):
+            encrypted_data = keymanager_module_instance.jwt_sign(
+                {
+                    "applicationId": application_id,
+                    "referenceId": reference_id,
+                    "dataToSign": data_payload,
+                    # "certificateUrl": certificate_data,
+                }
+            )
+            # print(f"Encrypted Data: {encrypted_data}")
+            return encrypted_data
+
         if data_type == "string":
             pass
         elif data_type == "json":
@@ -113,12 +162,18 @@ class G2PPaymentFileQRCodeConfig(models.Model):
                 json.loads(datas[res_id])
         elif data_type == "jwt":
             kid = key_set.name
-            priv_key = key_set.priv_key.encode()
+
             for res_id in res_ids:
-                payload = json.loads(datas[res_id])
-                datas[res_id] = jwt.encode(
-                    payload, priv_key, algorithm="RS256", headers={"kid": kid}
-                )
+                # payload = json.dumps(datas[res_id])
+                encoded_payload_value = base64.b64encode(
+                    datas[res_id].encode()
+                ).decode()
+                # print(f"resid: {res_id}")
+                # print(f"datas[resid]: {datas[res_id]}")
+                # print(f"payload: {encoded_payload_value}")
+                datas[res_id] = jwt_sign_data(encoded_payload_value)
+                # print(f"datas[resid]: {datas[res_id]}")
+                # print(f"jwt_sign_data(payload): {jwt_sign_data(payload)}")
         return datas
 
 

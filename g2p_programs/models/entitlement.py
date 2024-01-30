@@ -2,9 +2,10 @@
 import logging
 import random
 from uuid import uuid4
-
+import base64
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.addons.g2p_encryption.models.keymanager_api import EncryptionModule, OdooAuth
 
 from . import constants
 
@@ -28,7 +29,7 @@ class G2PEntitlement(models.Model):
 
     ern = fields.Char(
         compute="_compute_generate_ern",
-        string="ERN",   
+        string="ERN",
         readonly=True,
         copy=False,
         store=True,
@@ -261,3 +262,45 @@ class G2PEntitlement(models.Model):
                     "domain": domain,
                     "target": "current",
                 }
+
+    # def read(self, fields=None, load="_classic_read"):
+    #     odoo_token = {
+    #         "auth_url": "https://keycloak.dev.openg2p.net/realms/openg2p/protocol/openid-connect/token",
+    #         "auth_client_id": "openg2p-admin-client",
+    #         "auth_client_secret": "x75SU2hqKQX7IPob",
+    #         "auth_grant_type": "client_credentials",
+    #     }
+
+    #     odoo_auth = OdooAuth(**odoo_token)
+    #     base_url = "https://dev.openg2p.net/v1/keymanager"
+    #     encryption_module_instance = EncryptionModule(base_url, odoo_auth)
+    #     application_id = "REGISTRATION"
+    #     reference_id = ""
+
+    #     def decrypt_field(field_value):
+    #         decrypted_data = encryption_module_instance.decrypt_data(
+    #             {
+    #                 "applicationId": application_id,
+    #                 "referenceId": reference_id,
+    #                 "data": field_value,
+    #             }
+    #         )
+    #         while len(decrypted_data) % 4 != 0:
+    #             decrypted_data += "="
+    #         decoded_value = base64.b64decode(decrypted_data).decode("utf-8")
+    #         return decoded_value
+
+    #     is_decrypt_fields_enabled = self.env["ir.config_parameter"].get_param(
+    #         "g2p_registry.decrypt_fields", default=False
+    #     )
+    #     records = super(G2PEntitlement, self).read(fields=fields, load=load)
+
+    #     for record in records:
+    #         if is_decrypt_fields_enabled:
+    #             if "partner_id" in record:
+    #                 record["partner_id"] = (
+    #                     decrypt_field(record.get("partner_id"))
+    #                     if record.get("partner_id")
+    #                     else None
+    #                 )
+    #     return records
