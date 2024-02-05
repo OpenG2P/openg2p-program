@@ -1,22 +1,21 @@
 /** @odoo-module **/
-import { useFileViewer } from "@web/core/file_viewer/file_viewer_hook";
-import { Component, xml } from "@odoo/owl";
-import { registry } from "@web/core/registry";
-import { useService } from "@web/core/utils/hooks";
+import {useFileViewer} from "@web/core/file_viewer/file_viewer_hook";
+import {Component, xml} from "@odoo/owl";
+import {registry} from "@web/core/registry";
+import {useService} from "@web/core/utils/hooks";
 
 class Widgetpreview extends Component {
-
     static template = xml`<button class="btn btn-primary" icon="fa-file-text-o" t-on-click="clickPreview">Preview</button>`;
 
-    setup(){
+    setup() {
         super.setup();
         this.fileViewer = useFileViewer();
         this.store = useService("mail.store");
         this.rpc = useService("rpc");
     }
 
-    clickPreview(ev){
-        const currentRow = ev.target.closest('.o_data_row');
+    clickPreview(ev) {
+        const currentRow = ev.target.closest(".o_data_row");
         if (currentRow) {
             const slugElement = currentRow.querySelector('.o_data_cell[name="slug"]');
             if (slugElement) {
@@ -39,7 +38,7 @@ class Widgetpreview extends Component {
     }
 
     async _onPreviewButtonClick(recordID) {
-        const result = await this.rpc("/web/dataset/call_kw/storage.file/get_binary",{
+        const result = await this.rpc("/web/dataset/call_kw/storage.file/get_binary", {
             model: "storage.file",
             method: "get_binary",
             args: [[recordID]],

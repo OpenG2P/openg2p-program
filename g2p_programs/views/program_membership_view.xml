@@ -15,6 +15,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     type="object"
                     title="Open registrant form"
                     icon="fa-external-link"
+                    string="Open registrant form"
                     class="btn-success"
                 />
                 <field name="partner_id" />

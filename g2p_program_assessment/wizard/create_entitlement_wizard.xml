@@ -25,13 +25,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </group>
                 </sheet>
                 <footer>
-                    <button
-                        name="create_entitlement"
-                        type="object"
-                        string="Create"
-                        class="btn-primary"
-                        
-                    />
+                    <button name="create_entitlement" type="object" string="Create" class="btn-primary" />
                     <button string="Cancel" class="btn-secondary" special="cancel" />
                 </footer>
             </form>

@@ -25,6 +25,7 @@
                                 type="object"
                                 icon="fa-external-link"
                                 class="btn-success"
+                                string="Open new tab"
                                 title="Open new tab"
                             />
                         </tree>
