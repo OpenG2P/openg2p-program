@@ -206,7 +206,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 id="name"
                                 name="name"
                                 placeholder="Enter the cycle name..."
-                                invisible="state != 'draft'"
+                                readonly="state != 'draft'"
                             />
                             <!-- <field name="edit_css" force_save="1" nolabel="1" /> -->
                         </h1>
