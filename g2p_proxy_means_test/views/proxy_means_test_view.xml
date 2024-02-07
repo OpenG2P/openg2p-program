@@ -11,8 +11,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <xpath expr="//notebook" position="inside">
                 <page string="PMT Configuration">
                     <group>
-                        <field name="pmt_config" />
-                        <field name="proxy_means_params_ids" invisible="not pmt_config" />
+                        <field name="pmt_config" readonly="state == 'ended'" />
+                        <field
+                            name="proxy_means_params_ids"
+                            invisible="not pmt_config"
+                            readonly="state == 'ended'"
+                        />
                     </group>
                 </page>
             </xpath>

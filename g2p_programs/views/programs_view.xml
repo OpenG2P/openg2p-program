@@ -187,7 +187,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <!-- <field name="edit_css" force_save="1" nolabel="1" /> -->
                         </h1>
                         <label for="description" string="Description:" />
-                        <field name="description" />
+                        <field name="description" readonly="state == 'ended'" />
                         <div class="o_row">
                             <field name="have_members" invisible="1" />
                             <label for="target_type" string="Target Type:" />

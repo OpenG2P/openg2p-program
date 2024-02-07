@@ -16,7 +16,7 @@
                     string="Create New Cycle"
                     icon="fa-undo"
                     class="btn-primary"
-                    invisible="is_cycleless and state == 'active'"
+                    invisible="is_cycleless or state != 'active'"
                 />
             </xpath>
             <xpath expr="//field[@name='cycle_ids']/.." position="attributes">
