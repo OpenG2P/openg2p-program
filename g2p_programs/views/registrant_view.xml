@@ -19,8 +19,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                           <button
                                 name="open_beneficiaries_form"
                                 type="object"
-                                title="Open beneficiaries form"
                                 icon="fa-external-link"
+                                title="Open beneficiaries form"
                                 class="btn-success"
                             />
                           <field name="partner_id" column_invisible="1" />
@@ -49,9 +49,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                       <tree>
                           <button
                                 name="open_entitlement_form"
-                                title="Open entitlement form"
                                 type="object"
                                 icon="fa-external-link"
+                                title="Open entitlement form"
                                 class="btn-success"
                             />
                           <field name="name" />
@@ -115,9 +115,9 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     <tree>
                         <button
                                 name="open_entitlement_form"
-                                title="Open entitlement form"
                                 type="object"
                                 icon="fa-external-link"
+                                title="Open entitlement form"
                                 class="btn-success"
                             />
                         <field name="name" />

@@ -15,8 +15,8 @@
     ],
     "data": [
         "security/ir.model.access.csv",
-        "views/res_config_settings_view.xml",
         "views/payment_manager_view.xml",
+        "views/res_config_settings_view.xml",
     ],
     "assets": {},
     "demo": [],

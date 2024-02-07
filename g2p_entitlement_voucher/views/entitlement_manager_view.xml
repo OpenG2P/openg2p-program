@@ -40,7 +40,7 @@
                                         type="object"
                                         icon="fa-external-link"
                                         class="oe_stat_button"
-                                        titile="open voucher config form"
+                                        title="Open voucher config form"
                                     />
                                 </td>
                             </tr>

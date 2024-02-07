@@ -27,14 +27,15 @@ class G2PProgramMembership(models.Model):
 
     @api.constrains("partner_id", "program_id")
     def _onchange_program_registrant_info(self):
-        old_prog_reg_infos = self.env["g2p.program.registrant_info"].search(
-            [
-                ("registrant_id", "=", self.partner_id.id),
-                ("program_id", "=", self.program_id.id),
-                ("program_membership_id", "!=", self.id),
-            ]
-        )
-        old_prog_reg_infos.write({"program_membership_id": self.id})
+        for rec in self:
+            old_prog_reg_infos = self.env["g2p.program.registrant_info"].search(
+                [
+                    ("registrant_id", "=", rec.partner_id.id),
+                    ("program_id", "=", rec.program_id.id),
+                    ("program_membership_id", "!=", rec.id),
+                ]
+            )
+            old_prog_reg_infos.write({"program_membership_id": rec.id})
 
     def create_program_registrant_info(self):
         self.ensure_one()

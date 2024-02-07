@@ -12,27 +12,46 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <xpath expr="//form" position="inside">
                 <app
                     string="Payment Hub EE API"
-                    data-key="g2p_payment_phee"
+                    name="g2p_payment_phee"
+                    data-string="Payment Hub EE API"
+                    id="g2p_payment_phee"
+                    logo="/g2p_payment_phee/static/description/icon.png"
                     groups="base.group_system,g2p_registry_base.group_g2p_admin"
                 >
                     <block title="Payment Hub EE API Endpoint URLs">
-                        <setting
-                            name="default_auth_endpoint_url"
-                            title="Default authentication endpoint URL"
-                        />
-                        <setting name="default_payment_endpoint_url" title="Default payment endpoint URL" />
-                        <setting name="default_status_endpoint_url" title="Default status endpoint URL" />
-                        <setting name="default_details_endpoint_url" title="Default details endpoint URL" />
+                        <setting title="Default authentication endpoint URL">
+                            <field name="default_auth_endpoint_url" />
+                        </setting>
+                        <setting title="Default payment endpoint URL">
+                            <field name="default_payment_endpoint_url" />
+                        </setting>
+                        <setting title="Default status endpoint URL">
+                            <field name="default_status_endpoint_url" />
+                        </setting>
+                        <setting title="Default details endpoint URL">
+                            <field name="default_details_endpoint_url" />
+                        </setting>
                     </block>
 
                     <block title="Authentication Parameters">
-                        <setting name="default_tenant_id" title="Default tenant ID" />
-                        <setting name="default_username" title="Default username" />
-                        <setting name="default_password" title="Default password" password="True" />
-                        <setting name="default_grant_type" title="Default grant type" password="True" />
-                        <setting name="default_authorization" title="Default authorization" />
+                        <setting title="Default tenant ID">
+                            <field name="default_tenant_id" />
+                        </setting>
+                        <setting title="Default username">
+                            <field name="default_username" />
+                        </setting>
+                        <setting title="Default password">
+                            <field name="default_password" password="True" />
+                        </setting>
+                        <setting title="Default grant type">
+                            <field name="default_grant_type" password="True" />
+                        </setting>
+                        <setting title="Default authorization">
+                            <field name="default_authorization" />
+                        </setting>
                     </block>
                 </app>
+
             </xpath>
         </field>
     </record>
