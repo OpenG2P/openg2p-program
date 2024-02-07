@@ -11,7 +11,8 @@
     "depends": [
         "g2p_programs",
         "g2p_program_documents",
-        "g2p_programs_rest_api",
+        # "g2p_programs_rest_api",
+        "fastapi",
         "mail",
     ],
     "external_dependencies": {
@@ -32,6 +33,7 @@
         "views/payment_batch_tag_view.xml",
         "views/payment_manager_view.xml",
         "views/payment_view.xml",
+        "data/fastapi_endpoint.xml",
     ],
     "assets": {},
     "demo": [],

@@ -1,1 +1,1 @@
-from . import payments
+from . import well_known
