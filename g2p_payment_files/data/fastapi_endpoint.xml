@@ -1,0 +1,9 @@
+<odoo>
+    <!--  -->
+    <record id="fastapi_endpoint_data" model="fastapi.endpoint">
+        <field name="name">payment</field>
+        <field name="app">payment</field>
+        <field name="root_path">/apiv1payment</field>
+        <!-- <field name="registry_sync" eval="obj()._add_after_commit_hook([obj().id]) and False"/> -->
+    </record>
+</odoo>
