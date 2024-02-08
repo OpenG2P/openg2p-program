@@ -203,9 +203,7 @@ class G2PCycle(models.Model):
             domain += [("state", "in", state)]
 
         if count:
-            return self.env["g2p.cycle.membership"].search_count(
-                domain, offset=offset, limit=limit
-            )
+            return self.env["g2p.cycle.membership"].search_count(domain, limit=limit)
         return self.env[entitlement_model].search(
             domain, offset=offset, limit=limit, order=order
         )
