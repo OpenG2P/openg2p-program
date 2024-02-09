@@ -1,13 +1,13 @@
 {
     "name": """OpenG2P Import: DCI API""",
     "summary": """RESTful API routes for OpenG2P""",
-    "category": "",
+    "category": "G2P",
     "version": "15.0.1.1.0",
     "author": "OpenG2P",
     "development_status": "Alpha",
     "external_dependencies": {"python": ["PyLD", "pyjwt>=2.4.0"]},
     "website": "https://openg2p.org",
-    "license": "LGPL-3",
+    "license": "Other OSI approved licence",
     "depends": [
         "base",
         "g2p_programs",
