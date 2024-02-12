@@ -19,8 +19,6 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
     _name = "g2p.fetch.social.registry.beneficiary"
     _description = "Fetch Social Registry Beneficiary"
 
-    MAX_REGISTRANT_IN_FETCH = 150
-
     data_source_id = fields.Many2one("spp.data.source", required=True)
 
     name = fields.Char("Search Criteria Name", required=True)
@@ -73,11 +71,13 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         url = self.data_source_id.url
         auth_path = paths.get(constants.DATA_SOURCE_AUTH_PATH_NAME)
 
-        return f"{url}{auth_path}"
+        if auth_path.lstrip().startswith("/"):
+            return f"{url}{auth_path}"
+
+        else:
+            return auth_path
 
     def get_auth_token(self, auth_url):
-
-        headers = self.get_headers_for_request()
 
         grant_type = (
             self.env["ir.config_parameter"]
@@ -94,20 +94,29 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             .sudo()
             .get_param("social_registry_client_secret")
         )
-        db_name = (
-            self.env["ir.config_parameter"].sudo().get_param("social_registry_db_name")
+        username = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("social_registry_user_name")
+        )
+        password = (
+            self.env["ir.config_parameter"]
+            .sudo()
+            .get_param("social_registry_user_password")
         )
 
         data = {
             "grant_type": grant_type,
             "client_id": client_id,
             "client_secret": client_secret,
-            "db_name": db_name,
+            "username": username,
+            "password": password,
         }
+
         response = requests.post(
             auth_url,
-            headers=headers,
-            data=json.dumps(data),
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+            data=data,
             timeout=constants.REQUEST_TIMEOUT,
         )
 
@@ -355,10 +364,10 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
     def process_registrants_async(self, partners, count):
         _logger.warning("Fetching Registrant Asynchronously!")
         jobs = []
-        for i in range(0, count, self.MAX_REGISTRANT_IN_FETCH):
+        for i in range(0, count, constants.MAX_REGISTRANT):
             jobs.append(
                 self.delayable().process_registrants(
-                    partners[i : i + self.MAX_REGISTRANT_IN_FETCH]
+                    partners[i : i + constants.MAX_REGISTRANT]
                 )
             )
         main_job = group(*jobs)
@@ -425,11 +434,12 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             timeout=constants.REQUEST_TIMEOUT,
         )
 
+        sticky = False
+
         # Process response
         if response.ok:
             kind = "success"
             message = _("Successfully Imported Social Registry Beneficiaries")
-            sticky = False
 
             search_responses = (
                 response.json().get("message", {}).get("search_response", [])
@@ -443,7 +453,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                 total_partners_count = reg_record.get("totalRegistrantCount", "")
 
                 if total_partners_count:
-                    if total_partners_count < self.MAX_REGISTRANT_IN_FETCH:
+                    if total_partners_count < constants.MAX_REGISTRANT:
                         self.process_registrants(partners)
 
                     else:
