@@ -235,9 +235,9 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         family_name = record.get("familyName", "")
         given_name = record.get("givenName", "")
         addl_name = record.get("middleName", "")
-        gender = record.get("gender", "")
-        birth_date = record.get("birthDate", "")
-        is_group = record.get("isGroup", "")
+        gender = record.get("gender", None)
+        birth_date = record.get("birthdate", None)
+        is_group = record.get("isGroup", None)
 
         vals = {
             "name": name,
