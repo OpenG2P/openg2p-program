@@ -5,10 +5,10 @@ from io import BytesIO
 import qrcode
 import qrcode.image.svg
 from barcode import Code128  # pylint: disable=[W7936]
-from jose import constants, jwk, jwt
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+
 from odoo.addons.g2p_encryption.models.keymanager_api import EncryptionModule, OdooAuth
 
 
@@ -139,7 +139,7 @@ class G2PPaymentFileQRCodeConfig(models.Model):
             )
             return certificate_data
 
-        certificate_data = get_certificate_by_id()
+        get_certificate_by_id()
         # print("certificate Data:", get_certificate_by_id())
 
         def jwt_sign_data(data_payload):
@@ -161,7 +161,7 @@ class G2PPaymentFileQRCodeConfig(models.Model):
                 # the following should throw exception if not json
                 json.loads(datas[res_id])
         elif data_type == "jwt":
-            kid = key_set.name
+            key_set.name
 
             for res_id in res_ids:
                 # payload = json.dumps(datas[res_id])

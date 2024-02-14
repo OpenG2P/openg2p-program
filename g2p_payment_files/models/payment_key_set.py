@@ -147,19 +147,9 @@
 # #a certificate contains public key but signed by private key
 
 
-import base64
-import json
 import uuid
-from datetime import datetime, timedelta
-from urllib.parse import urlparse
 
-from cryptography import x509
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import rsa
-from cryptography.x509.oid import NameOID
 from jose import constants, jwk  # pylint: disable=[W7936]
-from odoo.addons.g2p_encryption.models.keymanager_api import EncryptionModule, OdooAuth
-
 
 from odoo import api, fields, models
 

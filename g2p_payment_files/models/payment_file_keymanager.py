@@ -1,13 +1,13 @@
-
 import uuid
+
 from odoo import api, fields, models
+
 
 class G2PCryptoKeySet(models.Model):
     _name = "g2p.crypto.key.set"
     _description = "G2P Crypto Key Set"
 
     _order = "id desc"
-
 
     # name = fields.Char(string="kid", required=True)
 
@@ -57,6 +57,7 @@ class G2PCryptoKeySet(models.Model):
             "Name/KID of the key set should be unique",
         ),
     ]
+
     @api.model
     def create(self, values):
         if not values.get("name", None):
@@ -67,14 +68,14 @@ class G2PCryptoKeySet(models.Model):
     # def _compute_priv_key(self):
     #     for rec in self:
     #         if rec.type == "rsa":
-    #             priv_key_data = self.get_encryption_public_key()  
+    #             priv_key_data = self.get_encryption_public_key()
     #             rec.priv_key = priv_key_data.get("private_key")
 
     # @api.depends("priv_key")
     # def _compute_pub_cert(self):
     #     for rec in self:
     #         if rec.type == "rsa":
-    #             pub_key_data = self.get_signing_public_key() 
+    #             pub_key_data = self.get_signing_public_key()
     #             rec.pub_cert = pub_key_data.get("public_key")
 
     # def get_signing_public_key(self):

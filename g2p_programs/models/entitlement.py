@@ -2,10 +2,9 @@
 import logging
 import random
 from uuid import uuid4
-import base64
+
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from odoo.addons.g2p_encryption.models.keymanager_api import EncryptionModule, OdooAuth
 
 from . import constants
 
