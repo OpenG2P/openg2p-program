@@ -8,9 +8,11 @@
     "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "depends": ["spp_programs", "spp_entitlement_in_kind"],
+    "depends": ["spp_programs", "spp_entitlement_in_kind", "spp_service_points"],
     "data": [
-        "views/in_kind.xml",
+        "views/cycle_view.xml",
+        "views/entitlement_view.xml",
+        "views/inkind_view.xml",
     ],
     "assets": {
         "web.assets_backend": [],
