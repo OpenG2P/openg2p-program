@@ -203,50 +203,52 @@ class G2PCryptoKeySet(models.Model):
         if not values.get("name", None):
             values["name"] = str(uuid.uuid4())
         return super(G2PCryptoKeySet, self).create(values)
-    @api.depends( "use")
-    def _compute_jwk(self):
-        odoo_token = {
-            "auth_url": "https://keycloak.dev.openg2p.net/realms/openg2p/protocol/openid-connect/token",
-            "auth_client_id": "openg2p-admin-client",
-            "auth_client_secret": "x75SU2hqKQX7IPob",
-            "auth_grant_type": "client_credentials",
-        }
 
-        odoo_auth = OdooAuth(**odoo_token)
-        base_url = "https://dev.openg2p.net/v1/keymanager"
-        keymanager_module_instance = EncryptionModule(base_url, odoo_auth)
-        application_id = "KERNEL"
-        reference_id = "SIGN"
+    # @api.depends("use")
+    # def _compute_jwk(self):
+    #     odoo_token = {
+    #         "auth_url": "https://keycloak.dev.openg2p.net/realms/openg2p/protocol/openid-connect/token",
+    #         "auth_client_id": "openg2p-admin-client",
+    #         "auth_client_secret": "x75SU2hqKQX7IPob",
+    #         "auth_grant_type": "client_credentials",
+    #     }
 
-        def get_certificate_by_id():
-            certificate_data = keymanager_module_instance.get_certificate(
-                {
-                    "applicationId": application_id,
-                    "referenceId": reference_id,
-                }
-            )
-            return certificate_data
+    #     odoo_auth = OdooAuth(**odoo_token)
+    #     base_url = "https://dev.openg2p.net/v1/keymanager"
+    #     keymanager_module_instance = EncryptionModule(base_url, odoo_auth)
+    #     application_id = "KERNEL"
+    #     reference_id = "SIGN"
 
-        print("certificate Data:", get_certificate_by_id())
+    #     def get_certificate_by_id():
+    #         certificate_data = keymanager_module_instance.get_certificate(
+    #             {
+    #                 "applicationId": application_id,
+    #                 "referenceId": reference_id,
+    #             }
+    #         )
+    #         return certificate_data
 
-        for key_set in self:
-            certificate = get_certificate_by_id()
-            cert_x5c = base64.b64encode(
-                certificate.public_bytes(serialization.Encoding.DER)
-            ).decode()
-            pub_key = certificate.public_key()
-            # TODO: For now hardcoding alogrithm
-            pub_key_jwk = jwk.RSAKey(
-                algorithm=constants.ALGORITHMS.RS256,
-                key=pub_key.public_bytes(
-                    encoding=serialization.Encoding.PEM,
-                    format=serialization.PublicFormat.SubjectPublicKeyInfo,
-                ).decode(),
-            ).to_dict()
-            pub_key_jwk["kid"] = key_set.name
-            pub_key_jwk["use"] = key_set.use
-            pub_key_jwk["x5c"] = [cert_x5c]
-            key_set.jwk = json.dumps(pub_key_jwk)
+    #     print("certificate Data:", get_certificate_by_id())
+
+    #     for key_set in self:
+    #         certificate_data = get_certificate_by_id()
+    #         cert_x5c = base64.b64encode(
+    #             certificate_data.get("public_bytes", b"")
+    #         ).decode()
+
+    #         # Replace the following lines with actual data from certificate_data
+    #         pub_key_pem = certificate_data.get("public_key_pem", "")
+    #         algorithm = constants.ALGORITHMS.RS256
+
+    #         pub_key_jwk = jwk.RSAKey(
+    #             algorithm=algorithm,
+    #             key=pub_key_pem,
+    #         ).to_dict()
+
+    #         pub_key_jwk["kid"] = key_set.name
+    #         pub_key_jwk["use"] = key_set.use
+    #         pub_key_jwk["x5c"] = [cert_x5c]
+    #         key_set.jwk = json.dumps(pub_key_jwk)
 
 
 # a certificate contains public key but signed by private key
