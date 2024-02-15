@@ -9,7 +9,7 @@ _logger = logging.getLogger(__name__)
 class ProgramTest(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(ProgramTest, cls).setUpClass()
+        super().setUpClass()
 
         # Initial Setup of Variables
         cls.registrant_1 = cls.env["res.partner"].create(
@@ -64,16 +64,14 @@ class ProgramTest(TransactionCase):
             {"program_membership_ids": [(0, 0, {"partner_id": cls.registrant_1.id})]}
         )
         _logger.info(
-            "Program 1: %s Members: %s"
-            % (cls.program_1.name, len(cls.program_1.program_membership_ids))
+            f"Program 1: {cls.program_1.name} Members: {len(cls.program_1.program_membership_ids)}"
         )
 
         cls.program_2.write(
             {"program_membership_ids": [(0, 0, {"partner_id": cls.group_1.id})]}
         )
         _logger.info(
-            "Program 2: %s Members: %s"
-            % (cls.program_2.name, len(cls.program_2.program_membership_ids))
+            f"Program 2: {cls.program_2.name} Members: {len(cls.program_2.program_membership_ids)}"
         )
 
         # Enroll Beneficiaries
@@ -86,8 +84,7 @@ class ProgramTest(TransactionCase):
         )
         cls.cycle1.copy_beneficiaries_from_program()
         _logger.info(
-            "%s Cycle: %s Beneficiaries: %s"
-            % (
+            "{} Cycle: {} Beneficiaries: {}".format(
                 cls.cycle1.program_id.name,
                 cls.cycle1.name,
                 len(cls.cycle1.cycle_membership_ids),
@@ -99,8 +96,7 @@ class ProgramTest(TransactionCase):
         )
         cls.cycle2.copy_beneficiaries_from_program()
         _logger.info(
-            "%s Cycle: %s Beneficiaries: %s"
-            % (
+            "{} Cycle: {} Beneficiaries: {}".format(
                 cls.cycle2.program_id.name,
                 cls.cycle2.name,
                 len(cls.cycle2.cycle_membership_ids),
@@ -110,26 +106,20 @@ class ProgramTest(TransactionCase):
     # TODO: Fix error in def test_01_cycle_prepare_entitlement(self):
     def cycle_prepare_entitlement(self):
         self.cycle1.prepare_entitlement()
-        message1 = (
-            "Program Testing: Program: %s, Cycle: %s, Preparing Entitlements FAILED (EXPECTED %s but RESULT is %s)"
-            % (
-                self.program_1.name,
-                self.cycle1.name,
-                1,
-                len(self.cycle1.entitlement_ids),
-            )
+        message1 = "Program Testing: Program: {}, Cycle: {}, Preparing Entitlements FAILED (EXPECTED {} but RESULT is {})".format(
+            self.program_1.name,
+            self.cycle1.name,
+            1,
+            len(self.cycle1.entitlement_ids),
         )
         self.assertEqual(len(self.cycle1.entitlement_ids), 1, message1)
 
         self.cycle2.prepare_entitlement()
-        message2 = (
-            "Program Testing: Program: %s, Cycle: %s, Preparing Entitlements FAILED (EXPECTED %s but RESULT is %s)"
-            % (
-                self.program_2.name,
-                self.cycle2.name,
-                1,
-                len(self.cycle2.entitlement_ids),
-            )
+        message2 = "Program Testing: Program: {}, Cycle: {}, Preparing Entitlements FAILED (EXPECTED {} but RESULT is {})".format(
+            self.program_2.name,
+            self.cycle2.name,
+            1,
+            len(self.cycle2.entitlement_ids),
         )
         self.assertEqual(len(self.cycle2.entitlement_ids), 1, message2)
         # Check if entitlements_count compute is computing as expected
@@ -165,28 +155,24 @@ class ProgramTest(TransactionCase):
         approver.approver_group_id = group
 
         self.cycle1.to_approve()
-        message1 = (
-            "Program Testing: Program: %s, Cycle: %s, Setting State 'to_approve' FAILED (EXPECTED %s but RESULT is %s)"
-            % (self.program_1.name, self.cycle1.name, "to_approve", self.cycle1.state)
+        message1 = "Program Testing: Program: {}, Cycle: {}, Setting State 'to_approve' FAILED (EXPECTED {} but RESULT is {})".format(
+            self.program_1.name, self.cycle1.name, "to_approve", self.cycle1.state
         )
         self.assertEqual(self.cycle1.state, "to_approve", message1)
         self.cycle2.to_approve()
-        message2 = (
-            "Program Testing: Program: %s, Cycle: %s, Setting State 'to_approve' FAILED (EXPECTED %s but RESULT is %s)"
-            % (self.program_2.name, self.cycle2.name, "to_approve", self.cycle2.state)
+        message2 = "Program Testing: Program: {}, Cycle: {}, Setting State 'to_approve' FAILED (EXPECTED {} but RESULT is {})".format(
+            self.program_2.name, self.cycle2.name, "to_approve", self.cycle2.state
         )
         self.assertEqual(self.cycle2.state, "to_approve", message2)
         # Approve
         self.cycle1.approve()
-        message1 = (
-            "Program Testing: Program: %s, Cycle: %s, Setting State 'approved' FAILED (EXPECTED %s but RESULT is %s)"
-            % (self.program_1.name, self.cycle1.name, "approved", self.cycle1.state)
+        message1 = "Program Testing: Program: {}, Cycle: {}, Setting State 'approved' FAILED (EXPECTED {} but RESULT is {})".format(
+            self.program_1.name, self.cycle1.name, "approved", self.cycle1.state
         )
         self.assertEqual(self.cycle1.state, "approved")
         self.cycle2.approve()
-        message2 = (
-            "Program Testing: Program: %s, Cycle: %s, Setting State 'approved' FAILED (EXPECTED %s but RESULT is %s)"
-            % (self.program_2.name, self.cycle2.name, "approved", self.cycle2.state)
+        message2 = "Program Testing: Program: {}, Cycle: {}, Setting State 'approved' FAILED (EXPECTED {} but RESULT is {})".format(
+            self.program_2.name, self.cycle2.name, "approved", self.cycle2.state
         )
         self.assertEqual(self.cycle2.state, "approved")
 

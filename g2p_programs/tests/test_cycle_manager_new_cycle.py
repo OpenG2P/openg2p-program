@@ -9,7 +9,6 @@ from odoo.addons.g2p_programs.models.constants import MANAGER_PROGRAM
 
 @freeze_time("2022-12-15")
 class DefaultCycleManagerTest(TransactionCase):
-
     DATE_TODAY = datetime(2022, 12, 15).date()
 
     def create_program_manager(self, **kwargs):

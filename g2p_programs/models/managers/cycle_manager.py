@@ -484,7 +484,6 @@ class DefaultCycleManager(models.Model):
 
         # This prevents getting an end date that is less than the start date
         while True:
-
             # get the date of occurences
             start_date = prev_occurence[0]
             end_date = current_occurence[0] - timedelta(days=1)

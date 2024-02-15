@@ -5,7 +5,7 @@ class ProcessIndividualMixin(AbstractComponent):
     _inherit = "process_individual.rest.mixin"
 
     def _process_individual(self, individual):
-        res = super(ProcessIndividualMixin, self)._process_individual(individual)
+        res = super()._process_individual(individual)
         if individual.dict().get("program_memberships", None):
             res["program_membership_ids"] = self._process_memberships(
                 individual, target_type="individual"

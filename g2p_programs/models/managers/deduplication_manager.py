@@ -135,8 +135,7 @@ class DefaultDeduplication(models.Model):
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
             _logger.debug(
-                "group_membership.individual.id: %s -> %s"
-                % (group_membership.individual.id, group_membership.group.id)
+                f"group_membership.individual.id: {group_membership.individual.id} -> {group_membership.group.id}"
             )
             if group_membership.individual.id not in group_of_duplicates:
                 group_of_duplicates[group_membership.individual.id] = []
@@ -146,7 +145,6 @@ class DefaultDeduplication(models.Model):
 
         _logger.debug("group_of_duplicates: %s", group_of_duplicates)
         for _individual, group_ids in group_of_duplicates.items():
-
             duplicate_beneficiaries = beneficiaries.filtered(
                 lambda rec: rec.partner_id.id in group_ids
             )
@@ -300,8 +298,7 @@ class IDDocumentDeduplication(models.Model):
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
             _logger.debug(
-                "group_membership.individual.id: %s -> %s"
-                % (group_membership.individual.id, group_membership.group.id)
+                f"group_membership.individual.id: {group_membership.individual.id} -> {group_membership.group.id}"
             )
             if group_membership.individual.id not in group_of_duplicates:
                 group_of_duplicates[group_membership.individual.id] = []
@@ -311,7 +308,6 @@ class IDDocumentDeduplication(models.Model):
 
         _logger.debug("group_of_duplicates: %s", group_of_duplicates)
         for _individual, group_ids in group_of_duplicates.items():
-
             duplicate_beneficiaries = beneficiaries.filtered(
                 lambda rec: rec.partner_id.id in group_ids
             )
@@ -543,8 +539,7 @@ class PhoneNumberDeduplication(models.Model):
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
             _logger.debug(
-                "group_membership.individual.id: %s -> %s"
-                % (group_membership.individual.id, group_membership.group.id)
+                f"group_membership.individual.id: {group_membership.individual.id} -> {group_membership.group.id}"
             )
             if group_membership.individual.id not in group_of_duplicates:
                 group_of_duplicates[group_membership.individual.id] = []
@@ -554,7 +549,6 @@ class PhoneNumberDeduplication(models.Model):
 
         _logger.debug("group_of_duplicates: %s", group_of_duplicates)
         for _individual, group_ids in group_of_duplicates.items():
-
             duplicate_beneficiaries = beneficiaries.filtered(
                 lambda rec: rec.partner_id.id in group_ids
             )

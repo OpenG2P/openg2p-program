@@ -9,9 +9,7 @@ class DefaultEntitlementManagerForDocument(models.Model):
     _inherit = "g2p.program.entitlement.manager.default"
 
     def prepare_entitlements(self, cycle, beneficiaries):
-        ents = super(DefaultEntitlementManagerForDocument, self).prepare_entitlements(
-            cycle, beneficiaries
-        )
+        ents = super().prepare_entitlements(cycle, beneficiaries)
 
         if ents:
             ents.copy_documents_from_beneficiary()

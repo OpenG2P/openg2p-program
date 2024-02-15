@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 class TestG2PCycle(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestG2PCycle, cls).setUpClass()
+        super().setUpClass()
         cls.cycle_model = cls.env["g2p.cycle"]
         cls.program_model = cls.env["g2p.program"]
 

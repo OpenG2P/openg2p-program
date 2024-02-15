@@ -24,7 +24,6 @@ class G2pProgramRegistrantInfo(models.TransientModel):
         if not partners or not program:
             return
         try:
-
             # TODO: Add the program_registrant_info field logic
 
             self.env["g2p.program.registrant_info"].sudo().create(

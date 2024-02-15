@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 class ProgramTestPhoneEligibilityDeduplicate(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(ProgramTestPhoneEligibilityDeduplicate, cls).setUpClass()
+        super().setUpClass()
 
         # Initial Setup of Variables
         cls.registrant_1 = cls.env["res.partner"].create(

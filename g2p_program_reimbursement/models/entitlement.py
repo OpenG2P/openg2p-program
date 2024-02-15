@@ -31,7 +31,7 @@ class G2PEntitlement(models.Model):
                 if not record.program_id.is_reimbursement_program
                 else _("Reimbursement")
             )
-            initial_amount = "{:,.2f}".format(record.initial_amount)
+            initial_amount = f"{record.initial_amount:,.2f}"
             if record.is_cash_entitlement:
                 name += (
                     " Cash ["

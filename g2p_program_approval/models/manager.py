@@ -91,9 +91,9 @@ class DefaultEntitlementManagerApproval(models.Model):
             else entitlements_remain
         )
         if entitlements_to_approve:
-            res_state_err, res_message = super(
-                DefaultEntitlementManagerApproval, self
-            ).approve_entitlements(entitlements_to_approve)
+            res_state_err, res_message = super().approve_entitlements(
+                entitlements_to_approve
+            )
             if not final_err:
                 final_err = res_state_err
             if res_message:

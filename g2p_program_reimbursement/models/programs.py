@@ -9,13 +9,13 @@ class G2PPrograms(models.Model):
     reimbursement_program_id = fields.Many2one("g2p.program")
 
     def open_eligible_beneficiaries_form(self):
-        res = super(G2PPrograms, self).open_eligible_beneficiaries_form()
+        res = super().open_eligible_beneficiaries_form()
         if self.is_reimbursement_program:
             res["name"] = _("Service Providers")
         return res
 
     def open_cycles_form(self):
-        res = super(G2PPrograms, self).open_cycles_form()
+        res = super().open_cycles_form()
         if self.is_reimbursement_program:
             res["views"] = [
                 # To update the following tree view when there are modifications

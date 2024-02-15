@@ -9,7 +9,7 @@ class G2PCycle(models.Model):
     )
 
     def open_cycle_form(self):
-        res = super(G2PCycle, self).open_cycle_form()
+        res = super().open_cycle_form()
         if self.is_reimbursement_program:
             res["view_id"] = self.env.ref(
                 "g2p_program_reimbursement.view_cycle_reimbursement_form"

@@ -19,7 +19,7 @@ class G2PAssignPaymentsBatchWizard(models.TransientModel):
 
     @api.model
     def default_get(self, fields):
-        res = super(G2PAssignPaymentsBatchWizard, self).default_get(fields)
+        res = super().default_get(fields)
         if self.env.context.get("active_ids"):
             # Get the first selected payment and get its cycle_id
             payment_id = self.env.context.get("active_ids")[0]
@@ -47,7 +47,7 @@ class G2PAssignPaymentsBatchWizard(models.TransientModel):
             payments_to_add_ids = []
             for rec in self.env["g2p.payment"].search([("id", "in", payment_ids)]):
                 ctr += 1
-                _logger.info("Processing (%s): %s" % (ctr, rec.name))
+                _logger.info(f"Processing ({ctr}): {rec.name}")
                 if not rec.batch_id:
                     ok_ctr += 1
                     vals.append((4, rec.id))
@@ -56,12 +56,10 @@ class G2PAssignPaymentsBatchWizard(models.TransientModel):
                 else:
                     ig_ctr += 1
                     _logger.info(
-                        "%s was ignored because the payment is already in Payment Batch: %s"
-                        % (rec.name, rec.batch_id.name)
+                        f"{rec.name} was ignored because the payment is already in Payment Batch: {rec.batch_id.name}"
                     )
             _logger.info(
-                "Total selected payments:%s, Total ignored:%s, Total added to batch:%s"
-                % (ctr, ig_ctr, ok_ctr)
+                f"Total selected payments:{ctr}, Total ignored:{ig_ctr}, Total added to batch:{ok_ctr}"
             )
             # Check if there are no selected payments added to new batch
             if ig_ctr == ctr:

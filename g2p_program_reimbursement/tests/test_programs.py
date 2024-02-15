@@ -5,7 +5,7 @@ from odoo.tests import TransactionCase, tagged
 class TestG2PPrograms(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestG2PPrograms, cls).setUpClass()
+        super().setUpClass()
         cls.program_model = cls.env["g2p.program"]
 
     def test_open_eligible_beneficiaries_form(self):

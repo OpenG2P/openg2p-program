@@ -18,7 +18,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
     @api.model
     def default_get(self, fields):
         _logger.debug("Creating a new program")
-        res = super(G2PCreateNewProgramWiz, self).default_get(fields)
+        res = super().default_get(fields)
 
         _logger.debug("DEBUG: active_model: %s" % self.env.context.get("active_model"))
 
@@ -164,7 +164,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             mgr = man_obj.create(
                 {
                     "program_id": program_id,
-                    "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                    "manager_ref_id": f"{def_mgr_obj},{str(def_mgr.id)}",
                 }
             )
             val = {"entitlement_managers": [(4, mgr.id)]}
@@ -201,7 +201,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             mgr = man_obj.create(
                 {
                     "program_id": program_id,
-                    "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                    "manager_ref_id": f"{def_mgr_obj},{str(def_mgr.id)}",
                 }
             )
             vals.update({"eligibility_managers": [(4, mgr.id)]})
@@ -225,7 +225,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             mgr = man_obj.create(
                 {
                     "program_id": program_id,
-                    "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                    "manager_ref_id": f"{def_mgr_obj},{str(def_mgr.id)}",
                 }
             )
             vals.update({"cycle_managers": [(4, mgr.id)]})

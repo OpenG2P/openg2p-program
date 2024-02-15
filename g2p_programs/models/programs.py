@@ -156,7 +156,7 @@ class G2PProgram(models.Model):
 
     @api.model
     def create(self, vals):
-        res = super(G2PProgram, self).create(vals)
+        res = super().create(vals)
         program_id = res.id
         man_ids = self.create_default_managers(program_id)
         for man in man_ids:
@@ -182,7 +182,7 @@ class G2PProgram(models.Model):
                 mgr = man_obj.create(
                     {
                         "program_id": program_id,
-                        "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                        "manager_ref_id": f"{def_mgr_obj},{str(def_mgr.id)}",
                     }
                 )
                 ret_vals.update({mgr_fld: mgr.id})
@@ -574,4 +574,4 @@ class G2PProgram(models.Model):
                     manager.manager_ref_id.unlink()
                 managers.unlink()
             else:
-                return super(G2PProgram, self).unlink()
+                return super().unlink()

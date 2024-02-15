@@ -9,9 +9,7 @@ class DefaultEntitlementManagerRegInfo(models.Model):
     _inherit = "g2p.program.entitlement.manager.default"
 
     def prepare_entitlements(self, cycle, beneficiaries):
-        ents = super(DefaultEntitlementManagerRegInfo, self).prepare_entitlements(
-            cycle, beneficiaries
-        )
+        ents = super().prepare_entitlements(cycle, beneficiaries)
         if ents:
             for ent in ents:
                 self.env[
@@ -20,9 +18,7 @@ class DefaultEntitlementManagerRegInfo(models.Model):
         return ents
 
     def approve_entitlements(self, entitlements):
-        state_err, message = super(
-            DefaultEntitlementManagerRegInfo, self
-        ).approve_entitlements(entitlements)
+        state_err, message = super().approve_entitlements(entitlements)
         if not state_err:
             for rec in entitlements:
                 self.env[

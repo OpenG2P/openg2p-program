@@ -10,7 +10,7 @@ class G2PRegistrant(models.Model):
 
     @api.model
     def create(self, values):
-        registrants = super(G2PRegistrant, self).create(values)
+        registrants = super().create(values)
         # The following might not be safe. Re-evaluate.
         try:
             auto_enrol_programs = self.env["g2p.program"].search(

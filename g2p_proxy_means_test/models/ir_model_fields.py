@@ -12,4 +12,4 @@ class IrModelFields(models.Model):
             reg_info = rec.env["g2p.program.registrant_info"]
             reg_info.delete_related_proxy_means_params(delete_field)
 
-        return super(IrModelFields, self).unlink()
+        return super().unlink()

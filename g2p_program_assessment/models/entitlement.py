@@ -35,9 +35,7 @@ class DefaultEntitlementManagerForAssessment(models.Model):
     _inherit = "g2p.program.entitlement.manager.default"
 
     def prepare_entitlements(self, cycle, beneficiaries):
-        ents = super(DefaultEntitlementManagerForAssessment, self).prepare_entitlements(
-            cycle, beneficiaries
-        )
+        ents = super().prepare_entitlements(cycle, beneficiaries)
         if ents:
             ents.copy_assessments_from_beneficiary()
         return ents

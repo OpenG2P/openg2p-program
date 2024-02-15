@@ -71,7 +71,7 @@ class G2PCryptoKeySet(models.Model):
     def create(self, values):
         if not values.get("name", None):
             values["name"] = str(uuid.uuid4())
-        return super(G2PCryptoKeySet, self).create(values)
+        return super().create(values)
 
     @api.depends("type", "size")
     def _compute_priv_key(self):

@@ -171,7 +171,6 @@ class DefaultFilePaymentManager(models.Model):
 
     def _prepare_payments(self, cycle, entitlements):
         if not entitlements:
-
             return None, None
         # Filter out entitlements without payments
         entitlements = entitlements.filtered(

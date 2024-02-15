@@ -37,7 +37,7 @@ class G2PFilesPaymentManager(models.Model):
     def create(self, values):
         if not values.get("crypto_key_set", None):
             values["crypto_key_set"] = [(0, 0, {})]
-        return super(G2PFilesPaymentManager, self).create(values)
+        return super().create(values)
 
     batch_tag_ids = fields.Many2many(
         "g2p.payment.batch.tag",
@@ -47,9 +47,7 @@ class G2PFilesPaymentManager(models.Model):
     )
 
     def _prepare_payments(self, cycle, entitlements):
-        payments, batches = super(G2PFilesPaymentManager, self)._prepare_payments(
-            cycle, entitlements
-        )
+        payments, batches = super()._prepare_payments(cycle, entitlements)
 
         file_document_store = self.file_document_store
         if not file_document_store:

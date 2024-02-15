@@ -7,7 +7,7 @@ from odoo.tests import TransactionCase, tagged
 class TestG2PEntitlementManagerDefault(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestG2PEntitlementManagerDefault, cls).setUpClass()
+        super().setUpClass()
         cls.entitlement_manager_model = cls.env[
             "g2p.program.entitlement.manager.default"
         ]

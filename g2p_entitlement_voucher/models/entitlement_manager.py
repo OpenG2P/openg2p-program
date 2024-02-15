@@ -46,7 +46,7 @@ class G2PVoucherEntitlementManager(models.Model):
     def create(self, values):
         if not values.get("crypto_key_set", None):
             values["crypto_key_set"] = [(0, 0, {})]
-        return super(G2PVoucherEntitlementManager, self).create(values)
+        return super().create(values)
 
     def open_voucher_config_form(self):
         if self.voucher_file_config:
@@ -62,9 +62,7 @@ class G2PVoucherEntitlementManager(models.Model):
 
     # TODO: Later to be made async
     def approve_entitlements(self, entitlements):
-        res = super(G2PVoucherEntitlementManager, self).approve_entitlements(
-            entitlements
-        )
+        res = super().approve_entitlements(entitlements)
 
         if self.auto_generate_voucher_on_approval:
             err, message, sticky, vouchers = self.generate_vouchers(entitlements)
