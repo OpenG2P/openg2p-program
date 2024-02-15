@@ -85,9 +85,9 @@ class DefaultEligibilityManager(models.Model):
         domain += [("disabled", "=", False)]
         # TODO: use the config of the program
         if self.program_id.target_type == "group":
-            domain += [("is_group", "=", True)]
+            domain += [("is_group", "=", True), ("is_registrant", "=", True)]
         if self.program_id.target_type == "individual":
-            domain += [("is_group", "=", False)]
+            domain += [("is_group", "=", False), ("is_registrant", "=", True)]
         domain += self._safe_eval(self.eligibility_domain)
         # _logger.debug("DOMAIN: %s" % domain)
         return domain

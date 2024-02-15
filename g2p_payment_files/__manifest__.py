@@ -25,6 +25,7 @@
             "pdfkit",
             "qrcode",
             "wkhtmltopdf",
+            "fastapi",
         ]
     },
     "data": [
