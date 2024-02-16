@@ -28,7 +28,7 @@
                         icon="fa-print"
                         name="print_voucher_action"
                         string="Print Voucher"
-                        invisible="not show_generate_voucher_button"
+                        invisible="not show_print_voucher_button"
                         title="print voucher action"
                     />
             </div>
