@@ -25,14 +25,6 @@ class PaymentManager(models.Model):
         return selection
 
 
-class G2PCryptoKeySet(models.Model):
-    _inherit = "g2p.crypto.key.set"
-
-    g2pconnect_payment_manager_id = fields.Many2one(
-        "g2p.program.payment.manager.g2p.connect", ondelete="cascade"
-    )
-
-
 class G2PPaymentManagerG2PConnect(models.Model):
     _name = "g2p.program.payment.manager.g2p.connect"
     _inherit = [
@@ -85,7 +77,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
     payment_file_config_ids = fields.Many2many(
         "g2p.payment.file.config", "g2p_pay_file_config_pay_manager_g2pconnect"
     )
-    crypto_key_set = fields.One2many("g2p.crypto.key.set", "g2pconnect_payment_manager_id")
     send_payments_domain = fields.Text("Filter Batches to Send", default="[]")
 
     @api.onchange("payee_id_type")

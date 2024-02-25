@@ -1,11 +1,9 @@
 # generated from manifests external_dependencies
 base45
 cose
-cryptography
 fastapi
 pdfkit
 python-barcode
 python-dateutil
-python-jose
 qrcode
 wkhtmltopdf

@@ -22,12 +22,6 @@ class PaymentManager(models.Model):
         return selection
 
 
-class G2PCryptoKeySet(models.Model):
-    _inherit = "g2p.crypto.key.set"
-
-    cash_payment_manager_id = fields.Many2one("g2p.program.payment.manager.cash", ondelete="cascade")
-
-
 class G2PPaymentManagerCash(models.Model):
     _name = "g2p.program.payment.manager.cash"
     _inherit = "g2p.program.payment.manager.file"
@@ -39,9 +33,6 @@ class G2PPaymentManagerCash(models.Model):
         string="Batch Tags",
         ondelete="cascade",
     )
-
-    # This is a one2one relation
-    crypto_key_set = fields.One2many("g2p.crypto.key.set", "cash_payment_manager_id")
 
     # This will just mark all the payments as done when then cash is given out
     def _send_payments(self, batches):
