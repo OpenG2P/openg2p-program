@@ -8,14 +8,6 @@ from odoo.addons.queue_job.delay import group
 _logger = logging.getLogger(__name__)
 
 
-class G2PCryptoKeySet(models.Model):
-    _inherit = "g2p.crypto.key.set"
-
-    voucher_manager_id = fields.Many2one(
-        "g2p.program.entitlement.manager.voucher", ondelete="cascade"
-    )
-
-
 class EntitlementManager(models.Model):
     _inherit = "g2p.program.entitlement.manager"
 
@@ -33,20 +25,11 @@ class G2PVoucherEntitlementManager(models.Model):
     _inherit = "g2p.program.entitlement.manager.default"
     _description = "Voucher Entitlement Manager"
 
-    # This is a one2one relation
-    crypto_key_set = fields.One2many("g2p.crypto.key.set", "voucher_manager_id")
-
     auto_generate_voucher_on_approval = fields.Boolean(default=True)
 
     voucher_file_config = fields.Many2one("g2p.payment.file.config")
 
     voucher_document_store = fields.Many2one("storage.backend", required=True)
-
-    @api.model
-    def create(self, values):
-        if not values.get("crypto_key_set", None):
-            values["crypto_key_set"] = [(0, 0, {})]
-        return super(G2PVoucherEntitlementManager, self).create(values)
 
     def open_voucher_config_form(self):
         if self.voucher_file_config:
@@ -137,7 +120,7 @@ class G2PVoucherEntitlementManager(models.Model):
             qrcode_config.render_datas_and_store(
                 "g2p.entitlement",
                 entitlements.ids,
-                self.crypto_key_set[0],
+                self.get_encryption_provider(),
                 res_id_field_in_qrcode_model="entitlement_id",
             )
 
