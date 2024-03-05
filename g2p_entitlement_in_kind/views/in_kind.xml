@@ -4,9 +4,9 @@
         <field name="model">g2p.program</field>
         <field name="inherit_id" ref="spp_programs.view_program_list_custom_spp_form" />
         <field name="arch" type="xml">
-            <xpath expr="//button[@name='import_eligible_registrants']" position="attributes">
+            <!--<xpath expr="//button[@name='import_eligible_registrants']" position="attributes">
                 <attribute name="invisible">1</attribute>
-            </xpath>
+            </xpath>-->e
             <xpath expr="//button[@name='enroll_eligible_registrants']" position="attributes">
                 <attribute
                     name="groups"
