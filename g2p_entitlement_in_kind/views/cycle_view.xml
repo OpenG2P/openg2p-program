@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+        <record id="inkind_view_cycle_form" model="ir.ui.view">
+        <field name="name">inkind_view_cycle_form</field>
+        <field name="model">g2p.cycle</field>
+        <field name="inherit_id" ref="g2p_programs.view_cycle_form" />
+        <field name="arch" type="xml">
+        <xpath expr="//button[@name='to_approve']" position="attributes">
+            <attribute
+                    name="attrs"
+                >{'invisible': ['|',('inkind_entitlements_count', '=', 0), ('entitlements_count', '=', 0)]}</attribute>
+        </xpath>
+        </field>
+    </record>
+</odoo>

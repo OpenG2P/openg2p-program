@@ -24,6 +24,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <xpath expr="//field[@name='create_batch']/.." position="inside">
                 <field name="file_document_store" />
+                <field name="encryption_provider_id" groups="g2p_encryption.crypto_admin" />
                 <field
                     name="payment_file_config_ids"
                     colspan="4"

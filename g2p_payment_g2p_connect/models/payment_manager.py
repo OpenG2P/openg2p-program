@@ -25,14 +25,6 @@ class PaymentManager(models.Model):
         return selection
 
 
-class G2PCryptoKeySet(models.Model):
-    _inherit = "g2p.crypto.key.set"
-
-    g2pconnect_payment_manager_id = fields.Many2one(
-        "g2p.program.payment.manager.g2p.connect", ondelete="cascade"
-    )
-
-
 class G2PPaymentManagerG2PConnect(models.Model):
     _name = "g2p.program.payment.manager.g2p.connect"
     _inherit = [
@@ -86,9 +78,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     payment_file_config_ids = fields.Many2many(
         "g2p.payment.file.config", "g2p_pay_file_config_pay_manager_g2pconnect"
-    )
-    crypto_key_set = fields.One2many(
-        "g2p.crypto.key.set", "g2pconnect_payment_manager_id"
     )
     send_payments_domain = fields.Text("Filter Batches to Send", default="[]")
 
@@ -151,11 +140,17 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 "message": {"transaction_id": batch.name, "disbursements": []},
             }
             for payment in batch.payment_ids:
+                payee_fa = self._get_payee_fa(payment)
+                if not payee_fa:
+                    # TODO: Deal with no bank acc and/or ID type not matching any available IDs
+                    payment.state = "reconciled"
+                    payment.status = "failed"
+                    continue
                 batch_data["message"]["disbursements"].append(
                     {
                         "reference_id": payment.name,
                         "payer_fa": "",
-                        "payee_fa": self._get_payee_fa(payment),
+                        "payee_fa": payee_fa,
                         "amount": str(payment.amount_issued),
                         "payee_name": payment.partner_id.name,
                         "note": f"Payment for {batch.cycle_id.name} under {self.program_id.name}",
@@ -263,8 +258,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def stop_status_check_cron(self):
         for rec in self:
-            rec.status_check_cron_id.unlink()
-            rec.status_check_cron_id = None
+            if rec.status_check_cron_id:
+                rec.status_check_cron_id.unlink()
+                rec.status_check_cron_id = None
 
     def _get_payee_fa(self, payment):
         self.ensure_one()
@@ -289,7 +285,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
             for reg_id in partner.reg_ids:
                 if reg_id.id_type.id == self.reg_id_type_for_payee_id.id:
                     return f"{self.payee_prefix}{reg_id.value}{self.payee_suffix}"
-        # TODO: Deal with no bank acc and/or ID type not matching any available IDs
         return None
 
     @api.model

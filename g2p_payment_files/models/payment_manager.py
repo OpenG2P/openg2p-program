@@ -30,14 +30,7 @@ class G2PFilesPaymentManager(models.Model):
 
     payment_file_config_ids = fields.Many2many("g2p.payment.file.config")
 
-    # This is a one2one relation
-    crypto_key_set = fields.One2many("g2p.crypto.key.set", "file_payment_manager_id")
-
-    @api.model
-    def create(self, values):
-        if not values.get("crypto_key_set", None):
-            values["crypto_key_set"] = [(0, 0, {})]
-        return super(G2PFilesPaymentManager, self).create(values)
+    encryption_provider_id = fields.Many2one("g2p.encryption.provider")
 
     batch_tag_ids = fields.Many2many(
         "g2p.payment.batch.tag",
@@ -83,7 +76,7 @@ class G2PFilesPaymentManager(models.Model):
                         qrcode_config.render_datas_and_store(
                             render_res_model,
                             render_res_ids,
-                            self.crypto_key_set[0],
+                            self.get_encryption_provider(),
                             res_id_field_in_qrcode_model,
                         )
 
@@ -106,7 +99,7 @@ class G2PFilesPaymentManager(models.Model):
                     qrcode_config.render_datas_and_store(
                         "g2p.payment",
                         payments.ids,
-                        self.crypto_key_set[0],
+                        self.get_encryption_provider(),
                         res_id_field_in_qrcode_model="payment_id",
                     )
 
@@ -121,6 +114,13 @@ class G2PFilesPaymentManager(models.Model):
 
     def _send_payments(self, batches):
         raise NotImplementedError()
+
+    def get_encryption_provider(self):
+        self.ensure_one()
+        prov = self.encryption_provider_id
+        if not prov:
+            prov = self.env.ref("g2p_encryption.encryption_provider_default")
+        return prov
 
 
 class G2PPaymentBatchTag(models.Model):

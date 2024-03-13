@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+        <record id="inherit_view_entitlement_inkind_tree" model="ir.ui.view">
+        <field name="name">inherit_view_entitlement_inkind_tree</field>
+        <field name="model">g2p.entitlement.inkind</field>
+        <field name="inherit_id" ref="spp_programs.view_entitlement_inkind_tree" />
+        <field name="priority">101</field>
+        <field name="arch" type="xml">
+        <xpath expr="//tree" position="attributes">
+            <attribute name="default_order">partner_id asc</attribute>
+        </xpath>
+        <xpath expr="//field[@name='code']" position="after">
+            <field name="qty" />
+            <field name="uom_id" />
+        </xpath>
+        <xpath expr="//field[@name='service_point_id']" position="replace" />
+        </field>
+    </record>
+</odoo>

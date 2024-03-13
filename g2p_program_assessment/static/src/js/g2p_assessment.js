@@ -34,8 +34,8 @@ var G2PAssessmentWizardWidget = AbstractField.extend({
         } else if (this.nodeOptions.not_readonly_field) {
             this.readonly = !this.recordData[this.nodeOptions.not_readonly_field];
         }
-        this.showAddCommentsButton = this.nodeOptions.show_add_comments_button != false;
-        this.showAddAssessmentsButton = this.nodeOptions.show_add_assessments_button != false;
+        this.showAddCommentsButton = this.nodeOptions.show_add_comments_button !== false;
+        this.showAddAssessmentsButton = this.nodeOptions.show_add_assessments_button !== false;
         console.log(this);
         this.assessmentAddMode = 0;
         this.assessmentAddModeStarted = 0;
