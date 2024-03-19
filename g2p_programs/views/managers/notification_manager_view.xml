@@ -88,33 +88,34 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </div>
                     </div>
 
-                    <div class="oe_title"><h3>TEMPLATES</h3></div>
-                    <notebook>
-                        <page string="Enrolled Programs">
-                            <field name="on_enrolled_in_program_template" nolabel="1">
-                                <tree>
-                                    <field name="name" />
-                                    <field name="model" />
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="Cycles Started">
-                            <field name="on_cycle_started_template" nolabel="1">
-                                <tree>
-                                    <field name="name" />
-                                    <field name="model" />
-                                </tree>
-                            </field>
-                        </page>
-                        <page string="Cycles Ended">
-                            <field name="on_cycle_ended_template" nolabel="1">
-                                <tree>
-                                    <field name="name" />
-                                    <field name="model" />
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
+                    <group string="TEMPLATES">
+                        <notebook colspan="2">
+                            <page string="Enrolled Programs">
+                                <field name="on_enrolled_in_program_template">
+                                    <tree>
+                                        <field name="name" />
+                                        <field name="model" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Cycles Started">
+                                <field name="on_cycle_started_template" nolabel="1">
+                                    <tree>
+                                        <field name="name" />
+                                        <field name="model" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Cycles Ended">
+                                <field name="on_cycle_ended_template" nolabel="1">
+                                    <tree>
+                                        <field name="name" />
+                                        <field name="model" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
                 </sheet>
             </form>
         </field>
