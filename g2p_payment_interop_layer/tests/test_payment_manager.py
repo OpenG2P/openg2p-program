@@ -139,7 +139,7 @@ class TestG2PPaymentInteropLayerManager(TransactionCase):
         )
         partner.update({"bank_ids": [(4, bank_account.id)]})
 
-        id_type = self.env["g2p.id.type"].create({"name": "ACCOUNT_ID"})
+        self.env["g2p.id.type"].create({"name": "ACCOUNT_ID"})
 
         payee_id_type, payee_id_value = payment_manager._get_dfsp_id_and_type(payment)
         self.assertEqual(payee_id_type, "ACCOUNT_ID")
