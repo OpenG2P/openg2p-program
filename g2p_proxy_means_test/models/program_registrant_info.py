@@ -6,9 +6,7 @@ from odoo import api, fields, models
 class G2PProgramRegistrantInfo(models.Model):
     _inherit = "g2p.program.registrant_info"
 
-    pmt_score = fields.Float(
-        "PMT Score", compute="_compute_pmt_score", digits=(0, 4), store=True
-    )
+    pmt_score = fields.Float("PMT Score", compute="_compute_pmt_score", store=True)
     program_pmt_config = fields.Boolean(related="program_id.pmt_config", readonly=True)
 
     @api.depends(

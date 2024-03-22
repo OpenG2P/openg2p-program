@@ -10,7 +10,7 @@ class ProxyMeanTestParams(models.Model):
 
     program_id = fields.Many2one("g2p.program")
     pmt_field = fields.Selection(selection="get_fields_label", string="Field")
-    pmt_weightage = fields.Float(string="Weightage", digits=(0, 4))
+    pmt_weightage = fields.Float(string="Weightage")
 
     def get_fields_label(self):
         reg_info = self.env["g2p.program.registrant_info"]
