@@ -21,8 +21,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </div>
                     <field name="entitlement_ids" nolabel="1" colspan="2">
                         <tree create="0" editable="bottom">
-                            <field name="cycle_id" invisible="1" />
-                            <field name="entitlement_id" invisible="1" />
+                            <field name="cycle_id" column_invisible="1" />
+                            <field name="entitlement_id" column_invisible="1" />
                             <field name="partner_id" readonly="1" />
                             <field name="code" readonly="1" />
                             <field name="initial_amount" string="Amount" />
