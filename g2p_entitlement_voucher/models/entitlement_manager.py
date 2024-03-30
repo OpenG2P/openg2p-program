@@ -31,6 +31,8 @@ class G2PVoucherEntitlementManager(models.Model):
 
     voucher_document_store = fields.Many2one("storage.backend", required=True)
 
+    encryption_provider_id = fields.Many2one("g2p.encryption.provider")
+
     def open_voucher_config_form(self):
         if self.voucher_file_config:
             return {
@@ -141,3 +143,10 @@ class G2PVoucherEntitlementManager(models.Model):
         main_job = group(*jobs)
         main_job.on_done(self.delayable().mark_job_as_done(cycle, _("Vouchers generated.")))
         main_job.delay()
+
+    def get_encryption_provider(self):
+        self.ensure_one()
+        prov = self.encryption_provider_id
+        if not prov:
+            prov = self.env.ref("g2p_encryption.encryption_provider_default")
+        return prov

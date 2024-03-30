@@ -9,6 +9,7 @@
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
     "depends": [
+        "g2p_encryption",
         "g2p_programs",
         "g2p_payment_files",
     ],

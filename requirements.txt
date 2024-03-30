@@ -1,7 +1,6 @@
 # generated from manifests external_dependencies
 base45
 cose
-fastapi
 pdfkit
 python-barcode
 python-dateutil

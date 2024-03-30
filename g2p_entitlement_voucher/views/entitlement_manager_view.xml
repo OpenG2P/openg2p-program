@@ -49,6 +49,7 @@
                     <group name="voucher_config">
                         <field name="auto_generate_voucher_on_approval" />
                         <field name="voucher_document_store" />
+                        <field name="encryption_provider_id" groups="g2p_encryption.crypto_admin" />
                     </group>
                 </div>
             </xpath>
