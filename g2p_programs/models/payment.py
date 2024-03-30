@@ -17,14 +17,10 @@ class G2PPayment(models.Model):
 
     DISABLE_EDIT_DOMAIN = [("status", "=", "paid")]
 
-    name = fields.Char(
-        "Internal Reference #", default=str(uuid4()), readonly=True, copy=False
-    )
+    name = fields.Char("Internal Reference #", default=str(uuid4()), readonly=True, copy=False)
     entitlement_id = fields.Many2one("g2p.entitlement", "Entitlement", required=True)
     cycle_id = fields.Many2one("g2p.cycle", "Cycle", readonly=True)
-    program_id = fields.Many2one(
-        "g2p.program", related="cycle_id.program_id", readonly=True
-    )
+    program_id = fields.Many2one("g2p.program", related="cycle_id.program_id", readonly=True)
     partner_id = fields.Many2one(
         "res.partner",
         related="entitlement_id.partner_id",
@@ -59,16 +55,12 @@ class G2PPayment(models.Model):
 
     amount_issued = fields.Monetary(required=True, currency_field="currency_id")
     amount_paid = fields.Monetary(currency_field="currency_id")
-    issuance_date = fields.Datetime(
-        default=fields.Datetime.now
-    )  # Should default to Datetime.Now()
+    issuance_date = fields.Datetime(default=fields.Datetime.now)  # Should default to Datetime.Now()
     payment_datetime = fields.Datetime()
 
     payment_fee = fields.Monetary(currency_field="currency_id")
 
-    currency_id = fields.Many2one(
-        "res.currency", readonly=True, related="journal_id.currency_id"
-    )
+    currency_id = fields.Many2one("res.currency", readonly=True, related="journal_id.currency_id")
 
     journal_id = fields.Many2one(
         "account.journal",
@@ -101,9 +93,7 @@ class G2PPayment(models.Model):
     def unlink(self):
         for record in self:
             if record.state != "issued":
-                raise ValidationError(
-                    _(f"You cannot delete records in {record.status} state.")
-                )
+                raise ValidationError(_(f"You cannot delete records in {record.status} state."))
         return super().unlink()
 
 
@@ -112,9 +102,7 @@ class G2PPaymentBatch(models.Model):
     _description = "Payment Batch"
     _order = "id desc"
 
-    name = fields.Char(
-        "Internal Batch Reference #", default=str(uuid4()), readonly=True, copy=False
-    )
+    name = fields.Char("Internal Batch Reference #", default=str(uuid4()), readonly=True, copy=False)
     cycle_id = fields.Many2one("g2p.cycle", "Cycle", readonly=True)
     program_id = fields.Many2one(
         "g2p.program", related="cycle_id.program_id", string="Program", readonly=True
@@ -128,21 +116,13 @@ class G2PPaymentBatch(models.Model):
 
     # This set of fields hold the current statistics of the payment batch
     # We store this so that we can display this information without calling the payment system
-    stats_issued_transactions = fields.Integer(
-        "Issued Transaction Statistics", readonly=True
-    )
+    stats_issued_transactions = fields.Integer("Issued Transaction Statistics", readonly=True)
     stats_issued_amount = fields.Float("Issued Amount Statistics", readonly=True)
-    stats_sent_transactions = fields.Integer(
-        "Sent Transactions Statistics", readonly=True
-    )
+    stats_sent_transactions = fields.Integer("Sent Transactions Statistics", readonly=True)
     stats_sent_amount = fields.Float("Sent Amount Statistics", readonly=True)
-    stats_paid_transactions = fields.Integer(
-        "Paid Transactions Statistics", readonly=True
-    )
+    stats_paid_transactions = fields.Integer("Paid Transactions Statistics", readonly=True)
     stats_paid_amount = fields.Float("Paid Amount Statistics", readonly=True)
-    stats_failed_transactions = fields.Integer(
-        "Failed Transactions Statistics", readonly=True
-    )
+    stats_failed_transactions = fields.Integer("Failed Transactions Statistics", readonly=True)
     stats_failed_amount = fields.Float("Failed Amount Statistics", readonly=True)
 
     stats_datetime = fields.Datetime("Statistics Date/Time")
@@ -151,16 +131,12 @@ class G2PPaymentBatch(models.Model):
 
     def send_payment(self):
         # 1. Issue the payment of the beneficiaries using payment_manager.send_payments()
-        return self.program_id.get_manager(
-            self.program_id.MANAGER_PAYMENT
-        ).send_payments(self)
+        return self.program_id.get_manager(self.program_id.MANAGER_PAYMENT).send_payments(self)
 
     def unlink(self):
         for record in self:
             if record.batch_has_started:
-                raise ValidationError(
-                    _("Deletion is not allowed once the batch has started.")
-                )
+                raise ValidationError(_("Deletion is not allowed once the batch has started."))
             else:
                 record.payment_ids.unlink()
         return super().unlink()

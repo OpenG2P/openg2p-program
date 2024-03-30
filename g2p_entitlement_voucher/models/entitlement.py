@@ -17,23 +17,18 @@ class G2PEntitlement(models.Model):
 
     voucher_document_id = fields.Many2one("storage.file")
 
-    show_generate_voucher_button = fields.Boolean(
-        compute="_compute_show_voucher_buttons"
-    )
+    show_generate_voucher_button = fields.Boolean(compute="_compute_show_voucher_buttons")
     show_print_voucher_button = fields.Boolean(compute="_compute_show_voucher_buttons")
 
     def _compute_show_voucher_buttons(self):
         for rec in self:
             rec.show_generate_voucher_button = False
             rec.show_print_voucher_button = False
-            entitlement_manager = self.program_id.get_manager(
-                constants.MANAGER_ENTITLEMENT
-            )
+            entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
             if rec.state in ("approved",):
                 if (
                     entitlement_manager
-                    and entitlement_manager._name
-                    == "g2p.program.entitlement.manager.voucher"
+                    and entitlement_manager._name == "g2p.program.entitlement.manager.voucher"
                     and not rec.voucher_document_id
                 ):
                     rec.show_generate_voucher_button = True

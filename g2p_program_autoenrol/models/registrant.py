@@ -21,9 +21,7 @@ class G2PRegistrant(models.Model):
             )
             for program in auto_enrol_programs:
                 auto_enrol_registrants = registrants.filtered_domain(
-                    self.env["base.programs.manager"]._safe_eval(
-                        program.auto_enrol_partners_domain
-                    )
+                    self.env["base.programs.manager"]._safe_eval(program.auto_enrol_partners_domain)
                 )
                 if not auto_enrol_registrants:
                     continue
@@ -32,10 +30,7 @@ class G2PRegistrant(models.Model):
                         {"partner_id": registrant.id, "program_id": program.id}
                     )
                     member.enroll_eligible_registrants()
-                    if (
-                        program.auto_enrol_partners_delete_not_eligible
-                        and member.state != "enrolled"
-                    ):
+                    if program.auto_enrol_partners_delete_not_eligible and member.state != "enrolled":
                         member.unlink()
                 program._compute_eligible_beneficiary_count()
                 program._compute_beneficiary_count()

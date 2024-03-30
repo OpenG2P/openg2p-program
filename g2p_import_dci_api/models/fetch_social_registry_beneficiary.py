@@ -79,31 +79,11 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
 
     def get_auth_token(self, auth_url):
 
-        grant_type = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("social_registry_grant_type")
-        )
-        client_id = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("social_registry_client_id")
-        )
-        client_secret = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("social_registry_client_secret")
-        )
-        username = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("social_registry_user_name")
-        )
-        password = (
-            self.env["ir.config_parameter"]
-            .sudo()
-            .get_param("social_registry_user_password")
-        )
+        grant_type = self.env["ir.config_parameter"].sudo().get_param("social_registry_grant_type")
+        client_id = self.env["ir.config_parameter"].sudo().get_param("social_registry_client_id")
+        client_secret = self.env["ir.config_parameter"].sudo().get_param("social_registry_client_secret")
+        username = self.env["ir.config_parameter"].sudo().get_param("social_registry_user_name")
+        password = self.env["ir.config_parameter"].sudo().get_param("social_registry_user_password")
 
         data = {
             "grant_type": grant_type,
@@ -124,9 +104,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             result = response.json()
             return f'{result.get("token_type")} {result.get("access_token")}'
         else:
-            raise ValidationError(
-                _("{reason}: Unable to connect to API.").format(reason=response.reason)
-            )
+            raise ValidationError(_("{reason}: Unable to connect to API.").format(reason=response.reason))
 
     def get_headers_for_request(self):
         return {
@@ -135,9 +113,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
 
     def get_header_for_body(self, social_registry_version, today_isoformat, message_id):
 
-        sender_id = (
-            self.env["ir.config_parameter"].sudo().get_param("web.base.url") or ""
-        )
+        sender_id = self.env["ir.config_parameter"].sudo().get_param("web.base.url") or ""
         receiver_id = "Social Registry"
         total_count = 10
         return {
@@ -206,15 +182,11 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             if identifier_type and identifier_value:
 
                 # Check if identifier type is already created. Create record if no existing identifier type
-                id_type = self.env["g2p.id.type"].search(
-                    [("name", "=", identifier_type)], limit=1
-                )
+                id_type = self.env["g2p.id.type"].search([("name", "=", identifier_type)], limit=1)
                 if not id_type:
                     id_type = self.env["g2p.id.type"].create({"name": identifier_type})
 
-                clean_identifiers.append(
-                    {"id_type": id_type, "value": identifier_value}
-                )
+                clean_identifiers.append({"id_type": id_type, "value": identifier_value})
 
                 if not partner_id:
                     reg_id = self.env["g2p.reg.id"].search(
@@ -287,9 +259,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             [("partner_id", "=", partner_id.id), ("program_id", "=", self.program.id)],
             limit=1,
         ):
-            program_membership.create(
-                {"partner_id": partner_id.id, "program_id": self.program.id}
-            )
+            program_membership.create({"partner_id": partner_id.id, "program_id": self.program.id})
 
         return
 
@@ -322,9 +292,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         self.assign_registrant_to_program(partner_id)
 
         # Create Social Registry Imported Individuals
-        social_registry_imported_individuals = self.env[
-            "g2p.social.registry.imported.individuals"
-        ]
+        social_registry_imported_individuals = self.env["g2p.social.registry.imported.individuals"]
         if not social_registry_imported_individuals.search(
             [
                 ("fetch_social_registry_id", "=", self.id),
@@ -365,11 +333,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         _logger.warning("Fetching Registrant Asynchronously!")
         jobs = []
         for i in range(0, count, constants.MAX_REGISTRANT):
-            jobs.append(
-                self.delayable().process_registrants(
-                    partners[i : i + constants.MAX_REGISTRANT]
-                )
-            )
+            jobs.append(self.delayable().process_registrants(partners[i : i + constants.MAX_REGISTRANT]))
         main_job = group(*jobs)
         main_job.delay()
 
@@ -441,9 +405,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             kind = "success"
             message = _("Successfully Imported Social Registry Beneficiaries")
 
-            search_responses = (
-                response.json().get("message", {}).get("search_response", [])
-            )
+            search_responses = response.json().get("message", {}).get("search_response", [])
             if not search_responses:
                 kind = "warning"
                 message = _("No imported beneficiary")
@@ -459,9 +421,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                     else:
                         self.process_registrants_async(partners, total_partners_count)
                         kind = "success"
-                        message = _(
-                            "Fetching from Social Registry Started Asynchronously."
-                        )
+                        message = _("Fetching from Social Registry Started Asynchronously.")
                         sticky = True
 
                 else:
@@ -472,9 +432,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             kind = "danger"
             message = response.json().get("error", {}).get("message", "")
             if not message:
-                message = _("{reason}: Unable to connect to API.").format(
-                    reason=response.reason
-                )
+                message = _("{reason}: Unable to connect to API.").format(reason=response.reason)
 
         action = {
             "type": "ir.actions.client",

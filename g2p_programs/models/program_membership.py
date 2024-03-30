@@ -22,9 +22,7 @@ class G2PProgramMembership(models.Model):
         auto_join=True,
         domain=[("is_registrant", "=", True)],
     )
-    program_id = fields.Many2one(
-        "g2p.program", "", help="A program", required=True, auto_join=True
-    )
+    program_id = fields.Many2one("g2p.program", "", help="A program", required=True, auto_join=True)
 
     # TODO: When the state is changed from "exited", "not_eligible" or "duplicate" to something else
     #      then reset the deduplication date.
@@ -87,9 +85,7 @@ class G2PProgramMembership(models.Model):
             if rec.state == "enrolled":
                 rec.enrollment_date = fields.Datetime.now()
 
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
+    def fields_view_get(self, view_id=None, view_type="form", toolbar=False, submenu=False):
         context = self.env.context
         result = super(G2PProgramMembership, self).fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
@@ -162,9 +158,7 @@ class G2PProgramMembership(models.Model):
                 "view_mode": "form",
                 "res_model": "res.partner",
                 "res_id": self.partner_id.id,
-                "view_id": self.env.ref(
-                    "g2p_registry_individual.view_individuals_form"
-                ).id,
+                "view_id": self.env.ref("g2p_registry_individual.view_individuals_form").id,
                 "type": "ir.actions.act_window",
                 "target": "new",
                 "context": {"default_is_group": False},
@@ -172,9 +166,7 @@ class G2PProgramMembership(models.Model):
             }
 
     def verify_eligibility(self):
-        eligibility_managers = self.program_id.get_managers(
-            constants.MANAGER_ELIGIBILITY
-        )
+        eligibility_managers = self.program_id.get_managers(constants.MANAGER_ELIGIBILITY)
         member = self
         for em in eligibility_managers:
             member = em.enroll_eligible_registrants(member)
@@ -183,9 +175,7 @@ class G2PProgramMembership(models.Model):
         return
 
     def enroll_eligible_registrants(self):
-        eligibility_managers = self.program_id.get_managers(
-            constants.MANAGER_ELIGIBILITY
-        )
+        eligibility_managers = self.program_id.get_managers(constants.MANAGER_ELIGIBILITY)
         message = None
         kind = "success"
         member = self
@@ -235,9 +225,7 @@ class G2PProgramMembership(models.Model):
             }
 
     def deduplicate_beneficiaries(self):
-        deduplication_managers = self.program_id.get_managers(
-            constants.MANAGER_DEDUPLICATION
-        )
+        deduplication_managers = self.program_id.get_managers(constants.MANAGER_DEDUPLICATION)
 
         message = None
         kind = "success"

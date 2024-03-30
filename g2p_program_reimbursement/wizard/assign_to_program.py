@@ -23,9 +23,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
             ]
         )
         if not partner.active:
-            raise ValidationError(
-                _("This process shouldn't allow for an Inactive records.")
-            )
+            raise ValidationError(_("This process shouldn't allow for an Inactive records."))
 
         if partner.supplier_rank > 0:
             return {

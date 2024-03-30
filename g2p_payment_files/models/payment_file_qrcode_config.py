@@ -54,9 +54,7 @@ class G2PPaymentFileQRCodeConfig(models.Model):
     def _constrains_type_and_data_type(self):
         if self.type.endswith("barcode") and self.data_type not in ("string",):
             raise ValidationError(
-                _(
-                    f"Barcode must be of data type String. Cannot be of type {self.data_type}"
-                )
+                _(f"Barcode must be of data type String. Cannot be of type {self.data_type}")
             )
 
     def render_datas_and_store(

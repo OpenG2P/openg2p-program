@@ -87,9 +87,7 @@ class DefaultProgramManager(models.Model):
     _description = "Default Program Manager"
 
     number_of_cycles = fields.Integer(default=1)
-    copy_last_cycle_on_new_cycle = fields.Boolean(
-        string="Copy previous cycle", default=True
-    )
+    copy_last_cycle_on_new_cycle = fields.Boolean(string="Copy previous cycle", default=True)
 
     #  TODO: review 'calendar.recurrence' module, it seem the way to go for managing the recurrence
     # recurrence_id = fields.Many2one('calendar.recurrence', related='event_id.recurrence_id')
@@ -114,9 +112,7 @@ class DefaultProgramManager(models.Model):
         self.ensure_one()
 
         for rec in self:
-            cycles = self.env["g2p.cycle"].search(
-                [("program_id", "=", rec.program_id.id)]
-            )
+            cycles = self.env["g2p.cycle"].search([("program_id", "=", rec.program_id.id)])
             _logger.debug("cycles: %s", cycles)
             cm = rec.program_id.get_manager(G2PProgram.MANAGER_CYCLE)
             if len(cycles) == 0:
@@ -134,9 +130,7 @@ class DefaultProgramManager(models.Model):
 
             # Copy the enrolled beneficiaries
             if new_cycle is not None:
-                program_beneficiaries = rec.program_id.get_beneficiaries(
-                    "enrolled"
-                ).mapped("partner_id.id")
+                program_beneficiaries = rec.program_id.get_beneficiaries("enrolled").mapped("partner_id.id")
                 cm.add_beneficiaries(new_cycle, program_beneficiaries, "enrolled")
             return new_cycle
 
@@ -158,9 +152,7 @@ class DefaultProgramManager(models.Model):
             raise UserError(_("No Eligibility Manager defined."))
         elif members_count < self.MIN_ROW_JOB_QUEUE:
             count = self._enroll_eligible_registrants(state, do_count=True)
-            un_enrolled_count = program.get_beneficiaries(
-                state="not_eligible", count=True
-            )
+            un_enrolled_count = program.get_beneficiaries(state="not_eligible", count=True)
             enrolled_count = program.get_beneficiaries(state="enrolled", count=True)
             if (program.beneficiaries_count == enrolled_count) and not count:
                 message = _("No new beneficiaries enrolled.")
@@ -193,31 +185,23 @@ class DefaultProgramManager(models.Model):
         self.ensure_one()
         _logger.debug("members: %s", members_count)
         program = self.program_id
-        program.message_post(
-            body=_("Eligibility check of %s beneficiaries started.", members_count)
-        )
-        program.write(
-            {"locked": True, "locked_reason": "Eligibility check of beneficiaries"}
-        )
+        program.message_post(body=_("Eligibility check of %s beneficiaries started.", members_count))
+        program.write({"locked": True, "locked_reason": "Eligibility check of beneficiaries"})
 
         jobs = []
         for i in range(0, members_count, self.MAX_ROW_JOB_QUEUE):
             jobs.append(
-                self.delayable(
-                    channel="root_program.program_manager"
-                )._enroll_eligible_registrants(states, i, self.MAX_ROW_JOB_QUEUE)
+                self.delayable(channel="root_program.program_manager")._enroll_eligible_registrants(
+                    states, i, self.MAX_ROW_JOB_QUEUE
+                )
             )
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable(
-                channel="root_program.program_manager"
-            ).mark_enroll_eligible_as_done()
+            self.delayable(channel="root_program.program_manager").mark_enroll_eligible_as_done()
         )
         main_job.delay()
 
-    def _enroll_eligible_registrants(
-        self, states, offset=0, limit=None, do_count=False
-    ):
+    def _enroll_eligible_registrants(self, states, offset=0, limit=None, do_count=False):
         """Enroll Eligible Registrants
 
         :param states: List of states to be used in domain filter
@@ -227,9 +211,7 @@ class DefaultProgramManager(models.Model):
         :return: Integer - count of not enrolled members
         """
         program = self.program_id
-        members = program.get_beneficiaries(
-            state=states, offset=offset, limit=limit, order="id"
-        )
+        members = program.get_beneficiaries(state=states, offset=offset, limit=limit, order="id")
 
         member_before = members
 
