@@ -26,11 +26,7 @@ class ProgramTest(TransactionCase):
                 "is_group": True,
             }
         )
-        currency_id = (
-            cls.env.user.company_id.currency_id
-            and cls.env.user.company_id.currency_id.id
-            or None
-        )
+        currency_id = cls.env.user.company_id.currency_id and cls.env.user.company_id.currency_id.id or None
 
         cls.program_1_id = cls.env["g2p.program.create.wizard"].create(
             {
@@ -60,20 +56,14 @@ class ProgramTest(TransactionCase):
         cls.program_2.write({"target_type": "group"})
 
         # Add Beneficiaries
-        cls.program_1.write(
-            {"program_membership_ids": [(0, 0, {"partner_id": cls.registrant_1.id})]}
-        )
+        cls.program_1.write({"program_membership_ids": [(0, 0, {"partner_id": cls.registrant_1.id})]})
         _logger.info(
-            "Program 1: %s Members: %s"
-            % (cls.program_1.name, len(cls.program_1.program_membership_ids))
+            "Program 1: %s Members: %s" % (cls.program_1.name, len(cls.program_1.program_membership_ids))
         )
 
-        cls.program_2.write(
-            {"program_membership_ids": [(0, 0, {"partner_id": cls.group_1.id})]}
-        )
+        cls.program_2.write({"program_membership_ids": [(0, 0, {"partner_id": cls.group_1.id})]})
         _logger.info(
-            "Program 2: %s Members: %s"
-            % (cls.program_2.name, len(cls.program_2.program_membership_ids))
+            "Program 2: %s Members: %s" % (cls.program_2.name, len(cls.program_2.program_membership_ids))
         )
 
         # Enroll Beneficiaries
@@ -81,9 +71,7 @@ class ProgramTest(TransactionCase):
         cls.program_2.enroll_eligible_registrants()
         cls.program_1.create_new_cycle()
         cls.program_2.create_new_cycle()
-        cls.cycle1 = cls.env["g2p.cycle"].search(
-            [("id", "=", cls.program_1.cycle_ids[0].id)]
-        )
+        cls.cycle1 = cls.env["g2p.cycle"].search([("id", "=", cls.program_1.cycle_ids[0].id)])
         cls.cycle1.copy_beneficiaries_from_program()
         _logger.info(
             "%s Cycle: %s Beneficiaries: %s"
@@ -94,9 +82,7 @@ class ProgramTest(TransactionCase):
             )
         )
 
-        cls.cycle2 = cls.env["g2p.cycle"].search(
-            [("id", "=", cls.program_2.cycle_ids[0].id)]
-        )
+        cls.cycle2 = cls.env["g2p.cycle"].search([("id", "=", cls.program_2.cycle_ids[0].id)])
         cls.cycle2.copy_beneficiaries_from_program()
         _logger.info(
             "%s Cycle: %s Beneficiaries: %s"

@@ -84,9 +84,7 @@ class DefaultFilePaymentManager(models.Model):
     MAX_PAYMENTS_FOR_SYNC_PREPARE = 200
     MAX_BATCHES_FOR_SYNC_SEND = 50
 
-    currency_id = fields.Many2one(
-        "res.currency", related="program_id.journal_id.currency_id", readonly=True
-    )
+    currency_id = fields.Many2one("res.currency", related="program_id.journal_id.currency_id", readonly=True)
 
     create_batch = fields.Boolean("Automatically Create Batch")
 
@@ -119,15 +117,11 @@ class DefaultFilePaymentManager(models.Model):
                 if not len(rec.batch_tag_ids):
                     raise ValidationError(_("Batch Tags list cannot be empty."))
                 if rec.batch_tag_ids.sorted("order")[-1].domain != "[]":
-                    raise ValidationError(
-                        _("Last tag in the Batch Tags list must contain empty domain.")
-                    )
+                    raise ValidationError(_("Last tag in the Batch Tags list must contain empty domain."))
 
     def prepare_payments(self, cycle, entitlements=None):
         if not entitlements:
-            entitlements = cycle.entitlement_ids.filtered(
-                lambda a: a.state == "approved"
-            )
+            entitlements = cycle.entitlement_ids.filtered(lambda a: a.state == "approved")
         else:
             entitlements = entitlements.filtered(lambda a: a.state == "approved")
         entitlements_count = len(entitlements)
@@ -171,12 +165,10 @@ class DefaultFilePaymentManager(models.Model):
 
     def _prepare_payments(self, cycle, entitlements):
         if not entitlements:
-
             return None, None
         # Filter out entitlements without payments
         entitlements = entitlements.filtered(
-            lambda x: x.state == "approved"
-            and all(payment.status == "failed" for payment in x.payment_ids)
+            lambda x: x.state == "approved" and all(payment.status == "failed" for payment in x.payment_ids)
         )
 
         is_create_batch = self.create_batch
@@ -231,9 +223,7 @@ class DefaultFilePaymentManager(models.Model):
 
     def _prepare_payments_async(self, cycle, entitlements, entitlements_count):
         _logger.debug("Prepare Payments asynchronously")
-        cycle.message_post(
-            body=_("Prepare payments started for %s entitlements.", entitlements_count)
-        )
+        cycle.message_post(body=_("Prepare payments started for %s entitlements.", entitlements_count))
         cycle.write(
             {
                 "locked": True,
@@ -246,9 +236,7 @@ class DefaultFilePaymentManager(models.Model):
             self.delayable()._prepare_payments(cycle, entitlements),
         ]
         main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable().mark_job_as_done(cycle, _("Prepared payments."))
-        )
+        main_job.on_done(self.delayable().mark_job_as_done(cycle, _("Prepared payments.")))
         main_job.delay()
 
     def send_payments(self, batches):
@@ -349,9 +337,7 @@ class DefaultFilePaymentManager(models.Model):
 
     def _send_payments_async(self, cycle, batches):
         _logger.debug("Send Payments asynchronously")
-        cycle.message_post(
-            body=_("Send payments started for %s batches.", len(batches))
-        )
+        cycle.message_post(body=_("Send payments started for %s batches.", len(batches)))
         cycle.write(
             {
                 "locked": True,
@@ -364,17 +350,13 @@ class DefaultFilePaymentManager(models.Model):
             self.delayable()._send_payments(batches),
         ]
         main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable().mark_job_as_done(cycle, _("Send payments completed."))
-        )
+        main_job.on_done(self.delayable().mark_job_as_done(cycle, _("Send payments completed.")))
         main_job.delay()
 
     @api.model
     def _group_batches_by_cycle(self, batches):
         cycles = set(map(lambda x: x.cycle_id, batches))
-        cycle_batches = [
-            batches.filtered_domain([("cycle_id", "=", cycle.id)]) for cycle in cycles
-        ]
+        cycle_batches = [batches.filtered_domain([("cycle_id", "=", cycle.id)]) for cycle in cycles]
         return cycles, cycle_batches
 
     def _get_account_number(self, entitlement):

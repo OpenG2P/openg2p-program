@@ -25,9 +25,7 @@ class PaymentManager(models.Model):
 class G2PCryptoKeySet(models.Model):
     _inherit = "g2p.crypto.key.set"
 
-    cash_payment_manager_id = fields.Many2one(
-        "g2p.program.payment.manager.cash", ondelete="cascade"
-    )
+    cash_payment_manager_id = fields.Many2one("g2p.program.payment.manager.cash", ondelete="cascade")
 
 
 class G2PPaymentManagerCash(models.Model):

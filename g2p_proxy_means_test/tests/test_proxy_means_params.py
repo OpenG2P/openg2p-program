@@ -7,9 +7,7 @@ class TestProxyMeanTestParams(TransactionCase):
     def setUp(self):
         super(TestProxyMeanTestParams, self).setUp()
         self.proxy_mean_test_params = self.env["g2p.proxy_means_test_params"]
-        reg_info_model = self.env["ir.model"].search(
-            [("model", "=", "g2p.program.registrant_info")]
-        )
+        reg_info_model = self.env["ir.model"].search([("model", "=", "g2p.program.registrant_info")])
         self.env["ir.model.fields"].create(
             {
                 "name": "x_field1",

@@ -31,9 +31,9 @@ class G2PCreateProgramWizard(models.TransientModel):
             program.update(
                 {
                     "pmt_config": self.pmt_config,
-                    "proxy_means_params_ids": self.env[
-                        "g2p.proxy_means_test_params"
-                    ].search([("program_id", "=", program.id)]),
+                    "proxy_means_params_ids": self.env["g2p.proxy_means_test_params"].search(
+                        [("program_id", "=", program.id)]
+                    ),
                 }
             )
 
@@ -41,7 +41,6 @@ class G2PCreateProgramWizard(models.TransientModel):
 
 
 class ProxyMeanTestParamsWizard(models.TransientModel):
-
     _name = "g2p.proxy_means_test_params_wizard"
     _description = "Proxy Means Test Params Wizard"
 

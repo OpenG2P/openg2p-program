@@ -15,7 +15,6 @@ class G2PAssignToProgramWizard(models.TransientModel):
     )
 
     def open_wizard(self):
-
         partner_id = self.env.context.get("active_ids")[0]
         partner = self.env["res.partner"].search(
             [
@@ -23,9 +22,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
             ]
         )
         if not partner.active:
-            raise ValidationError(
-                _("This process shouldn't allow for an Inactive records.")
-            )
+            raise ValidationError(_("This process shouldn't allow for an Inactive records."))
 
         if partner.supplier_rank > 0:
             return {

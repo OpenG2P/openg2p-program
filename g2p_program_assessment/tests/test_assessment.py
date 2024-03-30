@@ -51,15 +51,9 @@ class TestG2PProgramAssessment(TransactionCase):
         res_model_entitlement = "g2p.entitlement"
         res_model_other = "some.other.model"
 
-        field_name_membership = self.env["g2p.program.assessment"].get_res_field_name(
-            res_model_membership
-        )
-        field_name_entitlement = self.env["g2p.program.assessment"].get_res_field_name(
-            res_model_entitlement
-        )
-        field_name_other = self.env["g2p.program.assessment"].get_res_field_name(
-            res_model_other
-        )
+        field_name_membership = self.env["g2p.program.assessment"].get_res_field_name(res_model_membership)
+        field_name_entitlement = self.env["g2p.program.assessment"].get_res_field_name(res_model_entitlement)
+        field_name_other = self.env["g2p.program.assessment"].get_res_field_name(res_model_other)
 
         self.assertEqual(field_name_membership, "program_membership_id")
         self.assertEqual(field_name_entitlement, "entitlement_id")
@@ -98,7 +92,5 @@ class TestG2PProgramAssessment(TransactionCase):
         )
         self.assertEqual(result, expected_membership)
 
-        result = self.env["g2p.program.assessment"].compute_program_memberships(
-            "unknown_model", 0
-        )
+        result = self.env["g2p.program.assessment"].compute_program_memberships("unknown_model", 0)
         self.assertIsNone(result)

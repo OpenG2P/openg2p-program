@@ -5,9 +5,7 @@ from ..controllers.well_known import api_router
 
 class WellknownComponent(models.Model):
     _inherit = "fastapi.endpoint"
-    app: str = fields.Selection(
-        selection_add=[("payment", "Payment")], ondelete={"payment": "cascade"}
-    )
+    app: str = fields.Selection(selection_add=[("payment", "Payment")], ondelete={"payment": "cascade"})
 
     def _get_fastapi_routers(self):
         if self.app == "payment":

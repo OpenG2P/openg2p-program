@@ -43,11 +43,7 @@ class ProgramTestIDEligibilityDeduplicate(TransactionCase):
             }
         )
 
-        currency_id = (
-            cls.env.user.company_id.currency_id
-            and cls.env.user.company_id.currency_id.id
-            or None
-        )
+        currency_id = cls.env.user.company_id.currency_id and cls.env.user.company_id.currency_id.id or None
 
         cls.program_1_id = cls.env["g2p.program.create.wizard"].create(
             {
@@ -77,18 +73,10 @@ class ProgramTestIDEligibilityDeduplicate(TransactionCase):
         cls.program_2.write({"target_type": "group"})
 
         # Add Beneficiaries
-        cls.program_1.write(
-            {"program_membership_ids": [(0, 0, {"partner_id": cls.registrant_1.id})]}
-        )
-        cls.program_1.write(
-            {"program_membership_ids": [(0, 0, {"partner_id": cls.registrant_2.id})]}
-        )
-        cls.program_2.write(
-            {"program_membership_ids": [(0, 0, {"partner_id": cls.group_1.id})]}
-        )
-        cls.program_2.write(
-            {"program_membership_ids": [(0, 0, {"partner_id": cls.group_2.id})]}
-        )
+        cls.program_1.write({"program_membership_ids": [(0, 0, {"partner_id": cls.registrant_1.id})]})
+        cls.program_1.write({"program_membership_ids": [(0, 0, {"partner_id": cls.registrant_2.id})]})
+        cls.program_2.write({"program_membership_ids": [(0, 0, {"partner_id": cls.group_1.id})]})
+        cls.program_2.write({"program_membership_ids": [(0, 0, {"partner_id": cls.group_2.id})]})
         # Add ID Eligibility Manager
         cls.manager_1 = cls.env["g2p.program_membership.manager.id_dedup"].create(
             {
@@ -278,12 +266,8 @@ class ProgramTestIDEligibilityDeduplicate(TransactionCase):
                 }
             )
             # Add Members to the Group with Duplicate IDs
-            self.group_1.write(
-                {"group_membership_ids": [(0, 0, {"individual": self.registrant_1.id})]}
-            )
-            self.group_2.write(
-                {"group_membership_ids": [(0, 0, {"individual": self.registrant_2.id})]}
-            )
+            self.group_1.write({"group_membership_ids": [(0, 0, {"individual": self.registrant_1.id})]})
+            self.group_2.write({"group_membership_ids": [(0, 0, {"individual": self.registrant_2.id})]})
             if len(self.program_2.deduplication_managers) > 0:
                 self.program_2.deduplicate_beneficiaries()
                 self.assertEqual(

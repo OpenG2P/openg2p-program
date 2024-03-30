@@ -2,6 +2,7 @@
 base45
 cose
 cryptography
+fastapi
 pdfkit
 python-barcode
 python-dateutil

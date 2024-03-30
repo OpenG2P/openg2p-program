@@ -9,9 +9,7 @@ class ManagerMixin(models.AbstractModel):
     _description = "Manager Mixin"
 
     manager_id = fields.Integer("Manager ID")
-    manager_ref_id = fields.Reference(
-        string="Manager", selection="_selection_manager_ref_id", required=True
-    )
+    manager_ref_id = fields.Reference(string="Manager", selection="_selection_manager_ref_id", required=True)
 
     @api.model
     def _selection_manager_ref_id(self):

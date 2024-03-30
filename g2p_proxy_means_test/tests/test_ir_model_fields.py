@@ -17,9 +17,7 @@ class TestIrModelFields(TransactionCase):
         )
         self.g2p_program_registrant_info = self.env["g2p.program.registrant_info"]
 
-        reg_info_model = self.env["ir.model"].search(
-            [("model", "=", "g2p.program.registrant_info")]
-        )
+        reg_info_model = self.env["ir.model"].search([("model", "=", "g2p.program.registrant_info")])
         self.field1 = self.env["ir.model.fields"].create(
             {
                 "name": "x_field1",

@@ -116,11 +116,7 @@ class TestG2PEntitlement(TransactionCase):
         self.assertEqual(
             result_code,
             2,
-            "Submit Reimbursement Claim succeeded with wrong code {}.".format(
-                wrong_claim_code
-            ),
+            f"Submit Reimbursement Claim succeeded with wrong code {wrong_claim_code}.",
         )
 
-        self.assertFalse(
-            reimbursement, "Reimbursement should not be created with wrong code."
-        )
+        self.assertFalse(reimbursement, "Reimbursement should not be created with wrong code.")

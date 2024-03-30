@@ -55,9 +55,7 @@ class G2PPaymentFileQRCodeConfig(models.Model):
     def _constrains_type_and_data_type(self):
         if self.type.endswith("barcode") and self.data_type not in ("string",):
             raise ValidationError(
-                _(
-                    f"Barcode must be of data type String. Cannot be of type {self.data_type}"
-                )
+                _(f"Barcode must be of data type String. Cannot be of type {self.data_type}")
             )
 
     def render_datas_and_store(
@@ -116,9 +114,7 @@ class G2PPaymentFileQRCodeConfig(models.Model):
             priv_key = key_set.priv_key.encode()
             for res_id in res_ids:
                 payload = json.loads(datas[res_id])
-                datas[res_id] = jwt.encode(
-                    payload, priv_key, algorithm="RS256", headers={"kid": kid}
-                )
+                datas[res_id] = jwt.encode(payload, priv_key, algorithm="RS256", headers={"kid": kid})
         return datas
 
 

@@ -4,7 +4,6 @@ from odoo import fields, models
 
 
 class ProxyMeanTestParams(models.Model):
-
     _name = "g2p.proxy_means_test_params"
     _description = "Proxy Means Test Params"
 

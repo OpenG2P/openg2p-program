@@ -1,7 +1,7 @@
 /** @odoo-module **/
-import {useFileViewer} from "@web/core/file_viewer/file_viewer_hook";
 import {Component, xml} from "@odoo/owl";
 import {registry} from "@web/core/registry";
+import {useFileViewer} from "@web/core/file_viewer/file_viewer_hook";
 import {useService} from "@web/core/utils/hooks";
 
 class Widgetpreview extends Component {

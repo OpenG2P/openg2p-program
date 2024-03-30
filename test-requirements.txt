@@ -1,8 +1,7 @@
-git+https://github.com/OpenG2P/openg2p-registry@15.0-develop#subdirectory=setup/g2p_registry_base
-git+https://github.com/OpenG2P/openg2p-registry@15.0-develop#subdirectory=setup/g2p_registry_group
-git+https://github.com/OpenG2P/openg2p-registry@15.0-develop#subdirectory=setup/g2p_registry_individual
-git+https://github.com/OpenG2P/openg2p-registry@15.0-develop#subdirectory=setup/g2p_registry_membership
-git+https://github.com/OpenG2P/openg2p-registry@15.0-develop#subdirectory=setup/g2p_bank
-git+https://github.com/OpenG2P/openg2p-registry@15.0-develop#subdirectory=setup/g2p_registry_rest_api
-git+https://github.com/OpenG2P/openg2p-documents@15.0-develop#subdirectory=setup/g2p_documents
-git+https://github.com/OpenG2P/odoo-json-field@15.0-develop#subdirectory=setup/g2p_json_field
+git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_base
+git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_individual
+git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_group
+git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_membership
+git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_bank
+git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_rest_api
+git+https://github.com/OpenG2P/openg2p-documents@17.0-develop#subdirectory=g2p_documents

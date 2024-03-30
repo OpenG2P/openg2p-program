@@ -30,9 +30,7 @@ class TestG2PPaymentInteropLayerManager(TransactionCase):
             }
         )
 
-        self.payment_manager = self.env[
-            "g2p.program.payment.manager.payment.interop.layer"
-        ].create(
+        self.payment_manager = self.env["g2p.program.payment.manager.payment.interop.layer"].create(
             {
                 "name": "Interop Layer Payment Manager",
                 "program_id": self.program.id,
@@ -107,9 +105,7 @@ class TestG2PPaymentInteropLayerManager(TransactionCase):
         self.assertEqual(result["tag"], "display_notification")
         self.assertTrue(result["params"]["sticky"])
         self.assertEqual(result["params"]["type"], "success")
-        self.assertEqual(
-            result["params"]["next"]["type"], "ir.actions.act_window_close"
-        )
+        self.assertEqual(result["params"]["next"]["type"], "ir.actions.act_window_close")
 
     def test_send_payments_no_batches(self):
         # Test the _send_payments method when there are no payment batches to process
@@ -134,9 +130,7 @@ class TestG2PPaymentInteropLayerManager(TransactionCase):
         payment_manager.payee_id_type_to_send = "ACCOUNT_ID"
 
         # Create a partner and associate it with the bank account
-        bank_account = self.env["res.partner.bank"].create(
-            {"acc_number": "1234", "partner_id": partner.id}
-        )
+        bank_account = self.env["res.partner.bank"].create({"acc_number": "1234", "partner_id": partner.id})
         partner.update({"bank_ids": [(4, bank_account.id)]})
 
         self.env["g2p.id.type"].create({"name": "ACCOUNT_ID"})
@@ -162,9 +156,7 @@ class TestG2PPaymentInteropLayerManager(TransactionCase):
 
     def test_send_payments_partial_success(self):
         # Test when some payments succeed and some fail
-        self.payment_batch.update(
-            {"payment_ids": [(4, self.payment.id), (4, self.payment2.id)]}
-        )
+        self.payment_batch.update({"payment_ids": [(4, self.payment.id), (4, self.payment2.id)]})
         mock_response = MagicMock()
         mock_response.status_code = 200
         mock_response.json.return_value = {
@@ -190,15 +182,11 @@ class TestG2PPaymentInteropLayerManager(TransactionCase):
         self.assertEqual(self.payment.amount_paid, 50.0)
 
         # Check if the failed payment is marked as failed
-        failed_payment = self.payment_batch.payment_ids.filtered(
-            lambda p: p.status == "failed"
-        )
+        failed_payment = self.payment_batch.payment_ids.filtered(lambda p: p.status == "failed")
         self.assertTrue(failed_payment)
         self.assertEqual(len(failed_payment), 1)
 
-        failed_payment2 = self.payment_batch.payment_ids.filtered(
-            lambda p: p.status == "failed"
-        )
+        failed_payment2 = self.payment_batch.payment_ids.filtered(lambda p: p.status == "failed")
         self.assertTrue(failed_payment2)
         self.assertEqual(len(failed_payment2), 1)
 

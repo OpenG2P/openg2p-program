@@ -8,9 +8,7 @@ class TestG2PEntitlementManagerDefault(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super(TestG2PEntitlementManagerDefault, cls).setUpClass()
-        cls.entitlement_manager_model = cls.env[
-            "g2p.program.entitlement.manager.default"
-        ]
+        cls.entitlement_manager_model = cls.env["g2p.program.entitlement.manager.default"]
         cls.program_model = cls.env["g2p.program"]
         cls.cycle_model = cls.env["g2p.cycle"]
 
@@ -27,9 +25,7 @@ class TestG2PEntitlementManagerDefault(TransactionCase):
             }
         )
 
-        action_regular = self.entitlement_manager_model.open_entitlements_form(
-            regular_cycle
-        )
+        action_regular = self.entitlement_manager_model.open_entitlements_form(regular_cycle)
 
         self.assertTrue(action_regular)
         self.assertNotIn("context", action_regular)
@@ -47,9 +43,7 @@ class TestG2PEntitlementManagerDefault(TransactionCase):
             }
         )
 
-        action_reimbursement = self.entitlement_manager_model.open_entitlements_form(
-            reimbursement_cycle
-        )
+        action_reimbursement = self.entitlement_manager_model.open_entitlements_form(reimbursement_cycle)
 
         self.assertTrue(action_reimbursement)
         self.assertIn("context", action_reimbursement)
@@ -79,9 +73,7 @@ class TestG2PEntitlementManagerDefault(TransactionCase):
 
         self.env.context = {"active_ids": [cycle1.id, cycle2.id]}
 
-        action_multiple_cycles = self.entitlement_manager_model.open_entitlements_form(
-            cycle=cycle1
-        )
+        action_multiple_cycles = self.entitlement_manager_model.open_entitlements_form(cycle=cycle1)
 
         self.assertTrue(action_multiple_cycles)
 
@@ -98,9 +90,7 @@ class TestG2PEntitlementManagerDefault(TransactionCase):
             }
         )
 
-        action_reimbursement = self.entitlement_manager_model.open_entitlements_form(
-            reimbursement_cycle
-        )
+        action_reimbursement = self.entitlement_manager_model.open_entitlements_form(reimbursement_cycle)
 
         self.assertTrue(action_reimbursement)
         self.assertIn("context", action_reimbursement)
@@ -123,9 +113,7 @@ class TestG2PEntitlementManagerDefault(TransactionCase):
             }
         )
 
-        action_regular = self.entitlement_manager_model.open_entitlements_form(
-            regular_cycle
-        )
+        action_regular = self.entitlement_manager_model.open_entitlements_form(regular_cycle)
 
         self.assertTrue(action_regular)
         self.assertNotIn("context", action_regular)

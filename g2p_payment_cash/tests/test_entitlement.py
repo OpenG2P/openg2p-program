@@ -31,9 +31,7 @@ class TestG2PEntitlement(TransactionCase):
             }
         )
         cash_pay_mgr_obj = "g2p.program.payment.manager.cash"
-        pay_file_config = self.env["g2p.payment.file.config"].create(
-            {"name": "Payment file config"}
-        )
+        pay_file_config = self.env["g2p.payment.file.config"].create({"name": "Payment file config"})
         self.cash_mgr = self.env[cash_pay_mgr_obj].create(
             {
                 "name": "Cash Manager",

@@ -52,9 +52,7 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
         "Payee ID Field",
         required=True,
     )
-    reg_id_type_for_payee_id = fields.Many2one(
-        "g2p.id.type", "Payee DFSP ID Type", required=False
-    )
+    reg_id_type_for_payee_id = fields.Many2one("g2p.id.type", "Payee DFSP ID Type", required=False)
     customer_type = fields.Char(default="subscriber")
 
     auth_endpoint_url = fields.Char("Authentication Endpoint URL", required=True)
@@ -120,9 +118,7 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
                                 data=data,
                                 timeout=self.api_timeout,
                             )
-                            _logger.info(
-                                "MPesa Payment Transfer response: %s", response.content
-                            )
+                            _logger.info("MPesa Payment Transfer response: %s", response.content)
                             response.raise_for_status()
 
                             # TODO: Do Status check rather than hardcoding
@@ -135,9 +131,7 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
                         except Exception as e:
                             _logger.error("Mpesa Payment Failed with unknown reason", e)
                             error_msg = "Mpesa Payment Failed during transfer with unknown reason"
-                            self.message_post(
-                                body=error_msg, subject=_("Mpesa Payment Transfer")
-                            )
+                            self.message_post(body=error_msg, subject=_("Mpesa Payment Transfer"))
 
                         if completed_payments == len(batch.payment_ids):
                             batch.batch_has_completed = True
@@ -156,9 +150,7 @@ class G2PPaymentManagerSimpleMpesa(models.Model):
                 message = _("Failed to sent payments")
                 kind = "danger"
             else:
-                message = _(
-                    f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}"
-                )
+                message = _(f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}")
                 kind = "warning"
 
         return {

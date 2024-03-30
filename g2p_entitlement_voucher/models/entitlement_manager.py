@@ -11,9 +11,7 @@ _logger = logging.getLogger(__name__)
 class G2PCryptoKeySet(models.Model):
     _inherit = "g2p.crypto.key.set"
 
-    voucher_manager_id = fields.Many2one(
-        "g2p.program.entitlement.manager.voucher", ondelete="cascade"
-    )
+    voucher_manager_id = fields.Many2one("g2p.program.entitlement.manager.voucher", ondelete="cascade")
 
 
 class EntitlementManager(models.Model):
@@ -62,9 +60,7 @@ class G2PVoucherEntitlementManager(models.Model):
 
     # TODO: Later to be made async
     def approve_entitlements(self, entitlements):
-        res = super(G2PVoucherEntitlementManager, self).approve_entitlements(
-            entitlements
-        )
+        res = super(G2PVoucherEntitlementManager, self).approve_entitlements(entitlements)
 
         if self.auto_generate_voucher_on_approval:
             err, message, sticky, vouchers = self.generate_vouchers(entitlements)
@@ -86,9 +82,7 @@ class G2PVoucherEntitlementManager(models.Model):
                 [("state", "=", "approved"), ("voucher_document_id", "=", False)]
             )
         entitlements_count = len(entitlements)
-        cycles, cycle_entitlements_list = self._group_entitlements_by_cycle(
-            entitlements
-        )
+        cycles, cycle_entitlements_list = self._group_entitlements_by_cycle(entitlements)
         if entitlements_count < self.MIN_ROW_JOB_QUEUE:
             err_count = 0
             sticky = False
@@ -96,9 +90,7 @@ class G2PVoucherEntitlementManager(models.Model):
             for cycle_entitlements in cycle_entitlements_list:
                 cycle = cycle_entitlements[0].cycle_id
                 cycle_entitlements_count = len(cycle_entitlements)
-                cycle_err_count, cycle_vouchers = self._generate_vouchers(
-                    cycle_entitlements
-                )
+                cycle_err_count, cycle_vouchers = self._generate_vouchers(cycle_entitlements)
                 err_count += cycle_err_count
                 if not return_list:
                     return_list = cycle_vouchers
@@ -118,9 +110,7 @@ class G2PVoucherEntitlementManager(models.Model):
             for cycle_entitlements in cycle_entitlements_list:
                 cycle = cycle_entitlements[0].cycle_id
                 cycle_entitlements_count = len(cycle_entitlements)
-                self._generate_vouchers_async(
-                    cycle, cycle_entitlements, cycle_entitlements_count
-                )
+                self._generate_vouchers_async(cycle, cycle_entitlements, cycle_entitlements_count)
             return (
                 -1,
                 _(f"Started Voucher generation for {entitlements_count}."),
@@ -162,13 +152,7 @@ class G2PVoucherEntitlementManager(models.Model):
 
         jobs = []
         for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
-            jobs.append(
-                self.delayable()._generate_vouchers(
-                    entitlements[i : i + self.MAX_ROW_JOB_QUEUE]
-                )
-            )
+            jobs.append(self.delayable()._generate_vouchers(entitlements[i : i + self.MAX_ROW_JOB_QUEUE]))
         main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable().mark_job_as_done(cycle, _("Vouchers generated."))
-        )
+        main_job.on_done(self.delayable().mark_job_as_done(cycle, _("Vouchers generated.")))
         main_job.delay()

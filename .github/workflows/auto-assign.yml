@@ -6,7 +6,6 @@ on:
     types: [opened]
 jobs:
   run:
-    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - uses: bubkoo/auto-assign@v1

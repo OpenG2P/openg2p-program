@@ -22,9 +22,7 @@ class G2PEntitlement(models.Model):
         return str(uuid4())[4:-8][3:]
 
     name = fields.Char(compute="_compute_name")
-    code = fields.Char(
-        default=lambda x: x._generate_code(), required=True, readonly=True, copy=False
-    )
+    code = fields.Char(default=lambda x: x._generate_code(), required=True, readonly=True, copy=False)
 
     ern = fields.Char(
         compute="_compute_generate_ern",
@@ -48,14 +46,10 @@ class G2PEntitlement(models.Model):
     program_id = fields.Many2one("g2p.program", related="cycle_id.program_id")
 
     valid_from = fields.Date(required=False)
-    valid_until = fields.Date(
-        default=lambda self: fields.Date.add(fields.Date.today(), years=1)
-    )
+    valid_until = fields.Date(default=lambda self: fields.Date.add(fields.Date.today(), years=1))
 
     is_cash_entitlement = fields.Boolean("Cash Entitlement", default=False)
-    currency_id = fields.Many2one(
-        "res.currency", readonly=True, related="journal_id.currency_id"
-    )
+    currency_id = fields.Many2one("res.currency", readonly=True, related="journal_id.currency_id")
     initial_amount = fields.Monetary(required=True, currency_field="currency_id")
     transfer_fee = fields.Monetary(currency_field="currency_id", default=0.0)
     balance = fields.Monetary(compute="_compute_balance")  # in company currency
@@ -68,9 +62,7 @@ class G2PEntitlement(models.Model):
         compute="_compute_journal_id",
     )
     disbursement_id = fields.Many2one("account.payment", "Disbursement Journal Entry")
-    service_fee_disbursement_id = fields.Many2one(
-        "account.payment", "Service Fee Journal Entry"
-    )
+    service_fee_disbursement_id = fields.Many2one("account.payment", "Service Fee Journal Entry")
 
     date_approved = fields.Date()
     state = fields.Selection(
@@ -112,37 +104,21 @@ class G2PEntitlement(models.Model):
         group_g2p_admin = self.env.user.has_group("g2p_registry_base.group_g2p_admin")
         if not group_g2p_admin:
             if view_type != "search":
-                group_g2p_registrar = self.env.user.has_group(
-                    "g2p_registry_base.group_g2p_registrar"
-                )
-                g2p_program_validator = self.env.user.has_group(
-                    "g2p_programs.g2p_program_validator"
-                )
-                g2p_program_manager = self.env.user.has_group(
-                    "g2p_programs.g2p_program_manager"
-                )
+                group_g2p_registrar = self.env.user.has_group("g2p_registry_base.group_g2p_registrar")
+                g2p_program_validator = self.env.user.has_group("g2p_programs.g2p_program_validator")
+                g2p_program_manager = self.env.user.has_group("g2p_programs.g2p_program_manager")
 
-                if not (
-                    group_g2p_registrar or g2p_program_validator or g2p_program_manager
-                ):
-                    raise ValidationError(
-                        _("You have no access in the Entitlement List View")
-                    )
+                if not (group_g2p_registrar or g2p_program_validator or g2p_program_manager):
+                    raise ValidationError(_("You have no access in the Entitlement List View"))
 
         return arch, view
 
     def _compute_name(self):
         for record in self:
             name = _("Entitlement")
-            initial_amount = "{:,.2f}".format(record.initial_amount)
+            initial_amount = f"{record.initial_amount:,.2f}"
             if record.is_cash_entitlement:
-                name += (
-                    " Cash ["
-                    + str(record.currency_id.symbol)
-                    + " "
-                    + initial_amount
-                    + "]"
-                )
+                name += " Cash [" + str(record.currency_id.symbol) + " " + initial_amount + "]"
             else:
                 name += " (" + str(record.code) + ")"
             record.name = name
@@ -204,9 +180,7 @@ class G2PEntitlement(models.Model):
                 # to restrict the delete records even in the draft state.
                 return super(G2PEntitlement, to_delete).unlink()
             else:
-                raise ValidationError(
-                    _("Only draft entitlements are allowed to be deleted")
-                )
+                raise ValidationError(_("Only draft entitlements are allowed to be deleted"))
 
     def approve_entitlement(self):
         ent_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
@@ -234,9 +208,7 @@ class G2PEntitlement(models.Model):
             raise UserError(_("No Entitlement Manager defined."))
 
     def open_entitlement_form(self):
-        return self.program_id.get_manager(
-            constants.MANAGER_ENTITLEMENT
-        ).open_entitlement_form(self)
+        return self.program_id.get_manager(constants.MANAGER_ENTITLEMENT).open_entitlement_form(self)
 
     def open_disb_form(self):
         for rec in self:

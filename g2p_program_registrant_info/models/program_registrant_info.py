@@ -43,9 +43,7 @@ class G2PProgramRegistrantInfo(models.Model):
         "g2p.program_membership", compute="_compute_program_membership", store=True
     )
 
-    application_id = fields.Char(
-        "Application ID", compute="_compute_application_id", store=True
-    )
+    application_id = fields.Char("Application ID", compute="_compute_application_id", store=True)
 
     entitlement_id = fields.Many2one("g2p.entitlement")
 
@@ -88,9 +86,7 @@ class G2PProgramRegistrantInfo(models.Model):
             "view_mode": "form",
             "res_model": "g2p.program.registrant_info",
             "res_id": self.id,
-            "view_id": self.env.ref(
-                "g2p_program_registrant_info.view_program_registrant_info_form"
-            ).id,
+            "view_id": self.env.ref("g2p_program_registrant_info.view_program_registrant_info_form").id,
             "type": "ir.actions.act_window",
             "target": "new",
             "flags": {"mode": "readonly"},
@@ -107,9 +103,7 @@ class G2PProgramRegistrantInfo(models.Model):
         return False
 
     @api.model
-    def trigger_latest_status_membership(
-        self, program_membership, state, check_states=()
-    ):
+    def trigger_latest_status_membership(self, program_membership, state, check_states=()):
         if program_membership:
             reg_info = program_membership.latest_registrant_info
             if reg_info:
@@ -128,9 +122,7 @@ class G2PProgramRegistrantInfo(models.Model):
             reg_info.entitlement_id = entitlement
 
     @api.model
-    def reject_entitlement_for_membership(
-        self, program_membership, reject_state="rejected3"
-    ):
+    def reject_entitlement_for_membership(self, program_membership, reject_state="rejected3"):
         if program_membership:
             reg_info = program_membership.latest_registrant_info
             if reg_info and reg_info.entitlement_id:

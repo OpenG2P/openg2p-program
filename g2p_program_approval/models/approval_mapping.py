@@ -50,10 +50,7 @@ class ProgramApprovalMapping(models.Model):
                 res = rec
                 break
             if rec.state == state:
-                if (
-                    raise_incorrect_user_error
-                    and rec.group_id.id not in self.env.user.groups_id.ids
-                ):
+                if raise_incorrect_user_error and rec.group_id.id not in self.env.user.groups_id.ids:
                     raise Forbidden()
                 success = True
         return success, res

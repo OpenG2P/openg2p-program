@@ -45,6 +45,4 @@ class TestG2PProgramMembership(TransactionCase):
             self.assertEqual(result["params"]["type"], "warning")
             self.assertEqual(result["params"]["sticky"], False)
 
-            self.assertIn(
-                "During reject: Program Registrant Info is not installed", log.output[0]
-            )
+            self.assertIn("During reject: Program Registrant Info is not installed", log.output[0])

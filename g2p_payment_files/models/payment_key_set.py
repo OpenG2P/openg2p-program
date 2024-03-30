@@ -55,9 +55,7 @@ class G2PCryptoKeySet(models.Model):
         default="active",
     )
 
-    file_payment_manager_id = fields.Many2one(
-        "g2p.program.payment.manager.file", ondelete="cascade"
-    )
+    file_payment_manager_id = fields.Many2one("g2p.program.payment.manager.file", ondelete="cascade")
 
     _sql_constraints = [
         (
@@ -98,9 +96,7 @@ class G2PCryptoKeySet(models.Model):
                     password=None,
                 )
                 pub_key = priv_key.public_key()
-                sub_name = x509.Name(
-                    [x509.NameAttribute(NameOID.COMMON_NAME, web_base_hostname)]
-                )
+                sub_name = x509.Name([x509.NameAttribute(NameOID.COMMON_NAME, web_base_hostname)])
                 alt_names = [x509.DNSName(web_base_hostname)]
                 san = x509.SubjectAlternativeName(alt_names)
 
@@ -128,9 +124,7 @@ class G2PCryptoKeySet(models.Model):
     def _compute_jwk(self):
         for key_set in self:
             certificate = x509.load_pem_x509_certificate(key_set.pub_cert.encode())
-            cert_x5c = base64.b64encode(
-                certificate.public_bytes(serialization.Encoding.DER)
-            ).decode()
+            cert_x5c = base64.b64encode(certificate.public_bytes(serialization.Encoding.DER)).decode()
             pub_key = certificate.public_key()
             # TODO: For now hardcoding alogrithm
             pub_key_jwk = jwk.RSAKey(
