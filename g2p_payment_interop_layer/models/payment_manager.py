@@ -99,7 +99,7 @@ class G2PPaymentInteropLayerManager(models.Model):
                 # TODO: Add authentication mechanism
                 res = None
                 try:
-                    res = requests.post(payment_endpoint_url, json=final_json_request_dict)
+                    res = requests.post(payment_endpoint_url, json=final_json_request_dict, timeout=20)
                     res.raise_for_status()
                     jsonResponse = res.json()
                     _logger.info(f"Interop Layer Disbursement API: jsonResponse: {jsonResponse}")

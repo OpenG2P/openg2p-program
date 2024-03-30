@@ -5,7 +5,7 @@ class G2PDocumentStore(models.Model):
     _inherit = "storage.backend"
 
     def add_file(self, data, name=None, extension=None, program_membership=None, **kwargs):
-        res = super(G2PDocumentStore, self).add_file(data, name=name, extension=extension, **kwargs)
+        res = super().add_file(data, name=name, extension=extension, **kwargs)
         if program_membership:
             res.program_membership_id = program_membership
         return res

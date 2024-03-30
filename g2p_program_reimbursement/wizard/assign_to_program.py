@@ -37,4 +37,4 @@ class G2PAssignToProgramWizard(models.TransientModel):
                 "context": self.env.context,
             }
 
-        return super(G2PAssignToProgramWizard, self).open_wizard()
+        return super().open_wizard()

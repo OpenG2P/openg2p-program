@@ -8,6 +8,6 @@ class G2PEntitlementWizard(models.TransientModel):
     service_provider_id = fields.Many2one("res.partner")
 
     def generate_create_entitlement_dict(self):
-        res = super(G2PEntitlementWizard, self).generate_create_entitlement_dict()
+        res = super().generate_create_entitlement_dict()
         res["service_provider_id"] = self.service_provider_id.id
         return res

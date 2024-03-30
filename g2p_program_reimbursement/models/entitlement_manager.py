@@ -5,7 +5,7 @@ class G2PEntitlementManagerDefault(models.Model):
     _inherit = "g2p.program.entitlement.manager.default"
 
     def open_entitlements_form(self, cycle):
-        res = super(G2PEntitlementManagerDefault, self).open_entitlements_form(cycle)
+        res = super().open_entitlements_form(cycle)
         if cycle.program_id.is_reimbursement_program:
             # TODO: Reloading on reimbursement tree view will blank out the page
             # because of the following context not being available.

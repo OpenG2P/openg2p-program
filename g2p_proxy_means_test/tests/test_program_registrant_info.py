@@ -3,7 +3,7 @@ from odoo.tests.common import TransactionCase
 
 class TestG2PProgramRegistrantInfo(TransactionCase):
     def setUp(self):
-        super(TestG2PProgramRegistrantInfo, self).setUp()
+        super().setUp()
         self.program = self.env["g2p.program"].create(
             {
                 "name": "Test Program",

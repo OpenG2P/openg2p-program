@@ -235,7 +235,7 @@ class G2PPaymentHubEEManager(models.Model):
             batch.payment_ids.write({"state": "sent"})
 
             # _logger.info("PHEE API: data: %s" % csv_data)
-            _logger.info("PHEE API: res: %s - %s" % (res, res.content))
+            _logger.info(f"PHEE API: res: {res} - {res.content}")
 
     def _get_dfsp_id_and_type(self, payment):
         self.ensure_one()

@@ -45,7 +45,7 @@ class G2PVoucherEntitlementManager(models.Model):
 
     # TODO: Later to be made async
     def approve_entitlements(self, entitlements):
-        res = super(G2PVoucherEntitlementManager, self).approve_entitlements(entitlements)
+        res = super().approve_entitlements(entitlements)
 
         if self.auto_generate_voucher_on_approval:
             err, message, sticky, vouchers = self.generate_vouchers(entitlements)

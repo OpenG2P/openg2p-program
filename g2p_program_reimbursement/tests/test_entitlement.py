@@ -6,7 +6,7 @@ from odoo.tests import TransactionCase, tagged
 @tagged("post_install", "-at_install")
 class TestG2PEntitlement(TransactionCase):
     def setUp(self):
-        super(TestG2PEntitlement, self).setUp()
+        super().setUp()
 
         self.entitlement_model = self.env["g2p.entitlement"]
         self.partner_model = self.env["res.partner"]

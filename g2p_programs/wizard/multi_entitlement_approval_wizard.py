@@ -15,7 +15,7 @@ class G2PMultiEntitlementApprovalWiz(models.TransientModel):
         _logger.info(
             "Adding to Multi Entitlement Approval Wizard with IDs: %s" % self.env.context.get("active_ids")
         )
-        res = super(G2PMultiEntitlementApprovalWiz, self).default_get(fields)
+        res = super().default_get(fields)
         if self.env.context.get("active_ids"):
             entitlement_ids = []
             cycle_id = 0

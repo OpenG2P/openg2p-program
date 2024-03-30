@@ -112,7 +112,7 @@ class G2PProgramMembership(models.Model):
         return arch, view
 
     def name_get(self):
-        res = super(G2PProgramMembership, self).name_get()
+        res = super().name_get()
         for rec in self:
             name = ""
             if rec.program_id:

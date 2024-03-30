@@ -34,7 +34,7 @@ class ProgramApprovalMapping(models.Model):
             val["sequence"] = val.get(
                 "sequence", self.env["ir.sequence"].next_by_code("g2p.program.approval")
             )
-        return super(ProgramApprovalMapping, self).create(vals)
+        return super().create(vals)
 
     def get_next_mapping(self, state, raise_incorrect_user_error=True):
         success = False

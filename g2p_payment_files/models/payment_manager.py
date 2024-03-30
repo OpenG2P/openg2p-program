@@ -40,7 +40,7 @@ class G2PFilesPaymentManager(models.Model):
     )
 
     def _prepare_payments(self, cycle, entitlements):
-        payments, batches = super(G2PFilesPaymentManager, self)._prepare_payments(cycle, entitlements)
+        payments, batches = super()._prepare_payments(cycle, entitlements)
 
         file_document_store = self.file_document_store
         if not file_document_store:

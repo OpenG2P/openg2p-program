@@ -12,7 +12,7 @@ class G2PCreateProgramWizard(models.TransientModel):
     )
 
     def create_program(self):
-        res = super(G2PCreateProgramWizard, self).create_program()
+        res = super().create_program()
 
         program = self.env["g2p.program"].browse(res["res_id"])
 
