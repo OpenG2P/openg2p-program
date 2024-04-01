@@ -21,9 +21,7 @@ class G2PPrograms(models.Model):
                 # To update the following tree view when there are modifications
                 [self.env.ref("g2p_programs.view_cycle_tree").id, "tree"],
                 [
-                    self.env.ref(
-                        "g2p_program_reimbursement.view_cycle_reimbursement_form"
-                    ).id,
+                    self.env.ref("g2p_program_reimbursement.view_cycle_reimbursement_form").id,
                     "form",
                 ],
             ]

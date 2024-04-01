@@ -40,9 +40,7 @@ class G2PFilesPaymentManager(models.Model):
     )
 
     def _prepare_payments(self, cycle, entitlements):
-        payments, batches = super(G2PFilesPaymentManager, self)._prepare_payments(
-            cycle, entitlements
-        )
+        payments, batches = super(G2PFilesPaymentManager, self)._prepare_payments(cycle, entitlements)
 
         file_document_store = self.file_document_store
         if not file_document_store:
@@ -57,9 +55,7 @@ class G2PFilesPaymentManager(models.Model):
                             qrcode_config_ids = file_config.qrcode_config_ids
                         else:
                             qrcode_config_ids += file_config.qrcode_config_ids
-                    tag_batches = batches.filtered(
-                        lambda x: x.tag_id.id == batch_tag.id
-                    )
+                    tag_batches = batches.filtered(lambda x: x.tag_id.id == batch_tag.id)
 
                     if not batch_tag.render_files_per_payment:
                         render_res_records = tag_batches
@@ -92,9 +88,7 @@ class G2PFilesPaymentManager(models.Model):
         else:
             if payments:
                 file_configs = self.payment_file_config_ids
-                qrcode_config_ids = (
-                    file_configs.qrcode_config_ids if file_configs else []
-                )
+                qrcode_config_ids = file_configs.qrcode_config_ids if file_configs else []
                 for qrcode_config in qrcode_config_ids:
                     qrcode_config.render_datas_and_store(
                         "g2p.payment",
@@ -105,9 +99,7 @@ class G2PFilesPaymentManager(models.Model):
 
                 # Render the voucher template itself
                 for file_config in file_configs:
-                    files = file_config.render_and_store(
-                        "g2p.payment", payments.ids, file_document_store
-                    )
+                    files = file_config.render_and_store("g2p.payment", payments.ids, file_document_store)
                     for i, rec in enumerate(payments):
                         rec.payment_file_ids = [(4, files[i].id)]
         return payments, batches
@@ -126,8 +118,6 @@ class G2PFilesPaymentManager(models.Model):
 class G2PPaymentBatchTag(models.Model):
     _inherit = "g2p.payment.batch.tag"
 
-    render_files_per_payment = fields.Boolean(
-        default=False, string="Render per payment instead of batch"
-    )
+    render_files_per_payment = fields.Boolean(default=False, string="Render per payment instead of batch")
 
     file_config_ids = fields.Many2many("g2p.payment.file.config")

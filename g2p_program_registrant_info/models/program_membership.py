@@ -4,22 +4,16 @@ from odoo import api, fields, models
 class G2PProgramMembership(models.Model):
     _inherit = "g2p.program_membership"
 
-    program_registrant_info_ids = fields.One2many(
-        "g2p.program.registrant_info", "program_membership_id"
-    )
+    program_registrant_info_ids = fields.One2many("g2p.program.registrant_info", "program_membership_id")
 
     latest_registrant_info = fields.Many2one(
         "g2p.program.registrant_info", compute="_compute_latest_registrant_info"
     )
-    latest_registrant_info_status = fields.Selection(
-        related="latest_registrant_info.state"
-    )
+    latest_registrant_info_status = fields.Selection(related="latest_registrant_info.state")
 
     def _compute_latest_registrant_info(self):
         for rec in self:
-            latest_registrant_info = rec.program_registrant_info_ids.sorted(
-                "create_date", reverse=True
-            )
+            latest_registrant_info = rec.program_registrant_info_ids.sorted("create_date", reverse=True)
             if latest_registrant_info:
                 rec.latest_registrant_info = latest_registrant_info[0]
             else:

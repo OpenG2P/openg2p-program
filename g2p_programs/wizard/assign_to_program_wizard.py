@@ -28,9 +28,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
         else:
             raise UserError(_("There are no selected registrants!"))
 
-    target_type = fields.Selection(
-        selection=[("group", "Group"), ("individual", "Individual")]
-    )
+    target_type = fields.Selection(selection=[("group", "Group"), ("individual", "Individual")])
     program_id = fields.Many2one(
         "g2p.program",
         "",
@@ -42,9 +40,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
     def assign_registrant(self):
         if self.env.context.get("active_ids"):
             partner_ids = self.env.context.get("active_ids")
-            _logger.debug(
-                "Adding to Program Wizard with registrant record IDs: %s" % partner_ids
-            )
+            _logger.debug("Adding to Program Wizard with registrant record IDs: %s" % partner_ids)
             ctr = 0
             ig_ctr = 0
             ok_ctr = 0
@@ -58,27 +54,21 @@ class G2PAssignToProgramWizard(models.TransientModel):
                     # Do not include disabled registrants
                     if rec.disabled:
                         ig_ctr += 1
-                        _logger.debug(
-                            "Ignored because registrant is disabled: %s" % rec.name
-                        )
+                        _logger.debug("Ignored because registrant is disabled: %s" % rec.name)
                     else:
                         if rec.is_group:  # Get only group registrants
                             if self.target_type == "group":
                                 proceed = True
                             else:
                                 ig_ctr += 1
-                                _logger.debug(
-                                    "Ignored because registrant is not a group: %s"
-                                    % rec.name
-                                )
+                                _logger.debug("Ignored because registrant is not a group: %s" % rec.name)
                         else:  # Get only individual registrants
                             if self.target_type == "individual":
                                 proceed = True
                             else:
                                 ig_ctr += 1
                                 _logger.debug(
-                                    "Ignored because registrant is not an individual: %s"
-                                    % rec.name
+                                    "Ignored because registrant is not an individual: %s" % rec.name
                                 )
                     if proceed:
                         ok_ctr += 1
@@ -107,19 +97,14 @@ class G2PAssignToProgramWizard(models.TransientModel):
                     }
                     kind = "danger"
                 if ig_ctr and not rec.disabled:
-                    message = _(
-                        "%(registrant)s was already in the Program %(program)s"
-                    ) % {
+                    message = _("%(registrant)s was already in the Program %(program)s") % {
                         "registrant": rec.name,
                         "program": self.program_id.name,
                     }
                     kind = "danger"
             else:
                 if not ctr:
-                    message = (
-                        _("Registrant's was already in the Program %s")
-                        % self.program_id.name
-                    )
+                    message = _("Registrant's was already in the Program %s") % self.program_id.name
                     kind = "danger"
 
                 else:
@@ -150,9 +135,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
             "name": "Add to Program",
             "view_mode": "form",
             "res_model": "g2p.assign.program.wizard",
-            "view_id": self.env.ref(
-                "g2p_programs.assign_to_program_wizard_form_view"
-            ).id,
+            "view_id": self.env.ref("g2p_programs.assign_to_program_wizard_form_view").id,
             "type": "ir.actions.act_window",
             "target": "new",
             "context": self.env.context,

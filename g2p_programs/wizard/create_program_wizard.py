@@ -23,11 +23,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         _logger.debug("DEBUG: active_model: %s" % self.env.context.get("active_model"))
 
         # Set default currency from the user's current company
-        currency_id = (
-            self.env.user.company_id.currency_id
-            and self.env.user.company_id.currency_id.id
-            or None
-        )
+        currency_id = self.env.user.company_id.currency_id and self.env.user.company_id.currency_id.id or None
         res["currency_id"] = currency_id
         return res
 
@@ -38,9 +34,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
     eligibility_domain = fields.Text(string="Domain", default="[]", required=True)
 
     # Cycle Manager
-    auto_approve_entitlements = fields.Boolean(
-        string="Auto-approve Entitlements", default=False
-    )
+    auto_approve_entitlements = fields.Boolean(string="Auto-approve Entitlements", default=False)
     cycle_duration = fields.Integer(default=1, required=True, string="Recurrence")
     approver_group_id = fields.Many2one(
         comodel_name="res.groups",
@@ -68,9 +62,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         "Manager",
         default="default",
     )
-    entitlement_validation_group_id = fields.Many2one(
-        "res.groups", string="Entitlement Validation Group"
-    )
+    entitlement_validation_group_id = fields.Many2one("res.groups", string="Entitlement Validation Group")
     # Entitlement Transfer Fees
     transfer_fee_pct = fields.Float(
         "Transfer Fee(%)",
@@ -89,9 +81,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         [("group", "Group"), ("individual", "Individual")],
         default="group",
     )
-    import_beneficiaries = fields.Selection(
-        [("yes", "Yes"), ("no", "No")], default="no"
-    )
+    import_beneficiaries = fields.Selection([("yes", "Yes"), ("no", "No")], default="no")
 
     state = fields.Selection(
         [("step1", "Set Defaults"), ("step2", "Import Registrants")],

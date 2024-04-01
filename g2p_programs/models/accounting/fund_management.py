@@ -51,12 +51,7 @@ class ProgramFundManagement(models.Model):
                 vals = {"state": "posted", "date_posted": fields.Date.today()}
                 if rec.name in ("Draft", None):
                     vals.update(
-                        {
-                            "name": self.env["ir.sequence"].next_by_code(
-                                "program.fund.ref.num"
-                            )
-                            or "NONE"
-                        }
+                        {"name": self.env["ir.sequence"].next_by_code("program.fund.ref.num") or "NONE"}
                     )
                 # TODO: Generate journal entry
                 rec.update(vals)

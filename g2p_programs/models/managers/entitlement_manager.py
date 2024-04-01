@@ -88,9 +88,7 @@ class BaseEntitlementManager(models.AbstractModel):
             )
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable().mark_job_as_done(
-                cycle, _("Entitlements Set to Pending Validation.")
-            )
+            self.delayable().mark_job_as_done(cycle, _("Entitlements Set to Pending Validation."))
         )
         main_job.delay()
 
@@ -126,9 +124,7 @@ class BaseEntitlementManager(models.AbstractModel):
         :return:
         """
         _logger.debug("Validate entitlements asynchronously")
-        cycle.message_post(
-            body=_("Validate %s entitlements started.", entitlements_count)
-        )
+        cycle.message_post(body=_("Validate %s entitlements started.", entitlements_count))
         cycle.write(
             {
                 "locked": True,
@@ -138,17 +134,9 @@ class BaseEntitlementManager(models.AbstractModel):
 
         jobs = []
         for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
-            jobs.append(
-                self.delayable()._validate_entitlements(
-                    entitlements[i : i + self.MAX_ROW_JOB_QUEUE]
-                )
-            )
+            jobs.append(self.delayable()._validate_entitlements(entitlements[i : i + self.MAX_ROW_JOB_QUEUE]))
         main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable().mark_job_as_done(
-                cycle, _("Entitlements Validated and Approved.")
-            )
-        )
+        main_job.on_done(self.delayable().mark_job_as_done(cycle, _("Entitlements Validated and Approved.")))
         main_job.delay()
 
     def _validate_entitlements(self, entitlements):
@@ -196,9 +184,7 @@ class BaseEntitlementManager(models.AbstractModel):
         :return:
         """
         _logger.debug("Cancel entitlements asynchronously")
-        cycle.message_post(
-            body=_("Cancel %s entitlements started.", entitlements_count)
-        )
+        cycle.message_post(body=_("Cancel %s entitlements started.", entitlements_count))
         cycle.write(
             {
                 "locked": True,
@@ -208,15 +194,9 @@ class BaseEntitlementManager(models.AbstractModel):
 
         jobs = []
         for i in range(0, entitlements_count, self.MAX_ROW_JOB_QUEUE):
-            jobs.append(
-                self.delayable()._cancel_entitlements(
-                    entitlements[i : i + self.MAX_ROW_JOB_QUEUE]
-                )
-            )
+            jobs.append(self.delayable()._cancel_entitlements(entitlements[i : i + self.MAX_ROW_JOB_QUEUE]))
         main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable().mark_job_as_done(cycle, _("Entitlements Cancelled."))
-        )
+        main_job.on_done(self.delayable().mark_job_as_done(cycle, _("Entitlements Cancelled.")))
         main_job.delay()
 
     def _cancel_entitlements(self, entitlements):
@@ -324,9 +304,7 @@ class DefaultCashEntitlementManager(models.Model):
         help="0 means no limit",
     )
 
-    currency_id = fields.Many2one(
-        "res.currency", related="program_id.journal_id.currency_id", readonly=True
-    )
+    currency_id = fields.Many2one("res.currency", related="program_id.journal_id.currency_id", readonly=True)
 
     # Transfer Fees
     transfer_fee_pct = fields.Float(
@@ -344,9 +322,7 @@ class DefaultCashEntitlementManager(models.Model):
 
     # Group able to validate the payment
     # Todo: Create a record rule for payment_validation_group
-    entitlement_validation_group_id = fields.Many2one(
-        "res.groups", string="Entitlement Validation Group"
-    )
+    entitlement_validation_group_id = fields.Many2one("res.groups", string="Entitlement Validation Group")
 
     @api.onchange("transfer_fee_pct")
     def on_transfer_fee_pct_change(self):
@@ -369,9 +345,7 @@ class DefaultCashEntitlementManager(models.Model):
 
         benecifiaries_with_entitlements = (
             self.env["g2p.entitlement"]
-            .search(
-                [("cycle_id", "=", cycle.id), ("partner_id", "in", benecifiaries_ids)]
-            )
+            .search([("cycle_id", "=", cycle.id), ("partner_id", "in", benecifiaries_ids)])
             .mapped("partner_id.id")
         )
         entitlements_to_create = [
@@ -384,18 +358,14 @@ class DefaultCashEntitlementManager(models.Model):
         entitlement_end_validity = cycle.end_date
         entitlement_currency = self.currency_id.id
 
-        beneficiaries_with_entitlements_to_create = self.env["res.partner"].browse(
-            entitlements_to_create
-        )
+        beneficiaries_with_entitlements_to_create = self.env["res.partner"].browse(entitlements_to_create)
 
         individual_count = beneficiaries_with_entitlements_to_create.count_individuals()
         individual_count_map = dict(individual_count)
 
         entitlements = []
         for beneficiary_id in beneficiaries_with_entitlements_to_create:
-            amount = self._calculate_amount(
-                beneficiary_id, individual_count_map.get(beneficiary_id.id, 0)
-            )
+            amount = self._calculate_amount(beneficiary_id, individual_count_map.get(beneficiary_id.id, 0))
             transfer_fee = 0.0
             if self.transfer_fee_pct > 0.0:
                 transfer_fee = amount * (self.transfer_fee_pct / 100.0)
@@ -481,13 +451,11 @@ class DefaultCashEntitlementManager(models.Model):
                 }
             else:
                 kind = "success"
-                approved_entitlements_count = (
-                    len(entitlements) - err
-                )  # Calculate the approved count
+                approved_entitlements_count = len(entitlements) - err  # Calculate the approved count
                 if err != 0:
-                    message = _(
-                        "{} Entitlements are successfully approved and {} are not approved."
-                    ).format(approved_entitlements_count, err)
+                    message = _("{} Entitlements are successfully approved and {} are not approved.").format(
+                        approved_entitlements_count, err
+                    )
                 else:
                     message = _("{} Entitlements are successfully approved.").format(
                         approved_entitlements_count
@@ -610,9 +578,7 @@ class DefaultCashEntitlementManager(models.Model):
                     rec.update(
                         {
                             "disbursement_id": new_payment.id,
-                            "service_fee_disbursement_id": new_service_fee
-                            and new_service_fee.id
-                            or None,
+                            "service_fee_disbursement_id": new_service_fee and new_service_fee.id or None,
                             "state": "approved",
                             "date_approved": fields.Date.today(),
                         }
@@ -632,9 +598,7 @@ class DefaultCashEntitlementManager(models.Model):
                 state_err += 1
                 if sw == 0:
                     sw = 1
-                    message = _(
-                        "Entitlement State Error! Entitlements not in 'pending validation' state:\n"
-                    )
+                    message = _("Entitlement State Error! Entitlements not in 'pending validation' state:\n")
                 message += _("Program: %(prg)s, Beneficiary: %(partner)s.\n") % {
                     "prg": rec.cycle_id.program_id.name,
                     "partner": rec.partner_id.name,
@@ -676,8 +640,5 @@ class DefaultCashEntitlementManager(models.Model):
     @api.model
     def _group_entitlements_by_cycle(self, entitlements):
         cycles = set(map(lambda x: x.cycle_id, entitlements))
-        cycle_entitlements = [
-            entitlements.filtered_domain([("cycle_id", "=", cycle.id)])
-            for cycle in cycles
-        ]
+        cycle_entitlements = [entitlements.filtered_domain([("cycle_id", "=", cycle.id)]) for cycle in cycles]
         return cycles, cycle_entitlements

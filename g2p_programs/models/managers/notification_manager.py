@@ -65,6 +65,4 @@ class SMSNotificationManager(models.Model):
 class SMSTemplate(models.Model):
     _inherit = "sms.template"
 
-    g2p_sms_id = fields.Many2one(
-        "g2p.program.notification.manager.sms", "SMS Program Notification Manager"
-    )
+    g2p_sms_id = fields.Many2one("g2p.program.notification.manager.sms", "SMS Program Notification Manager")

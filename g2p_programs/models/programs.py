@@ -58,12 +58,8 @@ class G2PProgram(models.Model):
     # Pre-cycle steps
     # TODO: for those, we should allow to have multiple managers and
     #  the order of the steps should be defined by the user
-    eligibility_managers = fields.Many2many(
-        "g2p.eligibility.manager"
-    )  # All will be run
-    deduplication_managers = fields.Many2many(
-        "g2p.deduplication.manager"
-    )  # All will be run
+    eligibility_managers = fields.Many2many("g2p.eligibility.manager")  # All will be run
+    deduplication_managers = fields.Many2many("g2p.deduplication.manager")  # All will be run
     # for each beneficiary, their preferred will be used or the first one that works.
     notification_managers = fields.Many2many("g2p.program.notification.manager")
     program_managers = fields.Many2many("g2p.program.manager")
@@ -75,9 +71,7 @@ class G2PProgram(models.Model):
 
     reconciliation_managers = fields.Selection([])
 
-    program_membership_ids = fields.One2many(
-        "g2p.program_membership", "program_id", "Program Memberships"
-    )
+    program_membership_ids = fields.One2many("g2p.program_membership", "program_id", "Program Memberships")
     have_members = fields.Boolean(
         string="Have Beneficiaries",
         compute="_compute_have_members",
@@ -112,9 +106,7 @@ class G2PProgram(models.Model):
         string="# Beneficiaries", readonly=True, compute="_compute_beneficiary_count"
     )
 
-    cycles_count = fields.Integer(
-        string="# Cycles", compute="_compute_cycle_count", store=True
-    )
+    cycles_count = fields.Integer(string="# Cycles", compute="_compute_cycle_count", store=True)
     duplicate_membership_count = fields.Integer(
         string="# Membership Duplicates", compute="_compute_duplicate_membership_count"
     )
@@ -139,9 +131,7 @@ class G2PProgram(models.Model):
                 if rec.cycle_ids:
                     entitlement_manager = rec.get_manager(self.MANAGER_ENTITLEMENT)
                     # Get only `draft`, `to_approve`, and `approved` cycles
-                    cycles = rec.cycle_ids.filtered(
-                        lambda a: a.state in ("draft", "to_approve", "approved")
-                    )
+                    cycles = rec.cycle_ids.filtered(lambda a: a.state in ("draft", "to_approve", "approved"))
                     if cycles:
                         for cycle in cycles:
                             entitlement_manager.cancel_entitlements(cycle)
@@ -244,9 +234,7 @@ class G2PProgram(models.Model):
             return [el.manager_ref_id for el in managers]
 
     @api.model
-    def get_beneficiaries(
-        self, state=None, offset=0, limit=None, order=None, count=False
-    ):
+    def get_beneficiaries(self, state=None, offset=0, limit=None, order=None, count=False):
         self.ensure_one()
         if isinstance(state, str):
             state = [state]
@@ -281,9 +269,7 @@ class G2PProgram(models.Model):
         for rec in self:
             program_manager = rec.get_manager(self.MANAGER_PROGRAM)
             if program_manager:
-                return program_manager.enroll_eligible_registrants(
-                    ["enrolled", "not_eligible"]
-                )
+                return program_manager.enroll_eligible_registrants(["enrolled", "not_eligible"])
 
             else:
                 raise UserError(_("No Program Manager defined."))
@@ -332,11 +318,7 @@ class G2PProgram(models.Model):
         # 2. Import the beneficiaries from the previous cycle to this one. If it is the first one, import from the
         # program memberships.
         if self.beneficiaries_count <= 0:
-            raise UserError(
-                _(
-                    "No enrolled registrants. Enroll registrants to program to create new cycle."
-                )
-            )
+            raise UserError(_("No enrolled registrants. Enroll registrants to program to create new cycle."))
         for rec in self:
             message = None
             kind = "success"
@@ -404,9 +386,7 @@ class G2PProgram(models.Model):
                     "type": "bank",
                     "default_account_id": default_account_id,
                     "code": code,
-                    "currency_id": rec.company_id.currency_id
-                    and rec.company_id.currency_id.id
-                    or None,
+                    "currency_id": rec.company_id.currency_id and rec.company_id.currency_id.id or None,
                 }
             )
             rec.update({"journal_id": new_journal.id})
@@ -528,9 +508,7 @@ class G2PProgram(models.Model):
         related_jobs = jobs.filtered(lambda r: self in r.records.program_id)
         return [("id", "in", related_jobs.ids)]
 
-    @api.constrains(
-        "entitlement_managers", "program_managers", "cycle_managers", "payment_managers"
-    )
+    @api.constrains("entitlement_managers", "program_managers", "cycle_managers", "payment_managers")
     def check_managers_limit(self):
         for record in self:
             error_messages = []
