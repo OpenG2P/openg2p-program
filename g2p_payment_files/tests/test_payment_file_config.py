@@ -8,7 +8,7 @@ from odoo.addons.mail.models.mail_template import MailTemplate
 
 class TestG2PPaymentFileConfig(TransactionCase):
     def setUp(self):
-        super(TestG2PPaymentFileConfig, self).setUp()
+        super().setUp()
         self.document_store = MagicMock()
         self.document_store.add_file.side_effect = self.mock_add_file
         self.payment_file_config = self.env["g2p.payment.file.config"].create(
@@ -18,9 +18,7 @@ class TestG2PPaymentFileConfig(TransactionCase):
                 "body_string": "<p>Sample Body</p>",
             }
         )
-        MailTemplate._render_template = MagicMock(
-            return_value={1: "<p>Rendered HTML</p>"}
-        )
+        MailTemplate._render_template = MagicMock(return_value={1: "<p>Rendered HTML</p>"})
 
     def mock_add_file(self, file_content, extension):
         return {

@@ -36,11 +36,17 @@ addon | version | maintainers | summary
 [g2p_program_cycleless](g2p_program_cycleless/) | 17.0.1.0.0 |  | OpenG2P Programs: Cycleless
 [g2p_program_documents](g2p_program_documents/) | 17.0.1.0.0 |  | OpenG2P Program: Documents
 [g2p_program_registrant_info](g2p_program_registrant_info/) | 17.0.1.0.0 |  | G2P Program: Registrant Info
-[g2p_program_registrant_info_rest_api](g2p_program_registrant_info_rest_api/) | 17.0.1.0.0 |  | G2P Program : Program Registrant Info Rest API
 [g2p_program_reimbursement](g2p_program_reimbursement/) | 17.0.1.0.0 |  | OpenG2P Programs: Reimbursement
 [g2p_programs](g2p_programs/) | 17.0.1.0.0 |  | OpenG2P Programs
-[g2p_programs_rest_api](g2p_programs_rest_api/) | 17.0.1.0.0 |  | G2P Programs: REST API
 [g2p_proxy_means_test](g2p_proxy_means_test/) | 17.0.1.0.0 |  | G2P: Proxy Means Test
+
+
+Unported addons
+---------------
+addon | version | maintainers | summary
+--- | --- | --- | ---
+[g2p_program_registrant_info_rest_api](g2p_program_registrant_info_rest_api/) | 17.0.1.0.0 (unported) |  | G2P Program : Program Registrant Info Rest API
+[g2p_programs_rest_api](g2p_programs_rest_api/) | 17.0.1.0.0 (unported) |  | G2P Programs: REST API
 
 [//]: # (end addons)
 
