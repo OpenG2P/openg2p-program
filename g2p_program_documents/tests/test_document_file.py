@@ -6,7 +6,7 @@ from odoo.tests.common import TransactionCase
 
 class TestG2PDocument(TransactionCase):
     def setUp(self):
-        super(TestG2PDocument, self).setUp()
+        super().setUp()
 
         # Create necessary records or perform any setup needed for the tests
         self.program = self.env["g2p.program"].create({"name": "Test Program"})

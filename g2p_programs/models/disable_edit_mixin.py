@@ -19,8 +19,6 @@ class DisableEditMixin(models.AbstractModel):
         # Add your dynamic computation logic here
         for rec in self:
             if rec.filtered_domain(self.DISABLE_EDIT_DOMAIN):
-                rec.edit_css = (
-                    "<style>.o_form_button_edit {display: none !important;}</style>"
-                )
+                rec.edit_css = "<style>.o_form_button_edit {display: none !important;}</style>"
             else:
                 rec.edit_css = False

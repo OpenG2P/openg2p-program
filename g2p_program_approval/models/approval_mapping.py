@@ -34,7 +34,7 @@ class ProgramApprovalMapping(models.Model):
             val["sequence"] = val.get(
                 "sequence", self.env["ir.sequence"].next_by_code("g2p.program.approval")
             )
-        return super(ProgramApprovalMapping, self).create(vals)
+        return super().create(vals)
 
     def get_next_mapping(self, state, raise_incorrect_user_error=True):
         success = False
@@ -50,10 +50,7 @@ class ProgramApprovalMapping(models.Model):
                 res = rec
                 break
             if rec.state == state:
-                if (
-                    raise_incorrect_user_error
-                    and rec.group_id.id not in self.env.user.groups_id.ids
-                ):
+                if raise_incorrect_user_error and rec.group_id.id not in self.env.user.groups_id.ids:
                     raise Forbidden()
                 success = True
         return success, res

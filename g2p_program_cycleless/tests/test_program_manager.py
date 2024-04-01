@@ -6,7 +6,7 @@ from odoo.addons.g2p_programs.models import constants
 
 class TestDefaultProgramManager(common.TransactionCase):
     def setUp(self):
-        super(TestDefaultProgramManager, self).setUp()
+        super().setUp()
 
         # Create a program and enroll a registrant (required for create_new_cycle)
         self.program = self.env["g2p.program"].create({"name": "Test Program"})
@@ -42,7 +42,7 @@ class TestDefaultProgramManager(common.TransactionCase):
 
         # Assert the previously created cycle is removed
         with self.assertRaises(AssertionError):
-            self.program.default_active_cycle
+            self.program._compute_default_active_cycle()
 
     def test_onchange_is_cycless_not_original_manager(self):
         # Create another program manager with a name

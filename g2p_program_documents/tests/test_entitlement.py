@@ -5,7 +5,7 @@ from odoo.tests import common
 
 class TestG2PEntitlement(common.TransactionCase):
     def setUp(self):
-        super(TestG2PEntitlement, self).setUp()
+        super().setUp()
         self.program = self.env["g2p.program"].create({"name": "Test Program"})
         self.partner = self.env["res.partner"].create({"name": "Test Partner"})
         self.g2p_program_membership = self.env["g2p.program_membership"].create(
@@ -75,10 +75,10 @@ class TestG2PEntitlement(common.TransactionCase):
         self.assertEqual(entitlement.document_count, 0)
 
         # Create multiple documents and check the count
-        documents = self.env["storage.file"].create(
+        self.env["storage.file"].create(
             [
                 {
-                    "name": "Document {}".format(i),
+                    "name": f"Document {i}",
                     "entitlement_id": entitlement.id,
                     "backend_id": 1,
                 }
@@ -131,7 +131,7 @@ class TestG2PEntitlement(common.TransactionCase):
         )
 
         # Create supporting documents
-        documents = self.env["storage.file"].create(
+        self.env["storage.file"].create(
             [
                 {
                     "name": "Document 1",

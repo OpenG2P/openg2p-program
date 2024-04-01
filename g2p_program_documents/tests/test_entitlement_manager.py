@@ -1,12 +1,13 @@
 from datetime import datetime, timedelta
 
+from odoo import _
 from odoo.exceptions import UserError
 from odoo.tests import common
 
 
 class TestDefaultEntitlementManagerForDocument(common.TransactionCase):
     def setUp(self):
-        super(TestDefaultEntitlementManagerForDocument, self).setUp()
+        super().setUp()
 
         # Create program, partner, membership, and document
         self.program = self.env["g2p.program"].create({"name": "Test Program"})
@@ -81,7 +82,7 @@ class TestDefaultEntitlementManagerForDocument(common.TransactionCase):
     def test_entitlement_copy_documents_error(self):
         # Mock a method to raise an error during document copying
         def mock_copy_documents_from_beneficiary(self):
-            raise UserError("Test Error")
+            raise UserError(_("Test Error"))
 
         # Patch the method with the mock
         with self.env.patch.object(
@@ -96,9 +97,7 @@ class TestDefaultEntitlementManagerForDocument(common.TransactionCase):
                     "program_id": self.program.id,
                     "sequence": 1,
                     "start_date": datetime.now().strftime("%Y-%m-%d"),
-                    "end_date": (datetime.now() + timedelta(days=30)).strftime(
-                        "%Y-%m-%d"
-                    ),
+                    "end_date": (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d"),
                 }
             )
             beneficiaries = [self.partner.id]

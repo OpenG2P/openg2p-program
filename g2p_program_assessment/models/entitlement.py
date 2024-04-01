@@ -23,9 +23,7 @@ class G2PAssessmentEntitlement(models.Model):
                 old_entitlement = old_entitlement[0]
             for assessment in prog_mem.assessment_ids:
                 if assessment.assessment_date < rec.create_date:
-                    if (not old_entitlement) or (
-                        old_entitlement.create_date < assessment.assessment_date
-                    ):
+                    if (not old_entitlement) or (old_entitlement.create_date < assessment.assessment_date):
                         assessments_to_copy.append((4, assessment.id))
             if assessments_to_copy:
                 rec.assessment_ids = assessments_to_copy
@@ -35,9 +33,7 @@ class DefaultEntitlementManagerForAssessment(models.Model):
     _inherit = "g2p.program.entitlement.manager.default"
 
     def prepare_entitlements(self, cycle, beneficiaries):
-        ents = super(DefaultEntitlementManagerForAssessment, self).prepare_entitlements(
-            cycle, beneficiaries
-        )
+        ents = super().prepare_entitlements(cycle, beneficiaries)
         if ents:
             ents.copy_assessments_from_beneficiary()
         return ents

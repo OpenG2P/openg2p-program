@@ -3,7 +3,7 @@ from odoo.tests import common
 
 class TestG2PProgramMembership(common.TransactionCase):
     def setUp(self):
-        super(TestG2PProgramMembership, self).setUp()
+        super().setUp()
         self.ProgramMembership = self.env["g2p.program_membership"]
         self.StorageFile = self.env["storage.file"]
         self.g2p_program = self.env["g2p.program"].create(
@@ -28,7 +28,7 @@ class TestG2PProgramMembership(common.TransactionCase):
             {
                 "name": "Test Document 1",
                 "program_membership_id": test_program_membership.id,
-                "backend_id": 1
+                "backend_id": 1,
                 # Add any other required fields
             }
         )
@@ -37,7 +37,7 @@ class TestG2PProgramMembership(common.TransactionCase):
             {
                 "name": "Test Document 2",
                 "program_membership_id": test_program_membership.id,
-                "backend_id": 1
+                "backend_id": 1,
                 # Add any other required fields
             }
         )

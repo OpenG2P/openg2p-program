@@ -8,7 +8,7 @@ from odoo.tests.common import TransactionCase
 class TestG2PCycle(TransactionCase):
     @classmethod
     def setUpClass(cls):
-        super(TestG2PCycle, cls).setUpClass()
+        super().setUpClass()
         cls.cycle_model = cls.env["g2p.cycle"]
         cls.program_model = cls.env["g2p.program"]
 
@@ -27,9 +27,7 @@ class TestG2PCycle(TransactionCase):
                 "end_date": end_date,
             }
         )
-        self.assertTrue(
-            cycle.is_reimbursement_program, "is_reimbursement_program should be True"
-        )
+        self.assertTrue(cycle.is_reimbursement_program, "is_reimbursement_program should be True")
 
     def test_02_open_cycle_form(self):
         program = self.program_model.create(
@@ -50,9 +48,7 @@ class TestG2PCycle(TransactionCase):
         res = cycle.open_cycle_form()
 
         if program.is_reimbursement_program:
-            expected_view_id = self.env.ref(
-                "g2p_program_reimbursement.view_cycle_reimbursement_form"
-            ).id
+            expected_view_id = self.env.ref("g2p_program_reimbursement.view_cycle_reimbursement_form").id
             self.assertEqual(
                 res["view_id"],
                 expected_view_id,

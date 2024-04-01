@@ -18,16 +18,12 @@ class G2PCreateNewProgramWiz(models.TransientModel):
     @api.model
     def default_get(self, fields):
         _logger.debug("Creating a new program")
-        res = super(G2PCreateNewProgramWiz, self).default_get(fields)
+        res = super().default_get(fields)
 
         _logger.debug("DEBUG: active_model: %s" % self.env.context.get("active_model"))
 
         # Set default currency from the user's current company
-        currency_id = (
-            self.env.user.company_id.currency_id
-            and self.env.user.company_id.currency_id.id
-            or None
-        )
+        currency_id = self.env.user.company_id.currency_id and self.env.user.company_id.currency_id.id or None
         res["currency_id"] = currency_id
         return res
 
@@ -38,9 +34,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
     eligibility_domain = fields.Text(string="Domain", default="[]", required=True)
 
     # Cycle Manager
-    auto_approve_entitlements = fields.Boolean(
-        string="Auto-approve Entitlements", default=False
-    )
+    auto_approve_entitlements = fields.Boolean(string="Auto-approve Entitlements", default=False)
     cycle_duration = fields.Integer(default=1, required=True, string="Recurrence")
     approver_group_id = fields.Many2one(
         comodel_name="res.groups",
@@ -68,9 +62,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         "Manager",
         default="default",
     )
-    entitlement_validation_group_id = fields.Many2one(
-        "res.groups", string="Entitlement Validation Group"
-    )
+    entitlement_validation_group_id = fields.Many2one("res.groups", string="Entitlement Validation Group")
     # Entitlement Transfer Fees
     transfer_fee_pct = fields.Float(
         "Transfer Fee(%)",
@@ -89,9 +81,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
         [("group", "Group"), ("individual", "Individual")],
         default="group",
     )
-    import_beneficiaries = fields.Selection(
-        [("yes", "Yes"), ("no", "No")], default="no"
-    )
+    import_beneficiaries = fields.Selection([("yes", "Yes"), ("no", "No")], default="no")
 
     state = fields.Selection(
         [("step1", "Set Defaults"), ("step2", "Import Registrants")],
@@ -164,7 +154,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             mgr = man_obj.create(
                 {
                     "program_id": program_id,
-                    "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                    "manager_ref_id": f"{def_mgr_obj},{str(def_mgr.id)}",
                 }
             )
             val = {"entitlement_managers": [(4, mgr.id)]}
@@ -201,7 +191,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             mgr = man_obj.create(
                 {
                     "program_id": program_id,
-                    "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                    "manager_ref_id": f"{def_mgr_obj},{str(def_mgr.id)}",
                 }
             )
             vals.update({"eligibility_managers": [(4, mgr.id)]})
@@ -225,7 +215,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
             mgr = man_obj.create(
                 {
                     "program_id": program_id,
-                    "manager_ref_id": "%s,%s" % (def_mgr_obj, str(def_mgr.id)),
+                    "manager_ref_id": f"{def_mgr_obj},{str(def_mgr.id)}",
                 }
             )
             vals.update({"cycle_managers": [(4, mgr.id)]})

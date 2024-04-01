@@ -24,13 +24,8 @@ class G2PEntitlement(models.Model):
         self.ensure_one()
         if self.state == "approved":
             payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
-            if (
-                payment_manager
-                and payment_manager._name == "g2p.program.payment.manager.cash"
-            ):
-                payments, batches = payment_manager._prepare_payments(
-                    self.cycle_id, entitlements=self
-                )
+            if payment_manager and payment_manager._name == "g2p.program.payment.manager.cash":
+                payments, batches = payment_manager._prepare_payments(self.cycle_id, entitlements=self)
                 payment_manager._send_payments(batches)
                 kind = "success"
                 message = _("Payment was issued and sent.")

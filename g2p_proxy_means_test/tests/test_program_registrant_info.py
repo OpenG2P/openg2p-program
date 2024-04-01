@@ -3,7 +3,7 @@ from odoo.tests.common import TransactionCase
 
 class TestG2PProgramRegistrantInfo(TransactionCase):
     def setUp(self):
-        super(TestG2PProgramRegistrantInfo, self).setUp()
+        super().setUp()
         self.program = self.env["g2p.program"].create(
             {
                 "name": "Test Program",
@@ -16,9 +16,7 @@ class TestG2PProgramRegistrantInfo(TransactionCase):
         )
         self.g2p_program_registrant_info = self.env["g2p.program.registrant_info"]
 
-        reg_info_model = self.env["ir.model"].search(
-            [("model", "=", "g2p.program.registrant_info")]
-        )
+        reg_info_model = self.env["ir.model"].search([("model", "=", "g2p.program.registrant_info")])
         self.env["ir.model.fields"].create(
             {
                 "name": "x_field1",
@@ -71,7 +69,4 @@ class TestG2PProgramRegistrantInfo(TransactionCase):
 
     def test_delete_related_proxy_means_params(self):
         self.program_reg_info.delete_related_proxy_means_params("x_field1")
-        self.assertTrue(
-            param.id not in self.program_pmt_params.ids
-            for param in self.program_pmt_params
-        )
+        self.assertTrue(param.id not in self.program_pmt_params.ids for param in self.program_pmt_params)

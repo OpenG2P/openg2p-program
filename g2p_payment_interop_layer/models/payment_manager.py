@@ -56,9 +56,7 @@ class G2PPaymentInteropLayerManager(models.Model):
         "Payee ID Field",
         required=True,
     )
-    reg_id_type_for_payee_id = fields.Many2one(
-        "g2p.id.type", "Payee DFSP ID Type", required=False
-    )
+    reg_id_type_for_payee_id = fields.Many2one("g2p.id.type", "Payee DFSP ID Type", required=False)
 
     payee_id_type_to_send = fields.Char(
         default="ACCOUNT_ID", help="This will be replaced for the payee ID type"
@@ -80,9 +78,7 @@ class G2PPaymentInteropLayerManager(models.Model):
                 disbursement_id = batch.name
 
                 cycle_id = batch.cycle_id
-                disbursement_note = (
-                    f"Program: {cycle_id.program_id.name}. Cycle ID - {cycle_id.name}"
-                )
+                disbursement_note = f"Program: {cycle_id.program_id.name}. Cycle ID - {cycle_id.name}"
 
                 final_json_request_dict = {
                     "note": disbursement_note,
@@ -91,9 +87,7 @@ class G2PPaymentInteropLayerManager(models.Model):
                 }
 
                 for payment_id in batch.payment_ids:
-                    payee_id_type, payee_id_value = self._get_dfsp_id_and_type(
-                        payment_id
-                    )
+                    payee_id_type, payee_id_value = self._get_dfsp_id_and_type(payment_id)
                     payee_item = {
                         "payeeIdType": payee_id_type,
                         "payeeIdValue": payee_id_value,
@@ -105,14 +99,10 @@ class G2PPaymentInteropLayerManager(models.Model):
                 # TODO: Add authentication mechanism
                 res = None
                 try:
-                    res = requests.post(
-                        payment_endpoint_url, json=final_json_request_dict
-                    )
+                    res = requests.post(payment_endpoint_url, json=final_json_request_dict, timeout=20)
                     res.raise_for_status()
                     jsonResponse = res.json()
-                    _logger.info(
-                        f"Interop Layer Disbursement API: jsonResponse: {jsonResponse}"
-                    )
+                    _logger.info(f"Interop Layer Disbursement API: jsonResponse: {jsonResponse}")
 
                 except HTTPError as http_err:
                     if res is not None:
@@ -122,9 +112,7 @@ class G2PPaymentInteropLayerManager(models.Model):
                         )
 
                     else:
-                        _logger.error(
-                            f"Interop Layer Disbursement API: HTTP error occurred: {http_err}."
-                        )
+                        _logger.error(f"Interop Layer Disbursement API: HTTP error occurred: {http_err}.")
                     continue
 
                 except Exception as err:
@@ -133,9 +121,7 @@ class G2PPaymentInteropLayerManager(models.Model):
                             f"Interop Layer Disbursement API: Other error occurred: {err}. res: {res} - {res.content}"
                         )
                     else:
-                        _logger.error(
-                            f"Interop Layer Disbursement API: Other error occurred: {err}."
-                        )
+                        _logger.error(f"Interop Layer Disbursement API: Other error occurred: {err}.")
                     continue
 
                 batch.payment_ids.write({"state": "sent"})
@@ -177,9 +163,7 @@ class G2PPaymentInteropLayerManager(models.Model):
                 message = _("Failed to sent payments")
                 kind = "danger"
             else:
-                message = _(
-                    f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}"
-                )
+                message = _(f"{all_paid_counter} Payments sent successfully out of {total_payments_counter}")
                 kind = "warning"
 
         return {

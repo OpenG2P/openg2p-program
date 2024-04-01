@@ -26,20 +26,10 @@ class G2PEntitlement(models.Model):
 
     def _compute_name(self):
         for record in self:
-            name = (
-                _("Entitlement")
-                if not record.program_id.is_reimbursement_program
-                else _("Reimbursement")
-            )
-            initial_amount = "{:,.2f}".format(record.initial_amount)
+            name = _("Entitlement") if not record.program_id.is_reimbursement_program else _("Reimbursement")
+            initial_amount = f"{record.initial_amount:,.2f}"
             if record.is_cash_entitlement:
-                name += (
-                    " Cash ["
-                    + str(record.currency_id.symbol)
-                    + " "
-                    + initial_amount
-                    + "]"
-                )
+                name += " Cash [" + str(record.currency_id.symbol) + " " + initial_amount + "]"
             else:
                 name += " (" + str(record.code) + ")"
             record.name = name
@@ -80,9 +70,7 @@ class G2PEntitlement(models.Model):
                     "is_cash_entitlement": True,
                     "valid_from": reimbursement_cycle.start_date,
                     "valid_until": reimbursement_cycle.end_date,
-                    "supporting_document_ids": [
-                        (4, file) for file in supporting_document_file_ids
-                    ],
+                    "supporting_document_ids": [(4, file) for file in supporting_document_file_ids],
                     "reimbursement_original_entitlement_id": self.id,
                 }
             )

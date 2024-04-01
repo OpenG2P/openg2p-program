@@ -15,16 +15,13 @@ class G2pProgramRegistrantInfo(models.TransientModel):
 
     def create_registrantinfo(self):
         membership = (
-            self.env["g2p.program_membership"]
-            .sudo()
-            .search([("id", "=", self._context.get("active_id"))])
+            self.env["g2p.program_membership"].sudo().search([("id", "=", self._context.get("active_id"))])
         )
         partners = membership.partner_id
         program = membership.program_id
         if not partners or not program:
             return
         try:
-
             # TODO: Add the program_registrant_info field logic
 
             self.env["g2p.program.registrant_info"].sudo().create(
@@ -37,9 +34,7 @@ class G2pProgramRegistrantInfo(models.TransientModel):
             )
 
         except Exception as e:
-            _logger.exception(
-                "An error occurred while creating registrant info: %s", str(e)
-            )
+            _logger.exception("An error occurred while creating registrant info: %s", str(e))
 
     def jsonize_form_data(self, data, program, membership=None):
         try:
@@ -48,9 +43,7 @@ class G2pProgramRegistrantInfo(models.TransientModel):
                     value = data[key]
                     if value:
                         if not program.supporting_documents_store:
-                            _logger.error(
-                                "Supporting Documents Store is not set in Program Configuration"
-                            )
+                            _logger.error("Supporting Documents Store is not set in Program Configuration")
                             data[key] = None
                             continue
                         data[key] = self.add_files_to_store(
@@ -93,7 +86,5 @@ class G2pProgramRegistrantInfo(models.TransientModel):
                             }
                         )
         except Exception as e:
-            _logger.exception(
-                "An error occurred while adding files to the store: %s", str(e)
-            )
+            _logger.exception("An error occurred while adding files to the store: %s", str(e))
         return file_details

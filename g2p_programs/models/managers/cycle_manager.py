@@ -38,9 +38,7 @@ class BaseCycleManager(models.AbstractModel):
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
-    auto_approve_entitlements = fields.Boolean(
-        string="Auto-approve Entitlements", default=False
-    )
+    auto_approve_entitlements = fields.Boolean(string="Auto-approve Entitlements", default=False)
 
     def check_eligibility(self, cycle, beneficiaries=None):
         """
@@ -144,9 +142,7 @@ class BaseCycleManager(models.AbstractModel):
             if entitlements:
                 return entitlement_manager.validate_entitlements(cycle)
             else:
-                message = _(
-                    "Auto-approve entitlements is set but there are no entitlements to process."
-                )
+                message = _("Auto-approve entitlements is set but there are no entitlements to process.")
                 kind = "warning"
 
             return {
@@ -173,13 +169,8 @@ class BaseCycleManager(models.AbstractModel):
             if not self.approver_group_id:
                 raise ValidationError(_("The cycle approver group is not specified!"))
             else:
-                if (
-                    self.env.user.id != 1
-                    and self.env.user.id not in self.approver_group_id.users.ids
-                ):
-                    raise ValidationError(
-                        _("You are not allowed to approve this cycle!")
-                    )
+                if self.env.user.id != 1 and self.env.user.id not in self.approver_group_id.users.ids:
+                    raise ValidationError(_("You are not allowed to approve this cycle!"))
 
     def _ensure_can_edit_cycle(self, cycle):
         """Base :meth:'_ensure_can_edit_cycle`
@@ -294,9 +285,7 @@ class DefaultCycleManager(models.Model):
             else:
                 beneficiaries_count = len(beneficiaries)
             if beneficiaries_count < self.MIN_ROW_JOB_QUEUE:
-                count = self._check_eligibility(
-                    cycle, beneficiaries=beneficiaries, do_count=True
-                )
+                count = self._check_eligibility(cycle, beneficiaries=beneficiaries, do_count=True)
                 message = _("%s Beneficiaries enrolled.", count)
                 kind = "success"
             else:
@@ -323,14 +312,8 @@ class DefaultCycleManager(models.Model):
     def _check_eligibility_async(self, cycle, beneficiaries_count):
         self.ensure_one()
         _logger.debug("Beneficiaries: %s", beneficiaries_count)
-        cycle.message_post(
-            body=_(
-                "Eligibility check of %s beneficiaries started.", beneficiaries_count
-            )
-        )
-        cycle.write(
-            {"locked": True, "locked_reason": "Eligibility check of beneficiaries"}
-        )
+        cycle.message_post(body=_("Eligibility check of %s beneficiaries started.", beneficiaries_count))
+        cycle.write({"locked": True, "locked_reason": "Eligibility check of beneficiaries"})
 
         jobs = []
         for i in range(0, beneficiaries_count, self.MAX_ROW_JOB_QUEUE):
@@ -340,16 +323,10 @@ class DefaultCycleManager(models.Model):
                 )
             )
         main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable(channel="root_program.cycle").mark_check_eligibility_as_done(
-                cycle
-            )
-        )
+        main_job.on_done(self.delayable(channel="root_program.cycle").mark_check_eligibility_as_done(cycle))
         main_job.delay()
 
-    def _check_eligibility(
-        self, cycle, beneficiaries=None, offset=0, limit=None, do_count=False
-    ):
+    def _check_eligibility(self, cycle, beneficiaries=None, offset=0, limit=None, do_count=False):
         if beneficiaries is None:
             beneficiaries = cycle.get_beneficiaries(
                 ["draft", "enrolled", "not_eligible"],
@@ -358,14 +335,10 @@ class DefaultCycleManager(models.Model):
                 order="id",
             )
 
-        eligibility_managers = cycle.program_id.get_managers(
-            constants.MANAGER_ELIGIBILITY
-        )
+        eligibility_managers = cycle.program_id.get_managers(constants.MANAGER_ELIGIBILITY)
         filtered_beneficiaries = beneficiaries
         for manager in eligibility_managers:
-            filtered_beneficiaries = manager.verify_cycle_eligibility(
-                cycle, filtered_beneficiaries
-            )
+            filtered_beneficiaries = manager.verify_cycle_eligibility(cycle, filtered_beneficiaries)
 
         filtered_beneficiaries.write({"state": "enrolled"})
 
@@ -405,11 +378,7 @@ class DefaultCycleManager(models.Model):
 
     def _prepare_entitlements_async(self, cycle, beneficiaries_count):
         _logger.debug("Prepare entitlement asynchronously")
-        cycle.message_post(
-            body=_(
-                "Prepare entitlement for %s beneficiaries started.", beneficiaries_count
-            )
-        )
+        cycle.message_post(body=_("Prepare entitlement for %s beneficiaries started.", beneficiaries_count))
         cycle.write(
             {
                 "locked": True,
@@ -426,9 +395,9 @@ class DefaultCycleManager(models.Model):
             )
         main_job = group(*jobs)
         main_job.on_done(
-            self.delayable(
-                channel="root_program.cycle"
-            ).mark_prepare_entitlement_as_done(cycle, _("Entitlement Ready."))
+            self.delayable(channel="root_program.cycle").mark_prepare_entitlement_as_done(
+                cycle, _("Entitlement Ready.")
+            )
         )
         main_job.delay()
 
@@ -442,9 +411,7 @@ class DefaultCycleManager(models.Model):
         :param do_count: Boolean - set to False to not run compute function
         :return:
         """
-        beneficiaries = cycle.get_beneficiaries(
-            ["enrolled"], offset=offset, limit=limit, order="id"
-        )
+        beneficiaries = cycle.get_beneficiaries(["enrolled"], offset=offset, limit=limit, order="id")
         ent_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
         if not ent_manager:
             raise UserError(_("No Entitlement Manager defined."))
@@ -484,7 +451,6 @@ class DefaultCycleManager(models.Model):
 
         # This prevents getting an end date that is less than the start date
         while True:
-
             # get the date of occurences
             start_date = prev_occurence[0]
             end_date = current_occurence[0] - timedelta(days=1)
@@ -520,9 +486,7 @@ class DefaultCycleManager(models.Model):
         self.ensure_one()
 
         for rec in self:
-            beneficiary_ids = rec.program_id.get_beneficiaries(["enrolled"]).mapped(
-                "partner_id.id"
-            )
+            beneficiary_ids = rec.program_id.get_beneficiaries(["enrolled"]).mapped("partner_id.id")
             return rec.add_beneficiaries(cycle, beneficiary_ids, state)
 
     def add_beneficiaries(self, cycle, beneficiaries, state="draft"):
@@ -569,9 +533,7 @@ class DefaultCycleManager(models.Model):
 
     def _add_beneficiaries_async(self, cycle, beneficiaries, state):
         _logger.debug("Adding beneficiaries asynchronously")
-        cycle.message_post(
-            body="Import of %s beneficiaries started." % len(beneficiaries)
-        )
+        cycle.message_post(body="Import of %s beneficiaries started." % len(beneficiaries))
         cycle.write({"locked": True, "locked_reason": _("Importing beneficiaries.")})
 
         beneficiaries_count = len(beneficiaries)

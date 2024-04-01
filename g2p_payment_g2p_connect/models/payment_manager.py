@@ -25,14 +25,6 @@ class PaymentManager(models.Model):
         return selection
 
 
-class G2PCryptoKeySet(models.Model):
-    _inherit = "g2p.crypto.key.set"
-
-    g2pconnect_payment_manager_id = fields.Many2one(
-        "g2p.program.payment.manager.g2p.connect", ondelete="cascade"
-    )
-
-
 class G2PPaymentManagerG2PConnect(models.Model):
     _name = "g2p.program.payment.manager.g2p.connect"
     _inherit = [
@@ -60,9 +52,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         "Payee ID Field",
         required=True,
     )
-    reg_id_type_for_payee_id = fields.Many2one(
-        "g2p.id.type", "Payee DFSP ID Type", required=False
-    )
+    reg_id_type_for_payee_id = fields.Many2one("g2p.id.type", "Payee DFSP ID Type", required=False)
     payment_endpoint_url = fields.Char("Payment Endpoint URL", required=True)
     status_endpoint_url = fields.Char("Status Endpoint URL", required=True)
 
@@ -87,9 +77,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
     payment_file_config_ids = fields.Many2many(
         "g2p.payment.file.config", "g2p_pay_file_config_pay_manager_g2pconnect"
     )
-    crypto_key_set = fields.One2many(
-        "g2p.crypto.key.set", "g2pconnect_payment_manager_id"
-    )
     send_payments_domain = fields.Text("Filter Batches to Send", default="[]")
 
     @api.onchange("payee_id_type")
@@ -105,25 +92,18 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def _send_payments(self, batches):
         if batches:
-            batches = batches.filtered_domain(
-                self._safe_eval(self.send_payments_domain)
-            )
+            batches = batches.filtered_domain(self._safe_eval(self.send_payments_domain))
         if not self.status_check_cron_id:
             self.status_check_cron_id = (
                 self.env["ir.cron"]
                 .sudo()
                 .create(
                     {
-                        "name": "G2P Connect Payment Manager Status Cron "
-                        + self.name
-                        + " #"
-                        + str(self.id),
+                        "name": "G2P Connect Payment Manager Status Cron " + self.name + " #" + str(self.id),
                         "active": True,
                         "interval_number": self.status_cron_job_interval_minutes,
                         "interval_type": "minutes",
-                        "model_id": self.env["ir.model"]
-                        .search([("model", "=", self._name)])
-                        .id,
+                        "model_id": self.env["ir.model"].search([("model", "=", self._name)]).id,
                         "state": "code",
                         "code": "model.payments_status_check(" + str(self.id) + ")",
                         "doall": False,
@@ -151,11 +131,17 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 "message": {"transaction_id": batch.name, "disbursements": []},
             }
             for payment in batch.payment_ids:
+                payee_fa = self._get_payee_fa(payment)
+                if not payee_fa:
+                    # TODO: Deal with no bank acc and/or ID type not matching any available IDs
+                    payment.state = "reconciled"
+                    payment.status = "failed"
+                    continue
                 batch_data["message"]["disbursements"].append(
                     {
                         "reference_id": payment.name,
                         "payer_fa": "",
-                        "payee_fa": self._get_payee_fa(payment),
+                        "payee_fa": payee_fa,
                         "amount": str(payment.amount_issued),
                         "payee_name": payment.partner_id.name,
                         "note": f"Payment for {batch.cycle_id.name} under {self.program_id.name}",
@@ -175,13 +161,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 response.raise_for_status()
 
             except Exception as e:
-                _logger.error(
-                    "G2P Connect Payment Failed with unknown reason: %s", str(e)
-                )
+                _logger.error("G2P Connect Payment Failed with unknown reason: %s", str(e))
                 error_msg = "G2P Connect Payment Failed with unknown reason: " + str(e)
-                self.message_post(
-                    body=error_msg, subject=_("G2P Connect Payment Disbursement")
-                )
+                self.message_post(body=error_msg, subject=_("G2P Connect Payment Disbursement"))
 
     @api.model
     def payments_status_check(self, id_):
@@ -224,9 +206,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
             res_list = res["message"]["txnstatus_response"]["txn_status"]
             for res in res_list:
                 if res:
-                    payments_by_ref = self.env["g2p.payment"].search(
-                        [("name", "=", res["reference_id"])]
-                    )
+                    payments_by_ref = self.env["g2p.payment"].search([("name", "=", res["reference_id"])])
                     if res["status"] == "succ":
                         payments_by_ref.state = "reconciled"
                         payments_by_ref.status = "paid"
@@ -240,9 +220,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 str(e),
             )
             error_msg = "G2P Connect Status Check Failed with unknown reason: " + str(e)
-            payment_manager.message_post(
-                body=error_msg, subject=_("G2P Connect Status Check")
-            )
+            payment_manager.message_post(body=error_msg, subject=_("G2P Connect Status Check"))
 
         batches = self.env["g2p.payment.batch"].search(
             [
@@ -255,16 +233,15 @@ class G2PPaymentManagerG2PConnect(models.Model):
             # If there are no batches like this .. the cron will be deleted
             payment_manager.sudo().with_delay().stop_status_check_cron()
         for batch in batches:
-            no_payments_left = len(
-                batch.payment_ids.filtered(lambda x: x.status not in ("paid", "failed"))
-            )
+            no_payments_left = len(batch.payment_ids.filtered(lambda x: x.status not in ("paid", "failed")))
             if no_payments_left == 0:
                 batch.batch_has_completed = True
 
     def stop_status_check_cron(self):
         for rec in self:
-            rec.status_check_cron_id.unlink()
-            rec.status_check_cron_id = None
+            if rec.status_check_cron_id:
+                rec.status_check_cron_id.unlink()
+                rec.status_check_cron_id = None
 
     def _get_payee_fa(self, payment):
         self.ensure_one()
@@ -289,18 +266,13 @@ class G2PPaymentManagerG2PConnect(models.Model):
             for reg_id in partner.reg_ids:
                 if reg_id.id_type.id == self.reg_id_type_for_payee_id.id:
                     return f"{self.payee_prefix}{reg_id.value}{self.payee_suffix}"
-        # TODO: Deal with no bank acc and/or ID type not matching any available IDs
         return None
 
     @api.model
     def get_registrant_or_group_head(self, partner):
         partner.ensure_one()
-        head_membership = self.env.ref(
-            "g2p_registry_membership.group_membership_kind_head"
-        )
+        head_membership = self.env.ref("g2p_registry_membership.group_membership_kind_head")
         if partner.is_group:
-            partner = partner.group_membership_ids.filtered(
-                lambda x: head_membership in x.kind
-            )
+            partner = partner.group_membership_ids.filtered(lambda x: head_membership in x.kind)
             partner = partner[0].individual if partner else None
         return partner

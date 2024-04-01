@@ -95,6 +95,4 @@ class TestG2PAssessmentEntitlement(TransactionCase):
 
     def test_prepare_entitlements(self):
         beneficiaries = self.cycle_beneficiary
-        self.env["g2p.program.entitlement.manager.default"].prepare_entitlements(
-            self.cycle, beneficiaries
-        )
+        self.env["g2p.program.entitlement.manager.default"].prepare_entitlements(self.cycle, beneficiaries)

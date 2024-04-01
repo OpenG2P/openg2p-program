@@ -3,7 +3,7 @@ from odoo.tests.common import TransactionCase
 
 class TestG2PDocumentStore(TransactionCase):
     def setUp(self):
-        super(TestG2PDocumentStore, self).setUp()
+        super().setUp()
         self.G2PDocumentStore = self.env["storage.backend"]
         self.program = self.env["g2p.program"].create({"name": "Test Program"})
         self.partner = self.env["res.partner"].create({"name": "Test Partner"})
@@ -38,9 +38,7 @@ class TestG2PDocumentStore(TransactionCase):
 
     def test_add_file_calls_super_method(self):
         """Test that add_file calls the superclass method correctly."""
-        with self.mock_with_context(
-            self.env["storage.backend"]._patch_method("add_file")
-        ) as mock_add_file:
+        with self.mock_with_context(self.env["storage.backend"]._patch_method("add_file")) as mock_add_file:
             document_store = self.env["storage.backend"].create(
                 {
                     "name": "Test Document Store",

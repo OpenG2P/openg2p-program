@@ -3,7 +3,7 @@ from odoo.tests.common import TransactionCase
 
 class TestIrModelFields(TransactionCase):
     def setUp(self):
-        super(TestIrModelFields, self).setUp()
+        super().setUp()
         self.ir_model_fields = self.env["ir.model.fields"]
         self.program = self.env["g2p.program"].create(
             {
@@ -17,9 +17,7 @@ class TestIrModelFields(TransactionCase):
         )
         self.g2p_program_registrant_info = self.env["g2p.program.registrant_info"]
 
-        reg_info_model = self.env["ir.model"].search(
-            [("model", "=", "g2p.program.registrant_info")]
-        )
+        reg_info_model = self.env["ir.model"].search([("model", "=", "g2p.program.registrant_info")])
         self.field1 = self.env["ir.model.fields"].create(
             {
                 "name": "x_field1",

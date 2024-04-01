@@ -11,21 +11,17 @@
     "depends": [
         "g2p_programs",
         "g2p_program_documents",
-        # "g2p_programs_rest_api",
-        "fastapi",
+        "g2p_encryption",
         "mail",
     ],
     "external_dependencies": {
         "python": [
             "base45",
-            "cryptography",
             "cose",
-            "python-jose",
             "python-barcode",
             "pdfkit",
             "qrcode",
             "wkhtmltopdf",
-            "fastapi",
         ]
     },
     "data": [
@@ -34,7 +30,6 @@
         "views/payment_batch_tag_view.xml",
         "views/payment_manager_view.xml",
         "views/payment_view.xml",
-        "data/fastapi_endpoint.xml",
     ],
     "assets": {},
     "demo": [],

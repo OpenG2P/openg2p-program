@@ -10,7 +10,7 @@ class G2PCreateNewReimbursementProgramWiz(models.TransientModel):
         if self.is_reimbursement_program:
             self.env.context = {"is_reimbursement_program": True}
 
-        res = super(G2PCreateNewReimbursementProgramWiz, self).create_program()
+        res = super().create_program()
         for rec in self:
             program = self.env["g2p.program"].browse(res["res_id"])
             program.is_reimbursement_program = rec.is_reimbursement_program

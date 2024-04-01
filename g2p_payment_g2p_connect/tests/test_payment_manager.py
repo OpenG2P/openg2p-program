@@ -82,16 +82,12 @@ class TestG2PConnectPaymentManager(TransactionCase):
             mock_response = MagicMock()
             mock_response.status_code = 200
             mock_post.return_value = mock_response
-            self.manager._send_payments(
-                self.env["g2p.payment.batch"].browse(self.batch.id)
-            )
+            self.manager._send_payments(self.env["g2p.payment.batch"].browse(self.batch.id))
 
     def test_send_payments_other_error(self):
         with patch("requests.post") as mock_post:
             mock_post.side_effect = ValueError("Other Error")
-            self.manager._send_payments(
-                self.env["g2p.payment.batch"].browse(self.batch.id)
-            )
+            self.manager._send_payments(self.env["g2p.payment.batch"].browse(self.batch.id))
 
     def test_payments_status_check(self):
         with patch("requests.post") as mock_post:
@@ -155,9 +151,7 @@ class TestG2PConnectPaymentManager(TransactionCase):
         reg_id_type = self.env["g2p.id.type"].create({"name": "Test ID Type"})
         self.manager.reg_id_type_for_payee_id = reg_id_type
         reg_id_value = "Test Reg ID"
-        self.payment.partner_id.reg_ids = [
-            (0, 0, {"id_type": reg_id_type.id, "value": reg_id_value})
-        ]
+        self.payment.partner_id.reg_ids = [(0, 0, {"id_type": reg_id_type.id, "value": reg_id_value})]
         self.manager._get_payee_fa(self.payment)
 
     def test_update_batch_completion(self):

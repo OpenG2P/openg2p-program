@@ -67,9 +67,7 @@ class G2PPaymentHubEEManager(models.Model):
         "Payee ID Field",
         required=True,
     )
-    reg_id_type_for_payee_id = fields.Many2one(
-        "g2p.id.type", "Payee DFSP ID Type", required=False
-    )
+    reg_id_type_for_payee_id = fields.Many2one("g2p.id.type", "Payee DFSP ID Type", required=False)
 
     payee_id_type_to_send = fields.Char(
         default="ACCOUNT_ID", help="This will be replaced for the payee ID type"
@@ -78,16 +76,10 @@ class G2PPaymentHubEEManager(models.Model):
     # Payment parameters
     file_name_prefix = fields.Char("Filename Prefix", default="ph_ee_")
     batch_type_header = fields.Char("Batch Transaction Type Header", default="type")
-    batch_purpose_header = fields.Char(
-        "Batch Transaction Purpose Header", default="G2P Payment"
-    )
-    batch_request_timeout = fields.Integer(
-        help="Batch request timeout in seconds", default=10
-    )
+    batch_purpose_header = fields.Char("Batch Transaction Purpose Header", default="G2P Payment")
+    batch_request_timeout = fields.Integer(help="Batch request timeout in seconds", default=10)
 
-    make_csv_at_prepare = fields.Boolean(
-        help="Make CSV files as attachemnts during Preparation"
-    )
+    make_csv_at_prepare = fields.Boolean(help="Make CSV files as attachemnts during Preparation")
 
     # TODO: optimize code to do in a single query.
     def prepare_payments(self, cycle):
@@ -109,16 +101,12 @@ class G2PPaymentHubEEManager(models.Model):
                 )
                 .mapped("entitlement_id.id")
             )
-            entitlements_to_pay = list(
-                set(entitlements_ids) - set(entitlements_with_payments)
-            )
+            entitlements_to_pay = list(set(entitlements_ids) - set(entitlements_with_payments))
 
             if not entitlements_to_pay:
                 return cycle.mark_distributed()
 
-            entitlements_to_pay = self.env["g2p.entitlement"].browse(
-                entitlements_to_pay
-            )
+            entitlements_to_pay = self.env["g2p.entitlement"].browse(entitlements_to_pay)
 
             max_batch_size = self.max_batch_size
             is_create_batch = self.create_batch
@@ -150,8 +138,7 @@ class G2PPaymentHubEEManager(models.Model):
                     each_payment.batch_id = curr_batch
 
                     if self.make_csv_at_prepare and (
-                        i % max_batch_size == max_batch_size - 1
-                        or i == len(entitlements_to_pay) - 1
+                        i % max_batch_size == max_batch_size - 1 or i == len(entitlements_to_pay) - 1
                     ):
                         data = self.prepare_csv_for_batch(curr_batch)
                         csv_data_bin = data.getvalue().encode()
@@ -193,9 +180,7 @@ class G2PPaymentHubEEManager(models.Model):
         # Bulk Transfer to PHEE API
         payment_endpoint_url = self.payment_endpoint_url
         tenant_id = self.tenant_id
-        _logger.info(
-            f"DEBUG! send_payments Manager: PHEE - URL: {payment_endpoint_url} tenant: {tenant_id}"
-        )
+        _logger.info(f"DEBUG! send_payments Manager: PHEE - URL: {payment_endpoint_url} tenant: {tenant_id}")
         batch_request_timeout = self.batch_request_timeout
         for batch in batches:
             if batch.batch_has_started:
@@ -206,9 +191,7 @@ class G2PPaymentHubEEManager(models.Model):
 
             filename = f"{self.file_name_prefix}{batch.name}.csv"
             if self.make_csv_at_prepare:
-                attachments = self.env["ir.attachment"].search(
-                    [("name", "=", filename)], limit=1
-                )
+                attachments = self.env["ir.attachment"].search([("name", "=", filename)], limit=1)
                 if len(attachments) == 0:
                     _logger.error("Cannot find attachment with name %s", filename)
                     continue
@@ -252,7 +235,7 @@ class G2PPaymentHubEEManager(models.Model):
             batch.payment_ids.write({"state": "sent"})
 
             # _logger.info("PHEE API: data: %s" % csv_data)
-            _logger.info("PHEE API: res: %s - %s" % (res, res.content))
+            _logger.info(f"PHEE API: res: {res} - {res.content}")
 
     def _get_dfsp_id_and_type(self, payment):
         self.ensure_one()
@@ -297,9 +280,7 @@ class G2PPaymentHubEEManager(models.Model):
         payer_identifier_type = self.payer_id_type
         payer_identifier = self.payer_id
 
-        disbursement_note = (
-            f"Program: {batch.program_id.name}. Cycle ID - {batch.cycle_id.name}"
-        )
+        disbursement_note = f"Program: {batch.program_id.name}. Cycle ID - {batch.cycle_id.name}"
 
         data = StringIO()
         csv_writer = csv.writer(data, delimiter=delimiter, quoting=quoting)
@@ -317,9 +298,7 @@ class G2PPaymentHubEEManager(models.Model):
         ]
         csv_writer.writerow(header)
         for row, payment_id in enumerate(batch.payment_ids):
-            payee_identifier_type, payee_identifier = self._get_dfsp_id_and_type(
-                payment_id
-            )
+            payee_identifier_type, payee_identifier = self._get_dfsp_id_and_type(payment_id)
             row = [
                 row,
                 payment_id.name,
@@ -337,9 +316,7 @@ class G2PPaymentHubEEManager(models.Model):
         return data
 
     def create_update_csv_attachment(self, filename, csv_data_bin):
-        attach_search_result = self.env["ir.attachment"].search(
-            [("name", "=", filename)]
-        )
+        attach_search_result = self.env["ir.attachment"].search([("name", "=", filename)])
         csv_data_base64 = base64.b64encode(csv_data_bin)
         if len(attach_search_result) > 0:
             attach_search_result.write(

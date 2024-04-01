@@ -1,8 +1,8 @@
 /** @odoo-module **/
 
 import {Component, markup, onWillStart, useExternalListener, useState} from "@odoo/owl";
-import {renderToElement} from "@web/core/utils/render";
 import {registry} from "@web/core/registry";
+import {renderToElement} from "@web/core/utils/render";
 import {session} from "@web/session";
 import {useService} from "@web/core/utils/hooks";
 

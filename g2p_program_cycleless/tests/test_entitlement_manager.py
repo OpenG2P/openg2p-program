@@ -5,7 +5,7 @@ from odoo.tests.common import TransactionCase
 
 class TestG2PEntitlementManagerDefault(TransactionCase):
     def setUp(self):
-        super(TestG2PEntitlementManagerDefault, self).setUp()
+        super().setUp()
         self.entitlement_manager = self.env["g2p.program.entitlement.manager.default"]
         self.program_model = self.env["g2p.program"]
         self.cycle_model = self.env["g2p.cycle"]
@@ -23,9 +23,7 @@ class TestG2PEntitlementManagerDefault(TransactionCase):
             }
         )
 
-        action_reimbursement = self.entitlement_manager.open_entitlements_form(
-            reimbursement_cycle
-        )
+        action_reimbursement = self.entitlement_manager.open_entitlements_form(reimbursement_cycle)
 
         self.assertNotEqual(action_reimbursement["name"], "Reimbursements")
         self.assertNotEqual(action_reimbursement["name"], "Entitlements")

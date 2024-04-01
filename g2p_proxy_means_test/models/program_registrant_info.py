@@ -26,8 +26,6 @@ class G2PProgramRegistrantInfo(models.Model):
             rec.pmt_score = score
 
     def delete_related_proxy_means_params(self, field):
-        proxy_params_to_delete = self.env["g2p.proxy_means_test_params"].search(
-            [("pmt_field", "=", field)]
-        )
+        proxy_params_to_delete = self.env["g2p.proxy_means_test_params"].search([("pmt_field", "=", field)])
         for param in proxy_params_to_delete:
             param.unlink()

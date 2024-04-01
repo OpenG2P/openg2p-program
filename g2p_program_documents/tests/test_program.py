@@ -3,7 +3,7 @@ from odoo.tests import common
 
 class TestG2PProgram(common.TransactionCase):
     def setUp(self):
-        super(TestG2PProgram, self).setUp()
+        super().setUp()
         self.Program = self.env["g2p.program"]
         self.StorageBackend = self.env["storage.backend"]
 

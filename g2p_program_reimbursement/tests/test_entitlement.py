@@ -6,7 +6,7 @@ from odoo.tests import TransactionCase, tagged
 @tagged("post_install", "-at_install")
 class TestG2PEntitlement(TransactionCase):
     def setUp(self):
-        super(TestG2PEntitlement, self).setUp()
+        super().setUp()
 
         self.entitlement_model = self.env["g2p.entitlement"]
         self.partner_model = self.env["res.partner"]
@@ -116,11 +116,7 @@ class TestG2PEntitlement(TransactionCase):
         self.assertEqual(
             result_code,
             2,
-            "Submit Reimbursement Claim succeeded with wrong code {}.".format(
-                wrong_claim_code
-            ),
+            f"Submit Reimbursement Claim succeeded with wrong code {wrong_claim_code}.",
         )
 
-        self.assertFalse(
-            reimbursement, "Reimbursement should not be created with wrong code."
-        )
+        self.assertFalse(reimbursement, "Reimbursement should not be created with wrong code.")
