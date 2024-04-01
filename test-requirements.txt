@@ -12,3 +12,4 @@ git+https://github.com/openspp/openspp-modules@15.1.1-mono-repo#subdirectory=set
 git+https://github.com/openspp/openspp-modules@15.1.1-mono-repo#subdirectory=setup/spp_programs
 git+https://github.com/openspp/openspp-modules@15.1.1-mono-repo#subdirectory=setup/g2p_entitlement_cash
 git+https://github.com/openspp/openspp-modules@15.1.1-mono-repo#subdirectory=setup/spp_entitlement_in_kind
+git+https://github.com/openspp/openspp-modules@15.1.1-mono-repo#subdirectory=setup/spp_registry_data_source
