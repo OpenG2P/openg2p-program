@@ -6,7 +6,7 @@ from odoo.tests.common import TransactionCase
 
 class TestG2PPaymentFileQRCodeConfig(TransactionCase):
     def setUp(self):
-        super(TestG2PPaymentFileQRCodeConfig, self).setUp()
+        super().setUp()
         self.QRCodeConfig = self.env["g2p.payment.file.qrcode.config"]
         self.crypto_key_set = self.env["g2p.crypto.key.set"].create(
             {
@@ -91,7 +91,7 @@ class TestG2PPaymentFileQRCodeConfig(TransactionCase):
 
 class TestG2PPaymentFileQRCode(TransactionCase):
     def setUp(self):
-        super(TestG2PPaymentFileQRCode, self).setUp()
+        super().setUp()
         self.QRCodeModel = self.env["g2p.payment.file.qrcode"]
         self.qr_code_config = self.env["g2p.payment.file.qrcode.config"].create(
             {

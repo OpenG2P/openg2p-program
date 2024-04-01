@@ -5,7 +5,7 @@ from odoo.tests.common import TransactionCase
 
 class TestWellknownComponent(TransactionCase):
     def setUp(self):
-        super(TestWellknownComponent, self).setUp()
+        super().setUp()
         self.endpoint_model = self.env["fastapi.endpoint"]
         self.endpoint = self.endpoint_model.create(
             {
@@ -19,5 +19,5 @@ class TestWellknownComponent(TransactionCase):
         with patch(
             "odoo.addons.g2p_payment_files.models.fastapi_endpoint.api_router",
             autospec=True,
-        ) as mock_router:
+        ):
             self.endpoint._get_fastapi_routers()

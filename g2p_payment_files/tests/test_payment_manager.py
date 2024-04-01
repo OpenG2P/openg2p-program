@@ -6,14 +6,10 @@ from odoo.tests.common import TransactionCase
 
 class TestG2PPaymentManager(TransactionCase):
     def setUp(self):
-        super(TestG2PPaymentManager, self).setUp()
+        super().setUp()
         self.backend = self.env["storage.backend"].create({"name": "Test Backend"})
-        self.crypto_key_set = self.env["g2p.crypto.key.set"].create(
-            {"name": "Test Crypto Key"}
-        )
-        self.file_config = self.env["g2p.payment.file.config"].create(
-            {"name": "Test Config"}
-        )
+        self.crypto_key_set = self.env["g2p.crypto.key.set"].create({"name": "Test Crypto Key"})
+        self.file_config = self.env["g2p.payment.file.config"].create({"name": "Test Config"})
         self.batch_tag = self.env["g2p.payment.batch.tag"].create(
             {
                 "name": "Test Batch Tag",
@@ -40,15 +36,11 @@ class TestG2PPaymentManager(TransactionCase):
             }
         )
 
-        self.files_payment_manager = self.env[
-            "g2p.program.payment.manager.file"
-        ].create(
+        self.files_payment_manager = self.env["g2p.program.payment.manager.file"].create(
             {
                 "name": "Test Files Payment Manager",
                 "file_document_store": self.backend.id,
-                "crypto_key_set": [
-                    (0, 0, {"name": "Key Set for File Payment Manager"})
-                ],
+                "crypto_key_set": [(0, 0, {"name": "Key Set for File Payment Manager"})],
                 "batch_tag_ids": [(6, 0, [self.batch_tag.id])],
                 "program_id": self.program.id,
                 "create_batch": True,
@@ -62,16 +54,12 @@ class TestG2PPaymentManager(TransactionCase):
 
     def test_payment_manager_creation(self):
         self.assertTrue(self.files_payment_manager)
-        self.assertEqual(
-            self.files_payment_manager.file_document_store.id, self.backend.id
-        )
+        self.assertEqual(self.files_payment_manager.file_document_store.id, self.backend.id)
         self.assertEqual(len(self.files_payment_manager.crypto_key_set), 1)
         self.assertIn(self.batch_tag.id, self.files_payment_manager.batch_tag_ids.ids)
 
     def test_prepare_payments_with_batch(self):
-        payments, batches = self.files_payment_manager._prepare_payments(
-            self.cycle, self.entitlement
-        )
+        payments, batches = self.files_payment_manager._prepare_payments(self.cycle, self.entitlement)
 
         self.assertEqual(len(payments), 1, "Should create one payment")
         self.assertEqual(len(batches), 1, "Should create one batch")
@@ -81,9 +69,7 @@ class TestG2PPaymentManager(TransactionCase):
 
     def test_prepare_payments_without_batch(self):
         self.files_payment_manager.write({"create_batch": False})
-        payments, batches = self.files_payment_manager._prepare_payments(
-            self.cycle, self.entitlement
-        )
+        payments, batches = self.files_payment_manager._prepare_payments(self.cycle, self.entitlement)
 
         self.assertEqual(len(payments), 1, "Should create one payment")
 
