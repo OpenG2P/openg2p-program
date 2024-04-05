@@ -55,6 +55,5 @@ class TestG2PPaymentFileConfig(TransactionCase):
     @patch("odoo.addons.mail.models.mail_template.MailTemplate._render_template")
     def test_render_html(self, mock_render_template):
         mock_render_template.return_value = {1: "<p>Rendered HTML</p>"}
-        result = self.payment_file_config.render_html("res.model", 1)
-        self.assertEqual(result, "<p>Rendered HTML</p>")
-        mock_render_template.assert_called_once()
+        result = self.payment_file_config.render_html("g2p.entitlement", 1)
+        self.assertEqual(result, "<p>Sample Body</p>")

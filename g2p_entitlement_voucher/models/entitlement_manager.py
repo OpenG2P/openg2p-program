@@ -88,7 +88,8 @@ class G2PVoucherEntitlementManager(models.Model):
                     message = _(f"Failed to generate {err_count} vouchers.")
                 else:
                     message = _(
-                        f"{entitlements_count-err_count} Vouchers Generated. Failed to generate {err_count} vouchers."
+                        f"{entitlements_count-err_count} Vouchers Generated."
+                        f"Failed to generate {err_count} vouchers."
                     )
             else:
                 message = _(f"{entitlements_count} Vouchers Generated.")

@@ -112,7 +112,8 @@ class G2PProgram(models.Model):
     )
     active = fields.Boolean(default=True)
 
-    # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
+    # This is used to prevent any issue while some background tasks are happening
+    #  such as importing beneficiaries
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 
@@ -316,7 +317,8 @@ class G2PProgram(models.Model):
 
     def create_new_cycle(self):
         # 1. Create the next cycle using cycles_manager.new_cycle()
-        # 2. Import the beneficiaries from the previous cycle to this one. If it is the first one, import from the
+        # 2. Import the beneficiaries from the previous cycle to this one.
+        #  If it is the first one, import from the
         # program memberships.
         if self.beneficiaries_count <= 0:
             raise UserError(_("No enrolled registrants. Enroll registrants to program to create new cycle."))
@@ -529,7 +531,8 @@ class G2PProgram(models.Model):
             if error_messages:
                 combined_message = ", ".join(error_messages)
                 raise UserError(
-                    f"Only one manager can be configured under {combined_message}. Please delete any new manager(s) before saving your changes."  # noqa: B950
+                    f"Only one manager can be configured under {combined_message}."
+                    f"Please delete any new manager(s) before saving your changes."  # noqa: B950
                 )
 
     def unlink(self):

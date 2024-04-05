@@ -93,7 +93,8 @@ class G2PCycle(models.Model):
     )
     payments_count = fields.Integer(string="# Payments", readonly=True, compute="_compute_payments_count")
 
-    # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
+    # This is used to prevent any issue while some background tasks are happening
+    # such as importing beneficiaries
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 

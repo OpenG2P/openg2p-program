@@ -81,7 +81,8 @@ class G2PAssignToProgramWizard(models.TransientModel):
                 else:
                     ig_ctr += 1
                     _logger.debug(
-                        f"{rec.name} was ignored because the registrant is already in the Program {self.program_id.name}"
+                        f"{rec.name} was ignored because the registrant is already in the Program"
+                        f"{self.program_id.name}"
                     )
             _logger.debug(
                 f"Total selected registrants:{ctr}, Total ignored:{ig_ctr}, Total added to group:{ok_ctr}"

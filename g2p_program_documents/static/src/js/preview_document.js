@@ -27,7 +27,7 @@ class Widgetpreview extends Component {
                     const parts = slugValue.split("-");
                     const lastPart = parts[parts.length - 1].split(".")[0];
                     if (!isNaN(lastPart)) {
-                        recordID = parseInt(lastPart);
+                        recordID = parseInt(lastPart, 10);
                     }
                 }
                 if (recordID) {
@@ -44,7 +44,7 @@ class Widgetpreview extends Component {
             args: [[recordID]],
             kwargs: {},
         });
-        const attach_id = parseInt(result.id);
+        const attach_id = parseInt(result.id, 10);
         const mimetype = result.mimetype;
         const indexContent = result.index_content || "";
         if (mimetype.includes("image")) {

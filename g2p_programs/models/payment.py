@@ -50,7 +50,8 @@ class G2PPayment(models.Model):
     status_is_final = fields.Boolean("Is final payment status", default=False)
     status_datetime = fields.Datetime()
 
-    # We should have a snapshot of the account number from the beneficiary at the point of creating the payment
+    # We should have a snapshot of the account number from the beneficiary
+    #  at the point of creating the payment
     account_number = fields.Char()
 
     amount_issued = fields.Monetary(required=True, currency_field="currency_id")

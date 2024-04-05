@@ -454,7 +454,8 @@ class DefaultCashEntitlementManager(models.Model):
                 approved_entitlements_count = len(entitlements) - err  # Calculate the approved count
                 if err != 0:
                     message = _(
-                        f"{approved_entitlements_count} Entitlements are successfully approved and {err} are not approved."
+                        f"{approved_entitlements_count} Entitlements are successfully approved and"
+                        f"{err} are not approved."
                     )
                 else:
                     message = _(f"{approved_entitlements_count} Entitlements are successfully approved.")

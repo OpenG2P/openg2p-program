@@ -30,7 +30,8 @@ class RecurrenceMixin(models.Model):
     # Overwrite field from calendar.recurrence to define default value
     count = fields.Integer(default=10)
 
-    # Overwrite field from calendar.recurrence to add compute argument, store = True, and re-define default value
+    # Overwrite field from calendar.recurrence to add compute argument,
+    #  store = True, and re-define default value
     interval = fields.Integer(default=1, compute="_compute_interval", store=True)
 
     # Overwrite to always return False

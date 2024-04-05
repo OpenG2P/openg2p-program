@@ -8,19 +8,18 @@ class TestG2PPaymentFileQRCodeConfig(TransactionCase):
     def setUp(self):
         super().setUp()
         self.QRCodeConfig = self.env["g2p.payment.file.qrcode.config"]
-        self.crypto_key_set = self.env["g2p.crypto.key.set"].create(
-            {
-                "name": "Test Key",
-                "priv_key": "private_key_example",
-            }
-        )
-
         self.qr_code_config = self.QRCodeConfig.create(
             {
                 "name": "Test Config",
                 "type": "qrcode",
                 "data_type": "string",
                 "body_string": "Example String",
+            }
+        )
+        self.encryption_provider_default = self.env["g2p.encryption.provider"].create(
+            {
+                "name": "Test Encryption Provider",
+                # "type" : "test",
             }
         )
 
@@ -54,9 +53,9 @@ class TestG2PPaymentFileQRCodeConfig(TransactionCase):
         result = self.qr_code_config._render_data(
             "jwt",
             '{"sample": "data"}',
-            "res.model",
+            "g2p.entitlement",
             [1],
-            self.crypto_key_set,
+            self.encryption_provider_default,
         )
         self.assertTrue(mock_jwt_encode.called)
         self.assertIn(1, result)
@@ -69,7 +68,7 @@ class TestG2PPaymentFileQRCodeConfig(TransactionCase):
             json_data,
             "res.model",
             [1],
-            self.crypto_key_set,
+            self.encryption_provider_default,
         )
         self.assertEqual(len(result), 1)
         self.assertIn(1, result)
@@ -82,7 +81,7 @@ class TestG2PPaymentFileQRCodeConfig(TransactionCase):
             string_data,
             "res.model",
             [1],
-            self.crypto_key_set,
+            self.encryption_provider_default,
         )
         self.assertEqual(len(result), 1)
         self.assertIn(1, result)

@@ -11,6 +11,7 @@ extend-select = [
     "I",  # isort
     "UP",  # pyupgrade
 ]
+ignore = ["B023"]
 exclude = ["setup/*"]
 
 [format]
