@@ -137,3 +137,8 @@ g2p_payment_batch_tag_base_user,Payment Batch Base User,g2p_programs.model_g2p_p
 
 g2p_programs.access_g2p_cycle_recurrence_mixin,access_g2p_cycle_recurrence_mixin,g2p_programs.model_g2p_cycle_recurrence_mixin,base.group_user,1,1,1,1
 g2p_programs.access_g2p_assign_program_registrants,access_g2p_assign_program_registrants,g2p_programs.model_g2p_assign_program_registrants,base.group_user,1,1,1,1
+
+Access Control for g2p.group.membership.kind, Memberhsip kind access,g2p_registry_membership.model_g2p_group_membership_kind,,1,1,1,0
+Access Control for g2p.registrant.tags,Registrant tag access,g2p_registry_base.model_g2p_registrant_tags,g2p_programs.g2p_program_manager,1,1,1,0
+Access Control for g2p.id.type,ID type access ,g2p_registry_base.model_g2p_id_type,g2p_programs.g2p_program_manager,1,1,1,0
+Access Control for g2p.group.kind,Group Kind Access,g2p_registry_group.model_g2p_group_kind,g2p_programs.g2p_program_manager,1,1,1,0
