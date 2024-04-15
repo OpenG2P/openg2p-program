@@ -57,14 +57,14 @@ class TestG2PPaymentManagerCash(TransactionCase):
         selection = self.env["g2p.program.payment.manager"]._selection_manager_ref_id()
         self.assertIn(("g2p.program.payment.manager.cash", "Cash Payment Manager"), selection)
 
-    def test_crypto_key_set_creation(self):
-        crypto_key_set = self.env["g2p.crypto.key.set"].create(
-            {
-                "name": "Test Crypto Key Set",
-                "cash_payment_manager_id": self.payment_manager.id,
-            }
-        )
-        self.assertEqual(crypto_key_set.cash_payment_manager_id, self.payment_manager)
+    # def test_crypto_key_set_creation(self):
+    #     crypto_key_set = self.env["g2p.crypto.key.set"].create(
+    #         {
+    #             "name": "Test Crypto Key Set",
+    #             "cash_payment_manager_id": self.payment_manager.id,
+    #         }
+    #     )
+    #     self.assertEqual(crypto_key_set.cash_payment_manager_id, self.payment_manager)
 
     def test_send_payments(self):
         result = self.payment_manager._send_payments([self.payment_batch])

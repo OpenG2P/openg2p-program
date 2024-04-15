@@ -52,7 +52,8 @@ class G2PAssignPaymentsBatchWizard(models.TransientModel):
                 else:
                     ig_ctr += 1
                     _logger.info(
-                        f"{rec.name} was ignored because the payment is already in Payment Batch: {rec.batch_id.name}"
+                        f"{rec.name} was ignored because the payment is already in Payment Batch:"
+                        f"{rec.batch_id.name}"
                     )
             _logger.info(
                 f"Total selected payments:{ctr}, Total ignored:{ig_ctr}, Total added to batch:{ok_ctr}"

@@ -94,7 +94,8 @@ class DefaultFilePaymentManager(models.Model):
         string="Batch Tags",
         ondelete="cascade",
     )
-    # batch_tag_ids = fields.One2many("g2p.payment.batch.tag", "default_payment_manager_id", string="Batch Tags")
+    # batch_tag_ids = fields.One2many("g2p.payment.batch.tag",
+    # "default_payment_manager_id", string="Batch Tags")
 
     @api.onchange("create_batch")
     def on_change_create_batch(self):

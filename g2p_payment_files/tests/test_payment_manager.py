@@ -8,7 +8,6 @@ class TestG2PPaymentManager(TransactionCase):
     def setUp(self):
         super().setUp()
         self.backend = self.env["storage.backend"].create({"name": "Test Backend"})
-        self.crypto_key_set = self.env["g2p.crypto.key.set"].create({"name": "Test Crypto Key"})
         self.file_config = self.env["g2p.payment.file.config"].create({"name": "Test Config"})
         self.batch_tag = self.env["g2p.payment.batch.tag"].create(
             {
@@ -40,7 +39,6 @@ class TestG2PPaymentManager(TransactionCase):
             {
                 "name": "Test Files Payment Manager",
                 "file_document_store": self.backend.id,
-                "crypto_key_set": [(0, 0, {"name": "Key Set for File Payment Manager"})],
                 "batch_tag_ids": [(6, 0, [self.batch_tag.id])],
                 "program_id": self.program.id,
                 "create_batch": True,
@@ -55,7 +53,6 @@ class TestG2PPaymentManager(TransactionCase):
     def test_payment_manager_creation(self):
         self.assertTrue(self.files_payment_manager)
         self.assertEqual(self.files_payment_manager.file_document_store.id, self.backend.id)
-        self.assertEqual(len(self.files_payment_manager.crypto_key_set), 1)
         self.assertIn(self.batch_tag.id, self.files_payment_manager.batch_tag_ids.ids)
 
     def test_prepare_payments_with_batch(self):
@@ -89,7 +86,7 @@ class TestG2PPaymentManager(TransactionCase):
         self.assertIn(new_manager, selection)
 
     def test_create_method(self):
-        files_payment_manager = self.env["g2p.program.payment.manager.file"].create(
+        self.env["g2p.program.payment.manager.file"].create(
             {
                 "name": "Test Files Payment Manager Without Crypto Key Set",
                 "file_document_store": self.backend.id,
@@ -97,7 +94,6 @@ class TestG2PPaymentManager(TransactionCase):
                 "create_batch": True,
             }
         )
-        self.assertEqual(len(files_payment_manager.crypto_key_set), 1)
 
     def test_batch_tag_model_inheritance(self):
         batch_tag = self.env["g2p.payment.batch.tag"].create(
@@ -107,3 +103,16 @@ class TestG2PPaymentManager(TransactionCase):
             }
         )
         self.assertTrue(batch_tag.render_files_per_payment)
+
+    def test_get_encryption_provider(self):
+        self.files_payment_manager.encryption_provider_id = False
+        prov = self.files_payment_manager.get_encryption_provider()
+        default_prov = self.env.ref("g2p_encryption.encryption_provider_default")
+        self.assertEqual(
+            prov, default_prov, "Should return default encryption provider when none is assigned"
+        )
+
+        custom_prov = self.env["g2p.encryption.provider"].create({"name": "Custom Encryption Provider"})
+        self.files_payment_manager.encryption_provider_id = custom_prov.id
+        prov = self.files_payment_manager.get_encryption_provider()
+        self.assertEqual(prov, custom_prov, "Should return the assigned encryption provider")

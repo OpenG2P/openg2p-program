@@ -257,17 +257,19 @@ class DefaultCycleManager(models.Model):
 
         :param cycle: The cycle that is being verified
         :type cycle: :class:`g2p_programs.models.cycle.G2PCycle`
-        :param beneficiaries: the beneficiaries that need to be verified. By Default the one with the state ``draft``
+        :param beneficiaries: the beneficiaries that need to be verified.
+                By Default the one with the state ``draft``
                 or ``enrolled`` are verified.
         :type beneficiaries: list or None
 
         :return: The list of eligible beneficiaries
         :rtype: list
-
-        Validate the eligibility of each beneficiary for the cycle using the configured manager(s)
-        :class:`g2p_programs.models.managers.eligibility_manager.BaseEligibilityManager`. If there is multiple managers
-        for eligibility, each of them are run using the filtered list of eligible beneficiaries from the previous
-        one.
+        Validate the eligibility of each beneficiary for the
+            cycle using the configured manager(s)
+        :class:`g2p_programs.models.managers.eligibility_manager.BaseEligibilityManager`.
+            If there is multiple managers
+            for eligibility, each of them are run using the filtered list of eligible
+            beneficiaries from the previous one.
 
         The ``state`` of beneficiaries is updated to either ``enrolled`` if they match the enrollment criteria
         or ``not_eligible`` in case they do not match them.

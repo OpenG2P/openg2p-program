@@ -77,7 +77,8 @@ class DefaultDeduplication(models.Model):
 
         # TODO: check this group does not exist already with the same manager and the same beneficiaries or
         #  a subset of them.
-        #  1. If the state has been changed to no_duplicate, then we should not record it as duplicate unless there are
+        #  1. If the state has been changed to no_duplicate,
+        # then we should not record it as duplicate unless there are
         #  additional beneficiaries in the group.
         #  2. Otherwise we update the record.
 
@@ -129,7 +130,8 @@ class DefaultDeduplication(models.Model):
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
             _logger.debug(
-                f"group_membership.individual.id: {group_membership.individual.id} -> {group_membership.group.id}"
+                f"group_membership.individual.id: {group_membership.individual.id} -> "
+                f"{group_membership.group.id}"
             )
             if group_membership.individual.id not in group_of_duplicates:
                 group_of_duplicates[group_membership.individual.id] = []
@@ -144,7 +146,8 @@ class DefaultDeduplication(models.Model):
 
             duplicated_enrolled = duplicate_beneficiaries.filtered(lambda rec: rec.state == "enrolled")
             if len(duplicated_enrolled) == 1:
-                # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
+                # If there is only 1 enrolled that is duplicated,
+                # the enrolled one should not be marked as duplicate.
                 # otherwise if there is more than 1, then there is a problem!
                 # TODO: check how to handle this
                 duplicated_enrolled.write({"state": "enrolled"})
@@ -187,9 +190,11 @@ class IDDocumentDeduplication(models.Model):
         :return:
         """
 
-        # TODO: check this group does not exist already with the same manager and the same beneficiaries or
+        # TODO: check this group does not exist already with the same manager
+        # and the same beneficiaries or
         #  a subset of them.
-        #  1. If the state has been changed to no_duplicate, then we should not record it as duplicate unless there are
+        #  1. If the state has been changed to no_duplicate, then
+        #  we should not record it as duplicate unless there are
         #  additional beneficiaries in the group.
         #  2. Otherwise we update the record.
 
@@ -270,7 +275,8 @@ class IDDocumentDeduplication(models.Model):
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
             _logger.debug(
-                f"group_membership.individual.id: {group_membership.individual.id} -> {group_membership.group.id}"
+                f"group_membership.individual.id: {group_membership.individual.id} ->"
+                f"{group_membership.group.id}"
             )
             if group_membership.individual.id not in group_of_duplicates:
                 group_of_duplicates[group_membership.individual.id] = []
@@ -285,7 +291,8 @@ class IDDocumentDeduplication(models.Model):
 
             duplicated_enrolled = duplicate_beneficiaries.filtered(lambda rec: rec.state == "enrolled")
             if len(duplicated_enrolled) == 1:
-                # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
+                # If there is only 1 enrolled that is duplicated,
+                # the enrolled one should not be marked as duplicate.
                 # otherwise if there is more than 1, then there is a problem!
                 # TODO: check how to handle this
                 duplicated_enrolled.write({"state": "enrolled"})
@@ -300,7 +307,8 @@ class IDDocumentDeduplication(models.Model):
 
     def _check_duplicate_by_individual(self, beneficiaries):
         """
-        This method is used to check if there are any duplicates among the individuals id docs.
+        This method is used to check if there are any duplicates
+        among the individuals id docs.
         :param beneficiary_ids: The beneficiaries.
         :return:
         """
@@ -352,7 +360,8 @@ class IDDocumentDeduplication(models.Model):
 
 class PhoneNumberDeduplication(models.Model):
     """
-    When this model is added, it should add also the PhoneNumberDeduplicationEligibilityManager to the eligibility
+    When this model is added, it should add also the
+    PhoneNumberDeduplicationEligibilityManager to the eligibility
     criteria.
     """
 
@@ -387,7 +396,8 @@ class PhoneNumberDeduplication(models.Model):
 
         # TODO: check this group does not exist already with the same manager and the same beneficiaries or
         #  a subset of them.
-        #  1. If the state has been changed to no_duplicate, then we should not record it as duplicate unless there are
+        #  1. If the state has been changed to no_duplicate,
+        #  then we should not record it as duplicate unless there are
         #  additional beneficiaries in the group.
         #  2. Otherwise we update the record.
 
@@ -485,7 +495,8 @@ class PhoneNumberDeduplication(models.Model):
         group_of_duplicates = {}
         for group_membership in group_with_duplicates:
             _logger.debug(
-                f"group_membership.individual.id: {group_membership.individual.id} -> {group_membership.group.id}"
+                f"group_membership.individual.id: {group_membership.individual.id} ->"
+                f"{group_membership.group.id}"
             )
             if group_membership.individual.id not in group_of_duplicates:
                 group_of_duplicates[group_membership.individual.id] = []
@@ -500,7 +511,8 @@ class PhoneNumberDeduplication(models.Model):
 
             duplicated_enrolled = duplicate_beneficiaries.filtered(lambda rec: rec.state == "enrolled")
             if len(duplicated_enrolled) == 1:
-                # If there is only 1 enrolled that is duplicated, the enrolled one should not be marked as duplicate.
+                # If there is only 1 enrolled that is duplicated,
+                # the enrolled one should not be marked as duplicate.
                 # otherwise if there is more than 1, then there is a problem!
                 # TODO: check how to handle this
                 duplicated_enrolled.write({"state": "enrolled"})

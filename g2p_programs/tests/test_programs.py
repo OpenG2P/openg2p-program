@@ -90,20 +90,25 @@ class ProgramTest(TransactionCase):
     # TODO: Fix error in def test_01_cycle_prepare_entitlement(self):
     def cycle_prepare_entitlement(self):
         self.cycle1.prepare_entitlement()
-        message1 = "Program Testing: Program: {}, Cycle: {}, Preparing Entitlements FAILED (EXPECTED {} but RESULT is {})".format(
-            self.program_1.name,
-            self.cycle1.name,
-            1,
-            len(self.cycle1.entitlement_ids),
+        message1 = (
+            "Program Testing: Program: {},Cycle: {}, Preparing Entitlements FAILED "
+            "(EXPECTED {} but RESULT is {})".format(
+                self.program_1.name,
+                self.cycle1.name,
+                1,
+                len(self.cycle1.entitlement_ids),
+            )
         )
         self.assertEqual(len(self.cycle1.entitlement_ids), 1, message1)
-
         self.cycle2.prepare_entitlement()
-        message2 = "Program Testing: Program: {}, Cycle: {}, Preparing Entitlements FAILED (EXPECTED {} but RESULT is {})".format(
-            self.program_2.name,
-            self.cycle2.name,
-            1,
-            len(self.cycle2.entitlement_ids),
+        message2 = (
+            "Program Testing: Program: {}, Cycle: {}, Preparing Entitlements FAILED"
+            "(EXPECTED {} but RESULT is {})".format(
+                self.program_2.name,
+                self.cycle2.name,
+                1,
+                len(self.cycle2.entitlement_ids),
+            )
         )
         self.assertEqual(len(self.cycle2.entitlement_ids), 1, message2)
         # Check if entitlements_count compute is computing as expected
@@ -139,24 +144,36 @@ class ProgramTest(TransactionCase):
         approver.approver_group_id = group
 
         self.cycle1.to_approve()
-        message1 = "Program Testing: Program: {}, Cycle: {}, Setting State 'to_approve' FAILED (EXPECTED {} but RESULT is {})".format(
-            self.program_1.name, self.cycle1.name, "to_approve", self.cycle1.state
+        message1 = (
+            "Program Testing: Program: {}, Cycle: {}, Setting State 'to_approve' FAILED"
+            "(EXPECTED {} but RESULT is {})".format(
+                self.program_1.name, self.cycle1.name, "to_approve", self.cycle1.state
+            )
         )
         self.assertEqual(self.cycle1.state, "to_approve", message1)
         self.cycle2.to_approve()
-        message2 = "Program Testing: Program: {}, Cycle: {}, Setting State 'to_approve' FAILED (EXPECTED {} but RESULT is {})".format(
-            self.program_2.name, self.cycle2.name, "to_approve", self.cycle2.state
+        message2 = (
+            "Program Testing: Program: {}, Cycle: {}, Setting State 'to_approve' FAILED"
+            "(EXPECTED {} but RESULT is {})".format(
+                self.program_2.name, self.cycle2.name, "to_approve", self.cycle2.state
+            )
         )
         self.assertEqual(self.cycle2.state, "to_approve", message2)
         # Approve
         self.cycle1.approve()
-        message1 = "Program Testing: Program: {}, Cycle: {}, Setting State 'approved' FAILED (EXPECTED {} but RESULT is {})".format(
-            self.program_1.name, self.cycle1.name, "approved", self.cycle1.state
+        message1 = (
+            "Program Testing: Program: {}, Cycle: {}, Setting State 'approved' FAILED"
+            "(EXPECTED {} but RESULT is {})".format(
+                self.program_1.name, self.cycle1.name, "approved", self.cycle1.state
+            )
         )
         self.assertEqual(self.cycle1.state, "approved")
         self.cycle2.approve()
-        message2 = "Program Testing: Program: {}, Cycle: {}, Setting State 'approved' FAILED (EXPECTED {} but RESULT is {})".format(
-            self.program_2.name, self.cycle2.name, "approved", self.cycle2.state
+        message2 = (
+            "Program Testing: Program: {}, Cycle: {}, Setting State 'approved' FAILED"
+            "(EXPECTED {} but RESULT is {})".format(
+                self.program_2.name, self.cycle2.name, "approved", self.cycle2.state
+            )
         )
         self.assertEqual(self.cycle2.state, "approved")
 

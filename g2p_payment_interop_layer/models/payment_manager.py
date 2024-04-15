@@ -118,7 +118,8 @@ class G2PPaymentInteropLayerManager(models.Model):
                 except Exception as err:
                     if res is not None:
                         _logger.error(
-                            f"Interop Layer Disbursement API: Other error occurred: {err}. res: {res} - {res.content}"
+                            f"Interop Layer Disbursement API: Other error occurred:"
+                            f"{err}. res: {res} - {res.content}"
                         )
                     else:
                         _logger.error(f"Interop Layer Disbursement API: Other error occurred: {err}.")
