@@ -6,8 +6,6 @@ from datetime import date
 
 from odoo import api, fields, models
 
-from odoo.addons.phone_validation.tools import phone_validation
-
 _logger = logging.getLogger(__name__)
 
 
@@ -443,12 +441,11 @@ class PhoneNumberDeduplication(models.Model):
                 country_fname = "country_id"
                 number = x.phone_no
                 sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
+                    self.env.user._phone_format(
+                        number=number,
+                        country=x.country_id,
                         force_format="E164",
-                    )[number]["sanitized"]
+                    )
                 )
                 phone_id_with_sanitized = {x.id: sanitized}
                 individual_phone_numbers.update(phone_id_with_sanitized)
@@ -459,12 +456,11 @@ class PhoneNumberDeduplication(models.Model):
                 country_fname = "country_id"
                 number = x.phone_no
                 sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
+                    self.env.user._phone_format(
+                        number=number,
+                        country=x.country_id,
                         force_format="E164",
-                    )[number]["sanitized"]
+                    )
                 )
                 phone_id_with_sanitized = {x.id: sanitized}
                 individual_phone_numbers.update(phone_id_with_sanitized)
@@ -543,12 +539,11 @@ class PhoneNumberDeduplication(models.Model):
                 country_fname = "country_id"
                 number = x.phone_no
                 sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
+                    self.env.user._phone_format(
+                        number=number,
+                        country=x.country_id,
                         force_format="E164",
-                    )[number]["sanitized"]
+                    )
                 )
                 phone_id_with_sanitized = {x.id: sanitized}
                 individual_phone_numbers.update(phone_id_with_sanitized)
