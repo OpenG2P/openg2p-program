@@ -8,7 +8,7 @@
     "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "depends": ["g2p_entitlement_cash"],
+    "depends": ["spp_entitlement_cash"],
     "data": ["views/entitlement_manager_view.xml"],
     "demo": [],
     "assets": {},
