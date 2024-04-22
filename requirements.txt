@@ -3,8 +3,6 @@ base45
 cose
 cryptography
 pdfkit
-pyjwt>=2.4.0
-PyLD
 python-barcode
 python-dateutil
 python-jose
