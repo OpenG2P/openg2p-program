@@ -189,7 +189,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </page>
                         <page string="Bank Details" name="banks">
                             <field name="bank_ids" nolabel="1" colspan="2">
-                                <tree>
+                                <tree editable="bottom">
                                     <field name="bank_id" />
                                     <field name="acc_number" />
                                     <field name="acc_type" invisible="1" />
@@ -199,7 +199,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </page>
                         <page string="IDs" name="ids">
                             <field name="reg_ids" nolabel="1" colspan="2">
-                                <tree>
+                                <tree editable="bottom">
                                     <field name="id_type" />
                                     <field name="value" string="ID Number" />
                                     <field name="expiry_date" />
@@ -209,7 +209,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <page string="Relationships" name="relationships">
                             <group string="Registrant is related to:">
                                 <field name="related_1_ids" nolabel="1" colspan="2">
-                                    <tree>
+                                    <tree editable="bottom">
                                         <field
                                             name="source"
                                             domain="[('is_registrant','=',True),('id','!=',id)]"
@@ -262,7 +262,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <page name="individual_groups" string="Groups" invisible="is_group">
                             <group>
                                 <field name="individual_membership_ids" nolabel="1" colspan="2">
-                                    <tree>
+                                    <tree editable="bottom">
                                         <field
                                             name="group"
                                             domain="[('is_registrant','=',True),('is_group','=',True)]"
