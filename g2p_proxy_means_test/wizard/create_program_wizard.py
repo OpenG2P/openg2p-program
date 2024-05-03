@@ -56,9 +56,9 @@ class ProxyMeanTestParamsWizard(models.TransientModel):
         choice = []
         for field in data._fields.items():
             ir_model_field = ir_model_obj.search(
-                [("model", "=", "g2p.program.registrant_info"), ("name", "=", field)]
+                [("model", "=", "g2p.program.registrant_info"), ("name", "=", field[0])]
             )
             field_type = ir_model_field.ttype
-            if field_type in ["integer", "float"] and field not in ("pmt_score", "id"):
-                choice.append((field, field))
+            if field_type in ["integer", "float"] and field[0] not in ("pmt_score", "id", "sl_no"):
+                choice.append((field[0], field[0]))
         return choice
