@@ -42,7 +42,6 @@ class TestG2PDocumentStore(TransactionCase):
             document_store = self.env["storage.backend"].create(
                 {
                     "name": "Test Document Store",
-                    # ... other required fields ...
                 }
             )
             document_store.add_file(

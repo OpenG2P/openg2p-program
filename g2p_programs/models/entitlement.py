@@ -183,6 +183,15 @@ class G2PEntitlement(models.Model):
                 raise ValidationError(_("Only draft entitlements are allowed to be deleted"))
 
     def approve_entitlement(self):
+        ent_program_list = []
+        for rec in self:
+            if rec.program_id not in ent_program_list:
+                ent_program_list.append(rec.program_id)
+        # TODO: To be remove in case of multiple managers are enabled.
+        if len(ent_program_list) > 1:
+            raise ValidationError(
+                _("You can approve any number of entitlement cycles only from a specific program at a time")
+            )
         ent_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
 
         if ent_manager:

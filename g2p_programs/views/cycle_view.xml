@@ -338,6 +338,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     <field name="entitlement_id" />
                                                     <field name="program_id" column_invisible="1" />
                                                     <field name="cycle_id" column_invisible="1" />
+                                                    <field name="currency_id" column_invisible="1" />
                                                     <field name="account_number" />
                                                     <field name="amount_issued" />
                                                     <field name="issuance_date" />
