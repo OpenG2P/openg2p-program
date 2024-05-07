@@ -85,9 +85,9 @@ class DefaultEligibilityManager(models.Model):
         domain += [("disabled", "=", False)]
         # TODO: use the config of the program
         if self.program_id.target_type == "group":
-            domain += [("is_group", "=", True)]
+            domain += [("is_group", "=", True), ("is_registrant", "=", True)]
         if self.program_id.target_type == "individual":
-            domain += [("is_group", "=", False)]
+            domain += [("is_group", "=", False), ("is_registrant", "=", True)]
         domain += self._safe_eval(self.eligibility_domain)
         # _logger.debug("DOMAIN: %s" % domain)
         return domain
@@ -108,9 +108,7 @@ class DefaultEligibilityManager(models.Model):
     def verify_cycle_eligibility(self, cycle, membership):
         for rec in self:
             beneficiaries = rec._verify_eligibility(membership)
-            return self.env["g2p.cycle.membership"].search(
-                [("partner_id", "in", beneficiaries)]
-            )
+            return self.env["g2p.cycle.membership"].search([("partner_id", "in", beneficiaries)])
 
     def _verify_eligibility(self, membership):
         domain = self._prepare_eligible_domain(membership)
@@ -144,24 +142,18 @@ class DefaultEligibilityManager(models.Model):
     def _import_registrants_async(self, new_beneficiaries, state="draft"):
         self.ensure_one()
         program = self.program_id
-        program.message_post(
-            body="Import of %s beneficiaries started." % len(new_beneficiaries)
-        )
+        program.message_post(body="Import of %s beneficiaries started." % len(new_beneficiaries))
         program.write({"locked": True, "locked_reason": "Importing beneficiaries"})
 
         jobs = []
         for i in range(0, len(new_beneficiaries), 10000):
             jobs.append(
-                self.delayable(
-                    channel="root_program.eligibility_manager"
-                )._import_registrants(new_beneficiaries[i : i + 10000], state)
+                self.delayable(channel="root_program.eligibility_manager")._import_registrants(
+                    new_beneficiaries[i : i + 10000], state
+                )
             )
         main_job = group(*jobs)
-        main_job.on_done(
-            self.delayable(
-                channel="root_program.eligibility_manager"
-            ).mark_import_as_done()
-        )
+        main_job.on_done(self.delayable(channel="root_program.eligibility_manager").mark_import_as_done())
         main_job.delay()
 
     def mark_import_as_done(self):
@@ -178,9 +170,7 @@ class DefaultEligibilityManager(models.Model):
         logging.info("updated")
         beneficiaries_val = []
         for beneficiary in new_beneficiaries:
-            beneficiaries_val.append(
-                (0, 0, {"partner_id": beneficiary.id, "state": state})
-            )
+            beneficiaries_val.append((0, 0, {"partner_id": beneficiary.id, "state": state}))
         self.program_id.update({"program_membership_ids": beneficiaries_val})
 
         if do_count:

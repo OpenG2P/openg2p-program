@@ -6,9 +6,7 @@ from odoo import api, fields, models
 class G2PProgramRegistrantInfo(models.Model):
     _inherit = "g2p.program.registrant_info"
 
-    pmt_score = fields.Float(
-        "PMT Score", compute="_compute_pmt_score", digits=(0, 4), store=True
-    )
+    pmt_score = fields.Float("PMT Score", compute="_compute_pmt_score", digits=(0, 4), store=True)
     program_pmt_config = fields.Boolean(related="program_id.pmt_config", readonly=True)
 
     @api.depends(
@@ -28,8 +26,6 @@ class G2PProgramRegistrantInfo(models.Model):
             rec.pmt_score = score
 
     def delete_related_proxy_means_params(self, field):
-        proxy_params_to_delete = self.env["g2p.proxy_means_test_params"].search(
-            [("pmt_field", "=", field)]
-        )
+        proxy_params_to_delete = self.env["g2p.proxy_means_test_params"].search([("pmt_field", "=", field)])
         for param in proxy_params_to_delete:
             param.unlink()

@@ -11,12 +11,8 @@ class G2PProgramMembership(models.Model):
 
     assessment_ids = fields.One2many("g2p.program.assessment", "program_membership_id")
 
-    show_prepare_assessment_button = fields.Boolean(
-        compute="_compute_show_prepare_assessment"
-    )
-    show_create_entitlement_button = fields.Boolean(
-        compute="_compute_show_create_entitlement"
-    )
+    show_prepare_assessment_button = fields.Boolean(compute="_compute_show_prepare_assessment")
+    show_create_entitlement_button = fields.Boolean(compute="_compute_show_create_entitlement")
     show_reject_application_assessment_button = fields.Boolean(
         compute="_compute_reject_application_assessment"
     )
@@ -31,10 +27,7 @@ class G2PProgramMembership(models.Model):
                     latest_reg_info
                     and latest_reg_info.state not in ("completed", "rejected")
                 )
-                if (
-                    rec.show_reject_application_assessment_button
-                    and not rec.show_create_entitlement_button
-                ):
+                if rec.show_reject_application_assessment_button and not rec.show_create_entitlement_button:
                     show_prepare = False
             except Exception as e:
                 _logger.warning("Program Registrant info not installed. %s", e)
@@ -48,8 +41,7 @@ class G2PProgramMembership(models.Model):
             ).sorted("create_date", reverse=True)
             show_create = rec.state == "enrolled"
             filtered_assessments = rec.assessment_ids.filtered(
-                lambda x: (not latest_entitlements)
-                or x.create_date > latest_entitlements[0].create_date
+                lambda x: (not latest_entitlements) or x.create_date > latest_entitlements[0].create_date
             )
             show_create = show_create and (
                 (not latest_entitlements) or latest_entitlements[0].state != "draft"
@@ -58,12 +50,9 @@ class G2PProgramMembership(models.Model):
             latest_reg_info = None
             try:
                 latest_reg_info = rec.latest_registrant_info
-                show_create = show_create and (
-                    latest_reg_info and latest_reg_info.state != "rejected"
-                )
+                show_create = show_create and (latest_reg_info and latest_reg_info.state != "rejected")
                 filtered_assessments = filtered_assessments.filtered(
-                    lambda x: latest_reg_info
-                    and (x.create_date > latest_reg_info.create_date)
+                    lambda x: latest_reg_info and (x.create_date > latest_reg_info.create_date)
                 )
             except Exception as e:
                 _logger.warning("Program Registrant info not installed. %s", e)
@@ -80,9 +69,7 @@ class G2PProgramMembership(models.Model):
                 if (
                     reg_info
                     and reg_info.state in ("active", "inprogress")
-                    and rec.assessment_ids.filtered(
-                        lambda x: x.create_date > reg_info.create_date
-                    )
+                    and rec.assessment_ids.filtered(lambda x: x.create_date > reg_info.create_date)
                 ):
                     rec.show_reject_application_assessment_button = True
             except Exception as e:
@@ -108,31 +95,23 @@ class G2PProgramMembership(models.Model):
         }
 
     def open_entitlement_form_wizard(self):
-        return self.env["g2p.entitlement.create.wizard"].open_entitlement_form_wizard(
-            self
-        )
+        return self.env["g2p.entitlement.create.wizard"].open_entitlement_form_wizard(self)
 
     def reject_application_assessment(self):
         self.ensure_one()
         try:
-            is_found = self.env[
-                "g2p.program.registrant_info"
-            ].trigger_latest_status_membership(
+            is_found = self.env["g2p.program.registrant_info"].trigger_latest_status_membership(
                 self, "rejected", check_states=("active", "inprogress")
             )
             if is_found:
-                self.env[
-                    "g2p.program.registrant_info"
-                ].reject_entitlement_for_membership(self)
+                self.env["g2p.program.registrant_info"].reject_entitlement_for_membership(self)
                 message = _("Application rejected.")
                 kind = "success"
             else:
                 message = _("No Application found.")
                 kind = "warning"
         except Exception as e:
-            _logger.warning(
-                "During reject: Program Registrant Info is not installed. %s", e
-            )
+            _logger.warning("During reject: Program Registrant Info is not installed. %s", e)
             message = _("Application was not rejected.")
             kind = "warning"
         return {

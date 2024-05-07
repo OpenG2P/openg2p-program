@@ -10,11 +10,7 @@ class G2PEntitlementManagerDefault(models.Model):
             # TODO: Reloading on reimbursement tree view will blank out the page
             # because of the following context not being available.
             # TODO: Also figure out why this is not working without sudo
-            action = (
-                self.env.ref("g2p_program_reimbursement.action_reimbursement")
-                .sudo()
-                .read()[0]
-            )
+            action = self.env.ref("g2p_program_reimbursement.action_reimbursement").sudo().read()[0]
             action["context"] = {"default_cycle_id": cycle.id}
             return action
         return res

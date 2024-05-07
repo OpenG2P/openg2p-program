@@ -8,12 +8,8 @@ class G2PCycleMembership(models.Model):
     _description = "Cycle Membership"
     _order = "partner_id asc,id desc"
 
-    partner_id = fields.Many2one(
-        "res.partner", "Registrant", help="A beneficiary", required=True, index=True
-    )
-    cycle_id = fields.Many2one(
-        "g2p.cycle", "Cycle", help="A cycle", required=True, index=True
-    )
+    partner_id = fields.Many2one("res.partner", "Registrant", help="A beneficiary", required=True, index=True)
+    cycle_id = fields.Many2one("g2p.cycle", "Cycle", help="A cycle", required=True, index=True)
     enrollment_date = fields.Date(default=lambda self: fields.Datetime.now())
     state = fields.Selection(
         selection=[
@@ -76,9 +72,7 @@ class G2PCycleMembership(models.Model):
                 "view_mode": "form",
                 "res_model": "res.partner",
                 "res_id": self.partner_id.id,
-                "view_id": self.env.ref(
-                    "g2p_registry_individual.view_individuals_form"
-                ).id,
+                "view_id": self.env.ref("g2p_registry_individual.view_individuals_form").id,
                 "type": "ir.actions.act_window",
                 "target": "new",
                 "context": {"default_is_group": False},
@@ -93,24 +87,16 @@ class G2PCycleMembership(models.Model):
 
         if not draft_records:
             raise ValidationError(
-                _(
-                    "Beneficiaries can only be deleted when both the cycle and entitlement are unapproved."
-                )
+                _("Beneficiaries can only be deleted when both the cycle and entitlement are unapproved.")
             )
 
         for record in draft_records:
             beneficiary = record.cycle_id.entitlement_ids.filtered(
                 lambda x: x.partner_id.id == record.partner_id.id
             )
-            if (
-                record.cycle_id.state == "approved"
-                or beneficiary
-                and beneficiary.state == "approved"
-            ):
+            if record.cycle_id.state == "approved" or beneficiary and beneficiary.state == "approved":
                 raise ValidationError(
-                    _(
-                        "Beneficiaries can only be deleted when both the cycle and entitlement are unapproved."
-                    )
+                    _("Beneficiaries can only be deleted when both the cycle and entitlement are unapproved.")
                 )
 
         return super().unlink()
