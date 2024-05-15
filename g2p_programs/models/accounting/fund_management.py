@@ -42,7 +42,11 @@ class ProgramFundManagement(models.Model):
 
     @api.ondelete(at_uninstall=False)
     def _unlink_fund(self):
-        if self.state == "posted":
+        count_posted_fund = 0
+        for record in self:
+            if record.state == "posted":
+                count_posted_fund += 1
+        if count_posted_fund > 0:
             raise UserError(_("This fund is already posted and cannot be deleted."))
 
     def post_fund(self):
