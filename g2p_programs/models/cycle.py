@@ -104,7 +104,7 @@ class G2PCycle(models.Model):
         (
             "unique_cycle_name_program",
             "UNIQUE(name, program_id)",
-            "Cycle with this name already exists. Please choose a different name.",
+            "Cycle with this name already exists." "Please choose a different name.",
         )
     ]
 
@@ -345,7 +345,6 @@ class G2PCycle(models.Model):
             "type": "ir.actions.act_window",
             "context": {"hide_cash": hide_cash},
             "target": "current",
-            "flags": {"mode": "readonly"},
         }
 
     def open_members_form(self):
