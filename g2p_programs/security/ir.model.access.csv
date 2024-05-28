@@ -90,6 +90,9 @@ g2p_payment_program_manager,Payment Program Manager Access,g2p_programs.model_g2
 g2p_payment_batch_program_manager,Payment Batch Program Manager Access,g2p_programs.model_g2p_payment_batch,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_program_fund_program_manager,Program Fund Program Manager Access,g2p_programs.model_g2p_program_fund,g2p_programs.g2p_program_manager,1,1,1,0
 g2p_program_fund_report_view_program_manager,Program Fund Report View Program Manager Access,g2p_programs.model_g2p_program_fund_report_view,g2p_programs.g2p_program_manager,1,1,1,0
+g2p_program_membership_duplicate_pm,Program Membership Duplicate PM Access,g2p_programs.model_g2p_program_membership_duplicate,g2p_programs.g2p_program_manager,1,1,1,0
+g2p_program_membership_ir_fields,Program Membership IR Field PM Access,base.model_ir_model_fields,g2p_programs.g2p_program_manager,1,1,1,0
+
 
 g2p_program_create_wizard_program_manager,Create Program Wizard Program Manager Access,g2p_programs.model_g2p_program_create_wizard,g2p_programs.g2p_program_manager,1,1,1,1
 g2p_assign_program_wiz_program_manager,Assign Program Wiz Program Manager Access,g2p_programs.model_g2p_assign_program_wizard,g2p_programs.g2p_program_manager,1,1,1,1
