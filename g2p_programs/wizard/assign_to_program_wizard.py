@@ -53,7 +53,8 @@ class G2PAssignToProgramWizard(models.TransientModel):
                     proceed = False
                     # Do not include disabled registrants
                     if rec.disabled:
-                        ig_ctr += 1
+                        ctr -= 1
+                        # ig_ctr += 1
                         _logger.debug("Ignored because registrant is disabled: %s" % rec.name)
                     else:
                         if rec.is_group:  # Get only group registrants
