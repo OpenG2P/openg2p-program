@@ -49,11 +49,11 @@ class G2PAssignToProgramWizard(models.TransientModel):
             for rec in self.env["res.partner"].search([("id", "in", partner_ids)]):
                 if self.program_id not in rec.program_membership_ids.program_id:
                     ctr += 1
-                    _logger.debug("Processing (%s): %s" % (ctr, rec.name))
+                    _logger.debug(f"Processing ({ctr}): {rec.name}")
                     proceed = False
                     # Do not include disabled registrants
                     if rec.disabled:
-                        ig_ctr += 1
+                        ctr -= 1
                         _logger.debug("Ignored because registrant is disabled: %s" % rec.name)
                     else:
                         if rec.is_group:  # Get only group registrants
@@ -81,12 +81,11 @@ class G2PAssignToProgramWizard(models.TransientModel):
                 else:
                     ig_ctr += 1
                     _logger.debug(
-                        "%s was ignored because the registrant is already in the Program %s"
-                        % (rec.name, self.program_id.name)
+                        f"{rec.name} was ignored because the registrant is already in the Program"
+                        f"{self.program_id.name}"
                     )
             _logger.debug(
-                "Total selected registrants:%s, Total ignored:%s, Total added to group:%s"
-                % (ctr, ig_ctr, ok_ctr)
+                f"Total selected registrants:{ctr}, Total ignored:{ig_ctr}, Total added to group:{ok_ctr}"
             )
 
             if len(partner_ids) == 1:
@@ -108,6 +107,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
                         "program": self.program_id.name,
                     }
                     kind = "warning"
+
             else:
                 if not ctr:
                     message = _("Registrant's was already in the Program %s") % self.program_id.name
