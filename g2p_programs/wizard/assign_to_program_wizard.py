@@ -96,12 +96,18 @@ class G2PAssignToProgramWizard(models.TransientModel):
                         "program": self.program_id.name,
                     }
                     kind = "danger"
-                if ig_ctr and not rec.disabled:
+                elif ig_ctr and not rec.disabled:
                     message = _("%(registrant)s was already in the Program %(program)s") % {
                         "registrant": rec.name,
                         "program": self.program_id.name,
                     }
                     kind = "danger"
+                else:
+                    message = _("%(registrant)s is added to the Program %(program)s") % {
+                        "registrant": rec.name,
+                        "program": self.program_id.name,
+                    }
+                    kind = "warning"
             else:
                 if not ctr:
                     message = _("Registrant's was already in the Program %s") % self.program_id.name
@@ -129,7 +135,6 @@ class G2PAssignToProgramWizard(models.TransientModel):
                 }
 
     def open_wizard(self):
-
         # _logger.debug("Registrant IDs: %s" % self.env.context.get("active_ids"))
         return {
             "name": "Add to Program",
