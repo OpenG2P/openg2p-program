@@ -110,10 +110,17 @@ class G2PAssignToProgramWizard(models.TransientModel):
                     kind = "warning"
 
             else:
-                if not ctr:
+                if not ctr and not rec.disabled:
                     message = _("Registrant's was already in the Program %s") % self.program_id.name
                     kind = "danger"
-
+                elif not ctr and rec.disabled and rec.is_group:
+                    message = _("Disabled group(s) can't be added to the program %s") % self.program_id.name
+                    kind = "danger"
+                elif not ctr and rec.disabled and not rec.is_group:
+                    message = (
+                        _("Disabled Individual(s) can't be added to the program %s") % self.program_id.name
+                    )
+                    kind = "danger"
                 else:
                     message = _(
                         "Total registrants:%(total)s, Already in program:%(existing)s, Newly added:%(new)s"
