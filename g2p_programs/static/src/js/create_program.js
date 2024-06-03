@@ -22,4 +22,18 @@ patch(ListController.prototype, {
         });
         return window.location;
     },
+
+    get actionMenuItems() {
+        // Hide archive and unarchive option in action button
+
+        const actionItem = super.actionMenuItems;
+        if (this.props.resModel === "g2p.program_membership") {
+            const {action} = actionItem;
+            const filteredAction = action.filter(
+                (item) => item.key !== "archive" && item.key !== "unarchive"
+            );
+            actionItem.action = filteredAction;
+        }
+        return actionItem;
+    },
 });
