@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from odoo import tools
 from odoo.tests import tagged
@@ -21,6 +22,24 @@ class TestG2PProgramAssessment(TransactionCase):
                 "state": "enrolled",
             }
         )
+        cls.cycle = cls.env["g2p.cycle"].create(
+            {
+                "name": "Test Cycle",
+                "program_id": cls.program.id,
+                "start_date": datetime.now(),
+                "end_date": datetime.now(),
+            }
+        )
+        cls.entitlement = cls.env["g2p.entitlement"].create(
+            {
+                "partner_id": cls.partner.id,
+                "program_id": cls.program.id,
+                "cycle_id": cls.cycle.id,
+                "initial_amount": 1000.0,
+                "is_cash_entitlement": True,
+                "state": "draft",
+            }
+        )
 
     def test_post_assessment(self):
         body = "This is a test assessment."
@@ -36,7 +55,7 @@ class TestG2PProgramAssessment(TransactionCase):
             message_type="comment",
             subtype_id=None,
             partner_ids=None,
-            record_name="Test Record",
+            # record_name="Test Record",
         )
         self.assertTrue(assessments)
         self.assertEqual(len(assessments), 1)
@@ -69,22 +88,15 @@ class TestG2PProgramAssessment(TransactionCase):
         self.assertIn("Assessment", subject)
 
     def test_compute_program_memberships(self):
-        membership = self.env["g2p.program_membership"].create(
-            {
-                "partner_id": self.partner.id,
-                "program_id": self.program.id,
-                "state": "enrolled",
-            }
-        )
         result = self.env["g2p.program.assessment"].compute_program_memberships(
-            "g2p.program_membership", membership.id
+            "g2p.program_membership", self.membership.id
         )
-        self.assertEqual(result, membership)
+        self.assertEqual(result, self.membership)
 
         result = self.env["g2p.program.assessment"].compute_program_memberships(
             "g2p.entitlement", self.entitlement.id
         )
-        expected_membership = self.env["g2p.program.membership"].search(
+        expected_membership = self.env["g2p.program_membership"].search(
             [
                 ("partner_id", "=", self.partner.id),
                 ("program_id", "=", self.program.id),
