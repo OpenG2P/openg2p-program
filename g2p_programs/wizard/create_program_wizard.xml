@@ -20,6 +20,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             name="currency_id"
                             options="{'no_open':True,'no_quick_create':True,'no_create':True}"
                         />
+                        <field
+                            name="company_id"
+                            string="Company:"
+                            groups="base.group_multi_company"
+                            options="{'no_create': True}"
+                            force_save="1"
+                            readonly="1"
+                        />
                     </group>
                     <notebook invisible="state == 'step2'">
                         <page string="Configure the Default Eligibility Criteria" name="eligibility">
