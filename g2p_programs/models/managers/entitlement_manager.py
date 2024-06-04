@@ -339,7 +339,7 @@ class DefaultCashEntitlementManager(models.Model):
                     record.transfer_fee_amt,
                 ]
             ):
-                raise ValidationError("Monetary values and transfer fees cannot be negative.")
+                raise ValidationError(_("Monetary values and transfer fees cannot be negative."))
 
     @api.onchange("transfer_fee_pct")
     def on_transfer_fee_pct_change(self):
