@@ -2,6 +2,7 @@
 import logging
 
 from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 from odoo.addons.queue_job.delay import group
 
@@ -323,6 +324,22 @@ class DefaultCashEntitlementManager(models.Model):
     # Group able to validate the payment
     # Todo: Create a record rule for payment_validation_group
     entitlement_validation_group_id = fields.Many2one("res.groups", string="Entitlement Validation Group")
+
+    @api.constrains(
+        "amount_per_cycle", "amount_per_individual_in_group", "transfer_fee_pct", "transfer_fee_amt"
+    )
+    def _check_negative_values(self):
+        for record in self:
+            if any(
+                field < 0
+                for field in [
+                    record.amount_per_cycle,
+                    record.amount_per_individual_in_group,
+                    record.transfer_fee_pct,
+                    record.transfer_fee_amt,
+                ]
+            ):
+                raise ValidationError("Monetary values and transfer fees cannot be negative.")
 
     @api.onchange("transfer_fee_pct")
     def on_transfer_fee_pct_change(self):
