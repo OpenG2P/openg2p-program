@@ -11,9 +11,7 @@ class TestG2PEntitlementManagerDefault(TransactionCase):
         self.cycle_model = self.env["g2p.cycle"]
 
     def test_open_entitlements_form_reimbursement(self):
-        reimbursement_program = self.program_model.create(
-            {"name": "Reimbursement Program", "is_reimbursement_program": True}
-        )
+        reimbursement_program = self.program_model.create({"name": "Reimbursement Program"})
         reimbursement_cycle = self.cycle_model.create(
             {
                 "name": "Reimbursement Cycle",

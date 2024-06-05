@@ -1,56 +1,116 @@
-from odoo.tests.common import TransactionCase
+from datetime import datetime, timedelta
+
+from odoo.addons.component.tests.common import TransactionComponentCase
 
 
-class TestG2PDocumentStore(TransactionCase):
+class TestG2PDocumentStore(TransactionComponentCase):
     def setUp(self):
         super().setUp()
-        self.G2PDocumentStore = self.env["storage.backend"]
         self.program = self.env["g2p.program"].create({"name": "Test Program"})
         self.partner = self.env["res.partner"].create({"name": "Test Partner"})
-        self.g2p_program_membership = self.env["g2p.program_membership"].create(
+        self.backend = self.env["storage.backend"].create(
+            {
+                "name": "Test Document Store",
+            }
+        )
+        self.cycle = self.env["g2p.cycle"].create(
+            {
+                "name": "Test Cycle",
+                "program_id": self.program.id,
+                "sequence": 1,
+                "start_date": datetime.now().strftime("%Y-%m-%d"),
+                "end_date": (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d"),
+            }
+        )
+
+        self.ent_manager = self.env["g2p.program.entitlement.manager.default"].create(
+            {
+                "program_id": self.program.id,
+                "name": "Test Manager",
+            }
+        )
+
+    def test_add_file_with_program_membership(self):
+        """Test adding a file with program membership association."""
+        # triggering entitlement preparation with out membership
+        self.ent_manager.prepare_entitlements(self.cycle, self.env["g2p.program_membership"])
+
+        membership = self.env["g2p.program_membership"].create(
             {
                 "name": "Test Membership",
                 "partner_id": self.partner.id,
                 "program_id": self.program.id,
             }
         )
-        self.g2p_document_store = self.G2PDocumentStore.create(
-            {
-                "name": "Test Document Store",
-                # Add any other required fields
-            }
-        )
-        # Create a G2PDocumentStore instance
-        document_store = self.env["storage.backend"].create(
-            {
-                "name": "Test Document Store",
-                # ... other required fields ...
-            }
-        )
-        # Call add_file with a program_membership
-        file = document_store.add_file(
-            data=b"Some test data",
-            name="Test File",
-            extension="txt",
-        )
-        # Assert that the program_membership_id is set
-        self.assertEqual(file.program_membership_id, self.g2p_program_membership)
+        data = b"Test data1"
+        document1 = self.backend.add_file(data, name="test.txt", program_membership=membership)
+        self.ent_manager.prepare_entitlements(self.cycle, membership)
+        self.assertTrue(document1.program_membership_id)
 
-    def test_add_file_calls_super_method(self):
-        """Test that add_file calls the superclass method correctly."""
-        with self.mock_with_context(self.env["storage.backend"]._patch_method("add_file")) as mock_add_file:
-            document_store = self.env["storage.backend"].create(
+        # Retesting with existing document
+        data = b"Test data2"
+        self.backend.add_file(data, name="test.txt", program_membership=membership)
+
+        cycle2 = self.env["g2p.cycle"].create(
+            {
+                "name": "Test Cycle2",
+                "program_id": self.program.id,
+                "sequence": 1,
+                "start_date": datetime.now().strftime("%Y-%m-%d"),
+                "end_date": (datetime.now() + timedelta(days=30)).strftime("%Y-%m-%d"),
+            }
+        )
+        entitlement2 = self.ent_manager.prepare_entitlements(cycle2, membership)
+
+        self.assertEqual(entitlement2.document_count, len(entitlement2.supporting_document_ids))
+
+    def test_entitlement_supporting_documents(self):
+        # creating document with out membership
+        entitlement = self.env["g2p.entitlement"].create(
+            {
+                "name": "Test Entitlement",
+                "partner_id": self.partner.id,
+                "program_id": self.program.id,
+                "cycle_id": self.cycle.id,
+                "initial_amount": 100,
+                "supporting_document_ids": [
+                    (
+                        0,
+                        0,
+                        {
+                            "name": "Document 1",
+                            "backend_id": self.backend.id,
+                        },
+                    )
+                ],
+            }
+        )
+        membership = self.env["g2p.program_membership"].create(
+            {
+                "name": "Test Membership",
+                "partner_id": self.partner.id,
+                "program_id": self.program.id,
+            }
+        )
+        entitlement.supporting_document_ids = [
+            (
+                0,
+                0,
                 {
-                    "name": "Test Document Store",
-                }
+                    "name": "Document 2",
+                    "backend_id": self.backend.id,
+                },
             )
-            document_store.add_file(
-                data=b"Some test data",
-                name="Test File",
-                extension="txt",
+        ]
+
+        self.assertEqual(entitlement.supporting_document_ids[1].program_membership_id, membership)
+
+        entitlement.supporting_document_ids = [
+            (
+                0,
+                0,
+                {"name": "Document 3", "backend_id": self.backend.id, "program_membership_id": membership.id},
             )
-            mock_add_file.assert_called_once_with(
-                data=b"Some test data",
-                name="Test File",
-                extension="txt",
-            )
+        ]
+
+        self.assertEqual(entitlement.supporting_document_ids[2].program_membership_id, membership)
