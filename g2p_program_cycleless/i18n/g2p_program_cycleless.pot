@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -39,8 +39,10 @@ msgid "Default Program Manager"
 msgstr ""
 
 #. module: g2p_program_cycleless
+#. odoo-python
 #: code:addons/g2p_program_cycleless/models/entitlement_manager.py:0
 #: code:addons/g2p_program_cycleless/models/programs.py:0
+#: code:addons/g2p_program_cycleless/tests/test_programs.py:0
 #, python-format
 msgid "Entitlements"
 msgstr ""
@@ -67,8 +69,10 @@ msgid "Program"
 msgstr ""
 
 #. module: g2p_program_cycleless
+#. odoo-python
 #: code:addons/g2p_program_cycleless/models/entitlement_manager.py:0
 #: code:addons/g2p_program_cycleless/models/programs.py:0
+#: code:addons/g2p_program_cycleless/tests/test_programs.py:0
 #, python-format
 msgid "Reimbursements"
 msgstr ""
