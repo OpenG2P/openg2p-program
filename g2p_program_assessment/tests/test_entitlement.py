@@ -73,7 +73,6 @@ class TestG2PAssessmentEntitlement(TransactionCase):
             message_type="comment",
             subtype_id=None,
             partner_ids=None,
-            record_name="Test Record",
         )
         assessment2 = self.env["g2p.program.assessment"].post_assessment(
             "This is a test assessment2.",
@@ -84,7 +83,6 @@ class TestG2PAssessmentEntitlement(TransactionCase):
             message_type="comment",
             subtype_id=None,
             partner_ids=None,
-            record_name="Test Record",
         )
 
         self.entitlement.copy_assessments_from_beneficiary()
