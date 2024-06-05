@@ -15,5 +15,5 @@ git+https://github.com/OpenG2P/openg2p-security@17.0-develop#subdirectory=g2p_en
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_area
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_service_points
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_programs
-git+https://github.com/openspp/openspp-modules@17.0#subdirectory=g2p_entitlement_cash
+git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_entitlement_cash
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_entitlement_in_kind
