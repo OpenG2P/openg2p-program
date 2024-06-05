@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -19,33 +19,42 @@ msgid "A beneficiary"
 msgstr ""
 
 #. module: g2p_program_assessment
-#. openerp-web
+#. odoo-javascript
 #: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
 #, python-format
 msgid "Add Assessment"
 msgstr ""
 
 #. module: g2p_program_assessment
-#. openerp-web
+#. odoo-javascript
 #: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
 #, python-format
 msgid "Add Comments"
 msgstr ""
 
 #. module: g2p_program_assessment
-#. openerp-web
+#. odoo-javascript
 #: code:addons/g2p_program_assessment/static/src/js/entitlement_amount_validation.js:0
 #, python-format
 msgid "Amount cannot be zero or empty or negative"
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
+#: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
+#, python-format
+msgid "Amount cannot be zero or empty or negative."
+msgstr ""
+
+#. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/models/program_membership.py:0
 #, python-format
 msgid "Application rejected."
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/models/program_membership.py:0
 #, python-format
 msgid "Application was not rejected."
@@ -70,6 +79,7 @@ msgid "Assessment"
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/models/program_membership.py:0
 #: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_wizard_form
 #, python-format
@@ -94,7 +104,7 @@ msgid "Beneficiary Name"
 msgstr ""
 
 #. module: g2p_program_assessment
-#. openerp-web
+#. odoo-javascript
 #: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
 #: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_create_entitlement_wizard_form
 #, python-format
@@ -158,6 +168,7 @@ msgid "Display Name"
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
 #: model:ir.model,name:g2p_program_assessment.model_g2p_entitlement
 #: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__entitlement_id
@@ -166,12 +177,14 @@ msgid "Entitlement"
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
 #, python-format
 msgid "Entitlement already exists. Approve/Edit the existing entitlement."
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
 #, python-format
 msgid "Entitlement created."
@@ -205,10 +218,8 @@ msgid "Initial Amount"
 msgstr ""
 
 #. module: g2p_program_assessment
-#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_entitlement_create_wizard____last_update
-#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment____last_update
-#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_membership_assessment_wizard____last_update
-msgid "Last Modified on"
+#: model:ir.model.fields,field_description:g2p_program_assessment.field_g2p_program_assessment__is_comment
+msgid "Is Comment"
 msgstr ""
 
 #. module: g2p_program_assessment
@@ -232,12 +243,14 @@ msgid "Name"
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/models/program_membership.py:0
 #, python-format
 msgid "No Application found."
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/wizard/create_entitlement_wizard.py:0
 #, python-format
 msgid "No cycle is present for program: %s. Create a new cycle."
@@ -271,6 +284,7 @@ msgid "Registrant"
 msgstr ""
 
 #. module: g2p_program_assessment
+#. odoo-python
 #: code:addons/g2p_program_assessment/models/program_membership.py:0
 #: model_terms:ir.ui.view,arch_db:g2p_program_assessment.view_program_membership_assessment_form
 #, python-format
@@ -298,7 +312,7 @@ msgid "Show Reject Application Assessment Button"
 msgstr ""
 
 #. module: g2p_program_assessment
-#. openerp-web
+#. odoo-javascript
 #: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
 #, python-format
 msgid "Submit"
@@ -310,7 +324,7 @@ msgid "Transfer Fee"
 msgstr ""
 
 #. module: g2p_program_assessment
-#. openerp-web
+#. odoo-javascript
 #: code:addons/g2p_program_assessment/static/src/xml/g2p_assessment_templates.xml:0
 #, python-format
 msgid "Type your assessment..."
