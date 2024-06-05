@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -30,7 +30,6 @@ msgstr ""
 
 #. module: g2p_payment_cash
 #: model:ir.model,name:g2p_payment_cash.model_g2p_program_payment_manager_cash
-#: model:ir.model.fields,field_description:g2p_payment_cash.field_g2p_crypto_key_set__cash_payment_manager_id
 #: model_terms:ir.ui.view,arch_db:g2p_payment_cash.view_payment_manager_cash_form
 msgid "Cash Payment Manager"
 msgstr ""
@@ -57,11 +56,6 @@ msgid "Created on"
 msgstr ""
 
 #. module: g2p_payment_cash
-#: model:ir.model.fields,field_description:g2p_payment_cash.field_g2p_program_payment_manager_cash__crypto_key_set
-msgid "Crypto Key Set"
-msgstr ""
-
-#. module: g2p_payment_cash
 #: model:ir.model.fields,field_description:g2p_payment_cash.field_g2p_program_payment_manager_cash__currency_id
 msgid "Currency"
 msgstr ""
@@ -72,11 +66,17 @@ msgid "Display Name"
 msgstr ""
 
 #. module: g2p_payment_cash
+#: model:ir.model.fields,field_description:g2p_payment_cash.field_g2p_program_payment_manager_cash__encryption_provider_id
+msgid "Encryption Provider"
+msgstr ""
+
+#. module: g2p_payment_cash
 #: model:ir.model,name:g2p_payment_cash.model_g2p_entitlement
 msgid "Entitlement"
 msgstr ""
 
 #. module: g2p_payment_cash
+#. odoo-python
 #: code:addons/g2p_payment_cash/models/entitlement.py:0
 #, python-format
 msgid "Entitlement is not approved!"
@@ -85,11 +85,6 @@ msgstr ""
 #. module: g2p_payment_cash
 #: model:ir.model.fields,field_description:g2p_payment_cash.field_g2p_program_payment_manager_cash__file_document_store
 msgid "File Document Store"
-msgstr ""
-
-#. module: g2p_payment_cash
-#: model:ir.model,name:g2p_payment_cash.model_g2p_crypto_key_set
-msgid "G2P Crypto Key Set"
 msgstr ""
 
 #. module: g2p_payment_cash
@@ -103,14 +98,10 @@ msgid "ID"
 msgstr ""
 
 #. module: g2p_payment_cash
+#. odoo-python
 #: code:addons/g2p_payment_cash/models/entitlement.py:0
 #, python-format
 msgid "Invalid operation!"
-msgstr ""
-
-#. module: g2p_payment_cash
-#: model:ir.model.fields,field_description:g2p_payment_cash.field_g2p_program_payment_manager_cash____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: g2p_payment_cash
@@ -129,6 +120,14 @@ msgid "Manager Name"
 msgstr ""
 
 #. module: g2p_payment_cash
+#. odoo-python
+#: code:addons/g2p_payment_cash/models/payment_manager.py:0
+#, python-format
+msgid "No payment batches to process."
+msgstr ""
+
+#. module: g2p_payment_cash
+#. odoo-python
 #: code:addons/g2p_payment_cash/models/entitlement.py:0
 #: code:addons/g2p_payment_cash/models/payment_manager.py:0
 #, python-format
@@ -146,12 +145,14 @@ msgid "Payment Manager"
 msgstr ""
 
 #. module: g2p_payment_cash
+#. odoo-python
 #: code:addons/g2p_payment_cash/models/payment_manager.py:0
 #, python-format
 msgid "Payment files created successfully"
 msgstr ""
 
 #. module: g2p_payment_cash
+#. odoo-python
 #: code:addons/g2p_payment_cash/models/entitlement.py:0
 #, python-format
 msgid "Payment was issued and sent."
