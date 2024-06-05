@@ -1,3 +1,7 @@
+import base64
+
+import magic
+
 from odoo import fields, models
 
 
@@ -8,26 +12,21 @@ class G2PDocument(models.Model):
 
     entitlement_id = fields.Many2one("g2p.entitlement")
 
-    attachment_id = fields.Many2one("ir.attachment", string="Attachment")
-
-    def get_binary(self):
+    def get_record(self):
         for record in self:
-            if not record.attachment_id:
-                data = record.data
-                attachment = self.env["ir.attachment"].create(
-                    {
-                        "name": "Preview File",
-                        "datas": data,
-                        "res_model": self._name,
-                        "res_id": record.id,
-                        "type": "binary",
-                    }
-                )
-                record.attachment_id = attachment.id
+            if not record.mimetype:
+                binary_data = base64.b64decode(record.data)
+                mime = magic.Magic(mime=True)
+                mimetype = mime.from_buffer(binary_data)
+                return {
+                    "mimetype": mimetype,
+                    "name": record.name,
+                    "url": record.url if record.url else "#",
+                }
 
-            return {
-                "id": record.attachment_id.id,
-                "mimetype": record.attachment_id.mimetype,
-                "index_content": record.attachment_id.index_content,
-                "url": record.url if record.url else "#",
-            }
+            else:
+                return {
+                    "mimetype": record.mimetype,
+                    "name": record.name,
+                    "url": record.url if record.url else "#",
+                }

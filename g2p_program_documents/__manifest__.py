@@ -23,6 +23,7 @@
             "/g2p_program_documents/static/src/js/preview_document.js",
         ],
     },
+    "external_dependencies": {"python": ["python-magic"]},
     "demo": [],
     "images": [],
     "application": True,
