@@ -4,6 +4,5 @@ cose
 pdfkit
 python-barcode
 python-dateutil
-python-magic
 qrcode
 wkhtmltopdf
