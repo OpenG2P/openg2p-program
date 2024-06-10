@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -44,6 +44,11 @@ msgid "Auto Generate Voucher On Approval"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
+#: model:ir.model,name:g2p_entitlement_voucher.model_g2p_program_entitlement_manager
+msgid "Cash Entitlement Manager"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
 #: model_terms:ir.actions.act_window,help:g2p_entitlement_voucher.action_entitlement_manager_voucher
 msgid "Click the create button to enter a new entitlement manager."
 msgstr ""
@@ -59,11 +64,6 @@ msgid "Created on"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
-#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__crypto_key_set
-msgid "Crypto Key Set"
-msgstr ""
-
-#. module: g2p_entitlement_voucher
 #: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__currency_id
 msgid "Currency"
 msgstr ""
@@ -74,24 +74,19 @@ msgid "Display Name"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__encryption_provider_id
+msgid "Encryption Provider"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
 #: model:ir.model,name:g2p_entitlement_voucher.model_g2p_entitlement
 #: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_payment_file_qrcode__entitlement_id
 msgid "Entitlement"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
-#: model:ir.model,name:g2p_entitlement_voucher.model_g2p_program_entitlement_manager
-msgid "Entitlement Manager"
-msgstr ""
-
-#. module: g2p_entitlement_voucher
 #: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__entitlement_validation_group_id
 msgid "Entitlement Validation Group"
-msgstr ""
-
-#. module: g2p_entitlement_voucher
-#: model:ir.model,name:g2p_entitlement_voucher.model_g2p_crypto_key_set
-msgid "G2P Crypto Key Set"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
@@ -115,8 +110,8 @@ msgid "ID"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
-#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher____last_update
-msgid "Last Modified on"
+#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_program_entitlement_manager_voucher__id_type
+msgid "ID Type to store in entitlements"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
@@ -140,6 +135,12 @@ msgid "Maximum number of individual in group"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.view_entitlement_manager_voucher_form
+msgid "Open voucher config form"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#. odoo-python
 #: code:addons/g2p_entitlement_voucher/models/entitlement_manager.py:0
 #, python-format
 msgid "Payment File Config"
@@ -207,6 +208,7 @@ msgid "Transfer fee will be a percentage of amount"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
+#. odoo-python
 #: code:addons/g2p_entitlement_voucher/models/entitlement.py:0
 #: code:addons/g2p_entitlement_voucher/models/entitlement.py:0
 #, python-format
@@ -247,6 +249,11 @@ msgid "Voucher File Config"
 msgstr ""
 
 #. module: g2p_entitlement_voucher
-#: model:ir.model.fields,field_description:g2p_entitlement_voucher.field_g2p_crypto_key_set__voucher_manager_id
-msgid "Voucher Manager"
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.view_entitlement_voucher_form
+msgid "generate voucher action"
+msgstr ""
+
+#. module: g2p_entitlement_voucher
+#: model_terms:ir.ui.view,arch_db:g2p_entitlement_voucher.view_entitlement_voucher_form
+msgid "print voucher action"
 msgstr ""

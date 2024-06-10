@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -21,6 +21,11 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_needaction
 msgid "Action Needed"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__status_check_cron_active
+msgid "Active"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -69,8 +74,18 @@ msgid "Batch Tags"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__res_partner__mode_of_payment__cash
+msgid "Cash"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model_terms:ir.actions.act_window,help:g2p_payment_g2p_connect.action_payment_manager_g2p_connect
 msgid "Click the create button to enter a new g2p connect payment manager."
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model,name:g2p_payment_g2p_connect.model_res_partner
+msgid "Contact"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -84,8 +99,18 @@ msgid "Created on"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__status_check_cron_id
+msgid "Cron Job"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__currency_id
 msgid "Currency"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__res_partner__mode_of_payment__digital
+msgid "Digital"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -96,6 +121,21 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__g2p_program_payment_manager_g2p_connect__payee_id_type__email
 msgid "Email"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__encryption_provider_id
+msgid "Encryption Provider"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__file_document_store
+msgid "File Document Store"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__send_payments_domain
+msgid "Filter Batches to Send"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -114,6 +154,7 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#. odoo-python
 #: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
 #, python-format
 msgid "G2P Connect Payment Disbursement"
@@ -129,6 +170,13 @@ msgstr ""
 #: model:ir.actions.act_window,name:g2p_payment_g2p_connect.action_payment_manager_g2p_connect
 #: model:ir.ui.menu,name:g2p_payment_g2p_connect.menu_payment_manager_g2p_connect
 msgid "G2P Connect Payment Managers"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#. odoo-python
+#: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
+#, python-format
+msgid "G2P Connect Status Check"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -168,7 +216,6 @@ msgstr ""
 
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_needaction
-#: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_unread
 msgid "If checked, new messages require your attention."
 msgstr ""
 
@@ -181,11 +228,6 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_is_follower
 msgid "Is Follower"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect____last_update
-msgid "Last Modified on"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -204,11 +246,6 @@ msgid "Locale"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_main_attachment_id
-msgid "Main Attachment"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__name
 msgid "Manager Name"
 msgstr ""
@@ -221,6 +258,13 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_ids
 msgid "Messages"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_membership__mode_of_payment
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_res_partner__mode_of_payment
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_res_users__mode_of_payment
+msgid "Mode Of Payment"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -260,22 +304,12 @@ msgstr ""
 
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_needaction_counter
-msgid "Number of messages which requires an action"
+msgid "Number of messages requiring action"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_unread_counter
-msgid "Number of unread messages"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__password
-msgid "Password"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -299,41 +333,23 @@ msgid "Payee Suffix"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__payer_fa
-msgid "Payer Financial Address"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__payer_name
-msgid "Payer Name"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
-#: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
-#, python-format
-msgid "Payment"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
 #: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_manager_g2p_connect_form
 msgid "Payment Config"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__payment_endpoint_url
-#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_manager_g2p_connect_form
 msgid "Payment Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__payment_file_config_ids
+msgid "Payment File Config"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
 #: model:ir.model,name:g2p_payment_g2p_connect.model_g2p_program_payment_manager
 msgid "Payment Manager"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
-#: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
-#, python-format
-msgid "Payment sent successfully"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -363,6 +379,21 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_manager_g2p_connect_form
+msgid "Status Check Cron Enabled"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__status_cron_job_interval_minutes
+msgid "Status Cron Job Interval Minutes"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__status_endpoint_url
+msgid "Status Endpoint URL"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__activity_state
 msgid ""
 "Status based on activities\n"
@@ -382,18 +413,8 @@ msgid "Type of the exception activity on record."
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_unread
-msgid "Unread Messages"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr ""
-
-#. module: g2p_payment_g2p_connect
-#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__username
-msgid "Username"
+#: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__res_partner__mode_of_payment__voucher
+msgid "Voucher"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -404,4 +425,9 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__website_message_ids
 msgid "Website communication history"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__status_check_cron_id
+msgid "linked to this Payment connector"
 msgstr ""
