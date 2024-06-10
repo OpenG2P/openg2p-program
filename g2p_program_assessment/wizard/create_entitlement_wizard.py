@@ -49,17 +49,12 @@ class G2PEntitlementWizard(models.TransientModel):
             valid_until = valid_from + (active_cycle.end_date - active_cycle.start_date)
         else:
             active_cycle = (
-                program.cycle_ids.filtered(lambda x: x.state == "draft").sorted(
-                    "start_date", reverse=True
-                )[0]
+                program.cycle_ids.filtered(lambda x: x.state == "draft").sorted("start_date", reverse=True)[0]
                 if program.cycle_ids.filtered(lambda x: x.state == "draft")
                 else None
             )
             if not active_cycle:
-                raise UserError(
-                    _("No cycle is present for program: %s. Create a new cycle.")
-                    % program.name
-                )
+                raise UserError(_("No cycle is present for program: %s. Create a new cycle.") % program.name)
             valid_from = active_cycle.start_date
             valid_until = active_cycle.end_date
 
@@ -90,28 +85,22 @@ class G2PEntitlementWizard(models.TransientModel):
             ]
         )
         if existing_entitlements_count:
-            raise ValidationError(
-                _("Entitlement already exists. Approve/Edit the existing entitlement.")
-            )
+            raise ValidationError(_("Entitlement already exists. Approve/Edit the existing entitlement."))
 
         # TODO: Find a way to reuse entitlement_manager.prepare_entitlements
-        entitlement = self.env["g2p.entitlement"].create(
-            self.generate_create_entitlement_dict()
-        )
+        entitlement = self.env["g2p.entitlement"].create(self.generate_create_entitlement_dict())
         entitlement.copy_assessments_from_beneficiary()
         try:
             entitlement.copy_documents_from_beneficiary()
         except Exception as e:
             _logger.warning("Prgram Documents Module is not installed. %s", e)
         try:
-            self.env[
-                "g2p.program.registrant_info"
-            ].trigger_latest_status_of_entitlement(
+            self.env["g2p.program.registrant_info"].trigger_latest_status_of_entitlement(
                 entitlement, "inprogress", check_states=("active",)
             )
-            self.env[
-                "g2p.program.registrant_info"
-            ].assign_reg_info_to_entitlement_from_membership(entitlement)
+            self.env["g2p.program.registrant_info"].assign_reg_info_to_entitlement_from_membership(
+                entitlement
+            )
         except Exception as e:
             _logger.warning("Prgram Registrant Info Module not installed. %s", e)
         message = _("Entitlement created.")

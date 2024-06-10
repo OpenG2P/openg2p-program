@@ -5,7 +5,6 @@ from io import BytesIO
 import qrcode
 import qrcode.image.svg
 from barcode import Code128  # pylint: disable=[W7936]
-from jose import jwt  # pylint: disable=[W7936]
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -55,16 +54,14 @@ class G2PPaymentFileQRCodeConfig(models.Model):
     def _constrains_type_and_data_type(self):
         if self.type.endswith("barcode") and self.data_type not in ("string",):
             raise ValidationError(
-                _(
-                    f"Barcode must be of data type String. Cannot be of type {self.data_type}"
-                )
+                _(f"Barcode must be of data type String. Cannot be of type {self.data_type}")
             )
 
     def render_datas_and_store(
         self,
         res_model,
         res_ids,
-        crypto_ket_set_id,
+        encryption_provider,
         res_id_field_in_qrcode_model=None,
         template_engine="inline_template",
     ):
@@ -73,7 +70,7 @@ class G2PPaymentFileQRCodeConfig(models.Model):
             self.body_string,
             res_model,
             res_ids,
-            crypto_ket_set_id,
+            encryption_provider,
             template_engine=template_engine,
         )
         create_vals = []
@@ -95,7 +92,7 @@ class G2PPaymentFileQRCodeConfig(models.Model):
         template_src,
         res_model,
         res_ids,
-        key_set,
+        encryption_provider,
         template_engine="inline_template",
     ):
         RenderMixin = self.env["mail.render.mixin"]
@@ -112,13 +109,9 @@ class G2PPaymentFileQRCodeConfig(models.Model):
                 # the following should throw exception if not json
                 json.loads(datas[res_id])
         elif data_type == "jwt":
-            kid = key_set.name
-            priv_key = key_set.priv_key.encode()
             for res_id in res_ids:
                 payload = json.loads(datas[res_id])
-                datas[res_id] = jwt.encode(
-                    payload, priv_key, algorithm="RS256", headers={"kid": kid}
-                )
+                datas[res_id] = encryption_provider.jwt_sign(payload)
         return datas
 
 

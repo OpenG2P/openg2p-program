@@ -22,9 +22,7 @@ class ProgramConfig(models.TransientModel):
         "g2p.program.notification.manager",
         default_model="g2p.program",
     )
-    program_managers = fields.Many2many(
-        "g2p.program.manager", default_model="g2p.program"
-    )
+    program_managers = fields.Many2many("g2p.program.manager", default_model="g2p.program")
     cycle_managers = fields.Many2many("g2p.cycle.manager", default_model="g2p.program")
     entitlement_managers = fields.Many2many(
         "g2p.program.entitlement.manager",

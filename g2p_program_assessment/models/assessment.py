@@ -48,9 +48,7 @@ class G2PProgramAssessment(models.Model):
             self.trigger_application_state_change(res_model, res_id)
             subject = subject or self.compute_subject(res_model, res_id)
             partner_ids = partner_ids or self.compute_partner_ids(res_model, res_id)
-            record_name = (
-                record_name or (partner_ids and partner_ids[0].name) or subject
-            )
+            record_name = record_name or (partner_ids and partner_ids[0].name) or subject
             message_dicts.append(
                 {
                     "author_id": self.env.user.partner_id.id,
@@ -81,16 +79,15 @@ class G2PProgramAssessment(models.Model):
         )
         for assessment in assessments:
             if assessment.entitlement_id:
-                assessment.program_membership_id = assessment.entitlement_id.partner_id.program_membership_ids.filtered(
-                    lambda x: x.program_id.id == assessment.entitlement_id.program_id.id
+                assessment.program_membership_id = (
+                    assessment.entitlement_id.partner_id.program_membership_ids.filtered(
+                        lambda x: x.program_id.id == assessment.entitlement_id.program_id.id
+                    )
                 )
             elif assessment.program_membership_id:
                 entitlement = assessment.program_membership_id.partner_id.entitlement_ids.filtered(
-                    lambda x: x.program_id.id
-                    == assessment.program_membership_id.program_id.id
-                ).sorted(
-                    "create_date", reverse=True
-                )
+                    lambda x: x.program_id.id == assessment.program_membership_id.program_id.id
+                ).sorted("create_date", reverse=True)
                 if entitlement:
                     entitlement = entitlement[0]
                     if entitlement.state in ("draft",):
@@ -148,10 +145,7 @@ class G2PProgramAssessment(models.Model):
         if not mem:
             return None
         try:
-            if (
-                mem.latest_registrant_info_status == "active"
-                and mem.state == "enrolled"
-            ):
+            if mem.latest_registrant_info_status == "active" and mem.state == "enrolled":
                 mem.latest_registrant_info.state = "inprogress"
         except Exception as e:
             _logger.warning("Program Registrant info not installed. %s", e)

@@ -33,9 +33,7 @@ class G2PCycle(models.Model):
     STATE_ENDED = constants.STATE_ENDED
     DISABLE_EDIT_DOMAIN = [("state", "!=", "draft")]
 
-    def fields_view_get(
-        self, view_id=None, view_type="form", toolbar=False, submenu=False
-    ):
+    def fields_view_get(self, view_id=None, view_type="form", toolbar=False, submenu=False):
         res = super(G2PCycle, self).fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
         )
@@ -55,9 +53,7 @@ class G2PCycle(models.Model):
                 send_payment_button = doc.xpath("//button[@name='send_payment']")
                 send_payment_button[0].set("modifiers", modifiers)
 
-                open_payments_form_button = doc.xpath(
-                    "//button[@name='open_payments_form']"
-                )
+                open_payments_form_button = doc.xpath("//button[@name='open_payments_form']")
                 open_payments_form_button[0].set("modifiers", modifiers)
 
                 payment_batches_page = doc.xpath("//page[@name='payment_batches']")
@@ -84,35 +80,25 @@ class G2PCycle(models.Model):
         default="draft",
     )
 
-    cycle_membership_ids = fields.One2many(
-        "g2p.cycle.membership", "cycle_id", "Cycle Memberships"
-    )
+    cycle_membership_ids = fields.One2many("g2p.cycle.membership", "cycle_id", "Cycle Memberships")
     entitlement_ids = fields.One2many("g2p.entitlement", "cycle_id", "Entitlements")
-    payment_batch_ids = fields.One2many(
-        "g2p.payment.batch", "cycle_id", "Payment Batches"
-    )
+    payment_batch_ids = fields.One2many("g2p.payment.batch", "cycle_id", "Payment Batches")
 
     # Get the auto-approve entitlement setting from the cycle manager
     auto_approve_entitlements = fields.Boolean("Auto-approve entitlements")
 
     # Statistics
-    members_count = fields.Integer(
-        string="# Beneficiaries", readonly=True, compute="_compute_members_count"
-    )
+    members_count = fields.Integer(string="# Beneficiaries", readonly=True, compute="_compute_members_count")
     entitlements_count = fields.Integer(
         string="# Entitlements", readonly=True, compute="_compute_entitlements_count"
     )
-    payments_count = fields.Integer(
-        string="# Payments", readonly=True, compute="_compute_payments_count"
-    )
+    payments_count = fields.Integer(string="# Payments", readonly=True, compute="_compute_payments_count")
 
     # This is used to prevent any issue while some background tasks are happening such as importing beneficiaries
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 
-    show_approve_entitlements_button = fields.Boolean(
-        compute="_compute_show_approve_entitlement"
-    )
+    show_approve_entitlements_button = fields.Boolean(compute="_compute_show_approve_entitlement")
 
     _sql_constraints = [
         (
@@ -130,16 +116,12 @@ class G2PCycle(models.Model):
 
     def _compute_entitlements_count(self):
         for rec in self:
-            entitlements_count = self.env["g2p.entitlement"].search_count(
-                [("cycle_id", "=", rec.id)]
-            )
+            entitlements_count = self.env["g2p.entitlement"].search_count([("cycle_id", "=", rec.id)])
             rec.update({"entitlements_count": entitlements_count})
 
     def _compute_payments_count(self):
         for rec in self:
-            payments_count = self.env["g2p.payment"].search_count(
-                [("cycle_id", "=", rec.id)]
-            )
+            payments_count = self.env["g2p.payment"].search_count([("cycle_id", "=", rec.id)])
             rec.update({"payments_count": payments_count})
 
     @api.onchange("entitlement_ids.state")
@@ -225,9 +207,7 @@ class G2PCycle(models.Model):
     def to_approve(self):
         for rec in self:
             if rec.state == self.STATE_DRAFT:
-                entitlement_manager = self.program_id.get_manager(
-                    constants.MANAGER_ENTITLEMENT
-                )
+                entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
                 if entitlement_manager:
                     rec.update({"state": self.STATE_TO_APPROVE})
                     entitlement_manager.set_pending_validation_entitlements(self)
@@ -280,9 +260,7 @@ class G2PCycle(models.Model):
             cycle_manager = rec.program_id.get_manager(constants.MANAGER_CYCLE)
             if not cycle_manager:
                 raise UserError(_("No Cycle Manager defined."))
-            entitlement_manager = rec.program_id.get_manager(
-                constants.MANAGER_ENTITLEMENT
-            )
+            entitlement_manager = rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
             if not entitlement_manager:
                 raise UserError(_("No Entitlement Manager defined."))
             return cycle_manager.approve_cycle(
@@ -353,11 +331,7 @@ class G2PCycle(models.Model):
     def open_cycle_form(self):
         entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
         payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
-        hide_cash = (
-            False
-            if entitlement_manager and entitlement_manager.IS_CASH_ENTITLEMENT
-            else True
-        )
+        hide_cash = False if entitlement_manager and entitlement_manager.IS_CASH_ENTITLEMENT else True
         if not payment_manager:
             hide_cash = True
 
@@ -443,33 +417,22 @@ class G2PCycle(models.Model):
                     for record in draft_records
                 ):
                     raise ValidationError(
-                        _(
-                            "A cycle for which entitlements have been approved cannot be deleted."
-                        )
+                        _("A cycle for which entitlements have been approved cannot be deleted.")
                     )
                 elif all(
-                    record.entitlement_ids.filtered(lambda e: e.state == "draft")
-                    for record in draft_records
+                    record.entitlement_ids.filtered(lambda e: e.state == "draft") for record in draft_records
                 ):
                     raise ValidationError(
-                        _(
-                            "Cycle cannot be deleted when Entitlements have been added to the cycle."
-                        )
+                        _("Cycle cannot be deleted when Entitlements have been added to the cycle.")
                     )
                 elif draft_records.mapped("cycle_membership_ids"):
                     raise ValidationError(
-                        _(
-                            "Cycle cannot be deleted when beneficiaries are present in the cycle."
-                        )
+                        _("Cycle cannot be deleted when beneficiaries are present in the cycle.")
                     )
 
                 draft_records.mapped("cycle_membership_ids").unlink()
                 return super().unlink()
             else:
-                raise ValidationError(
-                    _("Once a cycle has been approved, it cannot be deleted.")
-                )
+                raise ValidationError(_("Once a cycle has been approved, it cannot be deleted."))
 
-        raise ValidationError(
-            _("Delete only draft cycles with no approved entitlements.")
-        )
+        raise ValidationError(_("Delete only draft cycles with no approved entitlements."))

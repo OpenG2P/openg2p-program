@@ -26,9 +26,7 @@ class G2PEntitlement(models.Model):
                 old_entitlement = old_entitlements[0]
             for document in prog_mem.supporting_documents_ids:
                 if not document.entitlement_id:
-                    if (not old_entitlement) or (
-                        document.create_date > old_entitlement.create_date
-                    ):
+                    if (not old_entitlement) or (document.create_date > old_entitlement.create_date):
                         document.entitlement_id = rec
 
     @api.constrains("supporting_document_ids")

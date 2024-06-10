@@ -26,9 +26,7 @@ class G2PPaymentFileConfig(models.Model):
     # )
     body_string = fields.Text(string="Body")
 
-    qrcode_config_ids = fields.One2many(
-        "g2p.payment.file.qrcode.config", "payment_config_id"
-    )
+    qrcode_config_ids = fields.One2many("g2p.payment.file.qrcode.config", "payment_config_id")
 
     # def _compute_html_preview(self):
     #     for rec in self:
@@ -38,9 +36,7 @@ class G2PPaymentFileConfig(models.Model):
         document_files = []
         for res_id in res_ids:
             document_files.append(
-                document_store.add_file(
-                    self.render_template(res_model, res_id), extension="." + self.type
-                )
+                document_store.add_file(self.render_template(res_model, res_id), extension="." + self.type)
             )
         return document_files
 

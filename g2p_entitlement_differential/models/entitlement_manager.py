@@ -9,9 +9,7 @@ class G2PCashEntitlementManager(models.Model):
     inflation_rate = fields.Float()
     enable_inflation = fields.Boolean(default=False)
 
-    def _get_all_beneficiaries(
-        self, all_beneficiaries_ids, condition, evaluate_one_item
-    ):
+    def _get_all_beneficiaries(self, all_beneficiaries_ids, condition, evaluate_one_item):
         # res = super()._get_all_beneficiaries(all_beneficiaries_ids, condition, evaluate_one_item)
         domain = [("id", "in", all_beneficiaries_ids)]
         domain += self._safe_eval(condition)
@@ -31,9 +29,7 @@ class G2PCashEntitlementManager(models.Model):
             )
             if entitlement:
                 if self.inflation_rate and self.enable_inflation:
-                    entitlement.initial_amount = (
-                        entitlement.initial_amount * self.inflation_rate
-                    )
+                    entitlement.initial_amount = entitlement.initial_amount * self.inflation_rate
 
         return res
 
