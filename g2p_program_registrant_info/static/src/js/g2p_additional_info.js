@@ -27,7 +27,7 @@ export class G2PAdditionalInfoWidget extends TextField {
                     this.state.noValue = false;
                 }
             } else if (typeof val === "object") {
-                this.state.noValue = false; // Assume object is valid for now
+                this.state.noValue = false;
             } else {
                 this.state.noValue = true;
             }
