@@ -20,7 +20,15 @@ export class G2PAdditionalInfoWidget extends TextField {
         const val = this.props.record.data.program_registrant_info;
 
         if (val) {
-            if ((!(val.charAt(0) === "{") && !(val.charAt(val.length - 1) === "}")) || !val) {
+            if (typeof val === "string") {
+                if (!(val.charAt(0) === "{" && val.charAt(val.length - 1) === "}")) {
+                    this.state.noValue = true;
+                } else {
+                    this.state.noValue = false;
+                }
+            } else if (typeof val === "object") {
+                this.state.noValue = false; // Assume object is valid for now
+            } else {
                 this.state.noValue = true;
             }
         } else {
@@ -77,7 +85,11 @@ export class G2PAdditionalInfoWidget extends TextField {
     }
 
     flattenJson(object) {
-        const jsonObject = JSON.parse(object);
+        // Const jsonObject = JSON.parse(object);
+        let jsonObject = object;
+        if (typeof object === "string") {
+            jsonObject = JSON.parse(object);
+        }
         for (const key in jsonObject) {
             if (!jsonObject[key]) continue;
             if (
@@ -97,7 +109,7 @@ export class G2PAdditionalInfoWidget extends TextField {
                 }
                 jsonObject[key] = markup(documentFiles);
             } else if (typeof jsonObject[key] === "object") {
-                jsonObject[key] = JSON.stringify(jsonObject[key]);
+                jsonObject[key] = this.flattenJson(jsonObject[key]);
             }
         }
         return jsonObject;
