@@ -14,3 +14,4 @@ from . import program_membership
 from . import cycle_membership
 from . import payment
 from . import queue_job_channel
+from . import res_user
