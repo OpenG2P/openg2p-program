@@ -14,11 +14,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: g2p_program_documents
-#: model:ir.model.fields,field_description:g2p_program_documents.field_storage_file__attachment_id
-msgid "Attachment"
-msgstr ""
-
-#. module: g2p_program_documents
 #: model:ir.model,name:g2p_program_documents.model_g2p_program_entitlement_manager_default
 msgid "Default Entitlement Manager"
 msgstr ""
