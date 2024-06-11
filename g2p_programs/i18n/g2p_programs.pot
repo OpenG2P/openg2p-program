@@ -5389,6 +5389,11 @@ msgid "Use a barcode to identify this contact."
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model,name:g2p_programs.model_res_users
+msgid "User"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__user_ids
 msgid "Users"
 msgstr ""
