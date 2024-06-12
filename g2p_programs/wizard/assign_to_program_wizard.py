@@ -28,9 +28,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
         else:
             raise UserError(_("There are no selected registrants!"))
 
-    target_type = fields.Selection(
-        selection=[("group", "Group"), ("individual", "Individual")]
-    )
+    target_type = fields.Selection(selection=[("group", "Group"), ("individual", "Individual")])
     program_id = fields.Many2one(
         "g2p.program",
         "",
@@ -42,9 +40,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
     def assign_registrant(self):
         if self.env.context.get("active_ids"):
             partner_ids = self.env.context.get("active_ids")
-            _logger.debug(
-                "Adding to Program Wizard with registrant record IDs: %s" % partner_ids
-            )
+            _logger.debug("Adding to Program Wizard with registrant record IDs: %s" % partner_ids)
             ctr = 0
             ig_ctr = 0
             ok_ctr = 0
@@ -53,32 +49,26 @@ class G2PAssignToProgramWizard(models.TransientModel):
             for rec in self.env["res.partner"].search([("id", "in", partner_ids)]):
                 if self.program_id not in rec.program_membership_ids.program_id:
                     ctr += 1
-                    _logger.debug("Processing (%s): %s" % (ctr, rec.name))
+                    _logger.debug(f"Processing ({ctr}): {rec.name}")
                     proceed = False
                     # Do not include disabled registrants
                     if rec.disabled:
-                        ig_ctr += 1
-                        _logger.debug(
-                            "Ignored because registrant is disabled: %s" % rec.name
-                        )
+                        ctr -= 1
+                        _logger.debug("Ignored because registrant is disabled: %s" % rec.name)
                     else:
                         if rec.is_group:  # Get only group registrants
                             if self.target_type == "group":
                                 proceed = True
                             else:
                                 ig_ctr += 1
-                                _logger.debug(
-                                    "Ignored because registrant is not a group: %s"
-                                    % rec.name
-                                )
+                                _logger.debug("Ignored because registrant is not a group: %s" % rec.name)
                         else:  # Get only individual registrants
                             if self.target_type == "individual":
                                 proceed = True
                             else:
                                 ig_ctr += 1
                                 _logger.debug(
-                                    "Ignored because registrant is not an individual: %s"
-                                    % rec.name
+                                    "Ignored because registrant is not an individual: %s" % rec.name
                                 )
                     if proceed:
                         ok_ctr += 1
@@ -91,12 +81,11 @@ class G2PAssignToProgramWizard(models.TransientModel):
                 else:
                     ig_ctr += 1
                     _logger.debug(
-                        "%s was ignored because the registrant is already in the Program %s"
-                        % (rec.name, self.program_id.name)
+                        f"{rec.name} was ignored because the registrant is already in the Program"
+                        f"{self.program_id.name}"
                     )
             _logger.debug(
-                "Total selected registrants:%s, Total ignored:%s, Total added to group:%s"
-                % (ctr, ig_ctr, ok_ctr)
+                f"Total selected registrants:{ctr}, Total ignored:{ig_ctr}, Total added to group:{ok_ctr}"
             )
 
             if len(partner_ids) == 1:
@@ -106,22 +95,31 @@ class G2PAssignToProgramWizard(models.TransientModel):
                         "program": self.program_id.name,
                     }
                     kind = "danger"
-                if ig_ctr and not rec.disabled:
-                    message = _(
-                        "%(registrant)s was already in the Program %(program)s"
-                    ) % {
+                elif ig_ctr and not rec.disabled:
+                    message = _("%(registrant)s was already in the Program %(program)s") % {
                         "registrant": rec.name,
                         "program": self.program_id.name,
                     }
                     kind = "danger"
+                else:
+                    message = _("%(registrant)s is added to the Program %(program)s") % {
+                        "registrant": rec.name,
+                        "program": self.program_id.name,
+                    }
+                    kind = "warning"
+
             else:
-                if not ctr:
+                if not ctr and not rec.disabled:
+                    message = _("Registrant's was already in the Program %s") % self.program_id.name
+                    kind = "danger"
+                elif not ctr and rec.disabled and rec.is_group:
+                    message = _("Disabled group(s) can't be added to the program %s") % self.program_id.name
+                    kind = "danger"
+                elif not ctr and rec.disabled and not rec.is_group:
                     message = (
-                        _("Registrant's was already in the Program %s")
-                        % self.program_id.name
+                        _("Disabled Individual(s) can't be added to the program %s") % self.program_id.name
                     )
                     kind = "danger"
-
                 else:
                     message = _(
                         "Total registrants:%(total)s, Already in program:%(existing)s, Newly added:%(new)s"
@@ -144,15 +142,12 @@ class G2PAssignToProgramWizard(models.TransientModel):
                 }
 
     def open_wizard(self):
-
         # _logger.debug("Registrant IDs: %s" % self.env.context.get("active_ids"))
         return {
             "name": "Add to Program",
             "view_mode": "form",
             "res_model": "g2p.assign.program.wizard",
-            "view_id": self.env.ref(
-                "g2p_programs.assign_to_program_wizard_form_view"
-            ).id,
+            "view_id": self.env.ref("g2p_programs.assign_to_program_wizard_form_view").id,
             "type": "ir.actions.act_window",
             "target": "new",
             "context": self.env.context,

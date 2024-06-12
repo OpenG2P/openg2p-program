@@ -3,3 +3,4 @@ from . import programs
 from . import entitlement
 from . import cycle
 from . import entitlement_manager
+from . import eligibility_manager

@@ -5,7 +5,6 @@
     "version": "15.0.1.1.0",
     "author": "OpenG2P",
     "development_status": "Alpha",
-    "external_dependencies": {"python": ["PyLD", "pyjwt>=2.4.0"]},
     "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
     "depends": [

@@ -25,9 +25,7 @@ class RecurrenceMixin(models.Model):
     )
 
     # Overwrite field from calendar.recurrence to define default value
-    byday = fields.Selection(
-        calendar_recurrence.BYDAY_SELECTION, string="By day", default="1"
-    )
+    byday = fields.Selection(calendar_recurrence.BYDAY_SELECTION, string="By day", default="1")
 
     # Overwrite field from calendar.recurrence to define default value
     count = fields.Integer(default=10)

@@ -8,18 +8,12 @@ class G2PPrograms(models.Model):
 
     is_cycleless = fields.Boolean(default=False)
 
-    default_active_cycle = fields.Many2one(
-        "g2p.cycle", compute="_compute_default_active_cycle"
-    )
+    default_active_cycle = fields.Many2one("g2p.cycle", compute="_compute_default_active_cycle")
 
-    entitlements_count = fields.Integer(
-        related="default_active_cycle.entitlements_count"
-    )
+    entitlements_count = fields.Integer(related="default_active_cycle.entitlements_count")
 
     show_entitlement_field_name = fields.Char(compute="_compute_show_cycleless_fields")
-    show_prepare_payments_button = fields.Boolean(
-        compute="_compute_show_cycleless_fields"
-    )
+    show_prepare_payments_button = fields.Boolean(compute="_compute_show_cycleless_fields")
     show_send_payments_button = fields.Boolean(compute="_compute_show_cycleless_fields")
 
     def _compute_default_active_cycle(self):
@@ -59,11 +53,7 @@ class G2PPrograms(models.Model):
             if managers_for_payment_send:
                 accepted_payment_managers_for_send += managers_for_payment_send
             payment_manager = rec.get_manager(constants.MANAGER_PAYMENT)
-            if (
-                program_dict["is_cycleless"]
-                and program_dict["state"] == "active"
-                and payment_manager
-            ):
+            if program_dict["is_cycleless"] and program_dict["state"] == "active" and payment_manager:
                 if payment_manager._name in accepted_payment_managers_for_prepare:
                     rec.show_prepare_payments_button = True
                 if payment_manager._name in accepted_payment_managers_for_send:
