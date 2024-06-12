@@ -173,6 +173,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </button>
 
                     </div>
+                    <widget name="web_ribbon" title="ARCHIVED" bg_color="bg-danger" invisible="active" />
                     <div class="oe_title mb24">
 
                         <field name="locked" invisible="True" />
