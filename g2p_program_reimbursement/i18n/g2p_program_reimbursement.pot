@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 15.0\n"
+"Project-Id-Version: Odoo Server 17.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -69,6 +69,7 @@ msgid "Default Entitlement Manager"
 msgstr ""
 
 #. module: g2p_program_reimbursement
+#. odoo-python
 #: code:addons/g2p_program_reimbursement/models/entitlement.py:0
 #: model:ir.model,name:g2p_program_reimbursement.model_g2p_entitlement
 #, python-format
@@ -114,6 +115,7 @@ msgid "Recommended amount "
 msgstr ""
 
 #. module: g2p_program_reimbursement
+#. odoo-python
 #: code:addons/g2p_program_reimbursement/models/entitlement.py:0
 #, python-format
 msgid "Reimbursement"
@@ -157,12 +159,19 @@ msgid "Service Provider"
 msgstr ""
 
 #. module: g2p_program_reimbursement
+#. odoo-python
 #: code:addons/g2p_program_reimbursement/models/programs.py:0
 #, python-format
 msgid "Service Providers"
 msgstr ""
 
 #. module: g2p_program_reimbursement
+#: model:ir.model,name:g2p_program_reimbursement.model_g2p_program_membership_manager_default
+msgid "Simple Eligibility"
+msgstr ""
+
+#. module: g2p_program_reimbursement
+#. odoo-python
 #: code:addons/g2p_program_reimbursement/wizard/assign_to_program.py:0
 #, python-format
 msgid "This process shouldn't allow for an Inactive records."

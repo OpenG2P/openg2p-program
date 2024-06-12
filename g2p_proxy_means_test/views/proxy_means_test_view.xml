@@ -29,8 +29,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree sample="1">
-                <field name="pmt_field" />
-                <field name="pmt_weightage" />
+                <field name="pmt_field" required="True" />
+                <field name="pmt_weightage" required="True" />
             </tree>
         </field>
     </record>

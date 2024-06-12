@@ -69,9 +69,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     role="alert"
                     style="margin-bottom:0px;"
                     invisible="state != 'cancelled'"
-                >
-                    This fund was cancelled on
-                    <bold>
+                > This fund was cancelled on <bold>
                         <field name="write_date" readonly="1" />
                     </bold>
                 </div>
@@ -103,19 +101,16 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             />
                         </div>
                     </div>
-                    <group>
-                        <group>
-                            <field name="journal_id" options="{'no_open':True}" readonly="1" />
-                            <field name="create_date" string="Date Entered" readonly="1" />
-                            <group>
-                                <field name="amount" readonly="state != 'draft'" />
-                                <field
-                                    name="currency_id"
-                                    options="{'no_open':True,'no_quick_create':True,'no_create':True}"
-                                />
-                                <field name="remarks" readonly="state != 'draft'" />
-                            </group>
-                        </group>
+                    <group colspan="4" col="4">
+                        <field name="journal_id" options="{'no_open':True}" readonly="1" />
+                        <field name="create_date" string="Date Entered" readonly="1" />
+                        <field name="amount" readonly="state != 'draft'" />
+                        <field
+                            name="currency_id"
+                            options="{'no_open':True,'no_quick_create':True,'no_create':True}"
+                        />
+                        <field name="remarks" readonly="state != 'draft'" />
+
                     </group>
                     <group string="Accounting Journal Entry">
                         <field name="date_posted" readonly="state != 'draft'" />
@@ -173,7 +168,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 There are no Program Funds Entered!
-            </p><p>
+            </p>
+            <p>
                 Click the create button to enter a new program fund information.
             </p>
         </field>
