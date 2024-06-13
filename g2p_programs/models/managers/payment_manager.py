@@ -99,17 +99,39 @@ class DefaultFilePaymentManager(models.Model):
 
     @api.onchange("create_batch")
     def on_change_create_batch(self):
-        self.batch_tag_ids = [
-            (5,),
-            (
-                0,
-                0,
-                {
-                    "name": f"Default {self.program_id.name}",
-                    "order": 1,
-                },
-            ),
-        ]
+        if self.create_batch:
+            existing_batch = (
+                self.env["g2p.payment.batch.tag"]
+                .sudo()
+                .search(
+                    [
+                        ("name", "=", f"Default {self.program_id.name}"),
+                        ("order", "=", 1),
+                        ("max_batch_size", "=", 500),
+                    ],
+                    limit=1,
+                )
+            )
+
+            if existing_batch:
+                batch_id = existing_batch
+            else:
+                batch_id = (
+                    self.env["g2p.payment.batch.tag"]
+                    .sudo()
+                    .create(
+                        {
+                            "name": f"Default {self.program_id.name}",
+                            "order": 1,
+                            "domain": [],
+                            "max_batch_size": 500,
+                        }
+                    )
+                )
+
+            self.batch_tag_ids = [(4, batch_id.id)]
+        else:
+            self.batch_tag_ids = [(5,)]
 
     @api.constrains("batch_tag_ids")
     def constrains_batch_tag_ids(self):
