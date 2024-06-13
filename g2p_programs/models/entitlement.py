@@ -96,6 +96,14 @@ class G2PEntitlement(models.Model):
         ),
     ]
 
+    @api.constrains("valid_from", "valid_until")
+    def _check_valid_dates(self):
+        for record in self:
+            if record.valid_until and record.valid_from and record.valid_until < record.valid_from:
+                raise ValidationError(
+                    _('The "Valid Until" date cannot be earlier than the "Valid From" date.')
+                )
+
     def fields_view_get(self, view_id=None, view_type="list", toolbar=False, submenu=False):
         res = super(G2PEntitlement, self).fields_view_get(
             view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu
