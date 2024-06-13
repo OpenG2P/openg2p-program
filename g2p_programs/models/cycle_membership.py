@@ -91,12 +91,17 @@ class G2PCycleMembership(models.Model):
             )
 
         for record in draft_records:
-            beneficiary = record.cycle_id.entitlement_ids.filtered(
+            entitlement = record.cycle_id.entitlement_ids.filtered(
                 lambda x: x.partner_id.id == record.partner_id.id
             )
-            if record.cycle_id.state == "approved" or beneficiary and beneficiary.state == "approved":
-                raise ValidationError(
-                    _("Beneficiaries can only be deleted when both the cycle and entitlement are unapproved.")
-                )
+            if entitlement:
+                if entitlement.state == "approved":
+                    raise ValidationError(
+                        _(
+                            "Beneficiaries can only be deleted when both the cycle and"
+                            "entitlement are unapproved."
+                        )
+                    )
+                entitlement.unlink()
 
         return super().unlink()
