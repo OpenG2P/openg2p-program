@@ -37,6 +37,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
         required=True,
     )
 
+    # ruff: noqa: C901
     def assign_registrant(self):
         if self.env.context.get("active_ids"):
             partner_ids = self.env.context.get("active_ids")
@@ -90,12 +91,19 @@ class G2PAssignToProgramWizard(models.TransientModel):
             )
 
             if len(partner_ids) == 1:
-                if rec.disabled:
+                if rec.disabled and rec.is_group:
                     message = _("Disabled group can't be added to the program.") % {
                         "registrant": rec.name,
                         "program": self.program_id.name,
                     }
                     kind = "danger"
+                elif rec.disabled and not rec.is_group:
+                    message = _("Disabled individaul can't be added to the program.") % {
+                        "registrant": rec.name,
+                        "program": self.program_id.name,
+                    }
+                    kind = "danger"
+
                 elif ig_ctr and not rec.disabled:
                     message = _("%(registrant)s was already in the Program %(program)s") % {
                         "registrant": rec.name,
