@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_social_registry_beneficiary,G2P Fetch Social Registry Beneficiary Access,model_g2p_fetch_social_registry_beneficiary,g2p_import_dci_api.group_manager,1,1,1,1
-access_social_registry_imported_individuals,G2P Social Registry Imported Beneficiary Access,model_g2p_social_registry_imported_individuals,g2p_import_dci_api.group_manager,1,1,1,1
