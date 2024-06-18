@@ -9,6 +9,11 @@ from . import constants
 
 
 class G2PProgramMembership(models.Model):
+    _inherit = [
+        "mail.thread",
+        "mail.activity.mixin",
+    ]
+
     _name = "g2p.program_membership"
     _description = "Program Membership"
     _inherits = {"res.partner": "partner_id"}
