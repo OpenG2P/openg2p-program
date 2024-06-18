@@ -1835,6 +1835,14 @@ msgid "Disabled group(s) can't be added to the program %s"
 msgstr ""
 
 #. module: g2p_programs
+#. odoo-python
+#: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
+#: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
+#, python-format
+msgid "Disabled individaul can't be added to the program."
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_entitlement_form
 msgid "Disbursement"
 msgstr ""
