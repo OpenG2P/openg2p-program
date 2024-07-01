@@ -222,6 +222,11 @@ class DefaultFilePaymentManager(models.Model):
                         "state": "issued",
                     }
                 )
+                if payment.partner_id.bank_ids:
+                    payment.account_number = payment.partner_id.bank_ids[0].acc_number
+                else:
+                    payment.account_number = None
+
                 if not payments:
                     payments = payment
                 else:
