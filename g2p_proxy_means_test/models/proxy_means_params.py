@@ -26,6 +26,7 @@ class ProxyMeanTestParams(models.Model):
                 "pmt_score",
                 "id",
                 "sl_no",
+                "latest_pmt_score",
             ):
                 choice.append((field[0], field[0]))
         return choice
