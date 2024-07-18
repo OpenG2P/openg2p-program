@@ -90,7 +90,10 @@ export class G2PAdditionalInfoWidget extends TextField {
         }
         for (const key in jsonObject) {
             if (!jsonObject[key]) continue;
-            if (
+            if (Array.isArray(jsonObject[key])) {
+                // Handle arrays by joining their elements with a comma and space
+                jsonObject[key] = jsonObject[key].join(", ");
+            } else if (
                 Array.isArray(jsonObject[key]) &&
                 jsonObject[key].length > 0 &&
                 "document_id" in jsonObject[key][0] &&
