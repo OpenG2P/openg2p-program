@@ -110,7 +110,13 @@ class BaseCycleManager(models.AbstractModel):
         """
         # Check if user is allowed to approve the cycle
         if cycle.state == "to_approve":
-            cycle.update({"state": "approved"})
+            cycle.update(
+                {
+                    "approved_date": fields.Datetime.now(),
+                    "approved_by": self.env.user.id,
+                    "state": cycle.STATE_APPROVED,
+                }
+            )
             # Running on_state_change because it is not triggered automatically with rec.update above
             self.on_state_change(cycle)
         else:
