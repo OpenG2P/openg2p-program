@@ -1,0 +1,490 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_self_service_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-03 03:53+0000\n"
+"PO-Revision-Date: 2023-03-03 03:53+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid ", how are you doing?"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid ""
+"30+ Schemes\n"
+"                                            available"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "55+ Schemes available"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "<span>English</span>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "<span>Filipino</span>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "<span>NEW</span>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "<span>中国人</span>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "About Us"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.aboutus_page
+msgid "About Us| Self Service Portal"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+msgid "Actions"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "All Programs"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+msgid "All Programs | Self Service Portal"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model.fields,field_description:g2p_self_service_portal.field_auth_oauth_provider__g2p_self_service_allowed
+msgid "Allowed in Self Service Portal"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Amount Received (in USD) <i class=\"fa fa-sort\"/>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "Application Form"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model.fields,field_description:g2p_self_service_portal.field_g2p_program_membership__application_id
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+msgid "Application ID"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Application ID <i class=\"fa fa-sort\"/>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Apply"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "Cancel"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model,name:g2p_self_service_portal.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "Contact Us"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.contact_us
+msgid "Contact Us| Self Service Portal"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model,name:g2p_self_service_portal.model_g2p_program_create_wizard
+msgid "Create a New Program Wizard"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "Discard"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "Discard applicaton?"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Education"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "Email"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "English"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "Enter email address"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "Enter password"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Entitlement (in USD) <i class=\"fa fa-sort\"/>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Entitlements"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "Error Page"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.error_page
+msgid "Error| Self Service Portal"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "FAQ"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "Facing any challenges?"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid ""
+"Fields marked with\n"
+"                                            \"<span class=\"s_website_form_mark\">*</span>\"\n"
+"                                            are mandatory"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "Filipino"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_res_config_settings_view_form
+msgid "G2P Self Service Settings"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Healthcare"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "Help"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "Hi"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.static_page_base
+msgid "Home"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "I am here to assist you. Take a few minutes and lets connect!"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "Login"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "Logout"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_create_wizard_form
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_portal_form
+msgid "Map Portal Form"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "Menu Item"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.static_page_base
+msgid "My Profile"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.profile_page
+msgid "My Profile| Self Service Portal"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "My Programs"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "No."
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+msgid "Not Applied"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model,name:g2p_self_service_portal.model_auth_oauth_provider
+msgid "OAuth2 provider"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "OR"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Other Services"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.static_page_base
+msgid ""
+"Our experts are working hard to make this page available.\n"
+"                            Meanwhile, we request you to please visit after some time."
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.static_page_base
+msgid "Page Under Construction!"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "Password"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model,name:g2p_self_service_portal.model_g2p_program
+msgid "Program"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model.fields,field_description:g2p_self_service_portal.field_g2p_program_create_wizard__self_service_portal_form
+msgid "Program Form"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model,name:g2p_self_service_portal.model_g2p_program_membership
+msgid "Program Membership"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Program Name <i class=\"fa fa-sort\"/>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.login_page
+msgid "Reset Password"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Search by program name"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "Search here"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model.fields,field_description:g2p_self_service_portal.field_res_config_settings__self_service_logo
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_res_config_settings_view_form
+msgid "Self Service Logo"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model:ir.model.fields,field_description:g2p_self_service_portal.field_g2p_program__self_service_portal_form
+msgid "Self Service Portal Form"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "Static Page"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.static_page
+msgid "Static Page| Self Service Portal"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Status <i class=\"fa fa-sort\"/>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "Submit"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+msgid "Submitted"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+msgid "Submitted Application Form"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+msgid "Submitted On"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Submitted On <i class=\"fa fa-sort\"/>"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Tap here for assistance"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "Tap to know more"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid ""
+"The entered data will not be saved.\n"
+"                                                    Are you sure you want to discard the form?"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid ""
+"This scheme is available till 31st March, 2023.\n"
+"                                    Eligible members can avail the benefits by applying to this scheme."
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "User"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.allprograms
+msgid "View"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid "View All"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+msgid "View My Programs"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.dashboard
+msgid ""
+"Welcome to the National Social Benefits\n"
+"                        Portal"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_submitted
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.self_service_form_template
+msgid "breadcrumb"
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "© 2023 National Social Benefits Portal. All rights reserved."
+msgstr ""
+
+#. module: g2p_self_service_portal
+#: model_terms:ir.ui.view,arch_db:g2p_self_service_portal.base
+msgid "中国人"
+msgstr ""

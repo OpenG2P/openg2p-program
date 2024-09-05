@@ -1,6 +1,7 @@
 exclude: |
   (?x)
   # NOT INSTALLABLE ADDONS
+  ^g2p_notifications_rest_api/|
   ^g2p_program_registrant_info_rest_api/|
   ^g2p_programs_rest_api/|
   # END NOT INSTALLABLE ADDONS

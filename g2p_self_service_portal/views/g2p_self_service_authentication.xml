@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- TODO: Remove all hardcoding -->
+    <template id="otp_authentication_page" name="G2P Self Service OTP Authentication">
+
+        <t t-call="g2p_self_service_portal.base">
+            <t t-set="no_header" t-value="1" />
+            <t t-set="no_footer" t-value="1" />
+            <t t-set="body_classname" t-value="'bg-100'" />
+            <link rel="stylesheet" href="/g2p_self_service_portal/static/src/css/self_service_portal.css" />
+            <div class="ssp-signup-body">
+                <div class="ssp-login-box">
+                    <div class="logo-box">
+                        <img src="/g2p_self_service_portal/static/src/img/logo@2x.png" class="logo" />
+                    </div>
+                    <form
+                        class="oe_login_form"
+                        role="form"
+                        t-attf-action="/selfservice/signup"
+                        method="post"
+                        onsubmit="this.action = '/selfservice/signup' + location.hash"
+                    >
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                        <input type="hidden" name="redirect" value="/selfservice/home" />
+                        <div class="form-group field-login">
+                            <label for="otp">
+                                Enter OTP
+                            </label>
+                            <input
+                                type="password"
+                                name="otp"
+                                t-att-value="otp"
+                                inputmode="numeric"
+                                id="otp"
+                                t-attf-class="form-control #{'form-control-sm' if form_small else ''}"
+                                required="required"
+                                autofocus="autofocus"
+                                autocapitalize="off"
+                                maxlength="6"
+                                oninput="validateInput(this)"
+                            />
+                        </div>
+
+                        <input type="hidden" name="vid" t-att-value="values['vid']" />
+                        <input type="hidden" name="email" t-att-value="values['email']" />
+                        <input type="hidden" name="phone" t-att-value="values['phone']" />
+                        <input type="hidden" name="given_name" t-att-value="values['given_name']" />
+                        <input type="hidden" name="family_name" t-att-value="values['family_name']" />
+                        <input type="hidden" name="addl_name" t-att-value="values['addl_name']" />
+                        <input type="hidden" name="name" t-att-value="name" />
+                        <input type="hidden" name="ext" t-att-value="values['ext']" />
+                        <input type="hidden" name="gender" t-att-value="values['gender']" />
+                        <input type="hidden" name="password" t-att-value="values['password']" />
+                        <input
+                            type="hidden"
+                            name="confirm_password"
+                            t-att-value="values['confirm_password']"
+                        />
+                        <input type="hidden" name="birthdate" t-att-value="values['birthdate']" />
+
+                        <p class="alert alert-danger" t-if="error" role="alert">
+                            <t t-out="error" />
+                        </p>
+                        <p class="alert alert-success" t-if="message" role="status">
+                            <t t-out="message" />
+                        </p>
+
+                        <div id="otp-timer">
+                            <span>Time remaining <b>02:00</b></span>
+                            <a
+                                style="float:right; pointer-events: none; color: #ADB5BD;"
+                                t-attf-href="/selfservice/signup/otp"
+                            >Resend OTP</a>
+                        </div>
+
+                        <div
+                            t-attf-class="clearfix oe_login_buttons text-center mb-1 {{'pt-2' if form_small else 'pt-3'}}"
+                        >
+                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="login-bottom-text"> Facing any challenges? <a href="#">Help</a> </div>
+            <script
+                    type="text/javascript"
+                    src="/g2p_self_service_portal/static/src/js/self_service_signup_authentication.js"
+                />
+            </div>
+        </t>
+    </template>
+</odoo>

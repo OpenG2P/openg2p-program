@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <function
+        model="ir.config_parameter"
+        name="set_param"
+        eval="('g2p_import_social_registry.client_id', 'openg2p-admin-client')"
+    />
+    <function
+        model="ir.config_parameter"
+        name="set_param"
+        eval="('g2p_import_social_registry.client_password', '')"
+    />
+    <function
+        model="ir.config_parameter"
+        name="set_param"
+        eval="('g2p_import_social_registry.grant_type', 'client_credentials')"
+    />
+    <function
+        model="ir.config_parameter"
+        name="set_param"
+        eval="('g2p_import_social_registry.max_registrants_count_job_queue', 100)"
+    />
+</odoo>

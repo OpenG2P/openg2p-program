@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- individuals view-->
+    <record id="view_individual_notifiction_ext_form" model="ir.ui.view">
+        <field name="name">view_individual_notification_ext_form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="g2p_registry_individual.view_individuals_form" />
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="notification_preference" />
+            </field>
+        </field>
+    </record>
+
+    <!-- groups view-->
+    <record id="view_groups_notifiction_ext_form" model="ir.ui.view">
+        <field name="name">view_groups_notification_ext_form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="g2p_registry_group.view_groups_form" />
+        <field name="arch" type="xml">
+            <field name="email" position="after">
+                <field name="notification_preference" />
+            </field>
+        </field>
+    </record>
+
+    <!-- Program Membership view -->
+    <record id="view_program_membership_notifiction_ext_form" model="ir.ui.view">
+        <field name="name">view_program_membership_notification_ext_form</field>
+        <field name="model">g2p.program_membership</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_membership_form" />
+        <field name="arch" type="xml">
+            <field name="exit_date" position="after">
+                <field name="is_enrolled_notification_sent" />
+            </field>
+        </field>
+    </record>
+
+    <!-- Payment view -->
+    <record id="view_payment_notifiction_ext_form" model="ir.ui.view">
+        <field name="name">view_payment_notification_ext_form</field>
+        <field name="model">g2p.payment</field>
+        <field name="inherit_id" ref="g2p_programs.view_payment_form" />
+        <field name="arch" type="xml">
+            <field name="payment_fee" position="after">
+                <field name="is_payment_notification_sent" />
+            </field>
+        </field>
+    </record>
+
+</odoo>

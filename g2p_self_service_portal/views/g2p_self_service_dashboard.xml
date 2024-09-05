@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- TODO: Remove all hardcoding -->
+    <template id="dashboard" name="G2P Self Service Dashboard">
+        <script
+            type="text/javascript"
+            src="/g2p_self_service_portal/static/src/js/self_service_pie_chart.js"
+        />
+
+        <t t-call="g2p_self_service_portal.base">
+
+            <div class="main-container">
+                <div class="container-adjuster">
+                    <!-- <div class="alert" id="alertbox">
+                        <div class="alertbox-adjuster">
+                            <div class="alertbox-message">
+                                <span
+                                    class="welcome-title"
+                                >Welcome to the National Social Benefits Portal</span>
+                            </div>
+                            <div class="alertbox-button">
+                                <span class="closebtn">
+                                    <i class="fa fa-close" />
+                                </span>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="table-container">
+                        <div class="table-head-container">
+                            <p class="table-title">My Applications</p>
+                            <form class="form-inline my-2" action="/selfservice/home">
+                                <div class="search-box">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="13.6"
+                                        height="13.6"
+                                        fill="currentColor"
+                                        class="bi bi-search search-icon"
+                                        viewBox="0 0 16 16"
+                                    >
+                                        <path
+                                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                                        />
+                                    </svg>
+                                    <input
+                                        placeholder="Search by program name"
+                                        class="search-text"
+                                        name="q"
+                                        id="search-input"
+                                    />
+                                    <span id="search-clear">
+                                        <i class="fa fa-times" />
+                                    </span>
+
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tables-values-container">
+
+                            <table class="css-serial" id="myprograms">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Program Name <i class="fa fa-sort" />
+                                        </th>
+                                        <th>Application ID <i class="fa fa-sort" /></th>
+                                        <th>Program Status <i class="fa fa-sort" /></th>
+                                        <th>Application Status <i class="fa fa-sort" /></th>
+                                        <th>Submitted On <i class="fa fa-sort" />
+                                        </th>
+                                        <th class="right-align">Entitlement (in USD) <i class="fa fa-sort" />
+                                        </th>
+                                        <th class="right-align">Amount Received (in USD) <i
+                                                class="fa fa-sort"
+                                            />
+                                        </th>
+                                    </tr>
+                                </thead>
+
+                                <t t-foreach="programs" t-as="program">
+                                    <t t-if="program['has_applied']">
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <t t-if="program['is_latest']">
+                                                    <!-- <a href="#" class="program-name"> -->
+                                                        <button
+                                                        class="badge badge-button"
+                                                        disabled="1"
+                                                        data-sort-ignore="true"
+                                                    >
+                                                            <span>NEW</span>
+                                                        </button>
+                                                        <t t-out="program['name']" />
+                                                    <!-- </a> -->
+                                                </t>
+
+                                                <t t-else="">
+                                                    <!-- <a href="#" class="program-name"> -->
+                                                        <t t-out="program['name']" />
+                                                    <!-- </a> -->
+                                                </t>
+
+                                            </td>
+                                            <td>
+                                                <t t-out="program['application_id']" />
+                                            </td>
+
+                                            <td>
+                                                <t t-if="program['program_status']=='Applied'">
+                                                        <button
+                                                        string="Apply"
+                                                        type="object"
+                                                        class="submit-button"
+                                                        disabled="1"
+                                                    >
+                                                        Applied
+                                                        </button>
+                                                </t>
+                                                <t t-elif="program['program_status']=='Enrolled'">
+                                                    <t
+                                                        t-if="program['single_submission'] == True and program['application_status']=='Rejected'"
+                                                    >
+                                                        <button
+                                                            string="Rejected"
+                                                            type="object"
+                                                            class="notapplied-button"
+                                                            disabled="1"
+                                                        >
+                                                            Rejected
+                                                        </button>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <button
+                                                            string="Apply"
+                                                            type="object"
+                                                            class="enroll-button"
+                                                            disabled="1"
+                                                        >
+                                                            Enrolled
+                                                        </button>
+                                                    </t>
+                                                </t>
+                                                <t t-elif="program['program_status']=='Not Eligible'">
+                                                    <button
+                                                        string="Not Eligible"
+                                                        type="object"
+                                                        class="notapplied-button"
+                                                        disabled="1"
+                                                    >
+                                                        Not Eligible
+                                                        </button>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-if="program['application_status']=='Applied'">
+                                                        <button
+                                                        string="Apply"
+                                                        type="object"
+                                                        class="submit-button"
+                                                        disabled="1"
+                                                    >
+                                                        Applied
+                                                        </button>
+                                                </t>
+                                                <t t-elif="program['application_status']=='Not Eligible'">
+                                                        <button
+                                                        string="Not Eligible"
+                                                        type="object"
+                                                        class="notapplied-button"
+                                                        disabled="1"
+                                                    >
+                                                        Not Eligible
+                                                        </button>
+                                                </t>
+                                                <t t-elif="program['application_status']=='Under Review'">
+                                                        <button
+                                                        string="Under Review"
+                                                        type="object"
+                                                        class="submit-button"
+                                                        disabled="1"
+                                                    >
+                                                        Under Review
+                                                        </button>
+                                                </t>
+                                                <t t-elif="program['application_status']=='Completed'">
+                                                        <button
+                                                        string="Completed"
+                                                        type="object"
+                                                        class="enroll-button"
+                                                        disabled="1"
+                                                    >
+                                                        Completed
+                                                        </button>
+                                                </t>
+                                                <t t-elif="program['application_status']=='Rejected'">
+                                                        <button
+                                                        string="Rejected"
+                                                        type="object"
+                                                        class="notapplied-button"
+                                                        disabled="1"
+                                                    >
+                                                        Rejected
+                                                        </button>
+                                                </t>
+                                                <t t-elif="program['application_status']=='Closed'">
+                                                        <button
+                                                        string="Closed"
+                                                        type="object"
+                                                        class="notapplied-button"
+                                                        disabled="1"
+                                                    >
+                                                        Closed
+                                                        </button>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-out="program['enrollment_date']" />
+                                            </td>
+                                            <td class="right-align">
+                                                <span>
+                                                    <t t-out="program['issued']" />
+                                                </span>
+                                            </td>
+                                            <td class="right-align">
+                                                <t t-out="program['paid']" />
+                                            </td>
+                                        </tr>
+
+                                    </t>
+
+
+                                </t>
+                                <!-- <t>
+                                <tr><td colspan="7"> <div class="no-program-text"> <t t-out="len(myprograms)"
+                                /></div></td></tr></t> -->
+                                <t t-if="not programs">
+                                    <tr>
+                                        <td colspan="8" class="no-programs">
+                                            <div class="no-programs-container">
+                                                <div class="no-program-text">You haven’t enrolled into
+                                                    any programs yet, please tap on the below link
+                                                    to view all programs.</div>
+                                                <div class="no-program-text">
+                                                    <a href="/selfservice/programs">View All Programs</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </table>
+
+                        </div>
+                    </div>
+
+                    <div class="card-container">
+                        <div class="card">
+                            <h5 class="card-heading">All Programs</h5>
+                            <hr />
+                            <ul class="card-block">
+                                <a href="#">
+                                    <li>
+
+                                        <div class="icon-image">
+                                            <img src="/g2p_self_service_portal/static/src/img/medical.png" />
+                                        </div>
+                                        <div>
+                                            <a href="#">
+                                                Healthcare </a>
+                                            <p>30+ Schemes
+                                                available</p>
+                                        </div>
+
+                                    </li>
+                                </a>
+                                <a href="#">
+                                    <li>
+                                        <div class="icon-image">
+                                            <img
+                                                src="/g2p_self_service_portal/static/src/img/school_FILL0_wght400_GRAD0_opsz48.png"
+                                            />
+                                        </div>
+                                        <div>
+                                            <a href="#">
+                                                Education </a>
+                                            <p>55+ Schemes available</p>
+                                        </div>
+                                    </li>
+                                </a>
+
+
+                            </ul>
+                            <div class="card-foot">
+                                <a
+                                    href="/selfservice/programs"
+                                    class="justify-content-center viewprograms"
+                                >View All</a>
+                            </div>
+
+                        </div>
+                        <div class="card middle-card">
+                            <h5 class="card-heading">Other Services</h5>
+                            <hr />
+                            <ul class="card-block">
+                                <a href="/selfservice/help">
+                                    <li>
+                                        <div class="icon-image">
+                                            <img
+                                                src="/g2p_self_service_portal/static/src/img/person_filled_FILL0_wght400_GRAD0_opsz48.png"
+                                                class="img"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <a href="#">
+                                                Help </a>
+                                            <p>Tap here for assistance</p>
+                                        </div>
+                                    </li>
+                                </a>
+                                <li id="faq">
+
+                                    <div class="icon-image">
+                                        <img
+                                            src="/g2p_self_service_portal/static/src/img/real_estate_agent_FILL0_wght400_GRAD0_opsz48.png"
+                                        />
+                                    </div>
+                                    <div>
+                                        <a href="#">
+                                            FAQ </a>
+                                        <p>Tap to know more</p>
+                                    </div>
+
+                                </li>
+
+
+                            </ul>
+                            <div class="card-foot">
+                                <a href="#" class="justify-content-center viewprograms">View All</a>
+                            </div>
+
+                        </div>
+                        <div class="card">
+                            <h5 class="card-heading">Entitlements</h5>
+                            <hr />
+                            <div id="pie_data" invisible="1" class="invisible">
+                                <t t-out="data" />
+                            </div>
+                            <div id="chartContainer">
+
+                            </div>
+                            <script
+                                type="text/javascript"
+                                src="/g2p_self_service_portal/static/src/js/self_service_search_sort.js"
+                            />
+                            <script
+                                type="text/javascript"
+                                src="/g2p_self_service_portal/static/src/js/self_service_pie_chart.js"
+                            />
+                            <!-- <script
+                                type="text/javascript"
+                                src="/g2p_self_service_portal/static/src/js/self_service_welcome_alert.js"
+                            /> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </t>
+    </template>
+</odoo>

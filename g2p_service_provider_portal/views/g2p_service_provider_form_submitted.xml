@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <template
+        id="reimbursement_form_submitted"
+        name="G2P Service Provider Form Submitted"
+        inherit_id="g2p_self_service_portal.self_service_form_submitted"
+        primary="True"
+        priority="920"
+    >
+        <xpath expr="//t[@t-call='g2p_self_service_portal.base']" position="attributes">
+            <attribute name="t-call">g2p_service_provider_portal.base</attribute>
+        </xpath>
+        <xpath expr="//div[@class='details']" position="replace">
+            <div class="details">Reimbursement Submission</div>
+        </xpath>
+        <xpath expr="//ol[@class='breadcrumb form-layout-breadcrumb']" position="replace">
+            <ol class="breadcrumb form-layout-breadcrumb">
+                <!-- <li class="breadcrumb-item">
+                    <a href="/serviceprovider/home">
+                        Reimbursements
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">
+                    Submission
+                </li> -->
+            </ol>
+        </xpath>
+
+        <xpath expr="//div[@id='toast-container']" position="replace">
+            <t t-if="application_status == 'approved'">
+                <div id="toast-container" invisible="1" />
+            </t>
+            <t t-else="">
+                <div id="toast-container" class="toast-success-container">
+                    <div id="toast-message" class="toast-success-message"> Thank you. Your
+                        application has been submitted successfully. Please note your application ID
+                        for future reference - <t t-out="application_id" />
+                    </div>
+                    <button id="toast-close-btn" onclick="hideToastSuccessMsg()">
+                        <img src="/g2p_self_service_portal/static/src/img/close_icon@2x.png" />
+                    </button>
+                </div>
+            </t>
+
+        </xpath>
+
+        <xpath expr="//p[@class='thank-you-msg']" position="replace">
+            <p class="thank-you-msg">
+                <i class="fa fa-check" style="color: #66ad5a;" />
+
+                <t t-if="application_status == 'approved'">
+                    Your application for reimbursement is approved.
+                </t>
+                <t t-else="">
+                    Thank you for submitting the reimbursement application.
+                    Your claim is being processed.
+                </t>
+            </p>
+        </xpath>
+
+        <xpath expr="//h5[@class='action-heading']" position="replace">
+            <h5 class="action-heading"> Voucher ID - <t t-out="entitlement" />
+            </h5>
+        </xpath>
+        <xpath expr="//div[@class='form-status']" position="replace">
+            <t t-if="application_status == 'approved'">
+                <div class="status">
+                    <button>Approved</button>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="form-status">
+                    <button>Submitted</button>
+                </div>
+            </t>
+        </xpath>
+        <xpath expr="//div[@class='card-body']/div[2]" position="replace">
+            <t t-if="application_status == 'approved'">
+                <p>Approved On</p>
+                <b>
+                    <t t-out="approved_date" />
+                </b>
+            </t>
+            <t t-else="">
+                <p>Sumbitted On</p>
+                <b>
+                    <t t-out="submission_date" />
+                </b>
+            </t>
+        </xpath>
+        <xpath expr="//a[@href='/selfservice/home']" position="replace">
+            <a href="/serviceprovider/home" class="btn btn-outline-primary btn-lg btn-block">
+                Go to Home
+            </a>
+        </xpath>
+        <xpath expr="//button[@id='print_application']" position="attributes">
+            <attribute name="style">display:none;</attribute>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="self_service_form_submitted" name="G2P Self Service Form Submitted">
+        <t t-call="g2p_self_service_portal.base">
+
+            <div id="wrap" class="oe_structure oe_empty" />
+            <div class="form-template">
+                <div class="main-container">
+                    <div class="container-adjuster">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="details">Program Submission</div>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb form-layout-breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="/selfservice/home">Home</a>
+                                        </li>
+                                        <li class="breadcrumb-item" aria-current="page">
+                                            <a href="/selfservice/programs">
+                                                All Programs
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">
+                                            Program Submission
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <t t-if="application_status != 'Applied'">
+                            <div id="toast-container" invisible="1" />
+                        </t>
+                        <t t-else="">
+                            <div id="toast-container" class="toast-success-container">
+                                <div id="toast-message" class="toast-success-message">
+                                Thank you. Your application has been submitted successfully.
+                                Please note your application ID for future reference -
+                                    <t t-out="application_id" />
+                                </div>
+                                <button id="toast-close-btn" onclick="closeToastSuccessMsg()">
+                                    <img src="/g2p_self_service_portal/static/src/img/close_icon@2x.png" />
+                                </button>
+                            </div>
+                        </t>
+                            <div class="row">
+                                <div class="col-md-8 submit-message">
+                                    <div class="card container-left" style="width: auto; padding: 0px;">
+                                        <div class="card-body" style="padding: 20px;">
+                                            <h5 class="user-name">Dear <t t-out="user" />
+,</h5>
+                                            <p class="thank-you-msg">
+                                            Thank you for submitting your form for the program <t
+                                                t-out="program"
+                                            />
+.
+                                            <br />
+                                            Your application number is <b>
+                                            <t t-out="application_id" />
+                                        </b>
+                                        <br />
+                                        <br />
+                                            We appreciate your interest in  and we are committed to providing you with the support you need to achieve your goals.
+                                            Our team will now review your application and assess your eligibility for the scheme. This process may take some time, and we appreciate your patience while we work to provide you with the best possible service.
+                                        <br />
+                                        <br />
+                                            Please note that if additional information is required to process your application, we will contact you using the email or phone number provided in your application. Therefore, it is important that you check your email and phone regularly to avoid any delays.
+                                            Once your application has been reviewed, we will notify you of the outcome via email or phone. If your application is approved, we will provide you with the necessary instructions to access the benefits of the scheme.
+                                        <br />
+                                        <br />
+                                            Thank you once again for your application, and we wish you the best of luck in your future endeavors.
+                                        <br />
+                                        <br />
+                                            Best regards,
+                                        <br />
+                                            Program Management Team
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 status-message">
+                            <div class="card container-right" style="width: auto; padding: 0px;">
+                                <div class="card-header" style="padding: 0px;">
+                                    <h5 class="action-heading">
+                                        <t t-out="program" />
+                                    </h5>
+                                    <div class="form-status">
+                                        <button>
+                                            <t t-out="application_status" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="padding: 20px;">
+                                    <div class="form-application-id">
+                                        <p>Application ID</p>
+                                        <b>
+                                            <t t-out="application_id" />
+                                        </b>
+                                    </div>
+                                    <div>
+                                        <p>Submitted On</p>
+                                        <b>
+                                            <t t-out="submission_date" />
+                                        </b>
+                                    </div>
+                                </div>
+                                <div class="card-footer" style="padding: 20px;">
+                                    <a
+                                            href="/selfservice/home"
+                                            class="btn btn-outline-primary mb-3 w-100 btn-block"
+                                        >
+                                            View My Programs
+                                    </a>
+                                    <button
+                                            onclick="window.print();"
+                                            id="print_application"
+                                            type="button"
+                                            class="btn btn-primary btn-lg btn-block w-100 form_submit_action"
+                                        >
+                                        <i class="fa fa-print" />
+ Print
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</template>
+</odoo>

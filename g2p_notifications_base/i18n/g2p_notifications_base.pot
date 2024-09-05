@@ -1,0 +1,231 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_notifications_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_notifications_base
+#: model_terms:ir.actions.act_window,help:g2p_notifications_base.action_notification_manager_email
+msgid "Add an Email Notification Manager!"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields.selection,name:g2p_notifications_base.selection__res_partner__notification_preference__both
+msgid "Both Email & SMS"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model_terms:ir.actions.act_window,help:g2p_notifications_base.action_notification_manager_email
+msgid "Click the create button to enter a new Email notification manager."
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model,name:g2p_notifications_base.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model,name:g2p_notifications_base.model_g2p_program_payment_manager_default
+msgid "Default Payment Manager"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields.selection,name:g2p_notifications_base.selection__res_partner__notification_preference__email
+msgid "Email"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model,name:g2p_notifications_base.model_g2p_program_notification_manager_email
+#: model_terms:ir.ui.view,arch_db:g2p_notifications_base.view_notification_manager_email_form
+msgid "Email Notification Manager"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.actions.act_window,name:g2p_notifications_base.action_notification_manager_email
+#: model:ir.ui.menu,name:g2p_notifications_base.menu_notification_manager_email
+msgid "Email Notification Managers"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model_terms:ir.ui.view,arch_db:g2p_notifications_base.view_notification_manager_email_form
+msgid "Enter the Manager Name..."
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__id
+msgid "ID"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_membership__is_enrolled_notification_sent
+msgid "Is Enrolled Notification Sent"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_payment__is_payment_notification_sent
+msgid "Is Payment Notification Sent"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__name
+msgid "Manager Name"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model_terms:ir.ui.view,arch_db:g2p_notifications_base.view_notification_manager_email_form
+msgid "Name:"
+msgstr ""
+
+#. module: g2p_notifications_base
+#. odoo-python
+#: code:addons/g2p_notifications_base/models/program.py:0
+#, python-format
+msgid "No Notification Manager defined."
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields.selection,name:g2p_notifications_base.selection__res_partner__notification_preference__none
+msgid "None"
+msgstr ""
+
+#. module: g2p_notifications_base
+#. odoo-python
+#: code:addons/g2p_notifications_base/models/program.py:0
+#, python-format
+msgid "Notification"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_membership__notification_preference
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_res_partner__notification_preference
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_res_users__notification_preference
+msgid "Notification Preference"
+msgstr ""
+
+#. module: g2p_notifications_base
+#. odoo-python
+#: code:addons/g2p_notifications_base/models/program.py:0
+#, python-format
+msgid "Notifications are initiated"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__on_cycle_ended_template
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_sms__on_cycle_ended_template
+msgid "On Cycle Ended Template"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__on_cycle_started_template
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_sms__on_cycle_started_template
+msgid "On Cycle Started Template"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__on_enrolled_in_program_template
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_sms__on_enrolled_in_program_template
+msgid "On Enrolled In Program Template"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__on_otp_send_template
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_sms__on_otp_send_template
+msgid "On Otp Send Template"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__on_payment_send_template
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_sms__on_payment_send_template
+msgid "On Payment Send Template"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model,name:g2p_notifications_base.model_g2p_payment
+msgid "Payment"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model,name:g2p_notifications_base.model_g2p_program
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__program_id
+msgid "Program"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model,name:g2p_notifications_base.model_g2p_program_membership
+msgid "Program Membership"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model,name:g2p_notifications_base.model_g2p_program_notification_manager
+msgid "Program Notification Manager"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model_terms:ir.ui.view,arch_db:g2p_notifications_base.view_notification_manager_email_form
+msgid "Program:"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields.selection,name:g2p_notifications_base.selection__res_partner__notification_preference__sms
+msgid "SMS"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model,name:g2p_notifications_base.model_g2p_program_notification_manager_sms
+msgid "SMS Program Notification Manager"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model_terms:ir.ui.view,arch_db:g2p_notifications_base.view_notification_manager_email_form
+msgid "Select a program..."
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model:ir.model.fields,field_description:g2p_notifications_base.field_g2p_program_notification_manager_email__send_immediately
+msgid "Send Immediately"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model_terms:ir.ui.view,arch_db:g2p_notifications_base.view_notification_manager_email_form
+msgid "Settings"
+msgstr ""
+
+#. module: g2p_notifications_base
+#: model_terms:ir.ui.view,arch_db:g2p_notifications_base.view_notification_manager_email_form
+#: model_terms:ir.ui.view,arch_db:g2p_notifications_base.view_notification_manager_sms_inherit_form
+msgid "TEMPLATES"
+msgstr ""

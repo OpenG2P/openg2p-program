@@ -5,7 +5,7 @@
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
-    "license": "LGPL-3",
+    "license": "LGPL-3.0",
         "depends": ["g2p_programs_rest_api", "g2p_program_registrant_info"],
     "data": [],
     "assets": {

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="self_service_res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.g2p.self.service</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="priority" eval="2000" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app
+                    string="G2P Self Service Settings"
+                    name="g2p_self_service_portal"
+                    logo="/g2p_self_service_portal/static/description/icon.png"
+                >
+                    <block title="Logo Settings">
+                        <setting string="Self Service Logo">
+                            <field name="self_service_logo" />
+                        </setting>
+                    </block>
+                    <block title="Signup Settings">
+                        <setting string="ID Type">
+                            <field name="self_service_signup_id_type" />
+                        </setting>
+                    </block>
+                    <block title="OTP Settings">
+                        <setting string="Notification Managers">
+                            <field name="self_service_otp_notification_managers" />
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

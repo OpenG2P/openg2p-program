@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="program_submission_info" name="G2P Self Service Submission Info">
+        <t t-call="g2p_self_service_portal.base">
+            <t t-set="title">Submission Info | Self Service Portal</t>
+            <div class="main-container">
+                <div class="container-adjuster">
+                    <h5 class="all-title">All Submissions</h5>
+                    <ol class="breadcrumb  breadcrumb-list bg-transparent">
+                        <li class="breadcrumb-item">
+                            <a href="/selfservice">Home</a>
+                        </li>
+                        <li class="breadcrumb-item" aria-current="page">
+                            <a href="/selfservice/programs">
+                                All Programs
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">All Past Submissions</li>
+                    </ol>
+
+
+                    <div class="table-container">
+                        <div class="table-head-container">
+                            <p class="table-title">All Past Submissions</p>
+                        </div>
+                        <div class="tables-values-container">
+                            <table class="css-serial" id="allprograms">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Application ID</th>
+                                        <th>Applied on</th>
+                                        <th>Status <i class="fa fa-sort" /></th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="submission_records" t-as="value">
+
+                                        <tr>
+                                            <td />
+                                            <td>
+                                                <t t-out="value['application_id']" />
+                                            </td>
+                                            <td>
+                                                <t t-out="value['applied_on']" />
+                                            </td>
+                                            <td>
+                                                <t t-if="value['status'] == 'active'">
+                                                    <button
+                                                        string="Applied"
+                                                        type="object"
+                                                        class="submit-button"
+                                                        disabled="1"
+                                                    >
+                                                        Applied
+                                                    </button>
+                                                </t>
+                                                <t t-elif="value['status'] == 'not_eligible'">
+                                                    <button
+                                                        string="Not Eligible"
+                                                        type="object"
+                                                        class="notapplied-button"
+                                                        disabled="1"
+                                                    >
+                                                        Not Eligible
+                                                    </button>
+                                                </t>
+                                                <t t-elif="value['status'] == 'duplicated'">
+                                                    <button
+                                                        string="Not Eligible"
+                                                        type="object"
+                                                        class="notapplied-button"
+                                                        disabled="1"
+                                                    >
+                                                        Not Eligible
+                                                    </button>
+                                                </t>
+                                                <t t-elif="value['status'] == 'inprogress'">
+                                                    <button
+                                                        string="Under Review"
+                                                        type="object"
+                                                        class="submit-button"
+                                                        disabled="1"
+                                                    >
+                                                        Under Review
+                                                    </button>
+                                                </t>
+                                                <t t-elif="value['status'] == 'rejected'">
+                                                    <button
+                                                        string="Rejected"
+                                                        type="object"
+                                                        class="notapplied-button"
+                                                        disabled="1"
+                                                    >
+                                                        Rejected
+                                                    </button>
+                                                </t>
+                                                <t t-elif="value['status'] == 'completed'">
+                                                    <button
+                                                        string="Completed"
+                                                        type="object"
+                                                        class="submit-button"
+                                                        disabled="1"
+                                                    >
+                                                        Completed
+                                                    </button>
+                                                </t>
+                                                <t t-elif="value['status'] == 'closed'">
+                                                    <button
+                                                        string="Closed"
+                                                        type="object"
+                                                        class="submit-button"
+                                                        disabled="1"
+                                                    >
+                                                        Closed
+                                                    </button>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t>
+                                                    <a
+                                                        t-attf-href="/selfservice/submitted/{{value['program_id']}}?application_id={{value['application_id']}}"
+                                                    >
+                                                        <button
+                                                            string="View"
+                                                            type="object"
+                                                            class="view-button"
+                                                        >
+                                                                        View
+                                                        </button>
+                                                    </a>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="page-buttons" class="pagination justify-content-center">
+                            <t t-if="re_apply">
+                                <div class="proceed-to-application-btn">
+                                    <a t-attf-href="/selfservice/apply/{{program_id}}">
+                                        Proceed to Application
+                                    </a>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <p>
+                                    Your application is still In Progress.
+                                </p>
+                            </t>
+                        </div>
+                    </div>
+                    <script
+                        type="text/javascript"
+                        src="/g2p_self_service_portal/static/src/js/self_service_search_sort_all.js"
+                    />
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

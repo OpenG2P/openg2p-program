@@ -1,0 +1,37 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_notifications_voucher
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_notifications_voucher
+#: model:ir.model,name:g2p_notifications_voucher.model_g2p_program_notification_manager_email
+msgid "Email Notification Manager"
+msgstr ""
+
+#. module: g2p_notifications_voucher
+#: model:ir.model.fields,field_description:g2p_notifications_voucher.field_g2p_program_notification_manager_email__on_generate_voucher_template
+#: model:ir.model.fields,field_description:g2p_notifications_voucher.field_g2p_program_notification_manager_fast2sms__on_generate_voucher_template
+#: model:ir.model.fields,field_description:g2p_notifications_voucher.field_g2p_program_notification_manager_sms__on_generate_voucher_template
+#: model:ir.model.fields,field_description:g2p_notifications_voucher.field_g2p_program_notification_manager_wiserv__on_generate_voucher_template
+msgid "On Generate Voucher Template"
+msgstr ""
+
+#. module: g2p_notifications_voucher
+#: model:ir.model,name:g2p_notifications_voucher.model_g2p_program_notification_manager_sms
+msgid "SMS Program Notification Manager"
+msgstr ""
+
+#. module: g2p_notifications_voucher
+#: model:ir.model,name:g2p_notifications_voucher.model_g2p_program_entitlement_manager_voucher
+msgid "Voucher Entitlement Manager"
+msgstr ""

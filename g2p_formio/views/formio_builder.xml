@@ -1,0 +1,72 @@
+<odoo>
+    <record id="program_formio_builder_form" model="ir.ui.view">
+        <field name="name">program_formio_builder_form</field>
+        <field name="model">formio.builder</field>
+        <field name="inherit_id" ref="formio.view_formio_builder_form" />
+        <field name="priority" eval="100" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='actions_api']" position="replace" />
+            <!-- <xpath expr="//page[@name='extra_assets']" position="replace" /> -->
+            <xpath expr="//page[@name='form_display_settings']" position="replace" />
+            <xpath expr="//page[@name='form_permissions']" position="replace" />
+            <xpath expr="//page[@name='portal_settings']" position="replace" />
+            <xpath expr="//page[@name='public_settings']" position="replace" />
+            <xpath expr="//page[@name='formio_components_api']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='integration_settings']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='publish_settings']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//group[@name='other_settings']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- <xpath expr="//group[@name='formiojs_settings']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath> -->
+        </field>
+    </record>
+
+    <record id="program_formio_builder_tree" model="ir.ui.view">
+        <field name="name">program_formio_builder_tree</field>
+        <field name="model">formio.builder</field>
+        <field name="inherit_id" ref="formio.view_formio_builder_tree" />
+        <field name="arch" type="xml">
+            <data>
+                <field name="public" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </field>
+                <field name="formio_res_model_id" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </field>record
+                <field name="portal" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </field>
+                <field name="formio_version_id" position="attributes">
+                    <attribute name="column_invisible">1</attribute>
+                </field>
+            </data>
+        </field>
+    </record>
+
+    <menuitem
+        id="formio.menu_formio_form"
+        name="Forms"
+        parent="formio.menu_formio_root"
+        sequence="70"
+        action="formio.action_formio_form"
+        active="false"
+    />
+    <!-- <menuitem
+        id="formio.menu_formio_extra_asset"
+        name="Extra Assets"
+        parent="formio.menu_formio_configuration"
+        sequence="50"
+        action="formio.action_formio_extra_asset"
+        active="false"
+    /> -->
+
+</odoo>

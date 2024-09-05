@@ -6,7 +6,7 @@
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
-    "license": "LGPL-3",
+    "license": "LGPL-3.0",
     "depends": ["spp_programs", "spp_entitlement_in_kind"],
     "data": [
         "views/in_kind.xml",

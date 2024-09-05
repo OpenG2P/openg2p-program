@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="self_service_create_wizard_form" model="ir.ui.view">
+        <field name="name">self.service.create.wizard.form</field>
+        <field name="model">g2p.program.create.wizard</field>
+        <field name="inherit_id" ref="g2p_programs.create_program_wizard_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Map Portal Form">
+                    <group>
+                        <field name="multiple_form_submission" />
+                        <field
+                            name="self_service_portal_form"
+                            options="{'no_create': True, 'no_create_edit':True}"
+                        />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

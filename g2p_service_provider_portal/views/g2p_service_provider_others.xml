@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="other_page"
+        name="G2P Service Provider Others"
+        inherit_id="g2p_self_service_portal.other_page"
+        primary="True"
+        priority="920"
+    >
+        <xpath expr="//t[@t-call='g2p_self_service_portal.base']" position="attributes">
+            <attribute name="t-call">g2p_service_provider_portal.base</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='title']" position="replace">
+            <t t-set="title"> Others | Service Provider Portal</t>
+        </xpath>
+        <xpath expr="//a[@href='/selfservice']" position="replace">
+            <a href="/serviceprovider">Reimbursements</a>
+        </xpath>
+    </template>
+</odoo>

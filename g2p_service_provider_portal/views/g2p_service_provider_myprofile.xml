@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template
+        id="profile_page"
+        name="G2P Service Provider My Profile"
+        inherit_id="g2p_self_service_portal.profile_page"
+        primary="True"
+        priority="920"
+    >
+        <xpath expr="//t[@t-call='g2p_self_service_portal.base']" position="attributes">
+            <attribute name="t-call">g2p_service_provider_portal.base</attribute>
+        </xpath>
+        <xpath expr="//t[@t-set='title']" position="replace">
+            <t t-set="title"> Profile | Service Provider Portal</t>
+        </xpath>
+        <xpath expr="//a[@href='/selfservice']" position="replace">
+            <a href="/serviceprovider">Reimbursements</a>
+        </xpath>
+                <xpath expr="//div[hasclass('s_website_form_rows')]" position="replace">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="s_website_form_field">
+                        <label class="s_website_form_label" for="name">
+                            <span class="s_website_form_label_content" style="color: #666666;">Name</span>
+                        </label>
+                        <div class="beneficiary-value">
+                            <t t-out="current_partner['name'] if current_partner['name'] else '&#8209;'" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="s_website_form_field">
+                        <label class="s_website_form_label" for="email">
+                            <span
+                                class="s_website_form_label_content"
+                                style="color: #666666;"
+                            >Email Address</span>
+                        </label>
+                        <div class="beneficiary-value">
+                            <t t-out="current_partner['email'] if current_partner['email'] else '&#8209;'" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="s_website_form_field">
+                        <label class="s_website_form_label" for="address">
+                            <span class="s_website_form_label_content" style="color: #666666;">Address</span>
+                        </label>
+                        <div class="beneficiary-value">
+                            <t t-out="current_partner['street'] if current_partner['street'] else None" />,
+                            <t t-out="current_partner['street2'] if current_partner['street2'] else None" />,
+                            <t t-out="current_partner['city'] if current_partner['city'] else None" />,
+                            <t
+                                t-out="current_partner['state_id'].name if current_partner['state_id'] else None"
+                            />,
+                            <t
+                                t-out="current_partner['country_id'].name if current_partner['country_id'] else None"
+                            />,
+                            <t t-out="current_partner['zip'] if current_partner['zip'] else None" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="s_website_form_field">
+                        <label class="s_website_form_label" for="mobile_number">
+                            <span
+                                class="s_website_form_label_content"
+                                style="color: #666666;"
+                            >Mobile Number</span>
+                        </label>
+                        <div class="beneficiary-value">
+                            <t t-out="current_partner['phone'] if current_partner['phone'] else '&#8209;'" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>
