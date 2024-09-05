@@ -1,5 +1,3 @@
-git+https://github.com/OpenG2P/openg2p-pbms-community-addons@17.0-develop
-git+https://github.com/OpenG2P/openg2p-registry@17.0-develop
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_area
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_service_points
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_programs
