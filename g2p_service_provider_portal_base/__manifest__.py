@@ -5,7 +5,7 @@
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
-    "license": "LGPL-3.0",
+    "license": "LGPL-3",
     "depends": ["account", "website"],
     "data": [
         "views/about_us.xml",

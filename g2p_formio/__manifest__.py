@@ -7,7 +7,7 @@
     "summary": "Form builders allow you to create, manage, and use dynamic forms with ease.",
     "author": "OpenG2P",
     "website": "https://openg2p.org",
-    "license": "LGPL-3.0",
+    "license": "LGPL-3",
     "depends": ["formio", "g2p_programs", "formio_storage_filestore"],
     "data": [
         "views/formio_builder.xml",
