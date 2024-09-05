@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<odoo>
-    <record id="g2p_registry_individual.model_res_partner" model="ir.model">
-      <field name="website_form_key">apply_for_program</field>
-      <field name="website_form_access">True</field>
-      <field name="website_form_label">Apply For Program</field>
-    </record>
-</odoo>

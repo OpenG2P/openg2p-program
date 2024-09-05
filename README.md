@@ -47,10 +47,6 @@ addon | version | maintainers | summary
 [g2p_program_reimbursement](g2p_program_reimbursement/) | 17.0.0.0.0 |  | OpenG2P Programs: Reimbursement
 [g2p_programs](g2p_programs/) | 17.0.0.0.0 |  | OpenG2P Programs
 [g2p_proxy_means_test](g2p_proxy_means_test/) | 17.0.0.0.0 |  | G2P: Proxy Means Test
-[g2p_self_service_portal](g2p_self_service_portal/) | 17.0.0.0.0 |  | G2P Self Service Portal
-[g2p_service_provider_beneficiary_management](g2p_service_provider_beneficiary_management/) | 17.0.0.0.0 |  | G2P Service Provider Beneficiary Management
-[g2p_service_provider_portal](g2p_service_provider_portal/) | 17.0.0.0.0 |  | G2P Service Provider Portal
-[g2p_service_provider_portal_base](g2p_service_provider_portal_base/) | 17.0.0.0.0 |  | G2P Service Provider Portal: Base
 [g2p_social_registry_importer](g2p_social_registry_importer/) | 17.0.0.0.0 |  | Import records from Social Registry
 [g2p_theme](g2p_theme/) | 17.0.0.0.0 |  | OpenG2P Theme
 
