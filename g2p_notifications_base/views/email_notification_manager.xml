@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Email Notification Manager -->
+    <record id="view_notification_manager_email_tree" model="ir.ui.view">
+        <field name="name">view_notification_manager_email_tree</field>
+        <field name="model">g2p.program.notification.manager.email</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="name" />
+                <field name="program_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_notification_manager_email_form" model="ir.ui.view">
+        <field name="name">view_notification_manager_email_form</field>
+        <field name="model">g2p.program.notification.manager.email</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Email Notification Manager">
+                <sheet>
+                    <div class="oe_button_box" name="button_box" />
+                    <div class="oe_title mb24">
+                        <label for="name" string="Name:" />
+                        <h1>
+                            <field id="name" name="name" placeholder="Enter the Manager Name..." />
+                        </h1>
+                        <label
+                            for="program_id"
+                            string="Program:"
+                            invisible="context.get('default_program_id',False)"
+                        />
+                        <h2 invisible="context.get('default_program_id',False)">
+                            <field
+                                id="program_id"
+                                name="program_id"
+                                placeholder="Select a program..."
+                                options="{'no_open':True,'no_create':True,'no_create_edit':True}"
+                                invisible="context.get('default_program_id',False)"
+                                domain="[('state','=','active')]"
+                            />
+                        </h2>
+                    </div>
+                    <group name="notification_templates" string="TEMPLATES">
+                        <field name="on_enrolled_in_program_template" />
+                        <field name="on_cycle_started_template" />
+                        <field name="on_cycle_ended_template" />
+                        <field name="on_otp_send_template" />
+                        <field name="on_payment_send_template" />
+                    </group>
+                    <group string="Settings">
+                        <field name="send_immediately" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_notification_manager_email" model="ir.actions.act_window">
+        <field name="name">Email Notification Managers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">g2p.program.notification.manager.email</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add an Email Notification Manager!
+            </p><p>
+                Click the create button to enter a new Email notification manager.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_notification_manager_email"
+        name="Email Notification Managers"
+        action="action_notification_manager_email"
+        parent="g2p_programs.g2p_manager_menu_root"
+        sequence="350"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
+    />
+
+</odoo>

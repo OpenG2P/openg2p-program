@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_notification_manager_email_voucher_form" model="ir.ui.view">
+        <field name="name">view_notification_manager_email_voucher_form</field>
+        <field name="model">g2p.program.notification.manager.email</field>
+        <field name="inherit_id" ref="g2p_notifications_base.view_notification_manager_email_form" />
+        <field name="arch" type="xml">
+            <group name="notification_templates" position="inside">
+                <field name="on_generate_voucher_template" />
+            </group>
+        </field>
+    </record>
+</odoo>

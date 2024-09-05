@@ -1,0 +1,70 @@
+:root {
+    --header-height: 92px;
+    --title-font: "Archia Bold", sans-serif;
+    --text-font: "Open Sans", sans-serif;
+    --nl-yellow: #3264c8;
+    --nl-dark-yellow: #fbc446;
+    --nl-white: #fffcf8;
+    --nl-black: #212529;
+    --nl-black-btt: #282829;
+    --nl-grey: #cc1919;
+    --nl-blue: #32aac8;
+    --nl-dark_blue: #021b4f;
+    --nl-light_blue: #009dd1;
+}
+
+.text-monospace {
+    margin-top: 0.3rem;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+}
+
+.o_main_navbar .o_menu_brand .o_main_navbar .o_menu_toggle,
+.o_main_navbar .o_navbar_apps_menu,
+.o_main_navbar > .o_menu_sections > div,
+.o_main_navbar > .o_menu_sections > div > a,
+.o_main_navbar .o_menu_systray > div,
+.o_main_navbar .o_menu_systray > div > a,
+.o_main_navbar .o_nav_entry,
+.o_main_navbar .o_menu_sections .o_nav_entry,
+.o_main_navbar .o_menu_systray .o_nav_entry,
+.o_main_navbar .dropdown .dropdown-toggle,
+.o_main_navbar .o_menu_sections .dropdown .dropdown-toggle,
+.o_main_navbar .o_menu_systray .dropdown .dropdown-toggle {
+    color: white;
+}
+
+.o_main_navbar .o_menu_brand {
+    font-family: system-ui;
+    font-size: 18pt;
+    padding-left: 10pt;
+}
+
+.dropdown-menu .dropdown-item {
+    font-size: 11pt;
+}
+
+.o_main_navbar {
+    background-color: rgb(232, 137, 20);
+    font-family: system-ui;
+    font-size: 14pt;
+    height: 40pt;
+}
+
+.o_content {
+    background-color: #ede1d8;
+}
+
+.btn-fill-primary,
+.btn-primary {
+    background-color: #34ae51;
+    border-color: var(--nl-blue);
+
+    color: var(--nl-white);
+}
+
+.card-body {
+    background-color: #212529;
+}

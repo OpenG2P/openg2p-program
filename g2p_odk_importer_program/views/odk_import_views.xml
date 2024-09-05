@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_program_odk_config_form" model="ir.ui.view">
+        <field name="name">odk.config.form</field>
+        <field name="model">odk.import</field>
+        <field name="inherit_id" ref="g2p_odk_importer.view_odk_import_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Program details">
+                    <field name="program" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

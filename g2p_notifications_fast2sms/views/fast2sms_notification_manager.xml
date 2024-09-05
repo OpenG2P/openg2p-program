@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Fast2SMS Notification Manager -->
+    <record id="view_notification_manager_fast2sms_tree" model="ir.ui.view">
+        <field name="name">view_notification_manager_fast2sms_tree</field>
+        <field name="model">g2p.program.notification.manager.fast2sms</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree sample="1">
+                <field name="name" />
+                <field name="program_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_notification_manager_fast2sms_form" model="ir.ui.view">
+        <field name="name">view_notification_manager_fast2sms_form</field>
+        <field name="model">g2p.program.notification.manager.fast2sms</field>
+        <field name="inherit_id" ref="g2p_programs.view_notification_manager_sms_form" />
+        <field name="mode">primary</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="name">Fast2SMS Notification Manager</attribute>
+            </xpath>
+            <group name="notification_templates" position="after">
+                <group name="settings" string="Settings">
+                    <field name="send_api_endpoint" />
+                    <field name="access_token" password="True" />
+                    <field name="sms_language" />
+                    <field name="sms_route" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <record id="action_notification_manager_fast2sms" model="ir.actions.act_window">
+        <field name="name">fast2sms Notification Managers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">g2p.program.notification.manager.fast2sms</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add an Fast2SMS Notification Manager!
+            </p><p>
+                Click the create button to enter a new Fast2SMS notification manager.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_notification_manager_fast2sms"
+        name="Fast2SMS Notification Managers"
+        action="action_notification_manager_fast2sms"
+        parent="g2p_programs.g2p_manager_menu_root"
+        sequence="352"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
+    />
+
+</odoo>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_notification_manager_sms_inherit_form" model="ir.ui.view">
+        <field name="name">view_notification_manager_sms_inherit_form</field>
+        <field name="model">g2p.program.notification.manager.sms</field>
+        <field name="inherit_id" ref="g2p_programs.view_notification_manager_sms_form" />
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='on_enrolled_in_program_template']/../../.." position="replace">
+                <group name="notification_templates" string="TEMPLATES">
+                    <field name="on_enrolled_in_program_template" />
+                    <field name="on_cycle_started_template" />
+                    <field name="on_cycle_ended_template" />
+                    <field name="on_otp_send_template" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

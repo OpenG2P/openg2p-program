@@ -2,12 +2,11 @@
 {
     "name": "G2P: Proxy Means Test",
     "category": "G2P",
-    "version": "17.0.1.0.0",
+    "version": "17.0.0.0.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
-    "license": "Other OSI approved licence",
-    "development_status": "Alpha",
+    "license": "LGPL-3",
     "depends": ["g2p_programs", "g2p_program_registrant_info"],
     "data": [
         "security/ir.model.access.csv",

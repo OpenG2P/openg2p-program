@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_g2p_openid_vci_issuers_program_form" model="ir.ui.view">
+        <field name="name">view_g2p_openid_vci_issuers_program_form</field>
+        <field name="model">g2p.openid.vci.issuers</field>
+        <field name="inherit_id" ref="g2p_openid_vci.view_g2p_openid_vci_issuers_form" />
+        <field name="priority">2</field>
+        <field name="arch" type="xml">
+            <field name="unique_issuer_id" position="after">
+                <field
+                    name="program_id"
+                    invisible="issuer_type != 'Beneficiary'"
+                    required="issuer_type == 'Beneficiary'"
+                />
+            </field>
+        </field>
+    </record>
+</odoo>

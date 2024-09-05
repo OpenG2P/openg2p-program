@@ -1,0 +1,228 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_social_registry_importer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_social_registry_importer
+#: model:ir.model,name:g2p_social_registry_importer.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__create_uid
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__create_date
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__is_created
+msgid "Created?"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__data_source_id
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_program_membership__data_source_id
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_res_partner__data_source_id
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_res_users__data_source_id
+msgid "Data Source"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__display_name
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model_terms:ir.ui.view,arch_db:g2p_social_registry_importer.fetch_social_registry_beneficiary_form
+msgid "Fetch"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__fetch_social_registry_id
+msgid "Fetch Social Registry"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model,name:g2p_social_registry_importer.model_g2p_fetch_social_registry_beneficiary
+msgid "Fetch Social Registry Beneficiary"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "Fetching from Social Registry Started Asynchronously."
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields.selection,name:g2p_social_registry_importer.selection__g2p_fetch_social_registry_beneficiary__target_registry__group
+msgid "Group"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__id
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__id
+msgid "ID"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.ui.menu,name:g2p_social_registry_importer.fetch_social_registry_submenu
+msgid "Import From Registry"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__import_registrant_without_id
+msgid "Import Registrant without ID"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__imported_registrant_ids
+msgid "Imported Regsitrants"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_program_membership__ind_is_imported_from_social_registry
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_res_partner__ind_is_imported_from_social_registry
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_res_users__ind_is_imported_from_social_registry
+msgid "Imported from Social Registry"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields.selection,name:g2p_social_registry_importer.selection__g2p_fetch_social_registry_beneficiary__target_registry__individual
+msgid "Individual"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__is_group
+msgid "Is Group"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__write_uid
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__write_date
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__last_sync_date
+msgid "Last synced on"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__name
+msgid "Name"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "No imported beneficiary"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "No matching records found."
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "No path in data source named {path} is configured!"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.actions.act_window,name:g2p_social_registry_importer.fetch_social_registry_beneficiary_action_window
+msgid "Previous Search Criterias"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__query
+msgid "Query"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__registrant_id
+msgid "Registrant"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model_terms:ir.ui.view,arch_db:g2p_social_registry_importer.fetch_social_registry_beneficiary_tree
+msgid "Search Criteria"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "Social Registry"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_program_membership__social_registry_import_ids
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_res_partner__social_registry_import_ids
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_res_users__social_registry_import_ids
+msgid "Social Registry Import"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model,name:g2p_social_registry_importer.model_g2p_social_registry_imported_registrants
+msgid "Social Registry Imported Registrants"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "Successfully Imported Social Registry Beneficiaries"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__target_program
+msgid "Target Program"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__target_registry
+msgid "Target Registry"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__is_updated
+msgid "Updated?"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "{reason}: Unable to connect to API."
+msgstr ""

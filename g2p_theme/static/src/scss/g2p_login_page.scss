@@ -1,0 +1,52 @@
+// @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap);
+:root {
+    --c-white: #fffcf8;
+    --c-black: #000000;
+    --c-blue: #32aac8;
+    --c-orange: #e88914;
+    --c-pale-orange: #ede1d8;
+    --c-green: #34ae51;
+}
+
+body {
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:400&display=swap&subset=latin);
+    font-family: "Open Sans";
+}
+
+.o_database_list input {
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap&subset=latin);
+    font-family: "Open Sans";
+    font-size: 12pt;
+    box-shadow: none !important;
+}
+
+.o_database_list label {
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap&subset=latin);
+    font-family: "Open Sans";
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.o_database_list input:focus {
+    border: 1px solid var(--c-orange);
+}
+
+.o_database_list {
+    display: inline-block;
+    padding: 50px;
+    // background-color: #ede1d8;
+}
+// .o_database_list .card-body {
+//     background-color: #ede1d8;
+// }
+
+.o_database_list .btn-primary {
+    color: var(--c-white);
+    background-color: var(--c-green);
+    border: 1px solid var(--c-pale-orange);
+    transition: background-color 0.5s ease;
+}
+
+.oe_login_buttons {
+    margin-top: 20pt;
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="g2p_social_registry_data_source" model="spp.data.source">
+        <field name="name">Social Registry</field>
+        <field name="url">http://social-registry-odoo.social-registry/api/v1/g2p-connect</field>
+        <field name="auth_type">bearer_authentication</field>
+    </record>
+    <record id="g2p_social_registry_oauth2_path" model="spp.data.source.path">
+        <field
+            name="data_source_id"
+            eval="ref('g2p_social_registry_importer.g2p_social_registry_data_source')"
+        />
+        <field name="key">Authentication</field>
+        <field name="value">http://keycloak.keycloak/realms/openg2p/protocol/openid-connect/token</field>
+    </record>
+    <record id="g2p_social_registry_registry_path" model="spp.data.source.path">
+        <field
+            name="data_source_id"
+            eval="ref('g2p_social_registry_importer.g2p_social_registry_data_source')"
+        />
+        <field name="key">Registry Sync Search</field>
+        <field name="value">/registry/sync/search</field>
+    </record>
+</odoo>

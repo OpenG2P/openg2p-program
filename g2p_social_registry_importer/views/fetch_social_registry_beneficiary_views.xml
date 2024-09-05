@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="fetch_social_registry_beneficiary_tree" model="ir.ui.view">
+        <field name="name">fetch_social_registry_beneficiary_tree</field>
+        <field name="model">g2p.fetch.social.registry.beneficiary</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Search Criteria" />
+                <field name="create_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="fetch_social_registry_beneficiary_form" model="ir.ui.view">
+        <field name="name">fetch_social_registry_beneficiary_form</field>
+        <field name="model">g2p.fetch.social.registry.beneficiary</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="data_source_id" />
+                        <field name="import_registrant_without_id" />
+                        <field name="target_registry" />
+                        <field name="target_program" />
+                        <field name="query" />
+                        <field name="last_sync_date" />
+                        <field
+                            name="imported_registrant_ids"
+                            options="{'no_open':True,'no_create':True,'no_create_edit':True}"
+                        >
+                                <tree>
+                                    <field name="registrant_id" />
+                                    <field name="is_group" />
+                                    <field name="is_created" />
+                                    <field name="is_updated" />
+                                </tree>
+                            </field>
+                        <button
+                            name="fetch_social_registry_beneficiary"
+                            string="Fetch"
+                            type="object"
+                            class="oe_highlight btn-primary"
+                        />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fetch_social_registry_beneficiary_action_window" model="ir.actions.act_window">
+        <field name="name">Previous Search Criterias</field>
+        <field name="res_model">g2p.fetch.social.registry.beneficiary</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        name="Import From Registry"
+        id="fetch_social_registry_submenu"
+        parent="g2p_programs.g2p_program_menu_root"
+        action="fetch_social_registry_beneficiary_action_window"
+    />
+</odoo>
