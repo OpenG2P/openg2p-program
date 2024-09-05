@@ -2,7 +2,7 @@ import logging
 import uuid
 from datetime import datetime
 
-import pyjq as jq
+import jq
 
 from odoo import fields, models
 
