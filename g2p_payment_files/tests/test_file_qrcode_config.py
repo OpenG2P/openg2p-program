@@ -47,7 +47,7 @@ class TestG2PPaymentFileQRCodeConfig(TransactionCase):
                 }
             )
 
-    @patch("jose.jwt.encode")
+    @patch("odoo.addons.g2p_encryption.models.encryption_provider.G2PEncryptionProvider.jwt_sign")
     def test_render_data_jwt(self, mock_jwt_encode):
         mock_jwt_encode.return_value = "mocked_jwt_token"
         result = self.qr_code_config._render_data(

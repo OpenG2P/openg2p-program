@@ -29,6 +29,7 @@
         "data/queue_data.xml",
         "report/voucher_card.xml",
         "report/report_format.xml",
+        "report/summary_report.xml",
         "views/main_view.xml",
         "views/programs_view.xml",
         "views/program_membership_view.xml",

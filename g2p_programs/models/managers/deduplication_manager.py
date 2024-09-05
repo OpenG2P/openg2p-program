@@ -6,8 +6,6 @@ from datetime import date
 
 from odoo import api, fields, models
 
-from odoo.addons.phone_validation.tools import phone_validation
-
 _logger = logging.getLogger(__name__)
 
 
@@ -16,7 +14,7 @@ class DeduplicationManager(models.Model):
     _description = "Deduplication Manager"
     _inherit = "g2p.manager.mixin"
 
-    program_id = fields.Many2one("g2p.program", "Program")
+    program_id = fields.Many2one("g2p.program", "Program", ondelete="cascade")
 
     @api.model
     def _selection_manager_ref_id(self):
@@ -440,33 +438,13 @@ class PhoneNumberDeduplication(models.Model):
         # Check Phone Numbers of each individual
         for i in group_memberships:
             for x in i.individual.phone_number_ids:
-                country_fname = "country_id"
-                number = x.phone_no
-                sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
-                        force_format="E164",
-                    )[number]["sanitized"]
-                )
-                phone_id_with_sanitized = {x.id: sanitized}
+                phone_id_with_sanitized = {x.id: x.phone_sanitized}
                 individual_phone_numbers.update(phone_id_with_sanitized)
 
         # Check Phone Numbers of each group
         for ix in group:
             for x in ix.phone_number_ids:
-                country_fname = "country_id"
-                number = x.phone_no
-                sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
-                        force_format="E164",
-                    )[number]["sanitized"]
-                )
-                phone_id_with_sanitized = {x.id: sanitized}
+                phone_id_with_sanitized = {x.id: x.phone_sanitized}
                 individual_phone_numbers.update(phone_id_with_sanitized)
 
         _logger.debug("Individual Phone Numbers: %s", individual_phone_numbers)
@@ -540,17 +518,7 @@ class PhoneNumberDeduplication(models.Model):
         # Check Phone Numbers of each individual
         for i in individuals:
             for x in i.phone_number_ids:
-                country_fname = "country_id"
-                number = x.phone_no
-                sanitized = str(
-                    phone_validation.phone_sanitize_numbers_w_record(
-                        [number],
-                        self,
-                        record_country_fname=country_fname,
-                        force_format="E164",
-                    )[number]["sanitized"]
-                )
-                phone_id_with_sanitized = {x.id: sanitized}
+                phone_id_with_sanitized = {x.id: x.phone_sanitized}
                 individual_phone_numbers.update(phone_id_with_sanitized)
 
         _logger.debug("Individual Phone Numbers: %s", individual_phone_numbers)

@@ -37,6 +37,7 @@ class G2PAssignToProgramWizard(models.TransientModel):
         required=True,
     )
 
+    # ruff: noqa: C901
     def assign_registrant(self):
         if self.env.context.get("active_ids"):
             partner_ids = self.env.context.get("active_ids")
@@ -53,7 +54,8 @@ class G2PAssignToProgramWizard(models.TransientModel):
                     proceed = False
                     # Do not include disabled registrants
                     if rec.disabled:
-                        ig_ctr += 1
+                        ctr -= 1
+                        # ig_ctr += 1
                         _logger.debug("Ignored because registrant is disabled: %s" % rec.name)
                     else:
                         if rec.is_group:  # Get only group registrants
@@ -89,23 +91,44 @@ class G2PAssignToProgramWizard(models.TransientModel):
             )
 
             if len(partner_ids) == 1:
-                if rec.disabled:
+                if rec.disabled and rec.is_group:
                     message = _("Disabled group can't be added to the program.") % {
                         "registrant": rec.name,
                         "program": self.program_id.name,
                     }
                     kind = "danger"
-                if ig_ctr and not rec.disabled:
+                elif rec.disabled and not rec.is_group:
+                    message = _("Disabled individaul can't be added to the program.") % {
+                        "registrant": rec.name,
+                        "program": self.program_id.name,
+                    }
+                    kind = "danger"
+
+                elif ig_ctr and not rec.disabled:
                     message = _("%(registrant)s was already in the Program %(program)s") % {
                         "registrant": rec.name,
                         "program": self.program_id.name,
                     }
                     kind = "danger"
+                else:
+                    message = _("%(registrant)s is added to the Program %(program)s") % {
+                        "registrant": rec.name,
+                        "program": self.program_id.name,
+                    }
+                    kind = "warning"
+
             else:
-                if not ctr:
+                if not ctr and not rec.disabled:
                     message = _("Registrant's was already in the Program %s") % self.program_id.name
                     kind = "danger"
-
+                elif not ctr and rec.disabled and rec.is_group:
+                    message = _("Disabled group(s) can't be added to the program %s") % self.program_id.name
+                    kind = "danger"
+                elif not ctr and rec.disabled and not rec.is_group:
+                    message = (
+                        _("Disabled Individual(s) can't be added to the program %s") % self.program_id.name
+                    )
+                    kind = "danger"
                 else:
                     message = _(
                         "Total registrants:%(total)s, Already in program:%(existing)s, Newly added:%(new)s"

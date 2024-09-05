@@ -11,7 +11,7 @@ class DefaultProgramManager(models.Model):
     @api.constrains("is_cycleless")
     def onchange_is_cycless(self):
         orig_prog_man = self.program_id.get_manager(constants.MANAGER_PROGRAM)
-        if self.id == orig_prog_man.id:
+        if orig_prog_man and self.id == orig_prog_man.id:
             self.program_id.is_cycleless = self.is_cycleless
             if self.is_cycleless and not self.program_id.default_active_cycle:
                 self.program_id.create_new_cycle()

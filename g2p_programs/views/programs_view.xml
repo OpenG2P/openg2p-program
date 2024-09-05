@@ -104,7 +104,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-plus"
                         name="create_journal"
                         string="Create New Journal"
-                    /> button. </div>
+                    />
+ button. </div>
                 <div
                     class="alert alert-warning text-center o_form_header"
                     role="status"
@@ -172,6 +173,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </button>
 
                     </div>
+                    <widget name="web_ribbon" title="ARCHIVED" bg_color="bg-danger" invisible="active" />
                     <div class="oe_title mb24">
 
                         <field name="locked" invisible="True" />
@@ -196,19 +198,13 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 readonly="state == 'ended' or have_members"
                                 widget="radio"
                             />
-                            <label
-                                for="company_id"
-                                string=" | Company: "
-                                groups="base.group_multi_company"
-                                invisible="1"
-                            />
+                            <label for="company_id" string=" | Company: " groups="base.group_multi_company" />
                             <field
                                 name="company_id"
                                 groups="base.group_multi_company"
                                 options="{'no_create': True}"
                                 force_save="1"
                                 readonly="state == 'ended'"
-                                invisible="1"
                             />
                         </div>
                     </div>
@@ -240,12 +236,12 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                         optional="show"
                                     />
                                     <!--                                    <button-->
-                                    <!--                                        name="copy_beneficiaries_from_program"-->
-                                    <!--                                        type="object"-->
-                                    <!--                                        string="Add Beneficiaries"-->
-                                    <!--                                        icon="fa-plus-square"-->
-                                    <!--                                        class="btn-success"-->
-                                    <!--                                        attrs="{'invisible':[('state','!=','draft')]}"-->
+                                    <!-- name="copy_beneficiaries_from_program"-->
+                                    <!-- type="object"-->
+                                    <!-- string="Add Beneficiaries"-->
+                                    <!-- icon="fa-plus-square"-->
+                                    <!-- class="btn-success"-->
+                                    <!-- attrs="{'invisible':[('state','!=','draft')]}"-->
                                     <!--                                    />-->
                                 </tree>
                                 <form string="Cycle">
@@ -626,12 +622,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     string="Program Manager"
                                     style="display: inline-block; vertical-align: middle; line-height: 1;"
                                 >
-                                    <!-- <div class="info-message" colspan="2"
-                                    style="display:contents">
-                                    <i
-                                                class="fa fa-info-circle"
-                                                title="info"
-                                            /> Only one Program Manager can be entered
+                                    <!-- <div class="info-message" colspan="2" style="display:contents">
+                                    <i class="fa fa-info-circle" title="info" /> Only one Program Manager can be entered
                                     </div> -->
                                     <field
                                         name="program_managers"
@@ -672,12 +664,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     </field>
                                 </group>
                                 <group string="Cycle Manager">
-                                    <!-- <div class="info-message" colspan="2"
-                                    style="display:contents">
-                                    <i
-                                                class="fa fa-info-circle"
-                                                title="info"
-                                            /> Only one Cycle Manager can be entered
+                                    <!-- <div class="info-message" colspan="2" style="display:contents">
+                                    <i class="fa fa-info-circle" title="info" /> Only one Cycle Manager can be entered
                                     </div> -->
                                     <field
                                         name="cycle_managers"
@@ -718,12 +706,8 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     </field>
                                 </group>
                                 <group string="Entitlement Manager">
-                                    <!-- <div class="info-message" colspan="2"
-                                    style="display:contents">
-                                    <i
-                                                class="fa fa-info-circle"
-                                                title="info"
-                                            /> Only one Entitlement Manager can be entered
+                                    <!-- <div class="info-message" colspan="2" style="display:contents">
+                                    <i class="fa fa-info-circle" title="info" /> Only one Entitlement Manager can be entered
                                     </div> -->
                                     <field
                                         name="entitlement_managers"
@@ -767,10 +751,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <group>
                                 <group string="Payment Manager">
                                     <!-- <div class="info-message" colspan="2">
-                                        <i
-                                                    class="fa fa-info-circle"
-                                                    title="info"
-                                                /> Only one Payment Manager can be entered
+                                        <i class="fa fa-info-circle" title="info" /> Only one Payment Manager can be entered
                                         </div> -->
                                     <field
                                         name="payment_managers"

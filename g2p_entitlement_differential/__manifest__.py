@@ -7,7 +7,7 @@
     "author": "OpenG2P",
     "website": "https://openg2p.org",
     "license": "LGPL-3",
-    "depends": ["g2p_entitlement_cash"],
+    "depends": ["spp_entitlement_cash"],
     "data": ["views/entitlement_manager_view.xml"],
     "demo": [],
     "assets": {},

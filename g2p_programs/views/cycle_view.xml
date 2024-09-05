@@ -81,6 +81,14 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         string="Prepare Payments"
                         invisible="context.get('hide_cash') or state != 'approved'"
                     />
+                     <button
+                        name="%(action_generate_summary)d"
+                        class="btn-primary"
+                        type="action"
+                        string="Print Summary"
+                        invisible="context.get('hide_cash') or state != 'approved'"
+                        groups="g2p_programs.g2p_program_manager,g2p_programs.g2p_program_cycle_approver,g2p_registry_base.group_g2p_admin"
+                    />
                     <button
                         type="object"
                         class="btn-success"
@@ -338,6 +346,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                     <field name="entitlement_id" />
                                                     <field name="program_id" column_invisible="1" />
                                                     <field name="cycle_id" column_invisible="1" />
+                                                    <field name="currency_id" column_invisible="1" />
                                                     <field name="account_number" />
                                                     <field name="amount_issued" />
                                                     <field name="issuance_date" />

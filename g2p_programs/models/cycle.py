@@ -4,6 +4,7 @@ import json
 import logging
 
 from lxml import etree
+from num2words import num2words
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
@@ -98,15 +99,35 @@ class G2PCycle(models.Model):
     locked = fields.Boolean(default=False)
     locked_reason = fields.Char()
 
+    total_amount = fields.Float(compute="_compute_total_amount")
+    total_amount_in_words = fields.Char(compute="_compute_total_amount_in_words")
+    currency_id = fields.Many2one("res.currency", default=lambda self: self.env.company.currency_id.id)
+
     show_approve_entitlements_button = fields.Boolean(compute="_compute_show_approve_entitlement")
+    approved_date = fields.Datetime(string="Cycle Approved Date", readonly=True)
+    approved_by = fields.Many2one("res.users", string="Cycle Approved By", readonly=True)
 
     _sql_constraints = [
         (
             "unique_cycle_name_program",
             "UNIQUE(name, program_id)",
-            "Cycle with this name already exists. Please choose a different name.",
+            "Cycle with this name already exists." "Please choose a different name.",
         )
     ]
+
+    @api.depends("entitlement_ids")
+    def _compute_total_amount(self):
+        for rec in self:
+            rec.total_amount = sum(entitlement.initial_amount for entitlement in rec.entitlement_ids)
+
+    @api.depends("total_amount", "currency_id")
+    def _compute_total_amount_in_words(self):
+        for record in self:
+            if record.total_amount and record.currency_id:
+                amount_in_words = num2words(record.total_amount, lang="en").title()
+                record.total_amount_in_words = f"{amount_in_words} {record.currency_id.name}"
+            else:
+                record.total_amount_in_words = ""
 
     def _compute_members_count(self):
         for rec in self:
@@ -184,7 +205,7 @@ class G2PCycle(models.Model):
             domain += [("state", "in", state)]
 
         if count:
-            return self.env["g2p.cycle.membership"].search_count(domain, offset=offset, limit=limit)
+            return self.env["g2p.cycle.membership"].search_count(domain, limit=limit)
         return self.env[entitlement_model].search(domain, offset=offset, limit=limit, order=order)
 
     # @api.model
@@ -264,6 +285,13 @@ class G2PCycle(models.Model):
             entitlement_manager = rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
             if not entitlement_manager:
                 raise UserError(_("No Entitlement Manager defined."))
+            rec.write(
+                {
+                    "approved_date": fields.Datetime.now(),
+                    "approved_by": self.env.user.id,
+                    "state": self.STATE_APPROVED,
+                }
+            )
             return cycle_manager.approve_cycle(
                 rec,
                 auto_approve=cycle_manager.auto_approve_entitlements,
@@ -345,7 +373,6 @@ class G2PCycle(models.Model):
             "type": "ir.actions.act_window",
             "context": {"hide_cash": hide_cash},
             "target": "current",
-            "flags": {"mode": "readonly"},
         }
 
     def open_members_form(self):

@@ -29,6 +29,7 @@ class G2PCreateNewProgramWiz(models.TransientModel):
 
     name = fields.Char("Program Name", required=True)
     currency_id = fields.Many2one("res.currency", "Currency", required=True)
+    company_id = fields.Many2one("res.company", default=lambda self: self.env.company)
 
     # Eligibility Manager
     eligibility_domain = fields.Text(string="Domain", default="[]", required=True)
