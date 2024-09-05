@@ -1,4 +1,5 @@
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_area
+git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_registry_data_source
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_service_points
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_programs
 git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_entitlement_cash
