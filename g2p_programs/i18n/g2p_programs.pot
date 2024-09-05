@@ -938,6 +938,11 @@ msgid "Calendar Event"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__can_publish
+msgid "Can Publish"
+msgstr ""
+
+#. module: g2p_programs
 #. odoo-python
 #: code:addons/g2p_programs/models/duplicate.py:0
 #: code:addons/g2p_programs/models/duplicate.py:0
@@ -2852,6 +2857,11 @@ msgid "Is Public"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_published
+msgid "Is Published"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_company
 msgid "Is a Company"
 msgstr ""
@@ -4582,6 +4592,11 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__website_id
+msgid "Restrict publishing to this website."
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "Role"
 msgstr ""
@@ -5199,6 +5214,11 @@ msgid ""
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__website_url
+msgid "The full URL to access the document through the website."
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__user_id
 msgid "The internal user in charge of this contact."
 msgstr ""
@@ -5578,6 +5598,21 @@ msgid "Verify eligibility"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__website_published
+msgid "Visible on current website"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__visitor_ids
+msgid "Visitors"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__website_id
+msgid "Website"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__website
 msgid "Website Link"
 msgstr ""
@@ -5589,6 +5624,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__website_message_ids
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership_duplicate__website_message_ids
 msgid "Website Messages"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__website_url
+msgid "Website URL"
 msgstr ""
 
 #. module: g2p_programs
