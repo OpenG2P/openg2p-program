@@ -1,19 +1,2 @@
-git+https://github.com/OpenG2P/storage@17.0#subdirectory=storage_backend
-git+https://github.com/OpenG2P/storage@17.0#subdirectory=storage_backend_s3
-git+https://github.com/OpenG2P/storage@17.0#subdirectory=storage_file
-git+https://github.com/OpenG2P/rest-framework@17.0#subdirectory=fastapi
-git+https://github.com/OpenG2P/rest-framework@17.0#subdirectory=extendable
-git+https://github.com/OpenG2P/rest-framework@17.0#subdirectory=extendable_fastapi
-git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_base
-git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_individual
-git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_group
-git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_membership
-git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_bank
-# git+https://github.com/OpenG2P/openg2p-registry@17.0-develop#subdirectory=g2p_registry_rest_api
-git+https://github.com/OpenG2P/openg2p-documents@17.0-develop#subdirectory=g2p_documents
-git+https://github.com/OpenG2P/openg2p-security@17.0-develop#subdirectory=g2p_encryption
-git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_area
-git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_service_points
-git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_programs
-git+https://github.com/openspp/openspp-modules@17.0#subdirectory=g2p_entitlement_cash
-git+https://github.com/openspp/openspp-modules@17.0#subdirectory=spp_entitlement_in_kind
+git+https://github.com/OpenG2P/openg2p-pbms-community-addons@17.0-develop
+git+https://github.com/OpenG2P/openg2p-registry@17.0-develop
