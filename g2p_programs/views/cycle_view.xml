@@ -82,12 +82,11 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         invisible="context.get('hide_cash') or state != 'approved'"
                     />
                      <button
-                        name="%(action_generate_summary)d"
-                        class="btn-primary"
-                        type="action"
-                        string="Print Summary"
-                        invisible="context.get('hide_cash') or state != 'approved'"
-                        groups="g2p_programs.g2p_program_manager,g2p_programs.g2p_program_cycle_approver,g2p_registry_base.group_g2p_admin"
+                         type = "object"
+                         name="update_cycle_and_envelope_summary"
+                         class="btn-primary"
+                         string="Print Summary"
+                         invisible="context.get('hide_cash') or state != 'approved'"
                     />
                     <button
                         type="object"
