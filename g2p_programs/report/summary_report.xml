@@ -1,11 +1,11 @@
 <odoo noupdate="0">
     <record id="action_generate_summary" model="ir.actions.report">
         <field name="name">Disbursement summary</field>
-        <field name="model">g2p.cycle</field>
+        <field name="model">g2p.cycle.envelope.summary</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">g2p_programs.print_summary</field>
         <field name="report_file">g2p_programs.print_summary</field>
-        <field name="binding_model_id" ref="model_g2p_cycle" />
+        <field name="binding_model_id" ref="model_g2p_cycle_envelope_summary" />
         <field name="binding_type">report</field>
     </record>
 
@@ -23,86 +23,132 @@
                             <center>Disbursement Summary</center>
                         </h2>
                     </div>
-                    <p>Date: <span t-esc="time.strftime('%d %b %Y')" />
-                    </p>
+                    <p>Date: <span t-esc="time.strftime('%d %b %Y')" /></p>
                     <p>Place:</p>
                     <t t-foreach="docs" t-as="doc">
-                        <div class="content">
-                            <h3>Program Details</h3>
-                            <table class="table table-sm">
-                                <tr>
-                                    <td>
-                                        <strong>Program Name:</strong>
-                                    </td>
-                                    <td>
-                                        <span t-esc="doc.program_id.name" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong>Cycle Name:</strong>
-                                    </td>
-                                    <td>
-                                        <span t-esc="doc.name" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong>Cycle Approved Date:</strong>
-                                    </td>
-                                    <td>
-                                        <span t-if="doc.approved_date"><t
-                                                t-esc="doc.approved_date.strftime('%d %b %Y')"
-                                            /> </span>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td>
-                                        <strong>Cycle Approved By:</strong>
-                                    </td>
-                                    <td>
-                                        <span t-esc="doc.approved_by.name" />
-                                    </td>
-                                </tr>
-                            </table>
+                        <table class="table table-sm" style="width: 100%;">
+                            <!-- Program Details -->
+                            <tr>
+                                <th colspan="2"><h3>Program Details</h3></th>
+                            </tr>
+                            <tr>
+                                <td style="width: 50%; text-align: left;"><strong>Program Name:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.cycle_id.program_id.name" /></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Cycle Name:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.cycle_id.name" /></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Cycle Approved Date:</strong></td>
+                                <td style="text-align: left;">
+                                    <span t-if="doc.cycle_id.approved_date">
+                                        <t t-esc="doc.cycle_id.approved_date.strftime('%d %b %Y')" />
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Cycle Approved By:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.cycle_id.approved_by.name" /></td>
+                            </tr>
 
-                            <!-- Amount Information -->
-                            <h3>Payment Information</h3>
-                            <table class="table table-sm">
-                                <tr>
-                                    <td>
-                                        <strong>Number of Beneficiaries:</strong>
-                                    </td>
-                                    <td>
-                                        <span t-esc="doc.members_count" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong>Total Amount(in <span
-                                                t-esc="doc.currency_id.name"
-                                            />):</strong>
-                                    </td>
-                                    <td>
-                                        <span t-esc="doc.total_amount" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <strong>Total Amount (in words):</strong>
-                                    </td>
-                                    <td>
-                                        <span t-esc="doc.total_amount_in_words" />
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                            <!-- Payment Information -->
+                            <tr>
+                                <th colspan="2"><h3>Payment Information</h3></th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Number of Beneficiaries:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.cycle_id.members_count" /></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Total Amount (in <span t-esc="doc.cycle_id.currency_id.name" />):</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.cycle_id.total_amount" /></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Total Amount (in words):</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.cycle_id.total_amount_in_words" /></td>
+                            </tr>
+
+                            <!-- G2P Bridge Envelope -->
+                            <tr>
+                                <th colspan="2"><h3>G2P Bridge Envelope</h3></th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Envelope Id:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.cycle_id.disbursement_envelope_id" /></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>No of Disbursements Received:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.number_of_disbursements_received" /></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Total Disbursement Amount Received:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.total_disbursement_amount_received" /></td>
+                            </tr>
+
+                            <!-- Funds Availability -->
+                            <tr>
+                                <th colspan="2"><h3>Funds Availability</h3></th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Funds Available With Bank:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.funds_available_with_bank" /> (<span t-esc="doc.funds_available_latest_timestamp" />)</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Funds Available Attempts:</strong></td>
+                                <td style="text-align: left;">
+                                    <span t-esc="doc.funds_available_attempts" />
+                                    <t t-if="doc.funds_available_latest_error_code">
+                                        Latest Error: (<span t-esc="doc.funds_available_latest_error_code" />)
+                                    </t>
+                                </td>
+                            </tr>
+
+                            <!-- Funds Block -->
+                            <tr>
+                                <th colspan="2"><h3>Funds Block</h3></th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Funds Blocked With Bank:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.funds_blocked_with_bank" /> (<span t-esc="doc.funds_blocked_latest_timestamp" />)</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Funds Blocked Attempts:</strong></td>
+                                <td style="text-align: left;">
+                                    <span t-esc="doc.funds_blocked_attempts" />
+                                    <t t-if="doc.funds_blocked_latest_error_code">
+                                        <b> Latest Error:</b> (<span t-esc="doc.funds_blocked_latest_error_code" />)
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Funds Blocked Reference No:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.funds_blocked_reference_number" /></td>
+                            </tr>
+
+                            <!-- Shipment to Bank -->
+                            <tr>
+                                <th colspan="2"><h3>Shipment to Bank</h3></th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Number of Disbursements Shipped:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.number_of_disbursements_shipped" /></td>
+                            </tr>
+
+                            <!-- Reconciliation from Bank -->
+                            <tr>
+                                <th colspan="2"><h3>Reconciliation from Bank</h3></th>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Number of Disbursements Reconciled:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.number_of_disbursements_reconciled" /></td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left;"><strong>Number of Disbursements Reversed:</strong></td>
+                                <td style="text-align: left;"><span t-esc="doc.number_of_disbursements_reversed" /></td>
+                            </tr>
+                        </table>
                     </t>
-
-                    <!-- Footer -->
-                    <!-- <div class="footer" style="text-align: center; margin-top: 30px;">
-                    <p>Generated by: </p>
-                </div> -->
                 </div>
             </t>
         </t>
