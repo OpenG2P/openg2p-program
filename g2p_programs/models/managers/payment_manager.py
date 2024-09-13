@@ -84,7 +84,7 @@ class DefaultFilePaymentManager(models.Model):
     _description = "Default Payment Manager"
 
     MAX_PAYMENTS_FOR_SYNC_PREPARE = 200
-    MAX_BATCHES_FOR_SYNC_SEND = 0
+    MAX_BATCHES_FOR_SYNC_SEND = 50
 
     currency_id = fields.Many2one("res.currency", related="program_id.journal_id.currency_id", readonly=True)
 
@@ -151,10 +151,6 @@ class DefaultFilePaymentManager(models.Model):
             entitlements = entitlements.filtered(lambda a: a.state == "approved")
         entitlements_count = len(entitlements)
         if entitlements_count:
-            # Call Async Envelope in G2P Bridge only if cycle.disbursement_envelope_id is not set
-            if not cycle.disbursement_envelope_id:
-                self._create_envelope_g2p_bridge(cycle)
-
             if entitlements_count < self.MAX_PAYMENTS_FOR_SYNC_PREPARE:
                 payments, batches = self._prepare_payments(cycle, entitlements)
                 if payments:
@@ -173,8 +169,6 @@ class DefaultFilePaymentManager(models.Model):
                 kind = "success"
                 message = _("Preparing Payments Asynchronously.")
                 sticky = True
-
-
         else:
             kind = "danger"
             message = _("All entitlements selected are not approved!")
@@ -193,73 +187,6 @@ class DefaultFilePaymentManager(models.Model):
                 },
             },
         }
-
-    def _create_envelope_g2p_bridge(self, cycle):
-        _logger.info("Creating envelope for g2p_bridge")
-        total_no_of_payments_across_batches = cycle.program_id.eligible_beneficiaries_count
-        total_payment_amount = cycle.total_amount
-        program_name = cycle.program_id.name
-        currency_code = cycle.program_id.company_id.currency_id.name
-        disbursement_schedule_date = cycle.start_date
-        frequency = cycle.program_id.get_manager(constants.MANAGER_CYCLE).cycle_duration
-        envelope_request_data = {
-          "signature": "string",
-          "header": {
-            "version": "1.0.0",
-            "message_id": "string",
-            "message_ts": "string",
-            "action": "string",
-            "sender_id": "string",
-            "sender_uri": "",
-            "receiver_id": "",
-            "total_count": 0,
-            "is_msg_encrypted": False,
-            "meta": "string"
-          },
-          "message": {
-            "benefit_program_mnemonic": "MOW_FOOD_SUBSIDY", # TODO
-            "disbursement_frequency": "OnDemand", # TODO
-            "cycle_code_mnemonic": "SEP", # TODO
-            "number_of_beneficiaries": total_no_of_payments_across_batches,
-            "number_of_disbursements": total_no_of_payments_across_batches,
-            "total_disbursement_amount": total_payment_amount,
-            "disbursement_currency_code": currency_code,
-            "disbursement_schedule_date": str(disbursement_schedule_date)
-          }
-        }
-        try:
-            response = requests.post(
-                "https://g2p-bridge.dev.openg2p.org/api/g2p-bridge/create_disbursement_envelope",
-                json=envelope_request_data,
-                timeout=10,
-            )
-            # Store the id from respose to the model
-            disbursement_envelope_id = response.json().get("message").get("disbursement_envelope_id")
-            cycle.write({"disbursement_envelope_id": disbursement_envelope_id})
-            _logger.info(f"G2P Connect Disbursement Envelope response:{response.content}")
-            response.raise_for_status()
-            return True
-        except Exception as e:
-            _logger.error(f"G2P Connect Disbursement Envelope Failed with reason:{str(e)}")
-        return False
-
-    # Not being used right now, bridge enveleope is created synchronously
-    def _create_envelope_g2p_bridge_async(self, cycle):
-        _logger.info("Creating Envelope in Async mode")
-        cycle.message_post(body=_("Creating the envelope for the cycle."))
-        cycle.write(
-            {
-                "locked": True,
-                "locked_reason": _("Creating the envelope for the cycle."),
-            }
-        )
-
-        jobs = [
-            self.delayable()._create_envelope_g2p_bridge(cycle),
-        ]
-        main_job = group(*jobs)
-        main_job.on_done(self.delayable().mark_job_as_done(cycle, _("Created envelope.")))
-        main_job.delay()
 
     def _prepare_payments(self, cycle, entitlements):
         if not entitlements:
@@ -294,17 +221,14 @@ class DefaultFilePaymentManager(models.Model):
                         "cycle_id": entitlement_id.cycle_id.id,
                         "amount_issued": entitlement_id.initial_amount,
                         "payment_fee": entitlement_id.transfer_fee,
-                        "disbursement_envelope_id": cycle.disbursement_envelope_id, # TODO use related field
+                        "state": "issued",
                     }
                 )
-                # if payment.partner_id.bank_ids:
-                #     payment.account_number = payment.partner_id.bank_ids[0].acc_number
-                # else:
-                #     payment.account_number = None
+                if payment.partner_id.bank_ids:
+                    payment.account_number = payment.partner_id.bank_ids[0].acc_number
+                else:
+                    payment.account_number = None
 
-                national_id_reg_ids = [reg_id.value for reg_id in payment.partner_id.reg_ids if
-                                       reg_id.id_type.name == "National Id"] #TODO Remove this
-                payment.beneficiary_id = national_id_reg_ids[0]
                 if not payments:
                     payments = payment
                 else:

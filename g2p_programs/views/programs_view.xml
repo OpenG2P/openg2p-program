@@ -462,7 +462,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                                             name="cycle_id"
                                                                             column_invisible="1"
                                                                         />
-                                                                        <field name="beneficiary_id" />
+                                                                        <field name="account_number" />
                                                                         <field name="amount_issued" />
                                                                         <field name="issuance_date" />
                                                                         <field name="amount_paid" />
@@ -472,11 +472,19 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                                                             groups="base.group_multi_company"
                                                                         />
                                                                         <field
-                                                                            name="dispatch_status"
-                                                                            decoration-success="dispatch_status=='sent'"
-                                                                            decoration-warning="dispatch_status=='pending'"
+                                                                            name="state"
+                                                                            decoration-primary="state=='issued'"
+                                                                            decoration-warning="state=='sent'"
+                                                                            decoration-success="state=='reconciled'"
                                                                             widget="badge"
-                                                                            string="Dispatch Status"
+                                                                            string="State"
+                                                                        />
+                                                                        <field
+                                                                            name="status"
+                                                                            decoration-success="status=='paid'"
+                                                                            decoration-danger="status=='failed'"
+                                                                            widget="badge"
+                                                                            string="Payment Status"
                                                                         />
                                                                     </tree>
                                                                 </field>

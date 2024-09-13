@@ -1,0 +1,109 @@
+<odoo>
+    <!-- Extend the existing report action -->
+    <record id="action_generate_summary" model="ir.actions.report">
+        <field name="model">g2p.cycle.envelope.summary</field> <!-- Updated model -->
+        <field name="binding_model_id" ref="model_g2p_cycle_envelope_summary" /> <!-- Updated binding_model_id -->
+    </record>
+
+    <!-- Extend the existing template -->
+    <template id="print_summary_inherit" inherit_id="g2p_programs.print_summary">
+
+        <!-- Add New Sections After Existing Content -->
+        <xpath expr="//t[t-foreach='docs']/div[@class='content']" position="after">
+            <!-- G2P Bridge Envelope Section -->
+            <div class="content">
+                <h3>G2P Bridge Envelope</h3>
+                <table class="table table-sm">
+                    <tr>
+                        <td><strong>Envelope Id:</strong></td>
+                        <td><span t-esc="doc.cycle_id.disbursement_envelope_id" /></td>
+                    </tr>
+                    <tr>
+                        <td><strong>No of Disbursements Received:</strong></td>
+                        <td><span t-esc="doc.number_of_disbursements_received" /></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Disbursement Amount Received:</strong></td>
+                        <td><span t-esc="doc.total_disbursement_amount_received" /></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Funds Availability Section -->
+            <div class="content">
+                <h3>Funds Availability</h3>
+                <table class="table table-sm">
+                    <tr>
+                        <td><strong>Funds Available With Bank:</strong></td>
+                        <td>
+                            <span t-esc="doc.funds_available_with_bank" />
+                            (<span t-esc="doc.funds_available_latest_timestamp" />)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Funds Available Attempts:</strong></td>
+                        <td>
+                            <span t-esc="doc.funds_available_attempts" />
+                            <t t-if="doc.funds_available_latest_error_code">
+                                Latest Error: (<span t-esc="doc.funds_available_latest_error_code" />)
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Funds Block Section -->
+            <div class="content">
+                <h3>Funds Block</h3>
+                <table class="table table-sm">
+                    <tr>
+                        <td><strong>Funds Blocked With Bank:</strong></td>
+                        <td>
+                            <span t-esc="doc.funds_blocked_with_bank" />
+                            (<span t-esc="doc.funds_blocked_latest_timestamp" />)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Funds Blocked Attempts:</strong></td>
+                        <td>
+                            <span t-esc="doc.funds_blocked_attempts" />
+                            <t t-if="doc.funds_blocked_latest_error_code">
+                                <b>Latest Error:</b> (<span t-esc="doc.funds_blocked_latest_error_code" />)
+                            </t>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Funds Blocked Reference No:</strong></td>
+                        <td><span t-esc="doc.funds_blocked_reference_number" /></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Shipment to Bank Section -->
+            <div class="content">
+                <h3>Shipment to Bank</h3>
+                <table class="table table-sm">
+                    <tr>
+                        <td><strong>Number of Disbursements Shipped:</strong></td>
+                        <td><span t-esc="doc.number_of_disbursements_shipped" /></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Reconciliation from Bank Section -->
+            <div class="content">
+                <h3>Reconciliation from Bank</h3>
+                <table class="table table-sm">
+                    <tr>
+                        <td><strong>Number of Disbursements Reconciled:</strong></td>
+                        <td><span t-esc="doc.number_of_disbursements_reconciled" /></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Number of Disbursements Reversed:</strong></td>
+                        <td><span t-esc="doc.number_of_disbursements_reversed" /></td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
+    </template>
+</odoo>

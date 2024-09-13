@@ -66,7 +66,6 @@ class G2PCycle(models.Model):
     name = fields.Char(required=True)
     company_id = fields.Many2one("res.company", default=lambda self: self.env.company)
     program_id = fields.Many2one("g2p.program", "Program", required=True)
-    disbursement_envelope_id = fields.Char("Disbursement Envelope ID", readonly=True)
     sequence = fields.Integer(required=True, readonly=True, default=1)
     start_date = fields.Date(required=True)
     end_date = fields.Date(required=True)
@@ -467,54 +466,5 @@ class G2PCycle(models.Model):
 
         raise ValidationError(_("Delete only draft cycles with no approved entitlements."))
 
-
-    def update_cycle_and_envelope_summary(self):
-        # Call the Disbursement Envelope Status API to get the latest details
-        try:
-            response = requests.post(
-                "https://g2p-bridge.dev.openg2p.org/api/g2p-bridge/get_disbursement_envelope_status",
-                json={
-                  "signature": "string",
-                  "header": {
-                    "version": "1.0.0",
-                    "message_id": "string",
-                    "message_ts": "string",
-                    "action": "string",
-                    "sender_id": "string",
-                    "sender_uri": "",
-                    "receiver_id": "",
-                    "total_count": 0,
-                    "is_msg_encrypted": False,
-                    "meta": "string"
-                  },
-                  "message": self.disbursement_envelope_id
-                },
-                timeout=10
-            )
-            response.raise_for_status()
-            data = response.json()
-            # Create new record for the summary report ( CycleEnvelopeSummary model)
-            cycle_and_envelope_summary = self.env["g2p.cycle.envelope.summary"].create({
-                "cycle_id": self.id,
-                "number_of_disbursements_received": data.get("message").get("number_of_disbursements_received"),
-                "total_disbursement_amount_received": data.get("message").get("total_disbursement_amount_received"),
-                "funds_available_with_bank": data.get("message").get("funds_available_with_bank"),
-                "funds_available_latest_timestamp": data.get("message").get("funds_available_latest_timestamp"),
-                "funds_available_latest_error_code": data.get("message").get("funds_available_latest_error_code"),
-                "funds_available_attempts": data.get("message").get("funds_available_attempts"),
-                "funds_blocked_with_bank": data.get("message").get("funds_blocked_with_bank"),
-                "funds_blocked_latest_timestamp": data.get("message").get("funds_blocked_latest_timestamp"),
-                "funds_blocked_latest_error_code": data.get("message").get("funds_blocked_latest_error_code"),
-                "funds_blocked_attempts": data.get("message").get("funds_blocked_attempts"),
-                "funds_blocked_reference_number": data.get("message").get("funds_blocked_reference_number"),
-                "id_mapper_resolution_required": data.get("message").get("id_mapper_resolution_required"),
-                "number_of_disbursements_shipped": data.get("message").get("number_of_disbursements_shipped"),
-                "number_of_disbursements_reconciled": data.get("message").get("number_of_disbursements_reconciled"),
-                "number_of_disbursements_reversed": data.get("message").get("number_of_disbursements_reversed")
-            })
-
-            # Return action to show the summary report
-            return self.env.ref('g2p_programs.action_generate_summary').report_action(cycle_and_envelope_summary)
-
-        except requests.exceptions.RequestException as e:
-            raise UserError(_("Failed to fetch disbursement envelope status: %s" % e))
+    def generate_summary(self):
+        return self.env.ref("g2p_programs.action_generate_summary").report_action(self)
