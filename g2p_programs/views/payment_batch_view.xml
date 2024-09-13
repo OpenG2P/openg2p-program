@@ -83,26 +83,19 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                     <field name="entitlement_id" />
                                     <field name="program_id" />
                                     <field name="cycle_id" />
-                                    <field name="account_number" />
+                                    <field name="beneficiary_id" />
                                     <field name="amount_issued" />
                                     <field name="issuance_date" />
                                     <field name="amount_paid" />
                                     <field name="payment_datetime" />
                                     <field name="company_id" groups="base.group_multi_company" />
+
                                     <field
-                                        name="state"
-                                        decoration-primary="state=='issued'"
-                                        decoration-warning="state=='sent'"
-                                        decoration-success="state=='reconciled'"
+                                        name="dispatch_status"
+                                        decoration-success="dispatch_status=='paid'"
+                                        decoration-warning="dispatch_status=='failed'"
                                         widget="badge"
-                                        string="State"
-                                    />
-                                    <field
-                                        name="status"
-                                        decoration-success="status=='paid'"
-                                        decoration-danger="status=='failed'"
-                                        widget="badge"
-                                        string="Payment Status"
+                                        string="Dispatch Status"
                                     />
                                 </tree>
                             </field>

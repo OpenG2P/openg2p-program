@@ -27,32 +27,31 @@ class G2PPayment(models.Model):
         string="Beneficiary",
         readonly=True,
     )
-
+    disbursement_envelope_id = fields.Char("Disbursement Envelope ID", required=False)
     batch_id = fields.Many2one("g2p.payment.batch", "Payment Batch")
-
-    state = fields.Selection(
+    disbursement_id = fields.Char("Disbursement ID", required=False)
+    dispatch_status = fields.Selection(
         selection=[
-            ("issued", "Issued"),
+            ("pending", "Pending"),
             ("sent", "Sent"),
-            ("reconciled", "Reconciled"),
         ],
-        string="Status",
+        string="Dispatch Status",
         required=True,
-        default="issued",
+        default="pending",
     )
-    status = fields.Selection(
-        selection=[
-            ("paid", "Paid"),
-            ("failed", "Failed"),
-        ],
-        string="Payment Status",
-    )
-    status_is_final = fields.Boolean("Is final payment status", default=False)
-    status_datetime = fields.Datetime()
+    remittance_reference_number = fields.Char(required=False)
+    remittance_statement_id = fields.Char(required=False)
+    remittance_entry_sequence = fields.Char(required=False)
+    remittance_entry_date = fields.Char(required=False)
+    reversal_statement_id = fields.Char(required=False)
+    reversal_entry_sequence = fields.Char(required=False)
+    reversal_entry_date = fields.Char(required=False)
+    reversal_reason = fields.Char(required=False)
 
     # We should have a snapshot of the account number from the beneficiary
     #  at the point of creating the payment
-    account_number = fields.Char()
+    # account_number = fields.Char()
+    beneficiary_id = fields.Char("Beneficiary ID", required=False)
 
     amount_issued = fields.Monetary(required=True, currency_field="currency_id")
     amount_paid = fields.Monetary(currency_field="currency_id")
