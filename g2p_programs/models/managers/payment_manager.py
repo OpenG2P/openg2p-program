@@ -4,13 +4,11 @@
 # from io import StringIO
 import logging
 from uuid import uuid4
-import requests
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from odoo.addons.queue_job.delay import group
-from .. import constants
 
 _logger = logging.getLogger(__name__)
 

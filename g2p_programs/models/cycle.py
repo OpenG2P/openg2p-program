@@ -2,7 +2,6 @@
 
 import json
 import logging
-import requests
 
 from lxml import etree
 from num2words import num2words

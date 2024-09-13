@@ -14,28 +14,27 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                 <field name="entitlement_id" />
                 <field name="program_id" />
                 <field name="cycle_id" />
-                <field name="beneficiary_id" />
-                <field name="disbursement_envelope_id" />
-                <field name="disbursement_id" />
+                <field name="batch_id" />
+                <field name="account_number" />
                 <field name="amount_issued" />
                 <field name="issuance_date" />
                 <field name="amount_paid" />
                 <field name="payment_datetime" />
                 <field name="company_id" groups="base.group_multi_company" />
-                <field name="remittance_reference_number" />
-                <field name="remittance_statement_id" />
-                <field name="remittance_entry_sequence" />
-                <field name="remittance_entry_date" />
-                <field name="reversal_statement_id" />
-                <field name="reversal_entry_sequence" />
-                <field name="reversal_entry_date" />
-                <field name="reversal_reason" />
                 <field
-                    name="dispatch_status"
-                    decoration-success="dispatch_status=='sent'"
-                    decoration-warning="dispatch_status=='pending'"
+                    name="state"
+                    decoration-primary="state=='issued'"
+                    decoration-warning="state=='sent'"
+                    decoration-success="state=='reconciled'"
                     widget="badge"
-                    string="Dispatch Status"
+                    string="State"
+                />
+                <field
+                    name="status"
+                    decoration-success="status=='paid'"
+                    decoration-danger="status=='failed'"
+                    widget="badge"
+                    string="Payment Status"
                 />
             </tree>
         </field>
@@ -54,10 +53,10 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         icon="fa-thumbs-o-up"
                         title="Send payment"
                         name="send_payment"
-                        invisible="dispatch_status != 'pending'"
+                        invisible="state != 'issued'"
                         string="Send Payment"
                     />
-                    <field name="dispatch_status" widget="statusbar" statusbar_visible="pending,sent" />
+                    <field name="state" widget="statusbar" statusbar_visible="issued,sent,reconciled" />
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -76,15 +75,15 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     </div>
                     <widget
                         name="web_ribbon"
-                        title="Sent"
+                        title="Paid"
                         bg_color="bg-success"
-                        invisible="dispatch_status != 'sent'"
+                        invisible="status != 'paid'"
                     />
                     <widget
                         name="web_ribbon"
-                        title="Pending"
-                        bg_color="bg-warning"
-                        invisible="dispatch_status != 'pending'"
+                        title="Failed"
+                        bg_color="bg-danger"
+                        invisible="status != 'failed'"
                     />
                     <div class="oe_title mb24">
                         <label for="partner_id" string="Beneficiary:" />
@@ -111,7 +110,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         <group>
                             <field name="name" readonly="1" />
                             <field name="entitlement_id" readonly="1" options="{'no_open':true}" />
-                            <field name="beneficiary_id" readonly="dispatch_status in ('sent')" />
+                            <field name="account_number" readonly="status in ('paid','failed')" />
                         </group>
                         <group>
                             <field name="cycle_id" readonly="1" options="{'no_open':true}" />
@@ -127,18 +126,18 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                                 groups="base.group_multi_company"
                                 options="{'no_create': True}"
                                 force_save="1"
-                                readonly="dispatch_status in ('sent','pending')"
+                                readonly="status in ('paid','failed')"
                             />
                         </group>
                     </group>
                     <group string="Payment">
-                        <field name="amount_issued" readonly="dispatch_status in ('sent','pending')" />
-                        <field name="issuance_date" readonly="dispatch_status in ('sent','pending')" />
-                        <field name="amount_paid" readonly="dispatch_status in ('sent','pending')" />
-                        <field name="payment_datetime" readonly="dispatch_status in ('sent','pending')" />
-                        <field name="payment_fee" readonly="dispatch_status in ('sent','pending')" />
+                        <field name="amount_issued" readonly="status in ('paid','failed')" />
+                        <field name="issuance_date" readonly="status in ('paid','failed')" />
+                        <field name="amount_paid" readonly="status in ('paid','failed')" />
+                        <field name="payment_datetime" readonly="status in ('paid','failed')" />
+                        <field name="payment_fee" readonly="status in ('paid','failed')" />
                         <field name="currency_id" invisible="1" />
-                        <field name="dispatch_status" invisible="1" />
+                        <field name="status" invisible="1" />
                     </group>
                 </sheet>
             </form>
@@ -152,19 +151,22 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
         <field name="arch" type="xml">
             <search string="Search Payments">
                 <field name="entitlement_id" />
-                <field name="beneficiary_id" />
+                <field name="account_number" />
                 <field name="cycle_id" />
                 <field name="name" />
                 <separator />
                 <filter name="filter_issuance_date" date="issuance_date" />
                 <filter name="filter_payment_datetime" date="payment_datetime" />
                 <separator />
-                <filter name="pending_state" string="Issued" domain="[('dispatch_status','=','pending')]" />
-                <filter name="sent_state" string="Sent" domain="[('dispatch_status','=','sent')]" />
+                <filter name="issued_state" string="Issued" domain="[('state','=','issued')]" />
+                <filter name="sent_state" string="Sent" domain="[('state','=','sent')]" />
+                <filter name="paid_status" string="Paid" domain="[('status','=','paid')]" />
+                <filter name="failed_status" string="Failed" domain="[('status','=','failed')]" />
                 <group expand="0" string="Group By">
                     <filter string="Cycle" name="grp_cycle" context="{'group_by': 'cycle_id'}" />
                     <separator orientation="vertical" />
-                    <filter string="Status" name="grp_status" context="{'group_by': 'dispatch_status'}" />
+                    <filter string="State" name="grp_state" context="{'group_by': 'state'}" />
+                    <filter string="Status" name="grp_status" context="{'group_by': 'status'}" />
                     <filter string="Company" name="grp_company_id" context="{'group_by': 'company_id'}" />
                 </group>
                 <!-- <searchpanel>
