@@ -9,7 +9,7 @@ from num2words import num2words
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-
+from odoo.addons.g2p_programs.models import constants
 
 _logger = logging.getLogger(__name__)
 
@@ -21,12 +21,10 @@ class G2PCycle(models.Model):
 
     def generate_summary(self):
         # Call the Disbursement Envelope Status API to get the latest details
-        _logger.info("Generating Summary - 1")
         try:
-            _logger.info("Generating Summary - 2")
-
+            program_manager = self.program_id.get_manager(constants.MANAGER_CYCLE)
             response = requests.post(
-                "https://g2p-bridge.dev.openg2p.org/api/g2p-bridge/get_disbursement_envelope_status",
+                program_manager.envelope_status_url,
                 json={
                     "signature": "string",
                     "header": {
@@ -47,8 +45,6 @@ class G2PCycle(models.Model):
             )
             response.raise_for_status()
             data = response.json()
-            _logger.info("Generating Summary - 3")
-
             # Create new record for the summary report ( CycleEnvelopeSummary model)
             cycle_and_envelope_summary = self.env["g2p.cycle.envelope.summary"].create({
                 "cycle_id": self.id,
@@ -68,8 +64,6 @@ class G2PCycle(models.Model):
                 "number_of_disbursements_reconciled": data.get("message").get("number_of_disbursements_reconciled"),
                 "number_of_disbursements_reversed": data.get("message").get("number_of_disbursements_reversed")
             })
-            _logger.info(f"Generating Summary - 4 {cycle_and_envelope_summary}")
-
             # Return action to show the summary report
             return self.env.ref("g2p_payment_g2p_connect.action_generate_summary_extended").report_action(cycle_and_envelope_summary)
 

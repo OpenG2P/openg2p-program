@@ -56,6 +56,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
     reg_id_type_for_payee_id = fields.Many2one("g2p.id.type", "Payee DFSP ID Type", required=False)
     payment_endpoint_url = fields.Char("Payment Endpoint URL", required=True)
     status_endpoint_url = fields.Char("Status Endpoint URL", required=True)
+    envelope_creation_url = fields.Char("Envelope Creation URL", required=True)
+    envelope_status_url = fields.Char("Envelope Status URL", required=True)
 
     api_timeout = fields.Integer("API Timeout", default=10)
 
@@ -357,7 +359,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         }
         try:
             response = requests.post(
-                "https://g2p-bridge.dev.openg2p.org/api/g2p-bridge/create_disbursement_envelope",
+                self.envelope_creation_url,
                 json=envelope_request_data,
                 timeout=10,
             )
