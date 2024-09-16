@@ -31,6 +31,5 @@ class G2PPayment(models.Model):
     reversal_entry_sequence = fields.Char(required=False)
     reversal_entry_date = fields.Char(required=False)
     reversal_reason = fields.Char(required=False)
-    beneficiary_id = fields.Char("Beneficiary ID", required=False)
 
 

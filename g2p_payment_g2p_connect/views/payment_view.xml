@@ -4,11 +4,10 @@
     <record id="view_payment_tree_inherit" model="ir.ui.view">
         <field name="name">view.payment.tree.inherit</field>
         <field name="model">g2p.payment</field>
-        <field name="inherit_id" ref="module_name.view_payment_tree"/>
+        <field name="inherit_id" ref="g2p_programs.view_payment_tree"/>
         <field name="arch" type="xml">
             <!-- Add new fields after 'cycle_id' -->
             <xpath expr="//tree/field[@name='cycle_id']" position="after">
-                <field name="beneficiary_id"/>
                 <field name="disbursement_envelope_id"/>
                 <field name="disbursement_id"/>
             </xpath>
@@ -23,6 +22,10 @@
                 <field name="reversal_entry_date"/>
                 <field name="reversal_reason"/>
             </xpath>
+            <!-- Remove state field and payment_status field -->
+            <xpath expr="//tree/field[@name='state']" position="replace"/>
+            <xpath expr="//tree/field[@name='status']" position="replace"/>
+
             <!-- Add 'dispatch_status' field at the end -->
             <xpath expr="//tree" position="inside">
                 <field
@@ -40,26 +43,21 @@
     <record id="view_payment_form_inherit" model="ir.ui.view">
         <field name="name">view.payment.form.inherit</field>
         <field name="model">g2p.payment</field>
-        <field name="inherit_id" ref="module_name.view_payment_form"/>
+        <field name="inherit_id" ref="g2p_programs.view_payment_form"/>
         <field name="arch" type="xml">
             <!-- Update button 'Send Payment' -->
             <xpath expr="//header/button[@name='send_payment']" position="attributes">
                 <attribute name="invisible">dispatch_status != 'pending'</attribute>
             </xpath>
-            <!-- Replace 'state' field with 'dispatch_status' -->
-            <xpath expr="//header/field[@name='state']" position="replace">
+            <!-- Add 'batch_status' field after 'state' -->
+            <xpath expr="//header/field[@name='state']" position="after">
                 <field name="dispatch_status" widget="statusbar" statusbar_visible="pending,sent"/>
-            </xpath>
-            <!-- Update web ribbons -->
-            <xpath expr="//widget[@name='web_ribbon'][@title='Paid']" position="replace">
                 <widget
                     name="web_ribbon"
                     title="Sent"
                     bg_color="bg-success"
                     invisible="dispatch_status != 'sent'"
                 />
-            </xpath>
-            <xpath expr="//widget[@name='web_ribbon'][@title='Failed']" position="replace">
                 <widget
                     name="web_ribbon"
                     title="Pending"
@@ -67,19 +65,11 @@
                     invisible="dispatch_status != 'pending'"
                 />
             </xpath>
-            <!-- Replace 'account_number' with 'beneficiary_id' -->
-            <xpath expr="//field[@name='account_number']" position="replace">
-                <field name="beneficiary_id" readonly="dispatch_status in ('sent')"/>
-            </xpath>
             <!-- Update 'readonly' attributes -->
             <xpath expr="//field[@name='company_id']" position="attributes">
                 <attribute name="readonly">dispatch_status in ('sent','pending')</attribute>
             </xpath>
-            <xpath expr="//group[@string='Payment']/field" position="attributes">
-                <attribute name="readonly">dispatch_status in ('sent','pending')</attribute>
-            </xpath>
-            <!-- Remove 'status' field -->
-            <xpath expr="//field[@name='status']" position="replace"/>
+
         </field>
     </record>
 
@@ -87,27 +77,13 @@
     <record id="payment_filter_inherit" model="ir.ui.view">
         <field name="name">payment.filter.inherit</field>
         <field name="model">g2p.payment</field>
-        <field name="inherit_id" ref="module_name.payment_filter"/>
+        <field name="inherit_id" ref="g2p_programs.payment_filter"/>
         <field name="arch" type="xml">
-            <!-- Replace 'account_number' with 'beneficiary_id' -->
-            <xpath expr="//search/field[@name='account_number']" position="replace">
-                <field name="beneficiary_id"/>
-            </xpath>
-            <!-- Update filters to use 'dispatch_status' -->
-            <xpath expr="//filter[@name='issued_state']" position="replace">
-                <filter name="pending_state" string="Issued" domain="[('dispatch_status','=','pending')]"/>
-            </xpath>
+
             <xpath expr="//filter[@name='sent_state']" position="attributes">
                 <attribute name="domain">[('dispatch_status','=','sent')]</attribute>
             </xpath>
-            <!-- Remove 'paid_status' and 'failed_status' filters -->
-            <xpath expr="//filter[@name='paid_status']" position="replace"/>
-            <xpath expr="//filter[@name='failed_status']" position="replace"/>
-            <!-- Update 'Group By' filters -->
-            <xpath expr="//group/filter[@name='grp_state']" position="replace"/>
-            <xpath expr="//group/filter[@name='grp_status']" position="attributes">
-                <attribute name="context">{'group_by': 'dispatch_status'}</attribute>
-            </xpath>
+
         </field>
     </record>
 </odoo>

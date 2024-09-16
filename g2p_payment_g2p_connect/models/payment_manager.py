@@ -1,7 +1,8 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
+
 
 import requests
 
@@ -58,8 +59,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     api_timeout = fields.Integer("API Timeout", default=10)
 
-    payee_prefix = fields.Char()
-    payee_suffix = fields.Char()
+    payee_prefix = fields.Char(required=False, default=None)
+    payee_suffix = fields.Char(required=False, default=None)
 
     locale = fields.Char(required=True)
 
@@ -93,11 +94,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
     def prepare_payments(self, cycle, entitlements=None):
         super().prepare_payments(cycle, entitlements)
         # Call Async Envelope in G2P Bridge only if cycle.disbursement_envelope_id is not set and there are entitlements
-        if not cycle.disbursement_envelope_id and len(entitlements):
+        if not cycle.disbursement_envelope_id:
             self._create_envelope_g2p_bridge(cycle)
-
-    def _prepare_payments(self, cycle, entitlements):
-        super()._prepare_payments(cycle, entitlements)
 
     def _send_payments(self, batches):
         if batches:
@@ -114,7 +112,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                         "interval_type": "minutes",
                         "model_id": self.env["ir.model"].search([("model", "=", self._name)]).id,
                         "state": "code",
-                        "code": "model.payments_status_check(" + str(self.id) + "," +str(batches[0].cycle_id.id)+")",
+                        "code": "model.payments_status_check(" + str(self.id) + ")",
                         "doall": False,
                         "numbercall": -1,
                     }
@@ -123,6 +121,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
         _logger.info(f"Total Batches:{len(batches)}")
         for batch in batches:
             _logger.info(f"Batch started:{batch.batch_has_started}")
+            payee_fa = self._get_payee_fa(batch.payment_ids[0])
+            _logger.info(f"Payee FA: {payee_fa}")
             if batch.batch_has_started:
                 continue
             batch.batch_has_started = True
@@ -157,15 +157,17 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 print()  # Print a blank line between records
 
 
-                # payee_fa = self._get_payee_fa(payment)
-                # if not payee_fa:
-                #     # TODO: Deal with no bank acc and/or ID type not matching any available IDs
-                #     payment.status = "failed"
-                #     continue
+                payee_fa = self._get_payee_fa(payment)
+                if not payee_fa:
+                    # TODO: Deal with no bank acc and/or ID type not matching any available IDs
+                    payment.status = "failed"
+                    continue
+                _logger.info(f"Payee FA: {payee_fa}")
                 batch_data["message"].append(
                     {
-                        "disbursement_envelope_id": batch.cycle_id.disbursement_envelope_id,
-                        "beneficiary_id": payment.beneficiary_id, # payee_fa,
+                        "disbursement_envelope_id": payment.disbursement_envelope_id,
+                        "beneficiary_id": payee_fa,
+                        "mis_reference_number": str(payment.id),
                         "beneficiary_name":  payment.partner_id.name,
                         "disbursement_amount": payment.amount_issued,
                         "narrative": f"Payment for {batch.cycle_id.name} under {self.program_id.name}",
@@ -184,7 +186,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 response = response.json()
                 disbursements = response["message"]
                 for disbursement in disbursements:
-                    payment_by_ref = self.env["g2p.payment"].search([("disbursement_envelope_id", "=", disbursement["disbursement_envelope_id"]), ("beneficiary_id", "=", disbursement["beneficiary_id"])])
+                    payment_by_ref = self.env["g2p.payment"].search([("disbursement_envelope_id", "=", disbursement["disbursement_envelope_id"]), ("id", "=", disbursement["mis_reference_number"])])
                     _logger.info(f"Payment by ref:{payment_by_ref}")
                     if payment_by_ref:
                         payment_by_ref.write({
@@ -200,21 +202,25 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 self.message_post(body=error_msg, subject=_("G2P Bridge Payment Disbursement"))
 
     @api.model
-    def payments_status_check(self, id_, cycle_id):
+    def payments_status_check(self, id_):
         payment_manager = self.browse(id_)
         batches = self.env["g2p.payment.batch"].search(
-            [("program_id", "=", payment_manager.program_id.id), ("cycle_id", "=", cycle_id)]
+            [("program_id", "=", payment_manager.program_id.id), ("stats_datetime", ">", datetime.now() - timedelta(days=3))]
         )
 
         _logger.info(f"Program id for Status Check: {payment_manager.program_id.id}")
-        _logger.info(f"Cycle id for Status Check: {cycle_id}")
 
         for batch in batches:
             _logger.info(f"Internal batch ref number:{batch.name}")
 
-            payments = self.env["g2p.payment"].search(
-                [("batch_id", "=", batch.id), ("program_id", "=", payment_manager.program_id.id)]
-            )
+            payments = self.env["g2p.payment"].search([
+                ("batch_id", "=", batch.id),
+                ("program_id", "=", payment_manager.program_id.id),
+                "|",
+                ("remittance_statement_id", "=", False),
+                ("reversal_statement_id", "=", False)
+            ])
+            _logger.info("Total Payments for Status Check: %s", len(payments))
             for payment in payments:
                 _logger.info(f"Payment for Status Check: {payment}")
                 _logger.info(f"Payment Disbursement Id: {payment.disbursement_id}")
@@ -298,7 +304,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         elif payee_id_type == "reg_id":
             for reg_id in partner.reg_ids:
                 if reg_id.id_type.id == self.reg_id_type_for_payee_id.id:
-                    return f"{self.payee_prefix}{reg_id.value}{self.payee_suffix}"
+                    return f"{self.payee_prefix if self.payee_prefix else ''}{reg_id.value}{self.payee_suffix if self.payee_suffix else ''}"
         return None
 
     @api.model
@@ -308,6 +314,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         if partner.is_group:
             partner = partner.group_membership_ids.filtered(lambda x: head_membership in x.kind)
             partner = partner[0].individual if partner else None
+            _logger.info(f"Partner is:{partner}")
         return partner
 
     def stop_status_check_cron(self):
@@ -322,7 +329,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         program_name = cycle.program_id.name
         currency_code = cycle.program_id.company_id.currency_id.name
         disbursement_schedule_date = cycle.start_date
-        frequency = cycle.program_id.get_manager(constants.MANAGER_CYCLE).cycle_duration
+        # frequency = self.cycle_duration
         envelope_request_data = {
             "signature": "string",
             "header": {
