@@ -1,8 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
-import uuid
 from datetime import datetime, timedelta
-
 
 import requests
 
@@ -95,9 +93,11 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def prepare_payments(self, cycle, entitlements=None):
         super().prepare_payments(cycle, entitlements)
-        # Call Async Envelope in G2P Bridge only if cycle.disbursement_envelope_id is not set and there are entitlements
+        # Call Async Envelope in G2P Bridge only if cycle.disbursement_envelope_id is
+        # not set and there are entitlements
         if not cycle.disbursement_envelope_id:
             self._create_envelope_g2p_bridge(cycle)
+        return
 
     def _send_payments(self, batches):
         if batches:
@@ -140,25 +140,13 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "receiver_id": "",
                     "total_count": 0,
                     "is_msg_encrypted": False,
-                    "meta": "string"
+                    "meta": "string",
                 },
                 "message": [],
             }
             _logger.info(f"Total Payments{len(batch.payment_ids)}")
 
             for payment in batch.payment_ids:
-
-
-                # Get field definitions for the model
-                fields = payment.fields_get()
-
-                # Print each field's value for the current payment record
-                for field_name, field_info in fields.items():
-                    field_value = getattr(payment, field_name, 'Field not found')
-                    _logger.info(f"{field_name}: {field_value}")
-                print()  # Print a blank line between records
-
-
                 payee_fa = self._get_payee_fa(payment)
                 if not payee_fa:
                     # TODO: Deal with no bank acc and/or ID type not matching any available IDs
@@ -170,7 +158,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                         "disbursement_envelope_id": payment.disbursement_envelope_id,
                         "beneficiary_id": payee_fa,
                         "mis_reference_number": str(payment.id),
-                        "beneficiary_name":  payment.partner_id.name,
+                        "beneficiary_name": payment.partner_id.name,
                         "disbursement_amount": payment.amount_issued,
                         "narrative": f"Payment for {batch.cycle_id.name} under {self.program_id.name}",
                     }
@@ -188,15 +176,21 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 response = response.json()
                 disbursements = response["message"]
                 for disbursement in disbursements:
-                    payment_by_ref = self.env["g2p.payment"].search([("disbursement_envelope_id", "=", disbursement["disbursement_envelope_id"]), ("id", "=", disbursement["mis_reference_number"])])
+                    payment_by_ref = self.env["g2p.payment"].search(
+                        [
+                            ("disbursement_envelope_id", "=", disbursement["disbursement_envelope_id"]),
+                            ("id", "=", disbursement["mis_reference_number"]),
+                        ]
+                    )
                     _logger.info(f"Payment by ref:{payment_by_ref}")
                     if payment_by_ref:
-                        payment_by_ref.write({
-                            'disbursement_id': disbursement["disbursement_id"],
-                            'dispatch_status': "sent",
-                            'amount_paid': disbursement["disbursement_amount"],
-                        })
-
+                        payment_by_ref.write(
+                            {
+                                "disbursement_id": disbursement["disbursement_id"],
+                                "dispatch_status": "sent",
+                                "amount_paid": disbursement["disbursement_amount"],
+                            }
+                        )
 
             except Exception as e:
                 _logger.error("G2P Bridge Payment Failed with unknown reason: %s", str(e))
@@ -207,7 +201,10 @@ class G2PPaymentManagerG2PConnect(models.Model):
     def payments_status_check(self, id_):
         payment_manager = self.browse(id_)
         batches = self.env["g2p.payment.batch"].search(
-            [("program_id", "=", payment_manager.program_id.id), ("stats_datetime", ">", datetime.now() - timedelta(days=3))]
+            [
+                ("program_id", "=", payment_manager.program_id.id),
+                ("stats_datetime", ">", datetime.now() - timedelta(days=3)),
+            ]
         )
 
         _logger.info(f"Program id for Status Check: {payment_manager.program_id.id}")
@@ -215,13 +212,15 @@ class G2PPaymentManagerG2PConnect(models.Model):
         for batch in batches:
             _logger.info(f"Internal batch ref number:{batch.name}")
 
-            payments = self.env["g2p.payment"].search([
-                ("batch_id", "=", batch.id),
-                ("program_id", "=", payment_manager.program_id.id),
-                "|",
-                ("remittance_statement_id", "=", False),
-                ("reversal_statement_id", "=", False)
-            ])
+            payments = self.env["g2p.payment"].search(
+                [
+                    ("batch_id", "=", batch.id),
+                    ("program_id", "=", payment_manager.program_id.id),
+                    "|",
+                    ("remittance_statement_id", "=", False),
+                    ("reversal_statement_id", "=", False),
+                ]
+            )
             _logger.info("Total Payments for Status Check: %s", len(payments))
             for payment in payments:
                 _logger.info(f"Payment for Status Check: {payment}")
@@ -231,8 +230,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
             _logger.info(f"Payment for Status Check: {len(payments)}")
 
             status_data = {
-                 "signature": "string",
-                  "header": {
+                "signature": "string",
+                "header": {
                     "version": "1.0.0",
                     "message_id": "string",
                     "message_ts": "string",
@@ -242,8 +241,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "receiver_id": "",
                     "total_count": 0,
                     "is_msg_encrypted": False,
-                    "meta": "string"
-                  },
+                    "meta": "string",
+                },
                 "message": [str(payment.disbursement_id) for payment in payments],
             }
             try:
@@ -260,13 +259,15 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 res_list = res["message"]
                 for res in res_list:
                     _logger.info(f"Disbursement ID inside Loop: {res['disbursement_id']}")
-                    payment_by_ref = self.env["g2p.payment"].search([("disbursement_id", "=", res["disbursement_id"])])
+                    payment_by_ref = self.env["g2p.payment"].search(
+                        [("disbursement_id", "=", res["disbursement_id"])]
+                    )
                     for recon in res["disbursement_recon_records"].get("disbursement_recon_payloads"):
                         payment_by_ref.write(
                             {
                                 "remittance_reference_number": recon["remittance_reference_number"],
-                                "remittance_statement_id":recon["remittance_statement_id"],
-                                "remittance_entry_sequence":recon["remittance_entry_sequence"],
+                                "remittance_statement_id": recon["remittance_statement_id"],
+                                "remittance_entry_sequence": recon["remittance_entry_sequence"],
                                 "remittance_entry_date": recon["remittance_entry_date"],
                                 "reversal_statement_id": recon["reversal_statement_id"],
                                 "reversal_entry_sequence": recon["reversal_entry_sequence"],
@@ -282,7 +283,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 )
                 error_msg = "G2P Connect Status Check Failed with unknown reason: " + str(e)
                 payment_manager.message_post(body=error_msg, subject=_("G2P Connect Status Check"))
-
 
     def _get_payee_fa(self, payment):
         self.ensure_one()
@@ -306,7 +306,10 @@ class G2PPaymentManagerG2PConnect(models.Model):
         elif payee_id_type == "reg_id":
             for reg_id in partner.reg_ids:
                 if reg_id.id_type.id == self.reg_id_type_for_payee_id.id:
-                    return f"{self.payee_prefix if self.payee_prefix else ''}{reg_id.value}{self.payee_suffix if self.payee_suffix else ''}"
+                    return (
+                        f"{self.payee_prefix if self.payee_prefix else ''}"
+                        f"{reg_id.value}{self.payee_suffix if self.payee_suffix else ''}"
+                    )
         return None
 
     @api.model
@@ -344,18 +347,18 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 "receiver_id": "",
                 "total_count": 0,
                 "is_msg_encrypted": False,
-                "meta": "string"
+                "meta": "string",
             },
             "message": {
-                "benefit_program_mnemonic": "MOW_FOOD_SUBSIDY",  # TODO
+                "benefit_program_mnemonic": program_name,
                 "disbursement_frequency": "OnDemand",  # TODO
                 "cycle_code_mnemonic": "SEP",  # TODO
                 "number_of_beneficiaries": total_no_of_payments_across_batches,
                 "number_of_disbursements": total_no_of_payments_across_batches,
                 "total_disbursement_amount": total_payment_amount,
                 "disbursement_currency_code": currency_code,
-                "disbursement_schedule_date": str(disbursement_schedule_date)
-            }
+                "disbursement_schedule_date": str(disbursement_schedule_date),
+            },
         }
         try:
             response = requests.post(

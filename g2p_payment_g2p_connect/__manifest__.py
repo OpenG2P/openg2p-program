@@ -17,7 +17,7 @@
         "views/payment_manager_view.xml",
         "views/registrant_view.xml",
         "views/payment_view.xml",
-        "views/summary_report.xml"
+        "views/summary_report.xml",
     ],
     "assets": {},
     "demo": [],

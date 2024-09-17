@@ -1,30 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <!-- Inherited Tree View -->
     <record id="view_payment_tree_inherit" model="ir.ui.view">
         <field name="name">view.payment.tree.inherit</field>
         <field name="model">g2p.payment</field>
-        <field name="inherit_id" ref="g2p_programs.view_payment_tree"/>
+        <field name="inherit_id" ref="g2p_programs.view_payment_tree" />
         <field name="arch" type="xml">
             <!-- Add new fields after 'cycle_id' -->
             <xpath expr="//tree/field[@name='cycle_id']" position="after">
-                <field name="disbursement_envelope_id"/>
-                <field name="disbursement_id"/>
+                <field name="disbursement_envelope_id" />
+                <field name="disbursement_id" />
             </xpath>
             <!-- Add new fields after 'payment_datetime' -->
             <xpath expr="//tree/field[@name='payment_datetime']" position="after">
-                <field name="remittance_reference_number"/>
-                <field name="remittance_statement_id"/>
-                <field name="remittance_entry_sequence"/>
-                <field name="remittance_entry_date"/>
-                <field name="reversal_statement_id"/>
-                <field name="reversal_entry_sequence"/>
-                <field name="reversal_entry_date"/>
-                <field name="reversal_reason"/>
+                <field name="remittance_reference_number" />
+                <field name="remittance_statement_id" />
+                <field name="remittance_entry_sequence" />
+                <field name="remittance_entry_date" />
+                <field name="reversal_statement_id" />
+                <field name="reversal_entry_sequence" />
+                <field name="reversal_entry_date" />
+                <field name="reversal_reason" />
             </xpath>
             <!-- Remove state field and payment_status field -->
-            <xpath expr="//tree/field[@name='state']" position="replace"/>
-            <xpath expr="//tree/field[@name='status']" position="replace"/>
+            <xpath expr="//tree/field[@name='state']" invisible="1" />
+            <xpath expr="//tree/field[@name='status']" invisible="1" />
 
             <!-- Add 'dispatch_status' field at the end -->
             <xpath expr="//tree" position="inside">
@@ -43,7 +43,7 @@
     <record id="view_payment_form_inherit" model="ir.ui.view">
         <field name="name">view.payment.form.inherit</field>
         <field name="model">g2p.payment</field>
-        <field name="inherit_id" ref="g2p_programs.view_payment_form"/>
+        <field name="inherit_id" ref="g2p_programs.view_payment_form" />
         <field name="arch" type="xml">
             <!-- Update button 'Send Payment' -->
             <xpath expr="//header/button[@name='send_payment']" position="attributes">
@@ -51,7 +51,7 @@
             </xpath>
             <!-- Add 'batch_status' field after 'state' -->
             <xpath expr="//header/field[@name='state']" position="after">
-                <field name="dispatch_status" widget="statusbar" statusbar_visible="pending,sent"/>
+                <field name="dispatch_status" widget="statusbar" statusbar_visible="pending,sent" />
                 <widget
                     name="web_ribbon"
                     title="Sent"
@@ -77,7 +77,7 @@
     <record id="payment_filter_inherit" model="ir.ui.view">
         <field name="name">payment.filter.inherit</field>
         <field name="model">g2p.payment</field>
-        <field name="inherit_id" ref="g2p_programs.payment_filter"/>
+        <field name="inherit_id" ref="g2p_programs.payment_filter" />
         <field name="arch" type="xml">
 
             <xpath expr="//filter[@name='sent_state']" position="attributes">

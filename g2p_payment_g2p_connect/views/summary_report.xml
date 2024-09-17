@@ -33,7 +33,9 @@
                             </tr>
                             <tr>
                                 <td style="width: 50%; text-align: left;"><strong>Program Name:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.cycle_id.program_id.name" /></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.cycle_id.program_id.name"
+                                    /></td>
                             </tr>
                             <tr>
                                 <td style="text-align: left;"><strong>Cycle Name:</strong></td>
@@ -49,7 +51,9 @@
                             </tr>
                             <tr>
                                 <td style="text-align: left;"><strong>Cycle Approved By:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.cycle_id.approved_by.name" /></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.cycle_id.approved_by.name"
+                                    /></td>
                             </tr>
 
                             <!-- Payment Information -->
@@ -61,12 +65,16 @@
                                 <td style="text-align: left;"><span t-esc="doc.cycle_id.members_count" /></td>
                             </tr>
                             <tr>
-                                <td style="text-align: left;"><strong>Total Amount (in <span t-esc="doc.cycle_id.currency_id.name" />):</strong></td>
+                                <td style="text-align: left;"><strong>Total Amount (in <span
+                                            t-esc="doc.cycle_id.currency_id.name"
+                                        />):</strong></td>
                                 <td style="text-align: left;"><span t-esc="doc.cycle_id.total_amount" /></td>
                             </tr>
                             <tr>
                                 <td style="text-align: left;"><strong>Total Amount (in words):</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.cycle_id.total_amount_in_words" /></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.cycle_id.total_amount_in_words"
+                                    /></td>
                             </tr>
 
                             <!-- G2P Bridge Envelope -->
@@ -75,15 +83,23 @@
                             </tr>
                             <tr>
                                 <td style="text-align: left;"><strong>Envelope Id:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.cycle_id.disbursement_envelope_id" /></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.cycle_id.disbursement_envelope_id"
+                                    /></td>
                             </tr>
                             <tr>
-                                <td style="text-align: left;"><strong>No of Disbursements Received:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.number_of_disbursements_received" /></td>
+                                <td style="text-align: left;"><strong
+                                    >No of Disbursements Received:</strong></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.number_of_disbursements_received"
+                                    /></td>
                             </tr>
                             <tr>
-                                <td style="text-align: left;"><strong>Total Disbursement Amount Received:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.total_disbursement_amount_received" /></td>
+                                <td style="text-align: left;"><strong
+                                    >Total Disbursement Amount Received:</strong></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.total_disbursement_amount_received"
+                                    /></td>
                             </tr>
 
                             <!-- Funds Availability -->
@@ -92,7 +108,9 @@
                             </tr>
                             <tr>
                                 <td style="text-align: left;"><strong>Funds Available With Bank:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.funds_available_with_bank" /> (<span t-esc="doc.funds_available_latest_timestamp" />)</td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.funds_available_with_bank"
+                                    /> (<span t-esc="doc.funds_available_latest_timestamp" />)</td>
                             </tr>
                             <tr>
                                 <td style="text-align: left;"><strong>Funds Available Attempts:</strong></td>
@@ -110,20 +128,27 @@
                             </tr>
                             <tr>
                                 <td style="text-align: left;"><strong>Funds Blocked With Bank:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.funds_blocked_with_bank" /> (<span t-esc="doc.funds_blocked_latest_timestamp" />)</td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.funds_blocked_with_bank"
+                                    /> (<span t-esc="doc.funds_blocked_latest_timestamp" />)</td>
                             </tr>
                             <tr>
                                 <td style="text-align: left;"><strong>Funds Blocked Attempts:</strong></td>
                                 <td style="text-align: left;">
                                     <span t-esc="doc.funds_blocked_attempts" />
                                     <t t-if="doc.funds_blocked_latest_error_code">
-                                        <b> Latest Error:</b> (<span t-esc="doc.funds_blocked_latest_error_code" />)
+                                        <b> Latest Error:</b> (<span
+                                            t-esc="doc.funds_blocked_latest_error_code"
+                                        />)
                                     </t>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="text-align: left;"><strong>Funds Blocked Reference No:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.funds_blocked_reference_number" /></td>
+                                <td style="text-align: left;"><strong
+                                    >Funds Blocked Reference No:</strong></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.funds_blocked_reference_number"
+                                    /></td>
                             </tr>
 
                             <!-- Shipment to Bank -->
@@ -131,8 +156,11 @@
                                 <th colspan="2"><h3>Shipment to Bank</h3></th>
                             </tr>
                             <tr>
-                                <td style="text-align: left;"><strong>Number of Disbursements Shipped:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.number_of_disbursements_shipped" /></td>
+                                <td style="text-align: left;"><strong
+                                    >Number of Disbursements Shipped:</strong></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.number_of_disbursements_shipped"
+                                    /></td>
                             </tr>
 
                             <!-- Reconciliation from Bank -->
@@ -140,12 +168,18 @@
                                 <th colspan="2"><h3>Reconciliation from Bank</h3></th>
                             </tr>
                             <tr>
-                                <td style="text-align: left;"><strong>Number of Disbursements Reconciled:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.number_of_disbursements_reconciled" /></td>
+                                <td style="text-align: left;"><strong
+                                    >Number of Disbursements Reconciled:</strong></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.number_of_disbursements_reconciled"
+                                    /></td>
                             </tr>
                             <tr>
-                                <td style="text-align: left;"><strong>Number of Disbursements Reversed:</strong></td>
-                                <td style="text-align: left;"><span t-esc="doc.number_of_disbursements_reversed" /></td>
+                                <td style="text-align: left;"><strong
+                                    >Number of Disbursements Reversed:</strong></td>
+                                <td style="text-align: left;"><span
+                                        t-esc="doc.number_of_disbursements_reversed"
+                                    /></td>
                             </tr>
                         </table>
                     </t>

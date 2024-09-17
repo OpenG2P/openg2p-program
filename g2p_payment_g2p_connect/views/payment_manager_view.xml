@@ -44,10 +44,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         required="payee_id_type == 'reg_id'"
                     />
                     <field name="payee_prefix" invisible="not payee_id_type" />
-                    <field
-                        name="payee_suffix"
-                        invisible="payee_id_type != 'reg_id'"
-                    />
+                    <field name="payee_suffix" invisible="payee_id_type != 'reg_id'" />
                     <field name="locale" />
                 </group>
             </xpath>

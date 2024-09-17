@@ -1,4 +1,5 @@
-from odoo import models, fields, api
+from odoo import fields, models
+
 
 class CycleEnvelopeSummary(models.TransientModel):
     _name = "g2p.cycle.envelope.summary"
@@ -11,15 +12,15 @@ class CycleEnvelopeSummary(models.TransientModel):
     number_of_disbursements_received = fields.Integer()
     total_disbursement_amount_received = fields.Integer()
     funds_available_with_bank = fields.Char()
-    funds_available_latest_timestamp= fields.Char()
-    funds_available_latest_error_code= fields.Char()
+    funds_available_latest_timestamp = fields.Char()
+    funds_available_latest_error_code = fields.Char()
     funds_available_attempts = fields.Integer()
-    funds_blocked_with_bank= fields.Char()
-    funds_blocked_latest_timestamp= fields.Char()
-    funds_blocked_latest_error_code= fields.Char()
-    funds_blocked_attempts= fields.Integer()
-    funds_blocked_reference_number=fields.Char()
-    id_mapper_resolution_required= fields.Boolean()
-    number_of_disbursements_shipped= fields.Integer()
-    number_of_disbursements_reconciled= fields.Integer()
-    number_of_disbursements_reversed= fields.Integer()
+    funds_blocked_with_bank = fields.Char()
+    funds_blocked_latest_timestamp = fields.Char()
+    funds_blocked_latest_error_code = fields.Char()
+    funds_blocked_attempts = fields.Integer()
+    funds_blocked_reference_number = fields.Char()
+    id_mapper_resolution_required = fields.Boolean()
+    number_of_disbursements_shipped = fields.Integer()
+    number_of_disbursements_reconciled = fields.Integer()
+    number_of_disbursements_reversed = fields.Integer()
