@@ -464,3 +464,6 @@ class G2PCycle(models.Model):
                 raise ValidationError(_("Once a cycle has been approved, it cannot be deleted."))
 
         raise ValidationError(_("Delete only draft cycles with no approved entitlements."))
+
+    def generate_summary(self):
+        return self.env.ref("g2p_programs.action_generate_summary").report_action(self)
