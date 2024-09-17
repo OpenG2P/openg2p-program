@@ -6,6 +6,8 @@ import requests
 
 from odoo import _, api, fields, models
 
+from odoo.addons.queue_job.delay import group
+
 _logger = logging.getLogger(__name__)
 
 
