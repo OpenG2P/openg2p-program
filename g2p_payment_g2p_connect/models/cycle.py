@@ -20,9 +20,9 @@ class G2PCycle(models.Model):
     def generate_summary(self):
         # Call the Disbursement Envelope Status API to get the latest details
         try:
-            program_manager = self.program_id.get_manager(constants.MANAGER_CYCLE)
+            payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
             response = requests.post(
-                program_manager.envelope_status_url,
+                payment_manager.envelope_status_url,
                 json={
                     "signature": "string",
                     "header": {
