@@ -16,6 +16,8 @@ class TestG2PConnectPaymentManager(TransactionCase):
                 "name": "G2P Connect Payment Manager",
                 "payment_endpoint_url": "http://example.com/payment",
                 "status_endpoint_url": "http://example.com/status",
+                "envelope_creation_url": "http://example.com/envelope",
+                "envelope_status_url": "http://example.com/envelope_status",
                 "program_id": self.program.id,
                 "payee_id_type": "bank_acc_no",
                 "create_batch": True,
