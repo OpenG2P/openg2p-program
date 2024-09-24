@@ -58,6 +58,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
     status_endpoint_url = fields.Char("Status Endpoint URL", required=True)
     envelope_creation_url = fields.Char("Envelope Creation URL", required=True)
     envelope_status_url = fields.Char("Envelope Status URL", required=True)
+    payment_status_check_interval = fields.Integer("Payment Status Check Interval (in days)", default=3)
 
     api_timeout = fields.Integer("API Timeout", default=10)
 
@@ -205,12 +206,16 @@ class G2PPaymentManagerG2PConnect(models.Model):
         batches = self.env["g2p.payment.batch"].search(
             [
                 ("program_id", "=", payment_manager.program_id.id),
-                ("stats_datetime", ">", datetime.now() - timedelta(days=3)),
+                (
+                    "stats_datetime",
+                    ">",
+                    datetime.now() - timedelta(days=payment_manager.payment_status_check_interval),
+                ),
             ]
         )
 
         _logger.info(f"Program id for Status Check: {payment_manager.program_id.id}")
-
+        _logger.info(f"Total batches:{len(batches)}")
         for batch in batches:
             _logger.info(f"Internal batch ref number:{batch.name}")
 
