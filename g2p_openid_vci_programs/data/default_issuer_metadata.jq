@@ -86,7 +86,7 @@
         },
         "display": [
             {
-                "name": "OpenG2P Program Beneficiary Credential",
+                "name": .name,
                 "locale": "en",
                 "logo": {
                     "url": (.web_base_url + "/g2p_openid_vci_programs/static/description/icon.png"),
