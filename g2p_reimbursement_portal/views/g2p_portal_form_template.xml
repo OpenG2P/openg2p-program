@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="reimbursement_form_template_view" name="G2P Reimbursement Portal Request">
+        <t t-call="g2p_agent_portal_base.base">
+            <link rel="stylesheet" href="/g2p_reimbursement_portal/static/src/css/portal.css" />
+            <t t-set="title">New Reimbursement Request | Agent Portal</t>
+            <div class="main-container">
+                <div class="container-adjuster">
+                    <div class="form-template">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="details">
+                                    <t t-out="current_partner_name" />
+                                </div>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb form-layout-breadcrumb">
+                                        <!-- <li class="breadcrumb-item">
+                                            <a href="/serviceprovider/reimbursement/home">
+                                                Reimbursements
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">
+                                            Submission
+                                        </li> -->
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+
+                        <div id="toast-container">
+                            <div id="toast-message" />
+                            <button id="toast-close-btn" onclick="hideToast()">
+                                <img src="/g2p_reimbursement_portal/static/src/img/close_icon@2x.png" />
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card container-left" style="width: auto; padding: 0px;">
+                                    <div class="card-header form-card-header" style="padding: 0px;">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h5 class="mb-0 form-heading">
+                                                Submission Form
+                                                </h5>
+                                                <p class="form-description">
+                                                    Voucher ID - <t t-out="entitlement_id" />
+                                                </p>
+                                            </div>
+                                            <div class="col-md-4" style="display:flex; align-items:center;">
+                                                <button
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#BeneficiaryDetailModal"
+                                                    type="button"
+                                                    class="beneficiary-detail-btn"
+                                                >
+                                                    <div class="row">
+                                                        <div
+                                                            class="col-sm-3"
+                                                            style="padding-right: 0px; align-items: center; display: flex; height: 40px;"
+                                                        >
+                                                            <i
+                                                                class="fa fa-user"
+                                                                style="color: #704880; border: 1px solid; border-radius: 50%; padding: 5px;"
+                                                            />
+                                                        </div>
+                                                        <div
+                                                            class="col-sm-9"
+                                                            style="padding-left:0px; margin-left: -20px;"
+                                                        >
+                                                            <h5 class="beneficiary-btn-heading">
+                                                                    Beneficiary Details
+                                                            </h5>
+                                                            <p class="beneficiary-btn-para">
+                                                                    Tap to know more
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                            <!-- Beneficiary Detail Modal -->
+                                            <div
+                                                class="modal fade"
+                                                id="BeneficiaryDetailModal"
+                                                tabindex="-1"
+                                                role="dialog"
+                                                aria-labelledby="BeneficiaryDetailTitle"
+                                                aria-hidden="true"
+                                            >
+                                                <div
+                                                    class="modal-dialog modal-dialog-centered"
+                                                    role="document"
+                                                >
+                                                    <div class="modal-content beneficiary-modal-content">
+                                                        <div class="modal-header">
+                                                            <h5
+                                                                class="modal-title"
+                                                                id="exampleModalLongTitle"
+                                                            >Beneficiary Details</h5>
+                                                        </div>
+                                                        <div class="modal-body" style="overflow:hidden">
+                                                            <div class="s_website_form_rows">
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="s_website_form_field">
+                                                                            <label
+                                                                                class="s_website_form_label"
+                                                                                for="first_name"
+                                                                            >
+                                                                                <span
+                                                                                    class="s_website_form_label_content"
+                                                                                    style="color: #666666;"
+                                                                                >First Name</span>
+                                                                            </label>
+                                                                            <div class="beneficiary-value">
+                                                                                <t
+                                                                                    t-out="beneficiary['given_name'] if beneficiary['given_name'] else '&#8209;'"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6">
+                                                                        <div class="s_website_form_field">
+                                                                            <label
+                                                                                class="s_website_form_label"
+                                                                                for="last_name"
+                                                                            >
+                                                                                <span
+                                                                                    class="s_website_form_label_content"
+                                                                                    style="color: #666666;"
+                                                                                >Last Name</span>
+                                                                            </label>
+                                                                            <div class="beneficiary-value">
+                                                                                <t
+                                                                                    t-out="beneficiary['family_name'] if beneficiary['family_name'] else '&#8209;'"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="s_website_form_field">
+                                                                            <label
+                                                                                class="s_website_form_label"
+                                                                                for="email"
+                                                                            >
+                                                                                <span
+                                                                                    class="s_website_form_label_content"
+                                                                                    style="color: #666666;"
+                                                                                >Email Address</span>
+                                                                            </label>
+                                                                            <div class="beneficiary-value">
+                                                                                <t
+                                                                                    t-out="beneficiary['email'] if beneficiary['email'] else '&#8209;'"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6">
+                                                                        <div class="s_website_form_field">
+                                                                            <label
+                                                                                class="s_website_form_label"
+                                                                                for="mobile_number"
+                                                                            >
+                                                                                <span
+                                                                                    class="s_website_form_label_content"
+                                                                                    style="color: #666666;"
+                                                                                >Mobile Number</span>
+                                                                            </label>
+                                                                            <div class="beneficiary-value">
+                                                                                <t
+                                                                                    t-out="beneficiary['phone'] if beneficiary['phone'] else '&#8209;'"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="s_website_form_field">
+                                                                            <label
+                                                                                class="s_website_form_label"
+                                                                            >
+                                                                                <span
+                                                                                    class="s_website_form_label_content"
+                                                                                    style="color: #666666;"
+                                                                                >Gender</span>
+                                                                            </label>
+                                                                            <div class="beneficiary-value">
+                                                                                <t
+                                                                                    t-out="beneficiary['gender'] if beneficiary['gender'] else '&#8209;'"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="s_website_form_field">
+                                                                            <label
+                                                                                class="s_website_form_label"
+                                                                                for="dob"
+                                                                            >
+                                                                                <span
+                                                                                    class="s_website_form_label_content"
+                                                                                    style="color: #666666;"
+                                                                                >Date of Birth</span>
+                                                                            </label>
+                                                                            <div class="beneficiary-value">
+                                                                                <t
+                                                                                    t-out="beneficiary['birthdate'] if beneficiary['birthdate'] else '&#8209;'"
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-outline-primary modal-cancel-button"
+                                                                data-bs-dismiss="modal"
+                                                            >
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body" style="padding: 0px;">
+                                        <div class="note">
+                                            <div class="container">
+                                                <p class="mandatory-fields-note">
+                                                    Fields marked with
+                                                    "                                                    <span
+                                                        class="s_website_form_mark"
+                                                    >*</span>"
+                                                    are mandatory
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="wrap" class="oe_structure oe_empty">
+                                        <section
+                                            class="s_website_form pt16 pb16 o_colored_level"
+                                            data-vcss="001"
+                                            data-snippet="s_website_form"
+                                            data-name="Form"
+                                            style="background-image: none;"
+                                        >
+                                            <div class="container">
+                                                <form
+                                                    t-attf-action="/portal/reimbursement/submit/{{entitlement_id}}"
+                                                    method="post"
+                                                    enctype="multipart/form-data"
+                                                    class="o_mark_required"
+                                                >
+                                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                        <!-- Voucher Code Field -->
+                                                        <div
+                                                            data-name="Field"
+                                                            class="s_website_form_field mb-3 col-12 s_website_form_required"
+                                                            data-type="char"
+                                                        >
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label
+                                                                    class="col-form-label col-sm-auto s_website_form_label"
+                                                                    style="width: 200px"
+                                                                    for="voucher_code"
+                                                                >
+                                                                    <span
+                                                                        class="s_website_form_label_content"
+                                                                    >Voucher Code</span>
+                                                                    <span
+                                                                        class="s_website_form_mark"
+                                                                    > *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input
+                                                                        class="form-control s_website_form_input"
+                                                                        type="text"
+                                                                        name="voucher_code"
+                                                                        required="1"
+                                                                        placeholder="Enter Voucher Code"
+                                                                        id="voucher_code"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Amount Field -->
+                                                        <div
+                                                            data-name="Field"
+                                                            class="s_website_form_field mb-3 col-12 s_website_form_required"
+                                                            data-type="float"
+                                                        >
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label
+                                                                    class="col-form-label col-sm-auto s_website_form_label"
+                                                                    style="width: 200px"
+                                                                    for="amount"
+                                                                >
+                                                                    <span
+                                                                        class="s_website_form_label_content"
+                                                                    >Amount</span>
+                                                                    <span
+                                                                        class="s_website_form_mark"
+                                                                    > *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input
+                                                                        type="number"
+                                                                        class="form-control s_website_form_input"
+                                                                        step="any"
+                                                                        name="amount"
+                                                                        required="1"
+                                                                        placeholder="Enter Amount"
+                                                                        id="amount"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Invoice Upload Field -->
+                                                        <div
+                                                            data-name="Field"
+                                                            class="s_website_form_field mb-3 col-12 s_website_form_custom s_website_form_required"
+                                                            data-type="binary"
+                                                        >
+                                                            <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                                <label
+                                                                    class="col-sm-auto s_website_form_label"
+                                                                    style="width: 200px"
+                                                                    for="invoice"
+                                                                >
+                                                                    <span
+                                                                        class="s_website_form_label_content"
+                                                                    >Invoice</span>
+                                                                    <span
+                                                                        class="s_website_form_mark"
+                                                                    > *</span>
+                                                                </label>
+                                                                <div class="col-sm">
+                                                                    <input
+                                                                        type="file"
+                                                                        class="form-control s_website_form_input"
+                                                                        name="invoice"
+                                                                        required="1"
+                                                                        id="invoice"
+                                                                        accept=".pdf,.jpg,.jpeg,.png"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card container-right" style="width: auto; padding: 0px;">
+                                    <div class="card-header" style="padding: 0px;">
+                                        <h5 class="action-heading">
+                                            Voucher ID - <t t-out="entitlement_id" />
+                                        </h5>
+                                        <p class="action-description">
+                                            The claim submission will be made against the above voucher ID.
+                                        </p>
+                                    </div>
+
+                                    <div class="card-body" style="padding: 20px;">
+                                        <button
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#SubmitModal"
+                                            type="button"
+                                            class="btn btn-primary btn-lg btn-block w-100 form_submit_action"
+                                        >
+                                            Submit
+                                        </button>
+                                        <button
+                                            type="button"
+                                            class="btn btn-outline-primary btn-lg btn-block w-100 form_cancel_action"
+                                            onclick="location.href = '/portal/reimbursement/voucher';"
+                                        >
+                                            Cancel
+                                        </button>
+
+                                        <!-- Submit Modal -->
+                                        <div
+                                            class="modal fade"
+                                            id="SubmitModal"
+                                            tabindex="-1"
+                                            role="dialog"
+                                            aria-labelledby="SubmitModalTitle"
+                                            aria-hidden="true"
+                                        >
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5
+                                                            class="modal-title"
+                                                            id="exampleModalLongTitle"
+                                                        >Do you want to submit the application?</h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>
+                                                            Once submitted, application can not be modified.
+                                                        </p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button
+                                                            type="button"
+                                                            class="btn btn-outline-primary modal-cancel-button"
+                                                            data-bs-dismiss="modal"
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                        <button
+                                                            id="program_submit_id"
+                                                            onclick="reimbursementFormSubmitAction()"
+                                                            t-att-beneficiary="beneficiary['name']"
+                                                            type="submit"
+                                                            class="btn btn-primary modal-discard-button"
+                                                            t-att-program="entitlement_id"
+                                                        >
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script
+                            type="text/javascript"
+                            src="/g2p_reimbursement_portal/static/src/js/form_action.js"
+                        />
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

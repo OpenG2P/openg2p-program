@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="reimbursements_entitlement_view" name="G2P Reimbursement Portal ">
+        <t t-call="g2p_agent_portal_base.base">
+            <link rel="stylesheet" href="/g2p_reimbursement_portal/static/src/css/portal.css" />
+            <t t-set="title">Entitlements | Reimbursements Portal</t>
+            <div class="main-container">
+                <div class="container-adjuster">
+                    <h5 class="all-title">Reimbursements</h5>
+                    <ol class="breadcrumb  breadcrumb-list bg-transparent col-6">
+                        <li class="breadcrumb-item">
+                            <a href="/portal/home">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Reimbursements</li>
+                    </ol>
+
+                    <div class="table-container">
+                        <div class="table-head-container">
+                            <p class="table-title" />
+
+                            <form class="form-inline my-2 my-lg-0">
+                                <div class="search-box">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="13.6"
+                                        height="13.6"
+                                        fill="currentColor"
+                                        class="bi bi-search search-icon"
+                                        viewBox="0 0 16 16"
+                                    >
+                                        <path
+                                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                                        />
+                                    </svg>
+                                    <input
+                                        placeholder="Search by Voucher ID / Beneficia…"
+                                        class="search-text"
+                                        name="q"
+                                        id="search-text"
+                                    />
+                                    <span id="search-text-clear">
+                                        <i class="fa fa-times" />
+                                    </span>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="tables-values-container">
+                            <table id="newreimbursements">
+                                <thead>
+                                    <tr>
+                                        <th>Sr.No.</th>
+                                        <th>Assistance Type <i class="fa fa-sort" />
+                                        </th>
+                                        <th>Voucher ID <i class="fa fa-sort" />
+                                        </th>
+                                        <th>Beneficiary Name <i class="fa fa-sort" />
+                                        </th>
+                                        <th>Assistance Amount <i class="fa fa-sort" />
+                                        </th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="entitlements" t-as="entitlement">
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td
+                                                style="color:#704880; font: normal normal 600 13px/16px Inter;"
+                                            >
+                                                <t t-out="entitlement['program_name']" />
+                                            </td>
+                                            <td>
+                                                <t t-out="entitlement['entitlement_id']" />
+                                            </td>
+                                            <td>
+                                                <t t-out="entitlement['beneficiary_name']" />
+                                            </td>
+                                            <td>
+                                                <t t-out="entitlement['initial_amount']" />
+                                            </td>
+                                            <td>
+                                                <t t-if="entitlement['is_submitted']">
+                                                    <t t-if="entitlement['status'] == 'approved'">
+                                                        <button
+                                                            string="Submitted"
+                                                            type="object"
+                                                            class="enroll-button"
+                                                            disabled="1"
+                                                        >
+                                                            Approved
+                                                        </button>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <button
+                                                            string="Applied"
+                                                            type="object"
+                                                            class="notapplied-button"
+                                                            disabled="1"
+                                                        >
+                                                            Applied
+                                                        </button>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <button
+                                                        string="New"
+                                                        type="object"
+                                                        class="submit-button"
+                                                        disabled="1"
+                                                    >
+                                                        New
+                                                    </button>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <t t-if="entitlement['is_submitted']">
+                                                    <a
+                                                        t-attf-href="/portal/reimbursement/claim/{{ entitlement['entitlement_id'] }}"
+                                                    >
+                                                        <button string="View" type="object" class="view-btn">
+                                                            View
+                                                        </button>
+                                                    </a>
+                                                </t>
+                                                <t t-else="">
+                                                    <a
+                                                        t-attf-href="/portal/reimbursement/voucher/{{ entitlement['entitlement_id'] }}"
+                                                    >
+                                                        <button
+                                                            string="Apply"
+                                                            type="object"
+                                                            class="apply-button"
+                                                        >
+                                                            Apply
+                                                        </button>
+                                                    </a>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="page-buttons" class="pagination justify-content-center">
+                        </div>
+                        <script
+                            type="text/javascript"
+                            src="/g2p_reimbursement_portal/static/src/js/table_pagination_and_row.js"
+                        />
+
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
