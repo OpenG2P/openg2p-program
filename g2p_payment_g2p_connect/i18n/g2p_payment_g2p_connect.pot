@@ -14,6 +14,96 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<b> Latest Error:</b> ("
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Cycle Approved By:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Cycle Approved Date:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Cycle Name:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Envelope Id:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Funds Available Attempts:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Funds Available With Bank:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Funds Blocked Attempts:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Funds Blocked Reference No:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Funds Blocked With Bank:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>No of Disbursements Received:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Number of Beneficiaries:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Number of Disbursements Reconciled:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Number of Disbursements Reversed:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Number of Disbursements Shipped:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Program Name:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Total Amount (in words):</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "<strong>Total Disbursement Amount Received:</strong>"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__api_timeout
 msgid "API Timeout"
 msgstr ""
@@ -84,18 +174,40 @@ msgid "Click the create button to enter a new g2p connect payment manager."
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Company Logo"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model,name:g2p_payment_g2p_connect.model_res_partner
 msgid "Contact"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__create_uid
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#. odoo-python
+#: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
+#, python-format
+msgid "Created envelope."
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__create_date
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__create_date
 msgid "Created on"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#. odoo-python
+#: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
+#: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
+#, python-format
+msgid "Creating the envelope for the cycle."
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -109,11 +221,55 @@ msgid "Currency"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model,name:g2p_payment_g2p_connect.model_g2p_cycle
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__cycle_id
+msgid "Cycle"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model,name:g2p_payment_g2p_connect.model_g2p_cycle_envelope_summary
+msgid "Cycle Envelope Summary"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Date:"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__res_partner__mode_of_payment__digital
 msgid "Digital"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle__disbursement_envelope_id
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__disbursement_envelope_id
+msgid "Disbursement Envelope ID"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__disbursement_id
+msgid "Disbursement ID"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Disbursement Summary"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.actions.report,name:g2p_payment_g2p_connect.action_generate_summary_extended
+msgid "Disbursement summary"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__dispatch_status
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_tree_inherit
+msgid "Dispatch Status"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__display_name
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__display_name
 msgid "Display Name"
 msgstr ""
@@ -126,6 +282,23 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__encryption_provider_id
 msgid "Encryption Provider"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__envelope_creation_url
+msgid "Envelope Creation URL"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__envelope_status_url
+msgid "Envelope Status URL"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#. odoo-python
+#: code:addons/g2p_payment_g2p_connect/models/cycle.py:0
+#, python-format
+msgid "Failed to fetch disbursement envelope status: %s"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -154,10 +327,70 @@ msgid "Font awesome icon e.g. fa-tasks"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Funds Availability"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_available_attempts
+msgid "Funds Available Attempts"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_available_latest_error_code
+msgid "Funds Available Latest Error Code"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_available_latest_timestamp
+msgid "Funds Available Latest Timestamp"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_available_with_bank
+msgid "Funds Available With Bank"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Funds Block"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_blocked_attempts
+msgid "Funds Blocked Attempts"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_blocked_latest_error_code
+msgid "Funds Blocked Latest Error Code"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_blocked_latest_timestamp
+msgid "Funds Blocked Latest Timestamp"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_blocked_reference_number
+msgid "Funds Blocked Reference Number"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__funds_blocked_with_bank
+msgid "Funds Blocked With Bank"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "G2P Bridge Envelope"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #. odoo-python
 #: code:addons/g2p_payment_g2p_connect/models/payment_manager.py:0
 #, python-format
-msgid "G2P Connect Payment Disbursement"
+msgid "G2P Bridge Payment Disbursement"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -195,6 +428,7 @@ msgid "IBAN"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__id
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__id
 msgid "ID"
 msgstr ""
@@ -215,6 +449,11 @@ msgid "Icon to indicate an exception activity."
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__id_mapper_resolution_required
+msgid "Id Mapper Resolution Required"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_needaction
 msgid "If checked, new messages require your attention."
 msgstr ""
@@ -231,13 +470,20 @@ msgid "Is Follower"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__write_uid
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__write_date
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__write_date
 msgid "Last Updated on"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Latest Error: ("
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -293,6 +539,26 @@ msgid "Next Activity Type"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__number_of_disbursements_received
+msgid "Number Of Disbursements Received"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__number_of_disbursements_reconciled
+msgid "Number Of Disbursements Reconciled"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__number_of_disbursements_reversed
+msgid "Number Of Disbursements Reversed"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__number_of_disbursements_shipped
+msgid "Number Of Disbursements Shipped"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_needaction_counter
 msgid "Number of Actions"
 msgstr ""
@@ -333,6 +599,11 @@ msgid "Payee Suffix"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model,name:g2p_payment_g2p_connect.model_g2p_payment
+msgid "Payment"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_manager_g2p_connect_form
 msgid "Payment Config"
 msgstr ""
@@ -348,13 +619,29 @@ msgid "Payment File Config"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Payment Information"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model,name:g2p_payment_g2p_connect.model_g2p_program_payment_manager
 msgid "Payment Manager"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__g2p_payment__dispatch_status__pending
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_form_inherit
+msgid "Pending"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__g2p_program_payment_manager_g2p_connect__payee_id_type__phone
 msgid "Phone"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Place:"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -364,8 +651,38 @@ msgid "Program"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Program Details"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Reconciliation from Bank"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__g2p_program_payment_manager_g2p_connect__payee_id_type__reg_id
 msgid "Registrant ID"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__remittance_entry_date
+msgid "Remittance Entry Date"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__remittance_entry_sequence
+msgid "Remittance Entry Sequence"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__remittance_reference_number
+msgid "Remittance Reference Number"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__remittance_statement_id
+msgid "Remittance Statement"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -374,8 +691,39 @@ msgid "Responsible User"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__reversal_entry_date
+msgid "Reversal Entry Date"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__reversal_entry_sequence
+msgid "Reversal Entry Sequence"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__reversal_reason
+msgid "Reversal Reason"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_payment__reversal_statement_id
+msgid "Reversal Statement"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__message_has_sms_error
 msgid "SMS Delivery error"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__g2p_payment__dispatch_status__sent
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_form_inherit
+msgid "Sent"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Shipment to Bank"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
@@ -405,6 +753,16 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model.fields,help:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__currency_id
 msgid "The currency used to enter statement"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.print_summary
+msgid "Total Amount (in"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_cycle_envelope_summary__total_disbursement_amount_received
+msgid "Total Disbursement Amount Received"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
