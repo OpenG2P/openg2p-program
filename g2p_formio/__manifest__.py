@@ -8,7 +8,14 @@
     "author": "OpenG2P",
     "website": "https://openg2p.org",
     "license": "LGPL-3",
-    "depends": ["formio", "g2p_programs", "formio_storage_filestore"],
+    "depends": [
+        "formio",
+        "g2p_programs",
+        "formio_storage_filestore",
+        "g2p_program_registrant_info",
+        "g2p_program_reimbursement",
+        "g2p_program_documents",
+    ],
     "data": [
         "views/formio_builder.xml",
         "views/program_view.xml",
