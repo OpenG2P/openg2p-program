@@ -285,13 +285,6 @@ class G2PCycle(models.Model):
             entitlement_manager = rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
             if not entitlement_manager:
                 raise UserError(_("No Entitlement Manager defined."))
-            rec.write(
-                {
-                    "approved_date": fields.Datetime.now(),
-                    "approved_by": self.env.user.id,
-                    "state": self.STATE_APPROVED,
-                }
-            )
             return cycle_manager.approve_cycle(
                 rec,
                 auto_approve=cycle_manager.auto_approve_entitlements,
