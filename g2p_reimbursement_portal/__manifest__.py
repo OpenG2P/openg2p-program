@@ -1,11 +1,11 @@
 {
     "name": "G2P Reimbursement Portal",
     "category": "G2P",
-    "version": "17.0.1.0.0",
+    "version": "17.0.0.0.0",
     "sequence": 1,
     "author": "OpenG2P",
     "website": "https://openg2p.org",
-    "license": "Other OSI approved licence",
+    "license": "LGPL-3",
     "development_status": "Alpha",
     "depends": ["g2p_program_reimbursement", "g2p_agent_portal_base", "g2p_program_cycleless"],
     "data": [
