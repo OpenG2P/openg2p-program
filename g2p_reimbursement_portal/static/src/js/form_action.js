@@ -42,7 +42,6 @@ function reimbursementFormSubmitAction() {
     var beneficiayName = program_id[0].getAttribute("beneficiary");
 
     programForm[0].action = `/portal/reimbursement/submit/${program_id[0].getAttribute("program")}`;
-    console.log(programForm[0].action);
 
     var modal = $("#SubmitModal");
     var requiredFields = $(".s_website_form_required");
@@ -63,7 +62,6 @@ function reimbursementFormSubmitAction() {
                     voucherDetails[j].beneficiary_name === beneficiayName &&
                     voucherDetails[j].code === voucherInputField[0].value
                 ) {
-                    console.log("---------------ok");
                     isValid = true;
                     break;
                 } else if (voucherInputField[0]) {
