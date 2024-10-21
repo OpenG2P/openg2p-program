@@ -70,7 +70,9 @@ class G2PEntitlement(models.Model):
                     "is_cash_entitlement": True,
                     "valid_from": reimbursement_cycle.start_date,
                     "valid_until": reimbursement_cycle.end_date,
-                    "supporting_document_ids": [(4, file) for file in supporting_document_file_ids],
+                    "supporting_document_ids": [(4, file) for file in supporting_document_file_ids]
+                    if supporting_document_file_ids
+                    else [],
                     "reimbursement_original_entitlement_id": self.id,
                 }
             )

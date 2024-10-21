@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="reimbursement_home_page" inherit_id="g2p_agent_portal_base.home_page" priority="99">
+        <!-- Modify the title -->
+        <xpath expr="//t[@t-set='title']" position="replace">
+            <t t-set="title"> Home | Reimbursement Portal</t>
+        </xpath>
+    </template>
+</odoo>

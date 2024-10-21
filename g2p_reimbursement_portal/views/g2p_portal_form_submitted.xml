@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="reimbursement_form_submitted" name="G2P Reimbursement portal Form Submitted">
+        <t t-call="g2p_agent_portal_base.base">
+        <link rel="stylesheet" href="/g2p_reimbursement_portal/static/src/css/portal.css" />
+            <div id="wrap" class="oe_structure oe_empty" />
+            <div class="form-template">
+                <div class="main-container">
+                    <div class="container-adjuster">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="details">Reimbursement Submission</div>
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb form-layout-breadcrumb">
+                                        <li class="breadcrumb-item">
+                                            <a href="/portal/home">Home</a>
+                                        </li>
+                                        <li class="breadcrumb-item" aria-current="page">
+                                            <a href="/portal/reimbursement/voucher">
+                                                Reimbursements
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item active" aria-current="page">
+                                            Submission
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                        <t t-if="application_status == 'approved'">
+                            <div id="toast-container" invisible="1" />
+                        </t>
+                        <t t-else="">
+                            <div id="toast-container" class="toast-success-container">
+                                <div id="toast-message" class="toast-success-message">
+                                Thank you. Your application has been submitted successfully.
+                                Please note your application ID for future reference -
+                                    <t t-out="application_id" />
+                                </div>
+                                <button id="toast-close-btn" onclick="closeToastSuccessMsg()">
+                                    <img src="/g2p_reimbursement_portal/static/src/img/close_icon@2x.png" />
+                                </button>
+                            </div>
+                        </t>
+                        <div class="row">
+                            <div class="col-md-8 submit-message">
+                                <div class="card container-left" style="width: auto; padding: 0px;">
+                                    <div class="card-body" style="padding: 20px;">
+                                        <h5 class="user-name">Dear <t t-out="user" />
+,</h5>
+                                        <p class="thank-you-msg">
+                                            <i class="fa fa-check" style="color: #66ad5a;" />
+
+                                            <t t-if="application_status == 'approved'">
+                    Your application for reimbursement is approved.
+                                            </t>
+                                            <t t-else="">
+                    Thank you for submitting the reimbursement application.
+                    Your claim is being processed.
+                                            </t>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 status-message">
+                                <div class="card container-right" style="width: auto; padding: 0px;">
+                                    <div class="card-header" style="padding: 0px;">
+                                        <h5 class="action-heading">
+                                        Voucher ID - <t t-out="entitlement" />
+                                        </h5>
+                                        <t t-if="application_status == 'approved'">
+                                            <div class="status">
+                                                <button>Approved</button>
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div class="form-status">
+                                                <button>Submitted</button>
+                                            </div>
+                                        </t>
+                                    </div>
+                                    <div class="card-body" style="padding: 20px;">
+                                        <div class="form-application-id">
+                                            <p>Application ID</p>
+                                            <b>
+                                                <t t-out="application_id" />
+                                            </b>
+                                        </div>
+                                        <t t-if="application_status == 'approved'">
+                                            <p>Approved On</p>
+                                            <b>
+                                                <t t-out="approved_date" />
+                                            </b>
+                                        </t>
+                                        <t t-else="">
+                                            <p>Sumbitted On</p>
+                                            <b>
+                                                <t t-out="submission_date" />
+                                            </b>
+                                        </t>
+                                    </div>
+                                    <div class="card-footer" style="padding: 20px;">
+                                        <a
+                                            href="/portal/home"
+                                            class="btn btn-outline-primary mb-3 w-100 btn-block"
+                                        >
+                                            Go to Home
+                                        </a>
+                                        <button
+                                            onclick="window.print();"
+                                            id="print_application"
+                                            type="button"
+                                            class="btn btn-primary btn-lg btn-block w-100 form_submit_action d-none"
+                                        >
+                                            <i class="fa fa-print" />
+ Print
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
