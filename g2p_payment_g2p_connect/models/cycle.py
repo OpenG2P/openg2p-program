@@ -94,7 +94,5 @@ class G2PCycle(models.Model):
 
     def open_cycle_form(self):
         res = super().open_cycle_form()
-        res["views"] = [(self.env.ref('g2p_payment_g2p_connect.view_cycle_form_inherit').id, 'form')]
+        res["views"] = [(self.env.ref("g2p_payment_g2p_connect.view_cycle_form_inherit").id, "form")]
         return res
-
-

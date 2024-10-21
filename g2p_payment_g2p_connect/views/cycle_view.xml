@@ -2,7 +2,7 @@
     <record id="view_cycle_form_inherit" model="ir.ui.view">
         <field name="name">view.cycle.form.inherit</field>
         <field name="model">g2p.cycle</field>
-        <field name="inherit_id" ref="g2p_programs.view_cycle_form"/>
+        <field name="inherit_id" ref="g2p_programs.view_cycle_form" />
         <field name="arch" type="xml">
             <xpath expr="//button[@name='generate_summary']" position="attributes">
                 <attribute name="string">Envelope Summary</attribute>
