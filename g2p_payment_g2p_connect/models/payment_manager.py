@@ -58,6 +58,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
     status_endpoint_url = fields.Char("Status Endpoint URL", required=True)
     envelope_creation_url = fields.Char("Envelope Creation URL", required=True)
     envelope_status_url = fields.Char("Envelope Status URL", required=True)
+    payment_status_check_interval = fields.Integer("Payment Status Check Interval (in days)", default=3)
 
     api_timeout = fields.Integer("API Timeout", default=10)
 
@@ -193,6 +194,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                                 "amount_paid": disbursement["disbursement_amount"],
                             }
                         )
+                batch.batch_has_completed = True
 
             except Exception as e:
                 _logger.error("G2P Bridge Payment Failed with unknown reason: %s", str(e))
@@ -205,12 +207,16 @@ class G2PPaymentManagerG2PConnect(models.Model):
         batches = self.env["g2p.payment.batch"].search(
             [
                 ("program_id", "=", payment_manager.program_id.id),
-                ("stats_datetime", ">", datetime.now() - timedelta(days=3)),
+                (
+                    "stats_datetime",
+                    ">",
+                    datetime.now() - timedelta(days=payment_manager.payment_status_check_interval),
+                ),
             ]
         )
 
         _logger.info(f"Program id for Status Check: {payment_manager.program_id.id}")
-
+        _logger.info(f"Total batches:{len(batches)}")
         for batch in batches:
             _logger.info(f"Internal batch ref number:{batch.name}")
 
@@ -331,7 +337,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def _create_envelope_g2p_bridge(self, cycle):
         _logger.info("Creating envelope for g2p_bridge")
-        total_no_of_payments_across_batches = cycle.program_id.eligible_beneficiaries_count
+        total_no_of_payments_across_batches = len(cycle.entitlement_ids)
         total_payment_amount = cycle.total_amount
         program_name = cycle.program_id.name
         currency_code = cycle.program_id.company_id.currency_id.name
