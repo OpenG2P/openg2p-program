@@ -337,7 +337,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def _create_envelope_g2p_bridge(self, cycle):
         _logger.info("Creating envelope for g2p_bridge")
-        total_no_of_payments_across_batches = cycle.program_id.eligible_beneficiaries_count
+        total_no_of_payments_across_batches = len(cycle.entitlement_ids)
         total_payment_amount = cycle.total_amount
         program_name = cycle.program_id.name
         currency_code = cycle.program_id.company_id.currency_id.name
