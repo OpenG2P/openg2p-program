@@ -295,6 +295,11 @@ msgid "Envelope Status URL"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_cycle_form_inherit
+msgid "Envelope Summary"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #. odoo-python
 #: code:addons/g2p_payment_g2p_connect/models/cycle.py:0
 #, python-format
@@ -626,6 +631,11 @@ msgstr ""
 #. module: g2p_payment_g2p_connect
 #: model:ir.model,name:g2p_payment_g2p_connect.model_g2p_program_payment_manager
 msgid "Payment Manager"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__payment_status_check_interval
+msgid "Payment Status Check Interval (in days)"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
