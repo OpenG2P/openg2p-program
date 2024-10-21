@@ -1,2 +1,2 @@
-git+https://github.com/OpenG2P/openg2p-pbms-community-addons@17.0-develop
-git+https://github.com/OpenG2P/openg2p-registry@17.0-develop
+git+https://github.com/OpenG2P/openg2p-pbms-community-addons@v1.0.0
+git+https://github.com/OpenG2P/openg2p-registry@v1.4.0
