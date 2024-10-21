@@ -194,6 +194,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                                 "amount_paid": disbursement["disbursement_amount"],
                             }
                         )
+                batch.batch_has_completed = True
 
             except Exception as e:
                 _logger.error("G2P Bridge Payment Failed with unknown reason: %s", str(e))
