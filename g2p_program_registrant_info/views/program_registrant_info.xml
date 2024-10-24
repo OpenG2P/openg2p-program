@@ -26,7 +26,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             />
                             <field name="program_id" />
                             <field name="state" />
-                            <field name="program_registrant_info" widget="g2p_addl_info_widget" />
+                            <field name="program_registrant_info" widget="g2p_program_reg_info" />
                         </tree>
                     </field>
                 </page>
@@ -58,7 +58,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                             <field name="create_date" column_invisible="1" />
                             <field name="program_id" />
                             <field name="state" />
-                            <field name="program_registrant_info" widget="g2p_addl_info_widget" />
+                            <field name="program_registrant_info" widget="g2p_program_reg_info" />
                         </tree>
                     </field>
                 </page>
@@ -92,7 +92,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                         </h2>
                     </div>
                     <group colspan="4" col="4">
-                        <field name="program_registrant_info" nolabel="1" widget="g2p_addl_info_widget" />
+                        <field name="program_registrant_info" nolabel="1" widget="g2p_program_reg_info" />
                     </group>
                 </sheet>
             </form>

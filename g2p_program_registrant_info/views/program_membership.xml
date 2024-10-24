@@ -17,7 +17,7 @@
                             <field name="create_date" string="Date Submitted" />
                             <!-- <field
                                 name="program_registrant_info"
-                                widget="g2p_addl_info_widget"
+                                widget="g2p_program_reg_info"
                                 invisible="1"
                             /> -->
                             <button

@@ -1,67 +1,56 @@
 /** @odoo-module **/
 
-import {markup, onMounted, useExternalListener, useState} from "@odoo/owl";
+import {markup, useRef, useState} from "@odoo/owl";
 import {TextField} from "@web/views/fields/text/text_field";
 import {_t} from "@web/core/l10n/translation";
 import {registry} from "@web/core/registry";
 import {useService} from "@web/core/utils/hooks";
 
-export class G2PAdditionalInfoWidget extends TextField {
+export class G2PProgramRegInfoComponent extends TextField {
+    static template = "g2p_program_reg_info_tpl";
+
     setup() {
         super.setup();
-        this.state = useState({recordClicked: false, noValue: false});
+        this.state = useState({editingMode: false});
+        this.textareaRef = useRef("textarea");
         this.notification = useService("notification");
-        onMounted(() => this.validateValue());
-        useExternalListener(window, "click", this.onclick);
-        useExternalListener(window, "mouseup", this.onMouseup);
     }
 
-    validateValue() {
-        const val = this.props.record.data.program_registrant_info;
-
-        if (!val) {
-            this.state.noValue = true;
-        } else if (typeof val === "string") {
-            if (val.charAt(0) === "{" && val.charAt(val.length - 1) === "}") {
-                this.state.noValue = false;
-            } else {
-                this.state.noValue = true;
-            }
-        } else if (typeof val === "object") {
-            this.state.noValue = false;
-        } else {
-            this.state.noValue = true;
+    editButtonClick() {
+        const val = this.props.record.data[this.props.name];
+        if (typeof val !== "string") {
+            this.props.record.data[this.props.name] = JSON.stringify(val);
         }
+        this.state.editingMode = true;
     }
 
-    onclick(event) {
-        if (this.editingRecord && event.target.closest(".json-widget")) {
-            this.state.recordClicked = true;
-            this.state.noValue = true;
+    doneButtonClick() {
+        let val = null;
+        try {
+            val = JSON.parse(this.textareaRef.el.value);
+        } catch (err) {
+            this.notification.add(_t("Program Info"), {
+                title: _t("Invalid Json Value"),
+                type: "danger",
+            });
+            console.error(err);
+            return;
         }
-        this.validateValue();
-    }
-
-    onMouseup(ev) {
-        if (!ev.target.closest(".o_field_g2p_addl_info_widget textarea")) {
-            this.state.recordClicked = false;
-            this.state.noValue = false;
+        try {
+            this.props.record.update({[this.props.name]: val});
+            this.state.editingMode = false;
+        } catch (err) {
+            this.notification.add(_t("Program Info"), {
+                title: _t("Error Updating Json"),
+                type: "danger",
+            });
+            console.error(err);
         }
-        this.validateValue();
-    }
-
-    get editingRecord() {
-        return !this.props.readonly;
     }
 
     renderjson() {
+        const valuesJsonOrig = this.props.record.data[this.props.name];
         try {
-            const valuesJsonOrig = this.props.record.data.program_registrant_info;
-            if (typeof valuesJsonOrig === "string" || valuesJsonOrig instanceof String) {
-                const parsedValue = this.flattenJson(valuesJsonOrig);
-                return parsedValue;
-            }
-
             if (Array.isArray(valuesJsonOrig)) {
                 const sectionsJson = {};
                 valuesJsonOrig.forEach((element) => {
@@ -77,25 +66,23 @@ export class G2PAdditionalInfoWidget extends TextField {
                 title: _t("Invalid Json Value"),
                 type: "danger",
             });
-            this.state.recordClicked = true;
+            this.state.editingMode = true;
             return {};
         }
     }
 
     flattenJson(object) {
-        // Const jsonObject = JSON.parse(object);
         let jsonObject = object;
         if (typeof object === "string") {
             jsonObject = JSON.parse(object);
         }
         for (const key in jsonObject) {
-            if (!jsonObject[key]) continue;
-            if (Array.isArray(jsonObject[key])) {
-                // Handle arrays by joining their elements with a comma and space
-                jsonObject[key] = jsonObject[key].join(", ");
+            if (!jsonObject[key]) {
+                continue;
             } else if (
                 Array.isArray(jsonObject[key]) &&
                 jsonObject[key].length > 0 &&
+                typeof jsonObject[key][0] === "object" &&
                 "document_id" in jsonObject[key][0] &&
                 "document_slug" in jsonObject[key][0]
             ) {
@@ -117,10 +104,8 @@ export class G2PAdditionalInfoWidget extends TextField {
     }
 }
 
-G2PAdditionalInfoWidget.template = "addl_info_table";
-
-export const G2PAdditionalInfoWidgets = {
-    component: G2PAdditionalInfoWidget,
-    supportedTypes: ["json", "text", "html"],
+export const g2pProgramRegInfoWidget = {
+    component: G2PProgramRegInfoComponent,
+    supportedTypes: ["jsonb", "text", "html"],
 };
-registry.category("fields").add("g2p_addl_info_widget", G2PAdditionalInfoWidgets);
+registry.category("fields").add("g2p_program_reg_info", g2pProgramRegInfoWidget);
