@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="g2p_programs.model_g2p_entitlement" model="ir.model">
+      <field name="website_form_key">apply_for_reimbursement</field>
+      <field name="website_form_access">True</field>
+      <field name="website_form_label">Apply For Reimbursement</field>
+    </record>
+
+    <function model="ir.model.fields" name="formbuilder_whitelist">
+      <value>g2p.entitlement</value>
+      <value eval="[
+        'code',
+        'initial_amount',
+        ]" />
+    </function>
+</odoo>
