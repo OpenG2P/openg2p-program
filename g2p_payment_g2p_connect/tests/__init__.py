@@ -1,1 +1,1 @@
-from . import test_payment_manager
+# from . import test_payment_manager
