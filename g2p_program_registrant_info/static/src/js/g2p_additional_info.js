@@ -18,10 +18,14 @@ export class G2PProgramRegInfoComponent extends TextField {
 
     editButtonClick() {
         const val = this.props.record.data[this.props.name];
-        if (typeof val !== "string") {
-            this.props.record.data[this.props.name] = JSON.stringify(val);
-        }
         this.state.editingMode = true;
+
+        setTimeout(() => {
+            if (this.textareaRef.el && val) {
+                const jsonVal = typeof val === "string" ? JSON.parse(val) : val;
+                this.textareaRef.el.value = JSON.stringify(jsonVal, null, 2);
+            }
+        }, 0);
     }
 
     doneButtonClick() {
