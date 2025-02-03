@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_cycle_membership_tree_inherit" model="ir.ui.view">
+        <field name="name">view_cycle_membership_tree</field>
+        <field name="model">g2p.cycle.membership</field>
+        <field name="inherit_id" ref="g2p_programs.view_cycle_membership_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="before">
+                <field name="rank" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_cycle_manager_default_form_inherit" model="ir.ui.view">
+        <field name="name">Cycle Manager Default Form</field>
+        <field name="model">g2p.cycle.manager.default</field>
+        <field name="inherit_id" ref="g2p_programs.view_cycle_manager_default_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='cycle_settings']" position="after">
+                <group>
+                    <field name="eligibility_domain" widget="domain" options="{'model': 'res.partner'}" />
+                    <field name="inclusion_limit" />
+                </group>
+                <group>
+                    <field name="sorting_criteria_ids">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="field_name" />
+                            <field name="order" />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
