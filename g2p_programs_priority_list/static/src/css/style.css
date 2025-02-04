@@ -1,0 +1,25 @@
+.o_list_view .o_list_table thead > tr > th.o_list_number_th {
+    text-align: left !important;
+}
+
+.o_list_view .o_list_table tbody > tr > td.o_list_number {
+    text-align: left !important;
+}
+
+.o_list_view .o_list_table th.o_list_number_th .d-block {
+    text-align: left !important;
+}
+
+.o_list_view .o_list_table thead > tr > th .d-flex {
+    flex-direction: row !important;
+}
+
+.o_list_view .o_list_table thead > tr > th[data-name="sequence"] {
+    width: 119px !important;
+    min-width: 119px !important;
+    max-width: 119px !important;
+}
+
+.o-checkbox.form-check.form-switch {
+    display: none;
+}

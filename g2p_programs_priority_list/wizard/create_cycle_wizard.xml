@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_cycle_creation_wizard" model="ir.ui.view">
+        <field name="name">cycle.creation.wizard.form</field>
+        <field name="model">cycle.creation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Edit Cycle Details">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="program_id" />
+                    </group>
+                    <group>
+                        <field name="eligibility_domain" widget="domain" options="{'model': 'res.partner'}" />
+                        <field name="inclusion_limit" />
+                    </group>
+                    <group>
+                        <field name="sorting_criteria_ids">
+                            <tree editable="bottom">
+                                <field name="sequence" widget="handle" />
+                                <field name="field_name" />
+                                <field name="order" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button string="Save" type="object" name="action_confirm" class="oe_highlight" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cycle_creation_wizard" model="ir.actions.act_window">
+        <field name="name">Cycle Created</field>
+        <field name="res_model">cycle.creation.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_cycle_creation_wizard" />
+        <field name="target">new</field>
+    </record>
+</odoo>

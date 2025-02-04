@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_cycle_form_inherit" model="ir.ui.view">
+        <field name="name">view_cycle_form_inherit</field>
+        <field name="model">g2p.cycle</field>
+        <field name="inherit_id" ref="g2p_programs.view_cycle_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[field[@name='end_date']]" position="after">
+                <group>
+                    <field name="is_not_disbursement" invisible="1" />
+                    <field
+                        name="eligibility_domain"
+                        widget="domain"
+                        options="{'model': 'res.partner'}"
+                        invisible="is_not_disbursement"
+                    />
+                    <field name="inclusion_limit" invisible="is_not_disbursement" />
+                    <field name="sorting_criteria_ids" invisible="is_not_disbursement">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle" />
+                            <field name="field_name" />
+                            <field name="order" />
+                        </tree>
+                    </field>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

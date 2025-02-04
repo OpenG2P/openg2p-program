@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_program_manager_default_form_inherit" model="ir.ui.view">
+        <field name="name">view_program_manager_default_form_inherit</field>
+        <field name="model">g2p.program.manager.default</field>
+        <field name="inherit_id" ref="g2p_programs.view_program_manager_default_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@colspan='4']" position="inside">
+                <field name="is_disbursement_through_priority_list" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
