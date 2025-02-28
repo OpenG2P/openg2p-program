@@ -352,7 +352,7 @@ main {
 
 .o_notification_close,
 .o_notification_close:hover {
-    color: #ffffff !important;
+    color: #495057 !important;
     opacity: 1;
     font-weight: 100;
     text-shadow: none;

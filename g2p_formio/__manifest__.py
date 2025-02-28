@@ -23,7 +23,12 @@
         "wizard/g2p_self_service_program_view_wizard.xml",
     ],
     "external_dependencies": {"python": ["formio-data"]},
-    "assets": {},
+    "assets": {
+        "web.assets_backend": [
+            # builder
+            "g2p_formio/static/src/scss/formio_builder.scss",
+        ],
+    },
     "demo": [],
     "images": [],
     "application": True,
