@@ -88,6 +88,11 @@ msgid "# Program Memberships"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__supplier_invoice_count
+msgid "# Vendor Bills"
+msgstr ""
+
+#. module: g2p_programs
 #. odoo-python
 #: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
 #: code:addons/g2p_programs/wizard/assign_to_program_wizard.py:0
