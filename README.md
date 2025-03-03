@@ -1,8 +1,8 @@
 
 <!-- /!\ Non OCA Context : Set here the badge of your runbot / runboat instance. -->
-[![Pre-commit Status](https://github.com/openg2p/openg2p-program/actions/workflows/pre-commit.yml/badge.svg?branch=17.0-develop)](https://github.com/openg2p/openg2p-program/actions/workflows/pre-commit.yml?query=branch%3A17.0-develop)
-[![Build Status](https://github.com/openg2p/openg2p-program/actions/workflows/test.yml/badge.svg?branch=17.0-develop)](https://github.com/openg2p/openg2p-program/actions/workflows/test.yml?query=branch%3A17.0-develop)
-[![codecov](https://codecov.io/gh/openg2p/openg2p-program/branch/17.0-develop/graph/badge.svg)](https://codecov.io/gh/openg2p/openg2p-program)
+[![Pre-commit Status](https://github.com/openg2p/openg2p-program/actions/workflows/pre-commit.yml/badge.svg?branch=17.0-1.3)](https://github.com/openg2p/openg2p-program/actions/workflows/pre-commit.yml?query=branch%3A17.0-1.3)
+[![Build Status](https://github.com/openg2p/openg2p-program/actions/workflows/test.yml/badge.svg?branch=17.0-1.3)](https://github.com/openg2p/openg2p-program/actions/workflows/test.yml?query=branch%3A17.0-1.3)
+[![codecov](https://codecov.io/gh/openg2p/openg2p-program/branch/17.0-1.3/graph/badge.svg)](https://codecov.io/gh/openg2p/openg2p-program)
 <!-- /!\ Non OCA Context : Set here the badge of your translation instance. -->
 
 <!-- /!\ do not modify above this line -->

@@ -1,6 +1,6 @@
 [project]
 name = "odoo-addons-openg2p-program"
-version = "0.0.0"
+version = "1.3.0"
 dependencies = [
     "odoo-addon-g2p_entitlement_differential @ {root:uri}/g2p_entitlement_differential",
     "odoo-addon-g2p_entitlement_in_kind @ {root:uri}/g2p_entitlement_in_kind",
