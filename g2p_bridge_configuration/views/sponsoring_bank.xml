@@ -4,9 +4,9 @@
         <field name="model">g2p.sponsoring.bank.account</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="bank_code"/>
-                <field name="account_number"/>
+                <field name="name" />
+                <field name="bank_code" />
+                <field name="account_number" />
             </tree>
         </field>
     </record>
@@ -18,10 +18,10 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name" required="1"/>
-                        <field name="bank_code" required="1"/>
-                        <field name="bank_branch" required="1"/>
-                        <field name="account_number" required="1"/>
+                        <field name="name" required="1" />
+                        <field name="bank_code" required="1" />
+                        <field name="bank_branch" required="1" />
+                        <field name="account_number" required="1" />
                     </group>
                 </sheet>
             </form>
@@ -34,10 +34,13 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_g2p_sponsoring_bank_account" name="Sponsoring Bank Accounts"
-               parent="g2p_programs.g2p_program_configuration_menu_root"
-              groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
-              action="action_g2p_sponsoring_bank_account"
-              sequence="20"/>
+    <menuitem
+        id="menu_g2p_sponsoring_bank_account"
+        name="Sponsoring Bank Accounts"
+        parent="g2p_programs.g2p_program_configuration_menu_root"
+        groups="g2p_registry_base.group_g2p_admin,g2p_programs.g2p_program_manager"
+        action="action_g2p_sponsoring_bank_account"
+        sequence="20"
+    />
 
 </odoo>

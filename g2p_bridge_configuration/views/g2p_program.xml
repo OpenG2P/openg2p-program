@@ -2,15 +2,21 @@
     <record id="inherit_view_program_list_form" model="ir.ui.view">
         <field name="name">inherit.view_program_list_form</field>
         <field name="model">g2p.program</field>
-        <field name="inherit_id" ref="g2p_programs.view_program_list_form"/>
+        <field name="inherit_id" ref="g2p_programs.view_program_list_form" />
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
               <page string="Sponsoring Bank">
                     <group string="Sponsoring Bank">
-                        <field name="send_to_bridge" invisible="1"/>
-                        <field name="sponsoring_bank" readonly="send_to_bridge == True"/>
+                        <field name="send_to_bridge" invisible="1" />
+                        <field name="sponsoring_bank" readonly="send_to_bridge == True" />
                     </group>
-                  <button name="publish_to_api"  string="publish to g2p bridge" type="object" class="oe_highlight" invisible="send_to_bridge == True"/>
+                  <button
+                        name="publish_to_api"
+                        string="publish to g2p bridge"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="send_to_bridge == True"
+                    />
 
 
 

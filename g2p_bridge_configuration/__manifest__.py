@@ -7,15 +7,8 @@
     "website": "https://openg2p.org",
     "license": "Other OSI approved licence",
     "development_status": "Alpha",
-    "depends": [
-        "g2p_programs",
-        "g2p_payment_g2p_connect"
-    ],
-    "data": [
-        'security/ir.model.access.csv',
-        'views/sponsoring_bank.xml',
-        'views/g2p_program.xml'
-    ],
+    "depends": ["g2p_programs", "g2p_payment_g2p_connect"],
+    "data": ["security/ir.model.access.csv", "views/sponsoring_bank.xml", "views/g2p_program.xml"],
     "assets": {},
     "demo": [],
     "images": [],
