@@ -23,8 +23,9 @@ class G2PCashEntitlementManager(models.Model):
         return all_beneficiaries_ids
 
     def prepare_entitlements(self, cycle, beneficiaries):  # noqa: C901
-        # TODO: Refactor this method once a dedicated _compute_entitlement_amount method is introduced.
+        # NOTE: This method was copied from the OpenSPP repository (module: spp_entitlement_cash).
 
+        # TODO: Refactor this method once a dedicated _compute_entitlement_amount method is introduced.
         if not self.entitlement_item_ids:
             raise UserError(_("There are no items entered for this entitlement manager."))
 
@@ -76,9 +77,9 @@ class G2PCashEntitlementManager(models.Model):
                 _logger.info(f"Multiplier: {multiplier}")
 
                 amount = 0.0
-                if rec.amount_type == "dynamic":
+                if rec.amount_type == "dynamic_field":
                     if not rec.amount_field:
-                        raise UserError(_("Amount Field can't be empty in case of Dynamic Amount Type"))
+                        raise UserError(_("Amount Field can't be empty in case of Dynamic Field Amount Type"))
                     else:
                         amount_field = beneficiary_id.mapped(rec.amount_field.name)
                         if amount_field:
@@ -133,7 +134,7 @@ class G2PCashEntitlementItem(models.Model):
     name = fields.Char()
 
     amount_type = fields.Selection(
-        [("static", "Static"), ("dynamic", "Dynamic")], default="static", required=True
+        [("constant", "Constant"), ("dynamic_field", "Dynamic Field")], default="constant", required=True
     )
     amount_field = fields.Many2one(
         "ir.model.fields",
@@ -142,7 +143,7 @@ class G2PCashEntitlementItem(models.Model):
 
     @api.onchange("amount_type")
     def onchange_amount_type(self):
-        if self.amount_type == "dynamic":
+        if self.amount_type == "dynamic_field":
             self.amount = 0.0
         else:
             self.amount_field = None
