@@ -23,7 +23,9 @@ class G2PCashEntitlementManager(models.Model):
         return all_beneficiaries_ids
 
     def prepare_entitlements(self, cycle, beneficiaries):  # noqa: C901
-        # NOTE: This method was copied from the OpenSPP repository (module: spp_entitlement_cash).
+        # NOTE: This method is an enriched implementation of the prepare_entitlements method
+        #       from spp_entitlement_cash (by OpenSPP):
+        #       <https://github.com/OpenSPP/openspp-modules/tree/17.0/spp_entitlement_cash>
 
         # TODO: Refactor this method once a dedicated _compute_entitlement_amount method is introduced.
         if not self.entitlement_item_ids:
