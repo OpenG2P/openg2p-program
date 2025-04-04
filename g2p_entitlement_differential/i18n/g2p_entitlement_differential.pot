@@ -14,6 +14,23 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: g2p_entitlement_differential
+#: model:ir.model.fields,field_description:g2p_entitlement_differential.field_g2p_program_entitlement_manager_cash_item__amount_field
+msgid "Amount Field"
+msgstr ""
+
+#. module: g2p_entitlement_differential
+#. odoo-python
+#: code:addons/g2p_entitlement_differential/models/entitlement_manager.py:0
+#, python-format
+msgid "Amount Field can't be empty in case of Dynamic Field Amount Type"
+msgstr ""
+
+#. module: g2p_entitlement_differential
+#: model:ir.model.fields,field_description:g2p_entitlement_differential.field_g2p_program_entitlement_manager_cash_item__amount_type
+msgid "Amount Type"
+msgstr ""
+
+#. module: g2p_entitlement_differential
 #: model:ir.model,name:g2p_entitlement_differential.model_g2p_program_entitlement_manager_cash
 msgid "Cash Entitlement Manager"
 msgstr ""
@@ -21,6 +38,16 @@ msgstr ""
 #. module: g2p_entitlement_differential
 #: model:ir.model,name:g2p_entitlement_differential.model_g2p_program_entitlement_manager_cash_item
 msgid "Cash Entitlement Manager Items"
+msgstr ""
+
+#. module: g2p_entitlement_differential
+#: model:ir.model.fields.selection,name:g2p_entitlement_differential.selection__g2p_program_entitlement_manager_cash_item__amount_type__constant
+msgid "Constant"
+msgstr ""
+
+#. module: g2p_entitlement_differential
+#: model:ir.model.fields.selection,name:g2p_entitlement_differential.selection__g2p_program_entitlement_manager_cash_item__amount_type__dynamic_field
+msgid "Dynamic Field"
 msgstr ""
 
 #. module: g2p_entitlement_differential
@@ -37,4 +64,11 @@ msgstr ""
 #. module: g2p_entitlement_differential
 #: model:ir.model.fields,field_description:g2p_entitlement_differential.field_g2p_program_entitlement_manager_cash_item__name
 msgid "Name"
+msgstr ""
+
+#. module: g2p_entitlement_differential
+#. odoo-python
+#: code:addons/g2p_entitlement_differential/models/entitlement_manager.py:0
+#, python-format
+msgid "There are no items entered for this entitlement manager."
 msgstr ""
