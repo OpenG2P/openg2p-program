@@ -4,7 +4,7 @@
         <field name="model">g2p.sponsoring.bank.account</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name" />
+                <field name="account_name" />
                 <field name="bank_code" />
                 <field name="account_number" />
             </tree>
@@ -18,7 +18,7 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="name" required="1" />
+                        <field name="account_name" required="1" />
                         <field name="bank_code" required="1" />
                         <field name="bank_branch" required="1" />
                         <field name="account_number" required="1" />

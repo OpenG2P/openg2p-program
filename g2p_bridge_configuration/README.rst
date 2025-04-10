@@ -19,7 +19,7 @@ G2P Registry: Bank Details Rest API
 
 |badge1| |badge2|
 
-G2P Registry Bank Details Rest API
+G2P Bridge Configuration
 
 .. IMPORTANT::
    This is an alpha version, the data model and design can change at any time without warning.
