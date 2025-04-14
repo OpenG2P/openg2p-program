@@ -11,7 +11,7 @@
                         <field name="sponsoring_bank" readonly="send_to_bridge == True" />
                     </group>
                   <button
-                        name="publish_to_api"
+                        name="publish_bridge_benefit_program"
                         string="publish to g2p bridge"
                         type="object"
                         class="oe_highlight"

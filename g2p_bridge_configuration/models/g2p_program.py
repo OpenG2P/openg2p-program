@@ -40,7 +40,7 @@ class G2pProgram(models.Model):
         token = jwt.encode(payload, private_key, algorithm="RS256", headers=headers)
         return token
 
-    def publish_to_api(self):
+    def publish_bridge_benefit_program(self):
         try:
             self.load_env()
             payment_manager = self.env["g2p.program.payment.manager.g2p.connect"].search(
