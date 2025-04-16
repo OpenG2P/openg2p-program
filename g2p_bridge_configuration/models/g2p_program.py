@@ -13,7 +13,7 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class G2pProgram(models.Model):
+class G2PProgram(models.Model):
     _inherit = "g2p.program"
 
     sponsoring_bank = fields.Many2one("g2p.sponsoring.bank.account")
