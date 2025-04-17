@@ -3,9 +3,9 @@ import logging
 import os
 from pathlib import Path
 
-import jwt
 import requests
 from dotenv import load_dotenv
+from jose import jwt
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
@@ -13,7 +13,7 @@ from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 
-class G2PProgram(models.Model):
+class G2pProgram(models.Model):
     _inherit = "g2p.program"
 
     sponsoring_bank = fields.Many2one("g2p.sponsoring.bank.account")
