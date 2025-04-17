@@ -15,4 +15,7 @@
     "application": False,
     "installable": True,
     "auto_install": False,
+    "external_dependencies": {
+        "python": ["PyJWT", "python-dotenv"]
+    },
 }
