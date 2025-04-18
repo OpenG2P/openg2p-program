@@ -82,6 +82,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         "g2p.payment.file.config", "g2p_pay_file_config_pay_manager_g2pconnect"
     )
     send_payments_domain = fields.Text("Filter Batches to Send", default="[]")
+    sender_id = fields.Char()
 
     @api.onchange("payee_id_type")
     def _onchange_payee_id_type(self):
@@ -138,7 +139,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "message_id": "string",
                     "message_ts": "string",
                     "action": "string",
-                    "sender_id": "string",
+                    "sender_id": self.sender_id,
                     "sender_uri": "",
                     "receiver_id": "",
                     "total_count": 0,
@@ -244,7 +245,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "message_id": "string",
                     "message_ts": "string",
                     "action": "string",
-                    "sender_id": "string",
+                    "sender_id": self.sender_id,
                     "sender_uri": "",
                     "receiver_id": "",
                     "total_count": 0,
@@ -350,7 +351,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 "message_id": "string",
                 "message_ts": "string",
                 "action": "string",
-                "sender_id": "string",
+                "sender_id": self.sender_id,
                 "sender_uri": "",
                 "receiver_id": "",
                 "total_count": 0,

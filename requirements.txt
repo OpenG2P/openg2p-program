@@ -6,8 +6,6 @@ jq
 pdfkit
 python-barcode
 python-dateutil
-python-dotenv
-python-jose
 qrcode
 wkhtmltopdf
 zeep

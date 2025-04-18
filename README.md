@@ -21,7 +21,7 @@ Available addons
 ----------------
 addon | version | maintainers | summary
 --- | --- | --- | ---
-[g2p_bridge_configuration](g2p_bridge_configuration/) | 17.0.1.0.0 |  | G2P brige configuration: Sponsoring Bank to PBMS
+[g2p_bridge_configuration](g2p_bridge_configuration/) | 17.0.0.0.0 |  | G2P brige configuration: Sponsoring Bank to PBMS
 [g2p_entitlement_differential](g2p_entitlement_differential/) | 17.0.0.0.0 |  | OpenG2P Entitlement: Differential
 [g2p_entitlement_in_kind](g2p_entitlement_in_kind/) | 17.0.0.0.0 |  | OpenG2P Entitlement: In-Kind
 [g2p_entitlement_voucher](g2p_entitlement_voucher/) | 17.0.0.0.0 |  | OpenG2P Entitlement: Voucher

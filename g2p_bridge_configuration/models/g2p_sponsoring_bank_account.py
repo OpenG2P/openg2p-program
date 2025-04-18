@@ -11,8 +11,7 @@ class G2pSponsoringBankAccount(models.Model):
     account_number = fields.Char()
     bank_branch = fields.Char("Account branch")
 
-    @api.model
-    def create(self, vals_list):
-        res = super().create(vals_list)
-        res.name = res.account_name + "-" + res.bank_branch
-        return res
+    @api.constrains("account_name", "bank_branch")
+    def _constrains_entitlement_id(self):
+        for rec in self:
+            rec.name = f"{rec.account_name}-{rec.bank_branch}"
