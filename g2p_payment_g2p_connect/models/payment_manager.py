@@ -1,5 +1,6 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 import logging
+import os
 from datetime import datetime, timedelta
 
 import requests
@@ -9,6 +10,8 @@ from odoo import _, api, fields, models
 from odoo.addons.queue_job.delay import group
 
 _logger = logging.getLogger(__name__)
+
+DEFAULT_SENDER_ID = os.getenv("G2P_CONNECT_SENDER_ID", "openg2p-pbms")
 
 
 class PaymentManager(models.Model):
@@ -82,7 +85,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         "g2p.payment.file.config", "g2p_pay_file_config_pay_manager_g2pconnect"
     )
     send_payments_domain = fields.Text("Filter Batches to Send", default="[]")
-    sender_id = fields.Char()
+    sender_id = fields.Char("Sender ID", default=DEFAULT_SENDER_ID, required=False)
 
     @api.onchange("payee_id_type")
     def _onchange_payee_id_type(self):
@@ -359,7 +362,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 "meta": "string",
             },
             "message": {
-                "benefit_program_mnemonic": program_name,
+                "benefit_program_mnemonic": f"{program_name} #{self.id}",
                 "disbursement_frequency": "OnDemand",  # TODO
                 "cycle_code_mnemonic": "SEP",  # TODO
                 "number_of_beneficiaries": total_no_of_payments_across_batches,

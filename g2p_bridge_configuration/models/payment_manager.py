@@ -3,8 +3,7 @@ import logging
 
 import requests
 
-from odoo import _, fields, models
-from odoo.exceptions import ValidationError
+from odoo import fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -15,7 +14,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
     program_creation_endpoint_url = fields.Char("Program Creation URL", required=False)
     sponsoring_bank = fields.Many2one("g2p.sponsoring.bank.account", required=False)
     sent_to_bridge = fields.Boolean(default=False)
-    sender_id = fields.Char("Sender ID", required=False)
 
     def create_jwt_token(self, payload: dict):
         self.ensure_one()
@@ -23,17 +21,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
         token = enc_provider.jwt_sign(payload, include_payload=False)
         return token
 
-    def _check_duplicate_program_name(self):
-        if self.program_id:
-            program = self.env["g2p.program"].search(
-                [("name", "=", self.program_id.name), ("id", "!=", self.program_id.id)]
-            )
-            if program:
-                raise ValidationError(_("The program already exists. Please choose another program."))
-
     def publish_bridge_benefit_program(self):
         self.ensure_one()
-        self._check_duplicate_program_name()
         try:
             url = self.program_creation_endpoint_url
             data = {
@@ -51,7 +40,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "meta": "string",
                 },
                 "message": {
-                    "benefit_program_mnemonic": self.program_id.name,
+                    "benefit_program_mnemonic": f"{self.program_id.name} #{self.id}",
                     "benefit_program_name": self.program_id.name,
                     "funding_org_code": self.program_id.company_id.name,
                     "funding_org_name": self.program_id.company_id.name,

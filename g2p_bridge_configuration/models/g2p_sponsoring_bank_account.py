@@ -1,9 +1,9 @@
 from odoo import api, fields, models
 
 
-class G2pSponsoringBankAccount(models.Model):
+class G2PSponsoringBankAccount(models.Model):
     _name = "g2p.sponsoring.bank.account"
-    _description = "S2p Sponsoring Bank Account"
+    _description = "G2P Sponsoring Bank Account"
 
     name = fields.Char()
     account_name = fields.Char()
