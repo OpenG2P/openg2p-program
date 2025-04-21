@@ -23,11 +23,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
         token = enc_provider.jwt_sign(payload, include_payload=False)
         return token
 
-    def valistion_on_sponsering_bank_sender_id(self):
-        if not self.sponsoring_bank:
-            raise ValidationError(_("Please select sponsor bank."))
-        if not self.sender_id:
-            raise ValidationError(_("Please add Sender ID."))
+    def _check_duplicate_program_name(self):
         if self.program_id:
             program = self.env["g2p.program"].search(
                 [("name", "=", self.program_id.name), ("id", "!=", self.program_id.id)]
@@ -37,7 +33,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
 
     def publish_bridge_benefit_program(self):
         self.ensure_one()
-        self.valistion_on_sponsering_bank_sender_id()
+        self._check_duplicate_program_name()
         try:
             url = self.program_creation_endpoint_url
             data = {
