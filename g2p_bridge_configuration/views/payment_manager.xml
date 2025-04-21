@@ -14,6 +14,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             <xpath expr="//field[@name='payee_id_type']/.." position="after">
                 <group string="Sponsoring Bank">
                     <field name="sent_to_bridge" invisible="1" />
+                    <field name="sender_id" />
                     <field name="sponsoring_bank" readonly="sent_to_bridge == True" />
                     <button
                         name="publish_bridge_benefit_program"

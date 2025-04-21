@@ -15,18 +15,30 @@ class G2PPaymentManagerG2PConnect(models.Model):
     program_creation_endpoint_url = fields.Char("Program Creation URL", required=False)
     sponsoring_bank = fields.Many2one("g2p.sponsoring.bank.account", required=False)
     sent_to_bridge = fields.Boolean(default=False)
+    sender_id = fields.Char("Sender ID", required=False)
 
     def create_jwt_token(self, payload: dict):
         self.ensure_one()
         enc_provider = self.get_encryption_provider()
-        token = enc_provider.jwt_sign(payload)
+        token = enc_provider.jwt_sign(payload, include_payload=False)
         return token
+
+    def valistion_on_sponsering_bank_sender_id(self):
+        if not self.sponsoring_bank:
+            raise ValidationError(_("Please select sponsor bank."))
+        if not self.sender_id:
+            raise ValidationError(_("Please add Sender ID."))
+        if self.program_id:
+            program = self.env["g2p.program"].search(
+                [("name", "=", self.program_id.name), ("id", "!=", self.program_id.id)]
+            )
+            if program:
+                raise ValidationError(_("The program already exists. Please choose another program."))
 
     def publish_bridge_benefit_program(self):
         self.ensure_one()
+        self.valistion_on_sponsering_bank_sender_id()
         try:
-            if not self.sponsoring_bank:
-                raise ValidationError(_("Please select sponsor bank."))
             url = self.program_creation_endpoint_url
             data = {
                 "signature": "string",
