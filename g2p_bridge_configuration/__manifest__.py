@@ -1,6 +1,6 @@
 # Part of OpenG2P Registry. See LICENSE file for full copyright and licensing details.
 {
-    "name": "G2P brige configuration: Sponsoring Bank to PBMS",
+    "name": "G2P brige configuration:Sponsoring Bank to PBMS",
     "category": "G2P",
     "version": "17.0.0.0.0",
     "author": "OpenG2P",
