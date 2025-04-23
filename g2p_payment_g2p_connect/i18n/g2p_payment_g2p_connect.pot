@@ -726,6 +726,11 @@ msgid "SMS Delivery error"
 msgstr ""
 
 #. module: g2p_payment_g2p_connect
+#: model:ir.model.fields,field_description:g2p_payment_g2p_connect.field_g2p_program_payment_manager_g2p_connect__sender_id
+msgid "Sender ID"
+msgstr ""
+
+#. module: g2p_payment_g2p_connect
 #: model:ir.model.fields.selection,name:g2p_payment_g2p_connect.selection__g2p_payment__dispatch_status__sent
 #: model_terms:ir.ui.view,arch_db:g2p_payment_g2p_connect.view_payment_form_inherit
 msgid "Sent"
