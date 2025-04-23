@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_payment_manager_g2p_connect_form" model="ir.ui.view">
+        <field name="name">view_payment_manager_g2p_connect_form</field>
+        <field name="model">g2p.program.payment.manager.g2p.connect</field>
+        <field name="inherit_id" ref="g2p_payment_g2p_connect.view_payment_manager_g2p_connect_form" />
+        <field name="arch" type="xml">
+            <field name="envelope_status_url" position="after">
+                <field name="program_creation_endpoint_url" required="1" />
+            </field>
+            <xpath expr="//field[@name='payee_id_type']/.." position="after">
+                <group string="Sponsoring Bank">
+                    <field name="sent_to_bridge" invisible="1" />
+                    <field name="sponsoring_bank" required="1" readonly="sent_to_bridge == True" />
+                    <button
+                        name="publish_bridge_benefit_program"
+                        string="publish to g2p bridge"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="sent_to_bridge == True"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+ </odoo>
