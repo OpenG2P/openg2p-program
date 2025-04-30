@@ -21,8 +21,8 @@
 		<div class="mb-3" t-if="databases and len(databases) &gt; 1" position="before">
 			  <div t-attf-class="text-center pb-3 {{'mb-3' if form_small else 'mb-4'}}">
 		        <img
-                    t-attf-src="/web/binary/company_logo{{ '?dbname='+db if db else '' }}"
-                    alt="Logo"
+                    t-attf-src="/g2p_theme/static/src/img/openg2p-black.png{{ '?dbname='+db if db else '' }}"
+                    alt="organization Logo"
                     style="max-height:120px; max-width: 100%; width:auto"
                 />
 		    </div>
@@ -58,13 +58,21 @@
    			<attribute name="style" />
    		</xpath>
 
-		<xpath expr="//img[contains(@t-attf-src, '/web/binary/company_logo')]" position="attributes" />
-
-		<xpath expr="//div[contains(@t-attf-class, 'border-bottom')]" position="attributes">
-			<attribute name="t-attf-class">text-center pb-3 {{'mb-3' if form_small else 'mb-4'}}</attribute>
+		<!-- Hide the logo image -->
+		<xpath expr="//img[contains(@t-attf-src, '/web/binary/company_logo')]" position="attributes">
+			<attribute name="t-if">False</attribute>
 		</xpath>
 
-		<xpath expr="//div[@class='text-center small mt-4 pt-3 border-top']" position="attributes" />
+		<!-- Hide the horizontal line below the logo -->
+		<xpath expr="//div[contains(@t-attf-class, 'border-bottom')]" position="attributes">
+			<attribute name="t-if">False</attribute>
+		</xpath>
+
+		<!-- Hide the horizontal line below the login box, 'Manage Databases' and 'Powered by Odoo' -->
+		<xpath expr="//div[@class='text-center small mt-4 pt-3 border-top']" position="attributes">
+			<attribute name="t-if">False</attribute>
+		</xpath>
+
    	</template>
 
 </odoo>
