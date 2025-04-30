@@ -50,6 +50,12 @@
 
 
     <template id="login_layout" inherit_id="web.login_layout" name="G2P Login Layout">
+
+	    <!-- Append 'g2p_login_container' class to 'card-body' div to apply custom background image -->
+		<xpath expr="//div[@class='card-body']" position="attributes">
+			<attribute name="class">card-body g2p_login_container</attribute>
+		</xpath>
+
    		<xpath
             expr="//div[contains(@t-attf-class,'card') and contains(@t-attf-class,'o_database_list')]"
             position="attributes"
