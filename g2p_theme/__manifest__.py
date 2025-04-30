@@ -6,7 +6,7 @@
     "author": "OpenG2P",
     "website": "https://openg2p.org",
     "license": "LGPL-3",
-    "depends": ["base", "web", "auth_signup", "website"],
+    "depends": ["base", "web", "auth_signup"],
     "data": [
         "templates/g2p_login_page.xml",
         "templates/g2p_reset_password.xml",
@@ -18,7 +18,7 @@
             "g2p_theme/static/src/css/style.css",
         ],
         "web.assets_frontend": [
-            "g2p_theme/static/src/scss/new_login_page.scss",
+            "g2p_theme/static/src/scss/g2p_login_page.scss",
         ],
     },
     "demo": [],

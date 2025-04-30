@@ -1,52 +1,156 @@
-// @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap);
-:root {
-    --c-white: #fffcf8;
-    --c-black: #000000;
-    --c-blue: #32aac8;
-    --c-orange: #e88914;
-    --c-pale-orange: #ede1d8;
-    --c-green: #34ae51;
+main:has(.g2p_login) {
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    /* UI Properties */
+    background: #fff7dd 0% 0% no-repeat padding-box;
+    opacity: 1;
 }
 
-body {
-    @import url(https://fonts.googleapis.com/css?family=Open+Sans:400&display=swap&subset=latin);
-    font-family: "Open Sans";
+.g2p_login .oe_login_form:not(.ssp-signup-body),
+.g2p_login .oe_signup_form:not(.ssp-signup-body),
+.g2p_login .oe_reset_password_form:not(.ssp-signup-body) {
+    max-width: 444px !important;
+    // max-height: 486px;
+    position: relative;
+    margin: 50px auto;
+    top: -190%;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 15px #0000000d;
+    border-radius: 20px;
+    opacity: 1;
+    padding: 25px;
 }
 
-.o_database_list input {
-    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300&display=swap&subset=latin);
-    font-family: "Open Sans";
-    font-size: 12pt;
-    box-shadow: none !important;
+/* Initial button style */
+.g2p_login .oe_login_buttons .btn-primary {
+    background-color: #e0711a;
+    border-color: #e0711a;
 }
 
-.o_database_list label {
-    @import url(https://fonts.googleapis.com/css?family=Open+Sans:600&display=swap&subset=latin);
-    font-family: "Open Sans";
-    font-size: 12pt;
-    font-weight: bold;
+/* Button hover style */
+.g2p_login .oe_login_buttons .btn-primary:hover {
+    border-color: #6569c7;
+    background: #6569c7 0% 0% no-repeat padding-box;
+    opacity: 1;
 }
 
-.o_database_list input:focus {
-    border: 1px solid var(--c-orange);
+/* Button press style */
+.g2p_login .oe_login_buttons .btn-primary:active,
+.g2p_login .oe_login_buttons .btn-primary:focus {
+    background-color: #6569c7 !important;
+    border-color: #6569c7 !important;
 }
 
-.o_database_list {
-    display: inline-block;
-    padding: 50px;
-    // background-color: #ede1d8;
-}
-// .o_database_list .card-body {
-//     background-color: #ede1d8;
-// }
-
-.o_database_list .btn-primary {
-    color: var(--c-white);
-    background-color: var(--c-green);
-    border: 1px solid var(--c-pale-orange);
-    transition: background-color 0.5s ease;
+.g2p_login .oe_login_buttons a,
+.g2p_login .oe_login_buttons a:hover {
+    color: #e0711a;
+    text-decoration: none;
+    font-size: 13px;
 }
 
-.oe_login_buttons {
-    margin-top: 20pt;
+.g2p_login .form-control:focus {
+    color: #495057;
+    background-color: #ffffff;
+    border-color: rgba(224, 113, 26, 0.5) !important;
+    /* Change the opacity to adjust the brightness */
+    box-shadow: 0 0 0 0.1rem rgb(255, 149, 49) !important;
+    opacity: 1;
+}
+
+.g2p_login {
+    position: relative;
+}
+
+.g2p_login .alert-danger {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    right: 20px;
+    width: 100%;
+    background: #db3c3c;
+    box-shadow: 0px 3px 15px #0000000d;
+    border-radius: 8px;
+    opacity: 1;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #ffffff;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.alert-danger {
+    max-width: 420px;
+    margin: 0 auto 16px auto;
+    padding: 8px 10px;
+}
+
+.reset_g2p_pass {
+    /* Layout Properties */
+    top: 353px;
+    left: 491px;
+    width: 153px;
+    height: 24px;
+    /* UI Properties */
+    text-align: left;
+    font-family: "Inter", sans-serif;
+    letter-spacing: 0px;
+    color: #000000;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 24px;
+    margin: 30px 0 30px;
+}
+
+.g2p_login .reset-password,
+.g2p_login .reset-password a {
+    color: #e0711a;
+    text-decoration: none;
+    float: right;
+    font-size: 13px;
+}
+
+.g2p_login form label {
+    /* Layout Properties */
+    top: 406px;
+    left: 491px;
+    width: 168px;
+    height: 17px;
+    /* UI Properties */
+    text-align: left;
+    font-weight: bolder;
+    font-family: "Inter", sans-serif;
+    font-style: normal !important;
+    font-size: 14px;
+    line-height: 17px;
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+}
+.card-body {
+    background-color: transparent !important;
+    background: transparent url("/g2p_theme/static/src/img/57485.png") no-repeat center center;
+    background-size: contain;
+    opacity: 1;
+}
+
+/* Responsive styles for smaller screens */
+@media screen and (max-width: 768px) {
+    .g2p_login:not(.ssp-signup-body) .alert-danger {
+        display: block;
+    }
+
+    .container {
+        width: 80%;
+    }
+}
+@media screen and (min-width: 769px) {
+    .g2p_login:not(.ssp-signup-body) .alert-danger {
+        display: block;
+    }
 }
