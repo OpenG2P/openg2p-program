@@ -4,6 +4,7 @@ import logging
 import requests
 
 from odoo import fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -60,7 +61,13 @@ class G2PPaymentManagerG2PConnect(models.Model):
             response = requests.post(url, data=json.dumps(data), headers=headers, timeout=self.api_timeout)
             response.raise_for_status()
             response_data = response.json()
+            status = response_data.get("header", {}).get("status")
+            reason = response_data.get("header", {}).get("status_reason_message")
             if response_data.get("header", {}).get("status") == "succ":
                 self.sent_to_bridge = True
-        except Exception as e:
-            _logger.error("Error occurred on publishing sponsoring bank %s" % e)
+            else:
+                raise ValidationError(f"Request has the {status} status because of {reason}")
+
+        except Exception:
+            _logger.exception("Error occurred on publishing sponsoring bank")
+            raise
