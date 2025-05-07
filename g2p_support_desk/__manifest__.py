@@ -1,7 +1,7 @@
 {
-    'name': 'Support Desk',
+    'name': 'G2P Support Desk',
     'version': '17.0.1.0.0',
-    'summary': 'Support Desk Management System',
+    'summary': 'OpenG2P Support Desk Management System',
     'description': """
         This module provides a comprehensive support desk management system with:
         * Ticket Management
@@ -10,7 +10,7 @@
         * Knowledge Base
         * Beneficiary Portal Access
     """,
-    'category': 'Services/Support',
+    'category': 'G2P/G2P',
     'author': 'OpenG2P',
     'website': 'https://openg2p.org',
     'license': 'LGPL-3',
