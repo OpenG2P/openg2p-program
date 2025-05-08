@@ -1,13 +1,12 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
 
+import json
 import logging
 
 import requests
 
 from odoo import _, fields, models
 from odoo.exceptions import UserError
-
-from odoo.addons.g2p_programs.models import constants
 
 _logger = logging.getLogger(__name__)
 
@@ -20,29 +19,36 @@ class G2PCycle(models.Model):
     def generate_summary(self):
         # Call the Disbursement Envelope Status API to get the latest details
         try:
-            payment_manager = self.program_id.get_manager(constants.MANAGER_PAYMENT)
-            response = requests.post(
-                payment_manager.envelope_status_url,
-                json={
-                    "signature": "string",
-                    "header": {
-                        "version": "1.0.0",
-                        "message_id": "string",
-                        "message_ts": "string",
-                        "action": "string",
-                        "sender_id": "string",
-                        "sender_uri": "",
-                        "receiver_id": "",
-                        "total_count": 0,
-                        "is_msg_encrypted": False,
-                        "meta": "string",
-                    },
-                    "message": self.disbursement_envelope_id,
+            payment_manager = self.env["g2p.program.payment.manager.g2p.connect"].search([], limit=1)
+
+            data = {
+                "header": {
+                    "version": "1.0.0",
+                    "message_id": "string",
+                    "message_ts": "string",
+                    "action": "string",
+                    "sender_id": payment_manager.sender_id,
+                    "sender_uri": "",
+                    "receiver_id": "",
+                    "total_count": 0,
+                    "is_msg_encrypted": False,
+                    "meta": "string",
                 },
-                timeout=10,
+                "message": self.disbursement_envelope_id,
+            }
+
+            token = payment_manager.create_jwt_token(json.dumps(data, separators=(",", ":")))
+            headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Signature": token,
+            }
+            response = requests.post(
+                payment_manager.envelope_status_url, json=data, timeout=10, headers=headers
             )
             response.raise_for_status()
             data = response.json()
+
             # Create new record for the summary report ( CycleEnvelopeSummary model)
             cycle_and_envelope_summary = self.env["g2p.cycle.envelope.summary"].create(
                 {
