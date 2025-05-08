@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_datashare_config_rabbitmq_program_tree" model="ir.ui.view">
+        <field name="name">view_datashare_config_rabbitmq_program_tree</field>
+        <field name="model">g2p.datashare.config.rabbitmq</field>
+        <field name="inherit_id" ref="g2p_registry_datashare_rabbitmq.view_datashare_config_rabbitmq_tree" />
+        <field name="arch" type="xml">
+            <field name="data_source" position="after">
+                <field name="program_id" />
+            </field>
+        </field>
+    </record>
+
+    <record id="view_datashare_config_rabbitmq_program_form" model="ir.ui.view">
+        <field name="name">view_datashare_config_rabbitmq_program_form</field>
+        <field name="model">g2p.datashare.config.rabbitmq</field>
+        <field name="inherit_id" ref="g2p_registry_datashare_rabbitmq.view_datashare_config_rabbitmq_form" />
+        <field name="arch" type="xml">
+            <field name="data_source" position="after">
+                <field
+                    name="program_id"
+                    invisible="data_source == 'registry'"
+                    required="data_source == 'beneficiary_registry'"
+                />
+            </field>
+        </field>
+    </record>
+
+</odoo>
