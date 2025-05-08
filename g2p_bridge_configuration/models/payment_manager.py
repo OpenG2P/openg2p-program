@@ -16,18 +16,11 @@ class G2PPaymentManagerG2PConnect(models.Model):
     sponsoring_bank = fields.Many2one("g2p.sponsoring.bank.account", required=False)
     sent_to_bridge = fields.Boolean(default=False)
 
-    def create_jwt_token(self, payload: dict):
-        self.ensure_one()
-        enc_provider = self.get_encryption_provider()
-        token = enc_provider.jwt_sign(payload, include_payload=False)
-        return token
-
     def publish_bridge_benefit_program(self):
         self.ensure_one()
         try:
             url = self.program_creation_endpoint_url
             data = {
-                "signature": "string",
                 "header": {
                     "version": "1.0.0",
                     "message_id": "string",
@@ -52,7 +45,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "id_mapper_resolution_required": True,
                 },
             }
-            token = self.create_jwt_token(data)
+
+            token = self.create_jwt_token(json.dumps(data, separators=(",", ":")))
             headers = {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
