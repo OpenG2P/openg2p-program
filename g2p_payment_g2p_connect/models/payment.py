@@ -3,7 +3,6 @@
 import logging
 
 from odoo import fields, models
-from odoo.exceptions import ValidationError
 
 
 
