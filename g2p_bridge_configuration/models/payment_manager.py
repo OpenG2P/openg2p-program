@@ -4,6 +4,7 @@ import logging
 import requests
 
 from odoo import fields, models
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -15,18 +16,11 @@ class G2PPaymentManagerG2PConnect(models.Model):
     sponsoring_bank = fields.Many2one("g2p.sponsoring.bank.account", required=False)
     sent_to_bridge = fields.Boolean(default=False)
 
-    def create_jwt_token(self, payload: dict):
-        self.ensure_one()
-        enc_provider = self.get_encryption_provider()
-        token = enc_provider.jwt_sign(payload, include_payload=False)
-        return token
-
     def publish_bridge_benefit_program(self):
         self.ensure_one()
         try:
             url = self.program_creation_endpoint_url
             data = {
-                "signature": "string",
                 "header": {
                     "version": "1.0.0",
                     "message_id": "string",
@@ -51,7 +45,8 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "id_mapper_resolution_required": True,
                 },
             }
-            token = self.create_jwt_token(data)
+
+            token = self.create_jwt_token(json.dumps(data, separators=(",", ":")))
             headers = {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -60,7 +55,13 @@ class G2PPaymentManagerG2PConnect(models.Model):
             response = requests.post(url, data=json.dumps(data), headers=headers, timeout=self.api_timeout)
             response.raise_for_status()
             response_data = response.json()
+            status = response_data.get("header", {}).get("status")
+            reason = response_data.get("header", {}).get("status_reason_message")
             if response_data.get("header", {}).get("status") == "succ":
                 self.sent_to_bridge = True
-        except Exception as e:
-            _logger.error("Error occurred on publishing sponsoring bank %s" % e)
+            else:
+                raise ValidationError(f"Request has the {status} status because of {reason}")
+
+        except Exception:
+            _logger.exception("Error occurred on publishing sponsoring bank")
+            raise
