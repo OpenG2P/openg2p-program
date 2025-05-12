@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Team Form View -->
     <record id="view_support_team_form" model="ir.ui.view">
@@ -9,33 +9,33 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
-                            <field name="active" widget="boolean_button"/>
+                            <field name="active" widget="boolean_button" />
                         </button>
                     </div>
                     <div class="oe_title">
                         <h1>
-                            <field name="name" placeholder="Team Name"/>
+                            <field name="name" placeholder="Team Name" />
                         </h1>
                     </div>
                     <group>
                         <group>
-                            <field name="leader_id"/>
-                            <field name="member_ids" widget="many2many_tags"/>
+                            <field name="leader_id" />
+                            <field name="member_ids" widget="many2many_tags" />
                         </group>
                         <group>
-                            <field name="ticket_count"/>
-                            <field name="color" widget="color_picker"/>
+                            <field name="ticket_count" />
+                            <field name="color" widget="color_picker" />
                         </group>
                     </group>
                     <notebook>
                         <page string="Description" name="description">
-                            <field name="description" placeholder="Add a description..."/>
+                            <field name="description" placeholder="Add a description..." />
                         </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
-                    <field name="message_follower_ids"/>
-                    <field name="message_ids"/>
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
                 </div>
             </form>
         </field>
@@ -47,9 +47,9 @@
         <field name="model">support.team</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="leader_id"/>
-                <field name="ticket_count"/>
+                <field name="name" />
+                <field name="leader_id" />
+                <field name="ticket_count" />
             </tree>
         </field>
     </record>
@@ -60,10 +60,10 @@
         <field name="model">support.team</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
-                <field name="leader_id"/>
-                <field name="member_ids"/>
-                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <field name="name" />
+                <field name="leader_id" />
+                <field name="member_ids" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]" />
             </search>
         </field>
     </record>
