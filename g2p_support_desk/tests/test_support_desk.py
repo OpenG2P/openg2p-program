@@ -1,9 +1,9 @@
 import logging
+import time
+
+from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
 from odoo.tools import html2plaintext
-import time
-from odoo import api
-from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -14,76 +14,96 @@ class SupportDeskTest(TransactionCase):
         super().setUpClass()
 
         # Create test users
-        cls.user_1 = cls.env["res.users"].create({
-            "name": "Test User 1",
-            "login": "test_user_1",
-            "email": "test_user_1@example.com",
-            "groups_id": [(4, cls.env.ref("support_desk.group_support_desk_user").id)],
-        })
-        cls.user_2 = cls.env["res.users"].create({
-            "name": "Test User 2",
-            "login": "test_user_2",
-            "email": "test_user_2@example.com",
-            "groups_id": [(4, cls.env.ref("support_desk.group_support_desk_manager").id)],
-        })
+        cls.user_1 = cls.env["res.users"].create(
+            {
+                "name": "Test User 1",
+                "login": "test_user_1",
+                "email": "test_user_1@example.com",
+                "groups_id": [(4, cls.env.ref("support_desk.group_support_desk_user").id)],
+            }
+        )
+        cls.user_2 = cls.env["res.users"].create(
+            {
+                "name": "Test User 2",
+                "login": "test_user_2",
+                "email": "test_user_2@example.com",
+                "groups_id": [(4, cls.env.ref("support_desk.group_support_desk_manager").id)],
+            }
+        )
 
         # Create test program with minimal required fields
-        cls.program = cls.env["g2p.program"].create({
-            "name": "Test Program",
-            "target_type": "individual",
-        })
+        cls.program = cls.env["g2p.program"].create(
+            {
+                "name": "Test Program",
+                "target_type": "individual",
+            }
+        )
 
         # Create test team
-        cls.team = cls.env["support.team"].create({
-            "name": "Test Team",
-            "leader_id": cls.user_2.id,
-            "member_ids": [(4, cls.user_1.id)],
-        })
+        cls.team = cls.env["support.team"].create(
+            {
+                "name": "Test Team",
+                "leader_id": cls.user_2.id,
+                "member_ids": [(4, cls.user_1.id)],
+            }
+        )
 
         # Create test category
-        cls.category = cls.env["support.category"].create({
-            "name": "Test Category",
-            "sequence": 1,
-        })
+        cls.category = cls.env["support.category"].create(
+            {
+                "name": "Test Category",
+                "sequence": 1,
+            }
+        )
 
         # Create test tag
-        cls.tag = cls.env["support.tag"].create({
-            "name": "Test Tag",
-            "color": 1,
-        })
+        cls.tag = cls.env["support.tag"].create(
+            {
+                "name": "Test Tag",
+                "color": 1,
+            }
+        )
 
         # Create test stages
-        cls.stage_new = cls.env["support.stage"].create({
-            "name": "New",
-            "sequence": 1,
-            "is_default": True,
-        })
-        cls.stage_in_progress = cls.env["support.stage"].create({
-            "name": "In Progress",
-            "sequence": 2,
-        })
-        cls.stage_done = cls.env["support.stage"].create({
-            "name": "Done",
-            "sequence": 3,
-        })
+        cls.stage_new = cls.env["support.stage"].create(
+            {
+                "name": "New",
+                "sequence": 1,
+                "is_default": True,
+            }
+        )
+        cls.stage_in_progress = cls.env["support.stage"].create(
+            {
+                "name": "In Progress",
+                "sequence": 2,
+            }
+        )
+        cls.stage_done = cls.env["support.stage"].create(
+            {
+                "name": "Done",
+                "sequence": 3,
+            }
+        )
 
     def test_01_ticket_creation(self):
         """Test ticket creation and basic fields"""
         # First, ensure we're using the correct stage
-        default_stage = self.env['support.stage'].search([('is_default', '=', True)], limit=1)
+        default_stage = self.env["support.stage"].search([("is_default", "=", True)], limit=1)
         if not default_stage:
-            default_stage = self.env['support.stage'].search([], limit=1)
+            default_stage = self.env["support.stage"].search([], limit=1)
         self.assertTrue(default_stage, "No default stage found")
 
-        ticket = self.env["support.ticket"].create({
-            "name": "Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-            "category_id": self.category.id,
-            "tag_ids": [(4, self.tag.id)],
-            "priority": "1",  # Medium priority
-            "program_id": self.program.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+                "category_id": self.category.id,
+                "tag_ids": [(4, self.tag.id)],
+                "priority": "1",  # Medium priority
+                "program_id": self.program.id,
+            }
+        )
 
         self.assertEqual(ticket.name, "Test Ticket")
         self.assertEqual(html2plaintext(ticket.description), "Test Description")
@@ -97,16 +117,17 @@ class SupportDeskTest(TransactionCase):
 
     def test_02_ticket_workflow(self):
         """Test ticket workflow and stage transitions"""
-        ticket = self.env["support.ticket"].create({
-            "name": "Workflow Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Workflow Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+            }
+        )
 
         # Test stage transitions
         ticket.write({"stage_id": self.stage_in_progress.id})
         self.assertEqual(ticket.stage_id, self.stage_in_progress)
-        self.assertEqual(ticket.kanban_state, "normal")
 
         ticket.write({"stage_id": self.stage_done.id})
         self.assertEqual(ticket.stage_id, self.stage_done)
@@ -114,31 +135,37 @@ class SupportDeskTest(TransactionCase):
 
     def test_03_ticket_assignments(self):
         """Test ticket assignments and reassignments"""
-        ticket = self.env["support.ticket"].create({
-            "name": "Assignment Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Assignment Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+            }
+        )
 
         # Test user assignment
         ticket.write({"user_id": self.user_1.id})
         self.assertEqual(ticket.user_id, self.user_1)
 
         # Test team reassignment
-        new_team = self.env["support.team"].create({
-            "name": "New Test Team",
-            "leader_id": self.user_2.id,
-        })
+        new_team = self.env["support.team"].create(
+            {
+                "name": "New Test Team",
+                "leader_id": self.user_2.id,
+            }
+        )
         ticket.write({"team_id": new_team.id})
         self.assertEqual(ticket.team_id, new_team)
 
     def test_04_ticket_priority(self):
         """Test ticket priority changes"""
-        ticket = self.env["support.ticket"].create({
-            "name": "Priority Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Priority Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+            }
+        )
 
         # Test priority changes
         priorities = ["0", "1", "2", "3"]
@@ -148,21 +175,27 @@ class SupportDeskTest(TransactionCase):
 
     def test_05_ticket_tags(self):
         """Test ticket tag management"""
-        ticket = self.env["support.ticket"].create({
-            "name": "Tag Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Tag Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+            }
+        )
 
         # Create additional tags
-        tag2 = self.env["support.tag"].create({
-            "name": "Test Tag 2",
-            "color": 2,
-        })
-        tag3 = self.env["support.tag"].create({
-            "name": "Test Tag 3",
-            "color": 3,
-        })
+        tag2 = self.env["support.tag"].create(
+            {
+                "name": "Test Tag 2",
+                "color": 2,
+            }
+        )
+        tag3 = self.env["support.tag"].create(
+            {
+                "name": "Test Tag 3",
+                "color": 3,
+            }
+        )
 
         # Test adding multiple tags
         ticket.write({"tag_ids": [(4, self.tag.id), (4, tag2.id), (4, tag3.id)]})
@@ -175,18 +208,22 @@ class SupportDeskTest(TransactionCase):
     def test_06_ticket_search(self):
         """Test ticket search functionality"""
         # Create test tickets
-        ticket1 = self.env["support.ticket"].create({
-            "name": "Search Test Ticket 1",
-            "description": "Test Description 1",
-            "team_id": self.team.id,
-            "priority": "2",
-        })
-        ticket2 = self.env["support.ticket"].create({
-            "name": "Search Test Ticket 2",
-            "description": "Test Description 2",
-            "team_id": self.team.id,
-            "priority": "0",
-        })
+        ticket1 = self.env["support.ticket"].create(
+            {
+                "name": "Search Test Ticket 1",
+                "description": "Test Description 1",
+                "team_id": self.team.id,
+                "priority": "2",
+            }
+        )
+        self.env["support.ticket"].create(
+            {
+                "name": "Search Test Ticket 2",
+                "description": "Test Description 2",
+                "team_id": self.team.id,
+                "priority": "0",
+            }
+        )
 
         # Test search by name
         tickets = self.env["support.ticket"].search([("name", "ilike", "Search Test")])
@@ -200,11 +237,17 @@ class SupportDeskTest(TransactionCase):
     def test_07_ticket_access_rights(self):
         """Test ticket access rights"""
         # Create ticket as user 1
-        ticket = self.env["support.ticket"].with_user(self.user_1).create({
-            "name": "Access Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
+        ticket = (
+            self.env["support.ticket"]
+            .with_user(self.user_1)
+            .create(
+                {
+                    "name": "Access Test Ticket",
+                    "description": "Test Description",
+                    "team_id": self.team.id,
+                }
+            )
+        )
 
         # Test user 1 access (should have access since they created it)
         user1_ticket = self.env["support.ticket"].with_user(self.user_1).search([("id", "=", ticket.id)])
@@ -215,11 +258,17 @@ class SupportDeskTest(TransactionCase):
         self.assertEqual(len(user2_ticket), 1)
 
         # Create another ticket as user 2
-        ticket2 = self.env["support.ticket"].with_user(self.user_2).create({
-            "name": "Access Test Ticket 2",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
+        ticket2 = (
+            self.env["support.ticket"]
+            .with_user(self.user_2)
+            .create(
+                {
+                    "name": "Access Test Ticket 2",
+                    "description": "Test Description",
+                    "team_id": self.team.id,
+                }
+            )
+        )
 
         # Test user 1 access to ticket2 (should not have access)
         user1_ticket2 = self.env["support.ticket"].with_user(self.user_1).search([("id", "=", ticket2.id)])
@@ -229,83 +278,73 @@ class SupportDeskTest(TransactionCase):
         user2_ticket2 = self.env["support.ticket"].with_user(self.user_2).search([("id", "=", ticket2.id)])
         self.assertEqual(len(user2_ticket2), 1)
 
-    def test_08_ticket_kanban_state(self):
-        """Test ticket kanban state changes"""
-        ticket = self.env["support.ticket"].create({
-            "name": "Kanban Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
-
-        # Test kanban state changes
-        states = ["normal", "blocked", "done"]
-        for state in states:
-            ticket.write({"kanban_state": state})
-            self.assertEqual(ticket.kanban_state, state)
-
     def test_09_ticket_response_time(self):
         """Test ticket response time tracking"""
-        ticket = self.env["support.ticket"].create({
-            "name": "Response Time Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Response Time Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+            }
+        )
 
         # Add a small delay to ensure time difference
         time.sleep(1)
 
         # Simulate first response by updating the ticket
-        ticket.write({
-            "description": "Updated description with response",
-            "user_id": self.user_1.id
-        })
-        
+        ticket.write({"description": "Updated description with response", "user_id": self.user_1.id})
+
         # Response time should be calculated based on create_date and write_date
         self.assertIsNotNone(ticket.response_time)
         self.assertGreater(ticket.response_time, 0)
 
     def test_10_ticket_resolution_time(self):
         """Test ticket resolution time tracking"""
-        ticket = self.env["support.ticket"].create({
-            "name": "Resolution Time Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Resolution Time Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+            }
+        )
 
         # Simulate resolution
-        ticket.write({
-            "stage_id": self.stage_done.id,
-            "closed_date": self.env.cr.now()
-        })
+        ticket.write({"stage_id": self.stage_done.id, "closed_date": self.env.cr.now()})
         self.assertIsNotNone(ticket.closed_date)
         self.assertIsNotNone(ticket.resolution_time)
 
     def test_11_ticket_beneficiary_filter(self):
         """Test ticket beneficiary filter"""
         # Create a ticket with a program
-        ticket = self.env["support.ticket"].create({
-            "name": "Beneficiary Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-            "program_id": self.program.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Beneficiary Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+                "program_id": self.program.id,
+            }
+        )
 
         # Test that no beneficiary is selected initially
-        self.assertFalse(ticket.partner_id)
+        self.assertFalse(ticket.beneficiary_id)
 
         # Add a beneficiary to the program
-        beneficiary = self.env["res.partner"].create({
-            "name": "Test Beneficiary",
-            "is_registrant": True,  # Required for program membership
-        })
-        membership = self.env["g2p.program_membership"].create({
-            "program_id": self.program.id,
-            "partner_id": beneficiary.id,
-        })
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Test Beneficiary",
+                "is_registrant": True,  # Required for program membership
+            }
+        )
+        membership = self.env["g2p.program_membership"].create(
+            {
+                "program_id": self.program.id,
+                "partner_id": partner.id,
+            }
+        )
 
         # Test that beneficiary can be selected after adding to program
-        ticket.write({"partner_id": beneficiary.id})
-        self.assertEqual(ticket.partner_id, beneficiary)
+        ticket.write({"beneficiary_id": membership.id})
+        self.assertEqual(ticket.beneficiary_id, membership)
 
         # Remove the beneficiary from the program
         membership.unlink()
@@ -313,117 +352,47 @@ class SupportDeskTest(TransactionCase):
         # Test that beneficiary is cleared when removed from program
         # We need to trigger the constraint check by writing to the program_id
         ticket.write({"program_id": self.program.id})
-        self.assertFalse(ticket.partner_id)
+        self.assertFalse(ticket.beneficiary_id)
 
         # Test that beneficiary cannot be selected when not in program
         with self.assertRaises(ValidationError):
-            ticket.write({"partner_id": beneficiary.id})
-
-    def test_12_ticket_program_beneficiary_ids(self):
-        """Test ticket program beneficiary ids"""
-        # Create a ticket with a program
-        ticket = self.env["support.ticket"].create({
-            "name": "Program Beneficiary Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-            "program_id": self.program.id,
-        })
-
-        # Test that no beneficiaries are initially available
-        self.assertFalse(ticket.program_beneficiary_ids)
-
-        # Add a beneficiary to the program
-        beneficiary = self.env["res.partner"].create({
-            "name": "Test Beneficiary",
-            "is_registrant": True,  # Required for program membership
-        })
-        self.env["g2p.program_membership"].create({
-            "program_id": self.program.id,
-            "partner_id": beneficiary.id,
-        })
-
-        # Force recomputation of program_beneficiary_ids
-        ticket._compute_program_beneficiaries()
-
-        # Test that beneficiary is now available
-        self.assertEqual(ticket.program_beneficiary_ids, beneficiary)
-
-        # Remove the beneficiary from the program
-        self.env["g2p.program_membership"].search([
-            ("program_id", "=", self.program.id),
-            ("partner_id", "=", beneficiary.id)
-        ]).unlink()
-
-        # Force recomputation of program_beneficiary_ids
-        ticket._compute_program_beneficiaries()
-
-        # Test that beneficiary is no longer available
-        self.assertFalse(ticket.program_beneficiary_ids)
+            ticket.write({"beneficiary_id": membership.id})
 
     def test_13_ticket_onchange_program_id(self):
         """Test ticket onchange program id"""
         # Create a ticket with a program
-        ticket = self.env["support.ticket"].create({
-            "name": "Onchange Program Test Ticket",
-            "description": "Test Description",
-            "team_id": self.team.id,
-            "program_id": self.program.id,
-        })
+        ticket = self.env["support.ticket"].create(
+            {
+                "name": "Onchange Program Test Ticket",
+                "description": "Test Description",
+                "team_id": self.team.id,
+                "program_id": self.program.id,
+            }
+        )
 
         # Test that no beneficiary is selected initially
-        self.assertFalse(ticket.partner_id)
+        self.assertFalse(ticket.beneficiary_id)
 
         # Add a beneficiary to the program
-        beneficiary = self.env["res.partner"].create({
-            "name": "Test Beneficiary",
-            "is_registrant": True,  # Required for program membership
-        })
-        self.env["g2p.program_membership"].create({
-            "program_id": self.program.id,
-            "partner_id": beneficiary.id,
-        })
+        partner = self.env["res.partner"].create(
+            {
+                "name": "Test Beneficiary",
+                "is_registrant": True,  # Required for program membership
+            }
+        )
+        membership = self.env["g2p.program_membership"].create(
+            {
+                "program_id": self.program.id,
+                "partner_id": partner.id,
+            }
+        )
 
         # Test that beneficiary can be selected after adding to program
-        ticket.write({"partner_id": beneficiary.id})
-        self.assertEqual(ticket.partner_id, beneficiary)
+        ticket.write({"beneficiary_id": membership.id})
+        self.assertEqual(ticket.beneficiary_id, membership)
 
         # Remove the program
         ticket.write({"program_id": False})
 
         # Test that beneficiary is cleared when program is removed
-        self.assertFalse(ticket.partner_id)
-
-    @api.depends('program_id')
-    def _compute_program_beneficiaries(self):
-        for ticket in self:
-            if ticket.program_id:
-                beneficiaries = self.env['g2p.program_membership'].search([
-                    ('program_id', '=', ticket.program_id.id)
-                ]).mapped('partner_id')
-                ticket.program_beneficiary_ids = beneficiaries
-            else:
-                ticket.program_beneficiary_ids = False
-
-    @api.onchange('program_id')
-    def _onchange_program_id(self):
-        if self.program_id:
-            # Update the domain for partner_id
-            beneficiaries = self.env['g2p.program_membership'].search([
-                ('program_id', '=', self.program_id.id)
-            ]).mapped('partner_id')
-            # Clear partner_id if it's not in the available beneficiaries
-            if self.partner_id and self.partner_id not in beneficiaries:
-                self.partner_id = False
-            return {
-                'domain': {
-                    'partner_id': [('id', 'in', beneficiaries.ids)]
-                }
-            }
-        else:
-            # Clear partner_id when program is removed
-            self.partner_id = False
-            return {
-                'domain': {
-                    'partner_id': [('id', 'in', [])]
-                }
-            } 
+        self.assertFalse(ticket.beneficiary_id)

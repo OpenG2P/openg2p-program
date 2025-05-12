@@ -2,6 +2,7 @@
 name = "odoo-addons-openg2p-program"
 version = "0.0.0"
 dependencies = [
+    "odoo-addon-g2p_bridge_configuration @ {root:uri}/g2p_bridge_configuration",
     "odoo-addon-g2p_entitlement_differential @ {root:uri}/g2p_entitlement_differential",
     "odoo-addon-g2p_entitlement_in_kind @ {root:uri}/g2p_entitlement_in_kind",
     "odoo-addon-g2p_entitlement_voucher @ {root:uri}/g2p_entitlement_voucher",
@@ -31,6 +32,7 @@ dependencies = [
     "odoo-addon-g2p_proxy_means_test @ {root:uri}/g2p_proxy_means_test",
     "odoo-addon-g2p_reimbursement_portal @ {root:uri}/g2p_reimbursement_portal",
     "odoo-addon-g2p_social_registry_importer @ {root:uri}/g2p_social_registry_importer",
+    "odoo-addon-g2p_support_desk @ {root:uri}/g2p_support_desk",
     "odoo-addon-g2p_theme @ {root:uri}/g2p_theme",
 ]
 

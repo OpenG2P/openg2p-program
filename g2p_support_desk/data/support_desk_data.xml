@@ -1,78 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?>
-<odoo>
-    <data noupdate="1">
-        <!-- Sequences -->
-        <record id="seq_support_ticket" model="ir.sequence">
-            <field name="name">Support Ticket</field>
-            <field name="code">support.ticket</field>
-            <field name="prefix">TICK</field>
-            <field name="padding">5</field>
-            <field name="company_id" eval="False"/>
-        </record>
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Sequences -->
+    <record id="seq_support_ticket" model="ir.sequence">
+        <field name="name">Support Ticket</field>
+        <field name="code">support.ticket</field>
+        <field name="prefix">TICK</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False" />
+    </record>
 
-        <!-- Default Stages -->
-        <record id="stage_new" model="support.stage">
-            <field name="name">New</field>
-            <field name="sequence">10</field>
-            <field name="is_default">True</field>
-        </record>
+    <!-- Default Stages -->
+    <record id="stage_new" model="support.stage">
+        <field name="name">New</field>
+        <field name="sequence">10</field>
+        <field name="is_default">True</field>
+    </record>
 
-        <record id="stage_in_progress" model="support.stage">
-            <field name="name">In Progress</field>
-            <field name="sequence">20</field>
-        </record>
+    <record id="stage_in_progress" model="support.stage">
+        <field name="name">In Progress</field>
+        <field name="sequence">20</field>
+    </record>
 
-        <record id="stage_waiting" model="support.stage">
-            <field name="name">Waiting</field>
-            <field name="sequence">30</field>
-            <field name="fold">True</field>
-        </record>
+    <record id="stage_waiting" model="support.stage">
+        <field name="name">Waiting</field>
+        <field name="sequence">30</field>
+        <field name="fold">True</field>
+    </record>
 
-        <record id="stage_done" model="support.stage">
-            <field name="name">Done</field>
-            <field name="sequence">40</field>
-            <field name="fold">True</field>
-            <field name="done">True</field>
-        </record>
+    <record id="stage_done" model="support.stage">
+        <field name="name">Done</field>
+        <field name="sequence">40</field>
+        <field name="fold">True</field>
+        <field name="done">True</field>
+    </record>
 
-        <record id="stage_cancelled" model="support.stage">
-            <field name="name">Cancelled</field>
-            <field name="sequence">50</field>
-            <field name="fold">True</field>
-            <field name="done">True</field>
-        </record>
+    <record id="stage_cancelled" model="support.stage">
+        <field name="name">Cancelled</field>
+        <field name="sequence">50</field>
+        <field name="fold">True</field>
+        <field name="done">True</field>
+    </record>
 
-        <!-- Default Categories -->
-        <record id="category_technical" model="support.category">
-            <field name="name">Technical</field>
-            <field name="sequence">10</field>
-        </record>
+    <!-- Default Categories -->
+    <record id="category_technical" model="support.category">
+        <field name="name">Technical</field>
+        <field name="sequence">10</field>
+    </record>
 
-        <record id="category_functional" model="support.category">
-            <field name="name">Functional</field>
-            <field name="sequence">20</field>
-        </record>
+    <record id="category_functional" model="support.category">
+        <field name="name">Functional</field>
+        <field name="sequence">20</field>
+    </record>
 
-        <!-- Default Tags -->
-        <record id="tag_bug" model="support.tag">
-            <field name="name">Bug</field>
-            <field name="color">1</field>
-        </record>
+    <!-- Default Tags -->
+    <record id="tag_bug" model="support.tag">
+        <field name="name">Bug</field>
+        <field name="color">1</field>
+    </record>
 
-        <record id="tag_enhancement" model="support.tag">
-            <field name="name">Enhancement</field>
-            <field name="color">2</field>
-        </record>
+    <record id="tag_enhancement" model="support.tag">
+        <field name="name">Enhancement</field>
+        <field name="color">2</field>
+    </record>
 
-        <record id="tag_urgent" model="support.tag">
-            <field name="name">Urgent</field>
-            <field name="color">3</field>
-        </record>
+    <record id="tag_urgent" model="support.tag">
+        <field name="name">Urgent</field>
+        <field name="color">3</field>
+    </record>
 
-        <!-- Default Team -->
-        <record id="team_support" model="support.team">
-            <field name="name">Support Team</field>
-            <field name="leader_id" ref="base.user_admin"/>
-        </record>
-    </data>
+    <!-- Default Team -->
+    <record id="team_support" model="support.team">
+        <field name="name">Support Team</field>
+        <field name="leader_id" ref="base.user_admin" />
+    </record>
 </odoo>

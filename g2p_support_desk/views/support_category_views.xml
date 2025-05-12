@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Category Form View -->
     <record id="view_support_category_form" model="ir.ui.view">
@@ -9,25 +9,25 @@
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
-                            <field name="active" widget="boolean_button"/>
+                            <field name="active" widget="boolean_button" />
                         </button>
                     </div>
                     <group>
                         <group>
-                            <field name="name"/>
-                            <field name="sequence"/>
-                            <field name="parent_id"/>
+                            <field name="name" />
+                            <field name="sequence" />
+                            <field name="parent_id" />
                         </group>
                         <group>
-                            <field name="ticket_count"/>
+                            <field name="ticket_count" />
                         </group>
                     </group>
                     <notebook>
                         <page string="Description" name="description">
-                            <field name="description"/>
+                            <field name="description" />
                         </page>
                         <page string="Child Categories" name="child_categories">
-                            <field name="child_ids"/>
+                            <field name="child_ids" />
                         </page>
                     </notebook>
                 </sheet>
@@ -41,10 +41,10 @@
         <field name="model">support.category</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="parent_id"/>
-                <field name="ticket_count"/>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="parent_id" />
+                <field name="ticket_count" />
             </tree>
         </field>
     </record>

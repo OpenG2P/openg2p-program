@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <!-- Stage Form View -->
     <record id="view_support_stage_form" model="ir.ui.view">
@@ -9,19 +9,19 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="name"/>
-                            <field name="sequence"/>
-                            <field name="is_default"/>
-                            <field name="fold"/>
-                            <field name="done"/>
+                            <field name="name" />
+                            <field name="sequence" />
+                            <field name="is_default" />
+                            <field name="fold" />
+                            <field name="done" />
                         </group>
                         <group>
-                            <field name="team_ids" widget="many2many_tags"/>
-                            <field name="template_id"/>
+                            <field name="team_ids" widget="many2many_tags" />
+                            <field name="template_id" />
                         </group>
                     </group>
                     <group string="Description">
-                        <field name="description" nolabel="1"/>
+                        <field name="description" nolabel="1" />
                     </group>
                 </sheet>
             </form>
@@ -34,10 +34,10 @@
         <field name="model">support.stage</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="sequence" widget="handle"/>
-                <field name="name"/>
-                <field name="fold"/>
-                <field name="done"/>
+                <field name="sequence" widget="handle" />
+                <field name="name" />
+                <field name="fold" />
+                <field name="done" />
             </tree>
         </field>
     </record>
