@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Team Form View -->
+    <record id="view_support_team_form" model="ir.ui.view">
+        <field name="name">support.team.form</field>
+        <field name="model">support.team</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" />
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Team Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="leader_id" />
+                            <field name="member_ids" widget="many2many_tags" />
+                        </group>
+                        <group>
+                            <field name="ticket_count" />
+                            <field name="color" widget="color_picker" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Add a description..." />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Team Tree View -->
+    <record id="view_support_team_tree" model="ir.ui.view">
+        <field name="name">support.team.tree</field>
+        <field name="model">support.team</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="leader_id" />
+                <field name="ticket_count" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Team Search View -->
+    <record id="view_support_team_search" model="ir.ui.view">
+        <field name="name">support.team.search</field>
+        <field name="model">support.team</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="leader_id" />
+                <field name="member_ids" />
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]" />
+            </search>
+        </field>
+    </record>
+
+    <!-- Team Action Window -->
+    <record id="action_support_team" model="ir.actions.act_window">
+        <field name="name">Support Teams</field>
+        <field name="res_model">support.team</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first support team!
+            </p>
+        </field>
+    </record>
+</odoo>

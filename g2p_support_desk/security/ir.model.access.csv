@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_support_ticket_user,support.ticket.user,model_support_ticket,group_support_desk_user,1,1,1,0
+access_support_ticket_manager,support.ticket.manager,model_support_ticket,group_support_desk_manager,1,1,1,1
+access_support_team_user,support.team.user,model_support_team,group_support_desk_user,1,0,0,0
+access_support_team_manager,support.team.manager,model_support_team,group_support_desk_manager,1,1,1,1
+access_support_category_user,support.category.user,model_support_category,group_support_desk_user,1,0,0,0
+access_support_category_manager,support.category.manager,model_support_category,group_support_desk_manager,1,1,1,1
+access_support_tag_user,support.tag.user,model_support_tag,group_support_desk_user,1,0,0,0
+access_support_tag_manager,support.tag.manager,model_support_tag,group_support_desk_manager,1,1,1,1
+access_support_stage_user,support.stage.user,model_support_stage,group_support_desk_user,1,0,0,0
+access_support_stage_manager,support.stage.manager,model_support_stage,group_support_desk_manager,1,1,1,1
+access_g2p_program_user,g2p.program.user,g2p_programs.model_g2p_program,group_support_desk_user,1,0,0,0
+access_g2p_program_manager,g2p.program.manager,g2p_programs.model_g2p_program,group_support_desk_manager,1,1,1,1
