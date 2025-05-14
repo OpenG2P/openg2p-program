@@ -212,6 +212,7 @@ class SupportDeskTest(TransactionCase):
     def test_06_ticket_search(self):
         """Test ticket search functionality"""
         # Create test tickets
+        self.env["support.ticket"].search([]).unlink()
         ticket1 = self.env["support.ticket"].create(
             {
                 "name": "Search Test Ticket 1",
