@@ -61,9 +61,11 @@
                                 widget="many2many_tags"
                                 options="{'color_field': 'color'}"
                             />
+                            <field name="stage_id" />
                         </group>
                         <group>
                             <field name="closed_date" />
+                            <field name="category_id" />
                         </group>
                     </group>
                     <notebook>
@@ -109,39 +111,60 @@
                 <field name="stage_id" />
                 <field name="color" />
                 <field name="priority" />
+                <field name="name" />
+                <field name="number" />
+                <field name="user_id" />
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_card oe_kanban_global_click">
-                            <div class="o_dropdown_kanban dropdown">
-                                <a
-                                    class="dropdown-toggle o-no-caret btn"
-                                    role="button"
-                                    data-toggle="dropdown"
-                                    href="#"
-                                    aria-label="Dropdown menu"
-                                    title="Dropdown menu"
-                                >
-                                    <span class="fa fa-ellipsis-v" />
-                                </a>
-                                <div class="dropdown-menu" role="menu">
-                                    <t t-if="widget.editable"><a
-                                            type="edit"
-                                            class="dropdown-item"
-                                        >Edit</a></t>
-                                    <t t-if="widget.deletable"><a
-                                            type="delete"
-                                            class="dropdown-item"
-                                        >Delete</a></t>
-                                    <ul class="oe_kanban_colorpicker" data-field="color" />
-                                </div>
-                            </div>
                             <div class="oe_kanban_content">
-                                <div class="o_kanban_record_top">
-                                    <div class="o_kanban_record_headings">
-                                        <strong class="o_kanban_record_title">
-                                            <field name="name" />
+                                <div class="o_kanban_record_top" style="justify-content: space-between;">
+                                    <div>
+                                        <strong>
+                                            <field name="number" />
                                         </strong>
                                     </div>
+                                    <div class="o_dropdown_kanban dropdown">
+                                        <a
+                                            class="dropdown-toggle o-no-caret btn"
+                                            role="button"
+                                            style="visibility: visible !important; opacity: 1 !important;"
+                                            data-bs-toggle="dropdown"
+                                            href="#"
+                                            aria-label="Dropdown menu"
+                                            title="Dropdown menu"
+                                        >
+                                            <span class="fa fa-ellipsis-v" />
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end" role="menu">
+                                            <t t-if="widget.editable">
+                                                <a
+                                                    role="menuitem"
+                                                    type="edit"
+                                                    class="dropdown-item fw-semibold"
+                                                    style="color: #4e31de;"
+                                                >
+                                                    <i class="fa fa-pencil-alt me-1" /> Edit
+                                                </a>
+                                            </t>
+                                            <t t-if="widget.deletable">
+                                                <a
+                                                    role="menuitem"
+                                                    type="delete"
+                                                    class="dropdown-item fw-semibold"
+                                                    style="color: #a10000;"
+                                                >
+                                                    <i class="fa fa-trash-alt me-1" /> Delete
+                                                </a>
+                                            </t>
+                                            <ul class="oe_kanban_colorpicker" data-field="color" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_title">
+                                    <strong>
+                                        <field name="name" />
+                                    </strong>
                                 </div>
                                 <div class="o_kanban_record_bottom">
                                     <div class="oe_kanban_bottom_left">

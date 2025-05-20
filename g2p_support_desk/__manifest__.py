@@ -26,6 +26,11 @@
         "views/menu_views.xml",
         "data/support_desk_data.xml",
     ],
+    "assets": {
+        "web.assets_backend": [
+            "/g2p_support_desk/static/src/css/style.css",
+        ],
+    },
     "demo": [
         "demo/helpdesk_demo.xml",
     ],

@@ -12,7 +12,7 @@ class SupportTicket(models.Model):
     _order = "priority desc, id desc"
 
     name = fields.Char(string="Subject", required=True, tracking=True)
-    number = fields.Char(string="Ticket Number")
+    number = fields.Char(string="Ticket Number", default="New")
     description = fields.Html()
     team_id = fields.Many2one(
         "support.team",
@@ -67,11 +67,10 @@ class SupportTicket(models.Model):
         self.user_id = self.env.user.id
 
     @api.model
-    def default_get(self, fields_list):
-        res = super().default_get(fields_list)
-        if "number" in fields_list and "number" not in res:
-            res["number"] = self.env["ir.sequence"].next_by_code("support.ticket") or "New"
-        return res
+    def create(self, vals):
+        if vals.get("number", "New") == "New":
+            vals["number"] = self.env["ir.sequence"].next_by_code("support.ticket") or "New"
+        return super().create(vals)
 
     # @api.onchange('partner_id')
     # def _onchange_partner_id(self):

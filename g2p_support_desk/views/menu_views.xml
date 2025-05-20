@@ -11,21 +11,21 @@
     <!-- Tickets Menu -->
     <menuitem id="menu_support_desk_ticket" name="Tickets" parent="menu_support_desk_root" sequence="1" />
 
-    <!-- Create Ticket Menu -->
-    <menuitem
-        id="menu_support_desk_ticket_new"
-        name="Create Ticket"
-        parent="menu_support_desk_ticket"
-        action="action_create_ticket"
-        sequence="1"
-    />
-
     <!-- All Tickets Menu -->
     <menuitem
         id="menu_support_desk_ticket_tickets"
         name="All Tickets"
         parent="menu_support_desk_ticket"
         action="action_support_ticket"
+        sequence="1"
+    />
+
+    <!-- Create Ticket Menu -->
+    <menuitem
+        id="menu_support_desk_ticket_new"
+        name="Create Ticket"
+        parent="menu_support_desk_ticket"
+        action="action_create_ticket"
         sequence="2"
     />
 
