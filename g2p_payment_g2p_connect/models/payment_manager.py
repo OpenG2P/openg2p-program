@@ -257,7 +257,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "message_id": "string",
                     "message_ts": "string",
                     "action": "string",
-                    "sender_id": self.sender_id,
+                    "sender_id": payment_manager.sender_id,
                     "sender_uri": "",
                     "receiver_id": "",
                     "total_count": 0,
