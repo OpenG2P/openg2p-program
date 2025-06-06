@@ -60,6 +60,7 @@ class SupportTicket(models.Model):
     # response_time = fields.Float(
     #     string="Response Time (Hours)", readonly=True, compute="_compute_response_time", store=True
     # )
+    resolution_message = fields.Html()
     resolution_time = fields.Float(string="Resolution Time (Hours)")
 
     def action_assign_to_me(self):
