@@ -64,6 +64,11 @@ msgid "Add a description..."
 msgstr ""
 
 #. module: g2p_support_desk
+#: model_terms:ir.ui.view,arch_db:g2p_support_desk.view_support_ticket_form
+msgid "Add a resolution..."
+msgstr ""
+
+#. module: g2p_support_desk
 #: model:ir.ui.menu,name:g2p_support_desk.menu_support_desk_ticket_tickets
 msgid "All Tickets"
 msgstr ""
@@ -452,6 +457,16 @@ msgstr ""
 #. module: g2p_support_desk
 #: model:ir.model.fields,field_description:g2p_support_desk.field_support_stage__done
 msgid "Request Done"
+msgstr ""
+
+#. module: g2p_support_desk
+#: model_terms:ir.ui.view,arch_db:g2p_support_desk.view_support_ticket_form
+msgid "Resolution"
+msgstr ""
+
+#. module: g2p_support_desk
+#: model:ir.model.fields,field_description:g2p_support_desk.field_support_ticket__resolution_message
+msgid "Resolution Message"
 msgstr ""
 
 #. module: g2p_support_desk
