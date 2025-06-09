@@ -72,6 +72,12 @@
                         <page string="Description" name="description">
                             <field name="description" placeholder="Add a description..." />
                         </page>
+                        <page string="Resolution" name="resolution">
+                            <group>
+                                <field name="resolution_message" placeholder="Add a resolution..." />
+                                <field name="resolution_time" />
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">

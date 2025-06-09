@@ -54,7 +54,6 @@ msgstr ""
 
 #. module: g2p_theme
 #: model_terms:ir.ui.view,arch_db:g2p_theme.g2p_reset_password
-#: model_terms:ir.ui.view,arch_db:g2p_theme.login
 msgid "Logo"
 msgstr ""
 
@@ -79,4 +78,9 @@ msgstr ""
 #. module: g2p_theme
 #: model_terms:ir.ui.view,arch_db:g2p_theme.g2p_reset_password
 msgid "Your Email / Username"
+msgstr ""
+
+#. module: g2p_theme
+#: model_terms:ir.ui.view,arch_db:g2p_theme.login
+msgid "organization Logo"
 msgstr ""

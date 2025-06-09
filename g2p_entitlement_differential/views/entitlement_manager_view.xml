@@ -24,8 +24,21 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
             >
                 <field name="name" />
             </xpath>
+            <xpath expr="//field[@name='entitlement_item_ids']/tree/field[@name='amount']" position="replace">
+                <field name="amount_type" />
+                <field name="amount_field" invisible="amount_type == 'constant'" />
+                <field name="amount" invisible="amount_type == 'dynamic_field'" />
+            </xpath>
             <xpath expr="//field[@name='entitlement_item_ids']/form/group/field" position="before">
                 <field name="name" />
+            </xpath>
+            <xpath
+                expr="//field[@name='entitlement_item_ids']/form/group/field[@name='amount']"
+                position="replace"
+            >
+                <field name="amount_type" />
+                <field name="amount_field" invisible="amount_type == 'constant'" />
+                <field name="amount" invisible="amount_type == 'dynamic_field'" />
             </xpath>
         </field>
     </record>
