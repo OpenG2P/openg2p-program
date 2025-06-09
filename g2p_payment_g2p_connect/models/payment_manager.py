@@ -1,4 +1,5 @@
 # Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+import json
 import logging
 import os
 from datetime import datetime, timedelta
@@ -87,6 +88,12 @@ class G2PPaymentManagerG2PConnect(models.Model):
     send_payments_domain = fields.Text("Filter Batches to Send", default="[]")
     sender_id = fields.Char("Sender ID", default=DEFAULT_SENDER_ID, required=False)
 
+    def create_jwt_token(self, payload: str):
+        self.ensure_one()
+        enc_provider = self.get_encryption_provider()
+        token = enc_provider.jwt_sign(payload, include_payload=False)
+        return token
+
     @api.onchange("payee_id_type")
     def _onchange_payee_id_type(self):
         prefix_mapping = {
@@ -172,11 +179,14 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 )
             try:
                 _logger.info("G2P Bridge Disbursement Batch Data: %s", batch_data)
-
+                token = self.create_jwt_token(json.dumps(batch_data, separators=(",", ":")))
+                headers = {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Signature": token,
+                }
                 response = requests.post(
-                    self.payment_endpoint_url,
-                    json=batch_data,
-                    timeout=self.api_timeout,
+                    self.payment_endpoint_url, json=batch_data, timeout=self.api_timeout, headers=headers
                 )
                 _logger.info("G2P Bridge Disbursement response: %s", response.content)
                 response.raise_for_status()
@@ -242,7 +252,6 @@ class G2PPaymentManagerG2PConnect(models.Model):
             _logger.info(f"Payment for Status Check: {len(payments)}")
 
             status_data = {
-                "signature": "string",
                 "header": {
                     "version": "1.0.0",
                     "message_id": "string",
@@ -259,11 +268,17 @@ class G2PPaymentManagerG2PConnect(models.Model):
             }
             try:
                 _logger.info("G2P Connect Disbursement Status Data: %s", status_data)
-
+                token = payment_manager.create_jwt_token(json.dumps(status_data, separators=(",", ":")))
+                headers = {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Signature": token,
+                }
                 res = requests.post(
                     payment_manager.status_endpoint_url,
                     json=status_data,
                     timeout=payment_manager.api_timeout,
+                    headers=headers,
                 )
                 _logger.info("G2P Connect Disbursement Status response: %s", res.content)
                 res.raise_for_status()
@@ -353,7 +368,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 "version": "1.0.0",
                 "message_id": "string",
                 "message_ts": "string",
-                "action": "string",
+                "action": "create_disbursement_envelope",
                 "sender_id": self.sender_id,
                 "sender_uri": "",
                 "receiver_id": "",
@@ -373,10 +388,17 @@ class G2PPaymentManagerG2PConnect(models.Model):
             },
         }
         try:
+            token = self.create_jwt_token(json.dumps(envelope_request_data, separators=(",", ":")))
+            headers = {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Signature": token,
+            }
             response = requests.post(
                 self.envelope_creation_url,
                 json=envelope_request_data,
                 timeout=10,
+                headers=headers,
             )
             # Store the id from respose to the model
             disbursement_envelope_id = response.json().get("message").get("disbursement_envelope_id")

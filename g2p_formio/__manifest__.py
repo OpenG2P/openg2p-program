@@ -2,7 +2,7 @@
 {
     "name": "OpenG2P Formio",
     "category": "G2P",
-    "version": "17.0.1.3.0",
+    "version": "17.0.0.0.0",
     "sequence": 1,
     "summary": "Form builders allow you to create, manage, and use dynamic forms with ease.",
     "author": "OpenG2P",
