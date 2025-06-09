@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    Part of OpenG2P. See LICENSE file for full copyright and licensing details.
+-->
+<odoo>
+    <record id="view_individual_form_pbms_student_model" model="ir.ui.view">
+        <field name="name">view_individual_form_pbms_student_model</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="g2p_registry_individual.view_individuals_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='basic_info']" position="after">
+                <page string="Student Info" name="student_info">
+                    <group>
+                        <field name="institution_name" />
+                        <field name="year_of_study" />
+                        <field name="course_name" />
+                        <field name="qualification_type" />
+                        <field name="duration_of_course" />
+                        <field name="previous_nsfas_beneficiary" string="Previous NSFAS Beneficiary?" />
+                        <!-- <field name="type_of_disability" /> -->
+                    </group>
+
+                    <group string="Parent/Guardian Information">
+                        <field name="guardian_name" string="Parent/Guardian Name" />
+                        <field name="guardian_id" string="Parent/Guardian ID" />
+                        <field name="household_income" string="Income" />
+                        <field name="guardian_employment_status" string="Employment Status" />
+                        <field name="number_of_dependents" string="Number of dependents" />
+                        <field name="accommodation_type" string="Type of Accommodation" />
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
