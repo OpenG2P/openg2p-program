@@ -39,8 +39,8 @@ addon | version | maintainers | summary
 [g2p_payment_interop_layer](g2p_payment_interop_layer/) | 17.0.1.3.0 |  | OpenG2P Program Payment (Payment Interoperability Layer)
 [g2p_payment_phee](g2p_payment_phee/) | 17.0.1.3.0 |  | OpenG2P Program Payment (Payment Hub EE)
 [g2p_payment_simple_mpesa](g2p_payment_simple_mpesa/) | 17.0.1.3.0 |  | OpenG2P Program Payment: Simple Mpesa Payment Manager
-[g2p_pbms_socio_economic_model](g2p_pbms_socio_economic_model/) | 17.0.1.3.0 |  | G2P PBMS Socio-Economic Model
-[g2p_pbms_student_model](g2p_pbms_student_model/) | 17.0.1.3.0 |  | G2P PBMS Student Model
+[g2p_pbms_socio_economic_model](g2p_pbms_socio_economic_model/) | 17.0.0.0.0 |  | G2P PBMS Socio-Economic Model
+[g2p_pbms_student_model](g2p_pbms_student_model/) | 17.0.0.0.0 |  | G2P PBMS Student Model
 [g2p_program_approval](g2p_program_approval/) | 17.0.1.3.0 |  | OpenG2P Program: Approval
 [g2p_program_assessment](g2p_program_assessment/) | 17.0.1.3.0 |  | OpenG2P Program: Assessment
 [g2p_program_autoenrol](g2p_program_autoenrol/) | 17.0.1.3.0 |  | OpenG2P Programs: Autoenrol
