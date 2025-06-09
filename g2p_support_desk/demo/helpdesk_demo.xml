@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo noupdate="1">
+    <!-- Demo Support Team -->
+    <record id="demo_support_team_1" model="support.team">
+        <field name="name">Technical Support</field>
+        <field name="description">Handle technical issues and bug reports</field>
+    </record>
+
+    <record id="demo_support_team_2" model="support.team">
+        <field name="name">Beneficiary Service</field>
+        <field name="description">Handle general inquiries and beneficiary support</field>
+    </record>
+
+    <!-- Demo Categories -->
+    <record id="demo_category_bug" model="support.category">
+        <field name="name">Bug Report</field>
+        <field name="description">Software bugs and technical issues</field>
+        <field name="sequence">1</field>
+    </record>
+
+    <record id="demo_category_feature" model="support.category">
+        <field name="name">Feature Request</field>
+        <field name="description">New feature suggestions and improvements</field>
+        <field name="sequence">2</field>
+    </record>
+
+    <!-- Demo Tags -->
+    <record id="demo_tag_critical" model="support.tag">
+        <field name="name">Critical</field>
+        <field name="color">1</field>
+    </record>
+
+    <record id="demo_tag_improvement" model="support.tag">
+        <field name="name">Improvement</field>
+        <field name="color">4</field>
+    </record>
+
+    <!-- Demo Tickets -->
+    <record id="demo_ticket_1" model="support.ticket">
+        <field name="name">Login Issue</field>
+        <field name="description">Unable to login to the system</field>
+        <field name="stage_id" ref="stage_new" />
+        <field name="team_id" ref="demo_support_team_1" />
+        <field name="category_id" ref="demo_category_bug" />
+        <field name="priority">2</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('demo_tag_critical')])]" />
+    </record>
+
+    <record id="demo_ticket_2" model="support.ticket">
+        <field name="name">New Dashboard Feature</field>
+        <field name="description">Request for customizable dashboard widgets</field>
+        <field name="stage_id" ref="stage_new" />
+        <field name="team_id" ref="demo_support_team_2" />
+        <field name="category_id" ref="demo_category_feature" />
+        <field name="priority">1</field>
+        <field name="tag_ids" eval="[(6, 0, [ref('demo_tag_improvement')])]" />
+    </record>
+</odoo>

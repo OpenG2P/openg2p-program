@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem
+        id="menu_support_desk_root"
+        name="Support"
+        web_icon="support_desk,static/description/icon.png"
+        sequence="50"
+    />
+
+    <!-- Tickets Menu -->
+    <menuitem id="menu_support_desk_ticket" name="Tickets" parent="menu_support_desk_root" sequence="1" />
+
+    <!-- All Tickets Menu -->
+    <menuitem
+        id="menu_support_desk_ticket_tickets"
+        name="All Tickets"
+        parent="menu_support_desk_ticket"
+        action="action_support_ticket"
+        sequence="1"
+    />
+
+    <!-- Create Ticket Menu -->
+    <menuitem
+        id="menu_support_desk_ticket_new"
+        name="Create Ticket"
+        parent="menu_support_desk_ticket"
+        action="action_create_ticket"
+        sequence="2"
+    />
+
+    <!-- Configuration Menu -->
+    <menuitem
+        id="menu_support_desk_config"
+        name="Configuration"
+        parent="menu_support_desk_root"
+        sequence="100"
+        groups="group_support_desk_manager"
+    />
+
+    <menuitem
+        id="menu_support_desk_team"
+        name="Teams"
+        parent="menu_support_desk_config"
+        action="action_support_team"
+        sequence="1"
+    />
+
+    <menuitem
+        id="menu_support_desk_stage"
+        name="Stages"
+        parent="menu_support_desk_config"
+        action="action_support_stage"
+        sequence="2"
+    />
+
+    <menuitem
+        id="menu_support_desk_category"
+        name="Categories"
+        parent="menu_support_desk_config"
+        action="action_support_category"
+        sequence="3"
+    />
+
+    <menuitem
+        id="menu_support_desk_tag"
+        name="Tags"
+        parent="menu_support_desk_config"
+        action="action_support_tag"
+        sequence="4"
+    />
+</odoo>
