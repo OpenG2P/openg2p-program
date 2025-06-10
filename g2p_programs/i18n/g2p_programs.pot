@@ -1457,6 +1457,11 @@ msgid "Created on"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__creator_eid
+msgid "Creator's EID"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__credit_limit
 msgid "Credit Limit"
 msgstr ""
@@ -1649,6 +1654,11 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "DUPLICATE"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__data_collection_date
+msgid "Data Collection Date"
 msgstr ""
 
 #. module: g2p_programs
@@ -2032,6 +2042,11 @@ msgid "Duplicated Bank Account Partners Count"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__eid
+msgid "EID"
+msgstr ""
+
+#. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_cycle_membership_form
 #: model_terms:ir.ui.view,arch_db:g2p_programs.view_program_membership_form
 msgid "ENROLLED"
@@ -2327,6 +2342,16 @@ msgstr ""
 #: code:addons/g2p_programs/models/managers/entitlement_manager.py:0
 #, python-format
 msgid "Entitlements Validated and Approved."
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__enumerator_id
+msgid "Enumerator"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__enumerator_user_id
+msgid "Enumerator User"
 msgstr ""
 
 #. module: g2p_programs
