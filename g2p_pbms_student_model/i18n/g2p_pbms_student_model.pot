@@ -1,0 +1,298 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* g2p_pbms_student_model
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 17.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__year_of_study__1
+msgid "1st Year"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__year_of_study__2
+msgid "2nd Year"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__year_of_study__3
+msgid "3rd Year"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__year_of_study__4
+msgid "4th Year"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__household_income__above_350000
+msgid "Above R350,000"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__accommodation_type
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__accommodation_type
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__accommodation_type
+msgid "Accommodation Type"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__household_income__below_122000
+msgid "Below R122,000"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__bt
+msgid "Biotechnology"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__qualification_type__cerficiate
+msgid "Certificate"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__ce
+msgid "Civil Engineering"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__cs
+msgid "Computer Science"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model,name:g2p_pbms_student_model.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__course_name
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__course_name
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__course_name
+msgid "Course Name"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__qualification_type__degree
+msgid "Degree"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__qualification_type__diploma
+msgid "Diploma"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__duration_of_course
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__duration_of_course
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__duration_of_course
+msgid "Duration Of Course"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__institution_name__dce
+msgid "Durban College of Engineering"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__ec
+msgid "Electrical Engineering"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__guardian_employment_status__employed
+msgid "Employed"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Employment Status"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__es
+msgid "Environmental Science"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__fa
+msgid "Financial Accounting"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__guardian_id
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__guardian_id
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__guardian_id
+msgid "Guardian"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__guardian_employment_status
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__guardian_employment_status
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__guardian_employment_status
+msgid "Guardian Employment Status"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__guardian_name
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__guardian_name
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__guardian_name
+msgid "Guardian Name"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__household_income
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__household_income
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__household_income
+msgid "Household Income"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Income"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__accommodation_type__informal
+msgid "Informal Settlement"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__institution_name
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__institution_name
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__institution_name
+msgid "Institution Name"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__mm
+msgid "Marketing Management"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__me
+msgid "Mechanical Engineering"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__previous_nsfas_beneficiary__no
+msgid "No"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__number_of_dependents
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__number_of_dependents
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__number_of_dependents
+msgid "Number Of Dependents"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Number of dependents"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__accommodation_type__owned
+msgid "Owned"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Parent/Guardian ID"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Parent/Guardian Information"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Parent/Guardian Name"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__pse
+msgid "Polymer Science"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Previous NSFAS Beneficiary?"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__previous_nsfas_beneficiary
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__previous_nsfas_beneficiary
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__previous_nsfas_beneficiary
+msgid "Previous Nsfas Beneficiary"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__qualification_type
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__qualification_type
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__qualification_type
+msgid "Qualification Type"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__household_income__122000_to_350000
+msgid "R122,000 - R350,000"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__accommodation_type__rented
+msgid "Rented"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__institution_name__sit
+msgid "Stellenbosch Institute of Technology"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Student Info"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__course_name__scl
+msgid "Supply Chain & Logistics"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model_terms:ir.ui.view,arch_db:g2p_pbms_student_model.view_individual_form_pbms_student_model
+msgid "Type of Accommodation"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__guardian_employment_status__unemployed
+msgid "Unemployed"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__institution_name__uct
+msgid "University of Cape Town"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_g2p_program_membership__year_of_study
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_partner__year_of_study
+#: model:ir.model.fields,field_description:g2p_pbms_student_model.field_res_users__year_of_study
+msgid "Year Of Study"
+msgstr ""
+
+#. module: g2p_pbms_student_model
+#: model:ir.model.fields.selection,name:g2p_pbms_student_model.selection__res_partner__previous_nsfas_beneficiary__yes
+msgid "Yes"
+msgstr ""
