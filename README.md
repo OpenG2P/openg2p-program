@@ -45,6 +45,7 @@ addon | version | maintainers | summary
 [g2p_program_assessment](g2p_program_assessment/) | 17.0.0.0.0 |  | OpenG2P Program: Assessment
 [g2p_program_autoenrol](g2p_program_autoenrol/) | 17.0.0.0.0 |  | OpenG2P Programs: Autoenrol
 [g2p_program_cycleless](g2p_program_cycleless/) | 17.0.0.0.0 |  | OpenG2P Programs: Cycleless
+[g2p_program_datashare_rabbitmq](g2p_program_datashare_rabbitmq/) | 17.0.0.0.0 |  | G2P Program Datashare: RabbitMQ
 [g2p_program_documents](g2p_program_documents/) | 17.0.0.0.0 |  | OpenG2P Program: Documents
 [g2p_program_registrant_info](g2p_program_registrant_info/) | 17.0.0.0.0 |  | G2P Program: Registrant Info
 [g2p_program_reimbursement](g2p_program_reimbursement/) | 17.0.0.0.0 |  | OpenG2P Programs: Reimbursement
