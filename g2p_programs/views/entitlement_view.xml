@@ -49,7 +49,7 @@ Part of OpenG2P. See LICENSE file for full copyright and licensing details.
                     />
                     <button
                         type="object"
-                        class="btn btn-dark"
+                        class="btn btn-dark disabled"
                         icon="fa-thumbs-o-up"
                         title="Approve entitlement"
                         name="approve_entitlement"
