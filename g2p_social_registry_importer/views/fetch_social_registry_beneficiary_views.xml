@@ -109,7 +109,8 @@
                         <field name="import_registrant_without_id" />
                         <field name="target_registry" />
                         <field name="target_program" />
-                        <field name="query" />
+                        <field name="query_params" />
+                        <field name="query_fields" />
                         <field name="output_mapping" />
                         <field name="last_sync_date" />
                         <field
