@@ -36,7 +36,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         domain=("[('target_type', '=', target_registry)]"),
     )
     query_params = fields.Text(default="""{}""")
-    query = fields.Text(required=True, default="""{}""")
+    query_fields = fields.Text(required=True, default="""{}""")
     output_mapping = fields.Text(required=True, default="""{}""")
 
     last_sync_date = fields.Datetime(string="Last synced on", required=False)
@@ -286,72 +286,42 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             "message": message,
         }
 
-    def get_graphql_query(self, limit=None, offset=None, order=None):
-        query = self.query.strip()
-
-        graphql_query = query[0:-1] + "totalRegistrantCount }"
-        _logger.debug(query)
+    def get_graphql_query(self, query_fields, current_limit=None, current_offset=None, **kwargs):
+        params = []
 
         if self.target_registry:
-            index = graphql_query.find("(") + 1
             is_group = str(self.target_registry == "group").lower()
-            if not index:
-                get_registrants_index = graphql_query.find("getRegistrants") + 14
-                graphql_query = (
-                    graphql_query[:get_registrants_index] + "()" + graphql_query[get_registrants_index:]
-                )
-                index = graphql_query.find("(") + 1
-
-                graphql_query = graphql_query[:index] + f"isGroup: {is_group}" + graphql_query[index:]
-
-            else:
-                graphql_query = graphql_query[:index] + f"isGroup: {is_group}," + graphql_query[index:]
+            params.append(f"isGroup: {is_group}")
 
         if self.last_sync_date:
-            index = graphql_query.find("(") + 1
-            if not index:
-                get_registrants_index = graphql_query.find("getRegistrants") + 14
-                graphql_query = (
-                    graphql_query[:get_registrants_index] + "()" + graphql_query[get_registrants_index:]
-                )
-                index = graphql_query.find("(") + 1
-                graphql_query = (
-                    graphql_query[:index]
-                    + f'lastSyncDate: "{self.last_sync_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")}"'
-                    + graphql_query[index:]
-                )
+            params.append(f'lastSyncDate: "{self.last_sync_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")}"')
 
-            else:
-                graphql_query = (
-                    graphql_query[:index]
-                    + f'lastSyncDate: "{self.last_sync_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")}",'
-                    + graphql_query[index:]
-                )
-        # Add pagination parameters
-        if limit is not None or offset is not None:
-            index = graphql_query.find("(") + 1
-            pagination_params = []
+        # Add pagination parameters explicitly
+        if current_limit is not None:
+            params.append(f"limit: {current_limit}")
+        if current_offset is not None:
+            params.append(f"offset: {current_offset}")
 
-            if limit is not None:
-                pagination_params.append(f"limit: {limit}")
-            if offset is not None:
-                pagination_params.append(f"offset: {offset}")
-            if order is not None:
-                pagination_params.append(f'order: "{order}"')
+        # Handle additional kwargs (skip ones already handled)
+        for key, value in kwargs.items():
+            if key in ["limit", "offset", "isGroup", "lastSyncDate"]:
+                continue
 
-            pagination_str = ", ".join(pagination_params)
+            if value is not None:
+                if isinstance(value, str):
+                    params.append(f'{key}: "{value}"')
+                elif isinstance(value, bool):
+                    params.append(f"{key}: {str(value).lower()}")
+                else:
+                    params.append(f"{key}: {value}")
 
-            if index == 0:
-                get_registrants_index = graphql_query.find("getRegistrants") + 14
-                graphql_query = (
-                    graphql_query[:get_registrants_index] + "()" + graphql_query[get_registrants_index:]
-                )
-                index = graphql_query.find("(") + 1
-                graphql_query = graphql_query[:index] + pagination_str + graphql_query[index:]
-            else:
-                graphql_query = graphql_query[:index] + pagination_str + "," + graphql_query[index:]
+        # Build the parameters string
+        params_str = ", ".join(params)
 
-        _logger.debug("updated graphql query", graphql_query)
+        # Construct the final GraphQL query
+        graphql_query = f"{{ getRegistrants({params_str}) {query_fields} totalRegistrantCount }}"
+
+        _logger.debug("updated graphql query: %s", graphql_query)
         return graphql_query.strip()
 
     def get_total_registrant_count(self):
@@ -370,12 +340,14 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             transaction_id = str(uuid.uuid4())
             reference_id = str(uuid.uuid4())
 
-            # Build count-only query
-            count_query = "{totalRegistrantCount}"
+            count_query_fields = "{ totalRegistrantCount }"
+            query_params = self.get_parsed_query_params() or {}
 
+            # Override the query_fields explicitly
+            graphql_query = self.get_graphql_query(query_fields=count_query_fields, **query_params)
             # Create request body for count
             data = self.build_request_body(
-                today_isoformat, message_id, transaction_id, reference_id, count_query
+                today_isoformat, message_id, transaction_id, reference_id, graphql_query
             )
 
             # Make request
@@ -702,48 +674,65 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
 
         try:
             self.write({"job_status": "running", "start_datetime": fields.Datetime.now()})
+
+            query_fields = self.query_fields.strip()
             query_params = self.get_parsed_query_params()
-            limit = query_params.get("limit")
-            offset = query_params.get("offset", 0)
-            order = query_params.get("order", "id asc")
 
-            current_offset = offset or 0
-            total_processed_records = 0
-
-            # If the limit is not specified in query_params, use the total count as the limit
-            if not limit:
-                total_count = self.get_total_registrant_count()
-                if total_count == 0:
-                    message = _("No registrants found in the Social Registry.")
-                    kind = "warning"
-                    raise ValueError("Empty Social Registry")
-                limit = total_count
-
-            # max_registrant is the batch size for pagination and queue
             max_registrant_per_batch = int(
                 self.env["ir.config_parameter"]
                 .sudo()
                 .get_param("g2p_import_social_registry.max_registrants_count_job_queue", 100)
             )
 
+            total_processed_records = 0  # Initialize variable
+
+            # Determine processing parameters based on conditions
+            if query_params is None:
+                # fetch all records
+                total_count = self.get_total_registrant_count()
+                if total_count == 0:
+                    message = _("No registrants found in the Social Registry.")
+                    kind = "warning"
+                    raise ValueError("Empty Social Registry")
+                current_limit = total_count
+                current_offset = 0
+                query_params = {}
+
+            else:
+                limit = query_params.get("limit")
+                offset = query_params.get("offset")
+
+                if offset is not None:
+                    # limit with offset - paginated fetch from specific offset
+                    current_limit = limit
+                    current_offset = offset
+                else:
+                    # limit without offset - fetch from beginning
+                    current_limit = limit
+                    current_offset = 0
+
             _logger.info(
                 "Starting Social Registry fetch - Limit: %s, Offset: %s, Batch size: %s",
-                limit,
+                current_limit,
                 current_offset,
                 max_registrant_per_batch,
             )
 
-            if max_registrant_per_batch >= limit:
-                # Fetch Records synchronously
-                paginated_query = self.get_graphql_query(limit, current_offset, order)
+            # Process based on batch size threshold
+            if max_registrant_per_batch >= current_limit:
+                # Synchronous processing
+                paginated_query = self.get_graphql_query(
+                    query_fields, current_limit, current_offset, **query_params
+                )
+
                 registrants = self.fetch_registrants_batch(paginated_query)
 
                 if registrants:
                     sticky = True
-                    message = _("Successfully processed %s registrants synchronously.") % len(registrants)
+                    message = _("Successfully processed %s registrants.") % len(registrants)
                     kind = "success"
                     self.process_registrants(registrants)
-                    total_processed_records += len(registrants)
+                    total_processed_records = len(registrants)
                 else:
                     message = _(
                         "No registrants found. "
@@ -751,16 +740,18 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                         "check if Social Registry contains data."
                     )
                     kind = "warning"
+
             else:
                 # Process asynchronously in batches
-                while total_processed_records < limit:
-                    # Calculate the number of records to fetch in this batch
-                    batch_size = min(max_registrant_per_batch, limit - total_processed_records)
+                while total_processed_records < current_limit:
+                    # Calculate batch size for this iteration
+                    batch_size = min(max_registrant_per_batch, current_limit - total_processed_records)
 
-                    # Use batch_size as the limit in the paginated GraphQL query
-                    paginated_query = self.get_graphql_query(batch_size, current_offset, order)
+                    # Build and execute paginated query
+                    paginated_query = self.get_graphql_query(
+                        query_fields, batch_size, current_offset, **query_params
+                    )
 
-                    # Fetch the registrants from the Social Registry
                     registrants = self.fetch_registrants_batch(paginated_query)
 
                     if not registrants:
@@ -770,10 +761,11 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                         kind = "warning" if total_processed_records == 0 else "success"
                         break
 
-                    # Process Records asynchronously
+                    # Process batch asynchronously
                     sticky = True
                     self.process_registrants_async(registrants, len(registrants))
 
+                    # Update counters
                     total_processed_records += len(registrants)
                     current_offset += len(registrants)
 
@@ -781,9 +773,10 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                         "Processed batch: %s registrants (total: %s/%s)",
                         len(registrants),
                         total_processed_records,
-                        limit,
+                        current_limit,
                     )
 
+                # Set final message for successful async processing
                 if total_processed_records > 0 and kind != "warning":
                     message = (
                         _("Successfully queued %s registrants for asynchronous processing.")

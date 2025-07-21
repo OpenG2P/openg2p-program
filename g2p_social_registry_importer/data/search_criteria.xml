@@ -74,8 +74,7 @@
             }
             </field>
 
-        <field name="query">{
-            getRegistrants(limit:2){
+        <field name="query_fields">{
                 name,
                 isGroup,
                 givenName,
@@ -125,7 +124,7 @@
                     expiryDate
                 }
             }
-        }
+
         </field>
     </record>
 </odoo>
