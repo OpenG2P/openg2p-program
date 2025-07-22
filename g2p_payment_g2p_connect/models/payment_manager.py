@@ -179,7 +179,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 )
             try:
                 _logger.info("G2P Bridge Disbursement Batch Data: %s", batch_data)
-                token = self.create_jwt_token(json.dumps(batch_data, separators=(",", ":")))
+                token = self.create_jwt_token(
+                    json.dumps(batch_data, indent=None, separators=(",", ":"), sort_keys=True)
+                )
                 headers = {
                     "Accept": "application/json",
                     "Content-Type": "application/json",
@@ -268,7 +270,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
             }
             try:
                 _logger.info("G2P Connect Disbursement Status Data: %s", status_data)
-                token = payment_manager.create_jwt_token(json.dumps(status_data, separators=(",", ":")))
+                token = payment_manager.create_jwt_token(
+                    json.dumps(status_data, indent=None, separators=(",", ":"), sort_keys=True)
+                )
                 headers = {
                     "Accept": "application/json",
                     "Content-Type": "application/json",
@@ -388,7 +392,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
             },
         }
         try:
-            token = self.create_jwt_token(json.dumps(envelope_request_data, separators=(",", ":")))
+            token = self.create_jwt_token(
+                json.dumps(envelope_request_data, indent=None, separators=(",", ":"), sort_keys=True)
+            )
             headers = {
                 "Accept": "application/json",
                 "Content-Type": "application/json",

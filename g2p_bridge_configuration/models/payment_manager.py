@@ -46,7 +46,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
                 },
             }
 
-            token = self.create_jwt_token(json.dumps(data, separators=(",", ":")))
+            token = self.create_jwt_token(
+                json.dumps(data, indent=None, separators=(",", ":"), sort_keys=True)
+            )
             headers = {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
