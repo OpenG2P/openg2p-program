@@ -257,7 +257,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
                     "message_id": "string",
                     "message_ts": "string",
                     "action": "string",
-                    "sender_id": self.sender_id,
+                    "sender_id": payment_manager.sender_id,
                     "sender_uri": "",
                     "receiver_id": "",
                     "total_count": 0,
@@ -268,7 +268,7 @@ class G2PPaymentManagerG2PConnect(models.Model):
             }
             try:
                 _logger.info("G2P Connect Disbursement Status Data: %s", status_data)
-                token = self.create_jwt_token(json.dumps(status_data, separators=(",", ":")))
+                token = payment_manager.create_jwt_token(json.dumps(status_data, separators=(",", ":")))
                 headers = {
                     "Accept": "application/json",
                     "Content-Type": "application/json",
