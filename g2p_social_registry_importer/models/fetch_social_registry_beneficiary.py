@@ -264,7 +264,16 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             "message": message,
         }
 
-    def get_graphql_query(self, query_fields, current_limit=None, current_offset=None, **kwargs):
+    def get_graphql_query(self, query_fields=None, effective_limit=None, effective_offset=None, **kwargs):
+        """
+        Build GraphQL query with pagination and filtering.
+
+        Args:
+            query_fields: GraphQL fields to include in the query
+            effective_limit: Explicit limit (takes precedence over kwargs['limit'])
+            effective_offset: Explicit offset (takes precedence over kwargs['offset'])
+            **kwargs: Additional query parameters (limit/offset here are ignored)
+        """
         params = []
 
         if self.target_registry:
@@ -275,10 +284,10 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             params.append(f'lastSyncDate: "{self.last_sync_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")}"')
 
         # Add pagination parameters explicitly
-        if current_limit is not None:
-            params.append(f"limit: {current_limit}")
-        if current_offset is not None:
-            params.append(f"offset: {current_offset}")
+        if effective_limit is not None:
+            params.append(f"limit: {effective_limit}")
+        if effective_offset is not None:
+            params.append(f"offset: {effective_offset}")
 
         # Handle additional kwargs (skip ones already handled)
         for key, value in kwargs.items():
@@ -297,7 +306,10 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         params_str = ", ".join(params)
 
         # Construct the final GraphQL query
-        graphql_query = f"{{ getRegistrants({params_str}) {query_fields} totalRegistrantCount }}"
+        if query_fields is None:
+            graphql_query = "{totalRegistrantCount}"
+        else:
+            graphql_query = f"{{ getRegistrants({params_str}) {query_fields} totalRegistrantCount }}"
 
         _logger.debug("updated graphql query: %s", graphql_query)
         return graphql_query.strip()
@@ -319,12 +331,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         # Define Search Requests
         search_request = self.get_search_request(reference_id, today_isoformat)
 
-            count_query_fields = "{ totalRegistrantCount }"
-            query_params = self.get_parsed_query_params() or {}
-
-            # Override the query_fields explicitly
-            graphql_query = self.get_graphql_query(query_fields=count_query_fields, **query_params)
-            # Create request body for count
+            graphql_query = self.get_graphql_query()
             data = self.build_request_body(
                 today_isoformat, message_id, transaction_id, reference_id, graphql_query
             )
@@ -710,51 +717,62 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             query_fields = self.query_fields.strip()
             query_params = self.get_parsed_query_params()
 
-            max_registrant_per_batch = int(
+            max_registrants_per_batch = int(
                 self.env["ir.config_parameter"]
                 .sudo()
                 .get_param("g2p_import_social_registry.max_registrants_count_job_queue", 100)
             )
 
-            total_processed_records = 0  # Initialize variable
+            total_processed_registrants = 0
 
-            # Determine processing parameters based on conditions
             if query_params is None:
-                # fetch all records
+                # No query parameters provided → fetch all records from the beginning
+                # Example: query_params = None
+                # → fetch all records (e.g., 500), starting from index 0
+
                 total_count = self.get_total_registrant_count()
                 if total_count == 0:
                     message = _("No registrants found in the Social Registry.")
                     kind = "warning"
-                    raise ValueError("Empty Social Registry")
-                current_limit = total_count
-                current_offset = 0
+                effective_limit = total_count
+                effective_offset = 0
                 query_params = {}
-
             else:
+                # Query parameters provided
                 limit = query_params.get("limit")
-                offset = query_params.get("offset")
+                offset = query_params.get("offset", 0)
 
-                if offset is not None:
-                    # limit with offset - paginated fetch from specific offset
-                    current_limit = limit
-                    current_offset = offset
+                if limit is not None:
+                    # 'limit' is provided → use given limit and offset
+                    # Example: query_params = {'limit': 100, 'offset': 200}
+                    # → fetch 100 records starting from the 201st record
+
+                    effective_limit = limit
+                    effective_offset = offset
                 else:
-                    # limit without offset - fetch from beginning
-                    current_limit = limit
-                    current_offset = 0
+                    # 'limit' is not provided → treat as fetch all from 'offset'
+                    # Example: query_params = {'offset': 50}
+                    # → fetch all remaining records starting from the 51st
+
+                    total_count = self.get_total_registrant_count()
+                    if total_count == 0:
+                        message = _("No registrants found in the Social Registry.")
+                        kind = "warning"
+                    effective_limit = total_count
+                    effective_offset = offset
 
             _logger.info(
                 "Starting Social Registry fetch - Limit: %s, Offset: %s, Batch size: %s",
-                current_limit,
-                current_offset,
-                max_registrant_per_batch,
+                effective_limit,
+                effective_offset,
+                max_registrants_per_batch,
             )
 
             # Process based on batch size threshold
-            if max_registrant_per_batch >= current_limit:
+            if max_registrants_per_batch >= effective_limit:
                 # Synchronous processing
                 paginated_query = self.get_graphql_query(
-                    query_fields, current_limit, current_offset, **query_params
+                    query_fields, effective_limit, effective_offset, **query_params
                 )
 
                 registrants = self.fetch_registrants_batch(paginated_query)
@@ -764,7 +782,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                     message = _("Successfully processed %s registrants.") % len(registrants)
                     kind = "success"
                     self.process_registrants(registrants)
-                    total_processed_records = len(registrants)
+                    total_processed_registrants = len(registrants)
                 else:
                     message = _(
                         "No registrants found. "
@@ -775,9 +793,12 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
 
             else:
                 # Process asynchronously in batches
-                while total_processed_records < current_limit:
+                current_offset = effective_offset
+
+                while total_processed_registrants < effective_limit:
                     # Calculate batch size for this iteration
-                    batch_size = min(max_registrant_per_batch, current_limit - total_processed_records)
+                    remaining_records = effective_limit - total_processed_registrants
+                    batch_size = min(max_registrants_per_batch, remaining_records)
 
                     # Build and execute paginated query
                     paginated_query = self.get_graphql_query(
@@ -788,9 +809,10 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
 
                     if not registrants:
                         message = (
-                            _("No more registrants to process. Processed %s total.") % total_processed_records
+                            _("No more registrants to process. Processed %s total.")
+                            % total_processed_registrants
                         )
-                        kind = "warning" if total_processed_records == 0 else "success"
+                        kind = "warning" if total_processed_registrants == 0 else "success"
                         break
 
                     # Process batch asynchronously
@@ -798,24 +820,28 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                     self.process_registrants_async(registrants, len(registrants))
 
                     # Update counters
-                    total_processed_records += len(registrants)
-                    current_offset += len(registrants)
+                    batch_count = len(registrants)
+                    total_processed_registrants += batch_count
+                    current_offset += batch_count
 
                     _logger.info(
                         "Processed batch: %s registrants (total: %s/%s)",
-                        len(registrants),
-                        total_processed_records,
-                        current_limit,
+                        batch_count,
+                        total_processed_registrants,
+                        effective_limit,
                     )
 
                 # Set final message for successful async processing
-                if total_processed_records > 0 and kind != "warning":
+                if total_processed_registrants > 0 and kind != "warning":
                     message = (
                         _("Successfully queued %s registrants for asynchronous processing.")
-                        % total_processed_records
+                        % total_processed_registrants
                     )
                     kind = "success"
-                    message = _("No matching records found.")
+
+            _logger.info(
+                "Completed Social Registry fetch. Processed %s registrants", total_processed_registrants
+            )
 
             self.last_sync_date = fields.Datetime.now()
 
