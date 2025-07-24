@@ -60,8 +60,8 @@ class G2pProgramRegistrantInfo(models.TransientModel):
     @api.model
     def add_files_to_store(self, files, store, program_membership=None, tags=None):
         file_details = []
-        DOC_TAGS = self.env["g2p.document.tag"]
         try:
+            DOC_TAGS = self.env["g2p.document.tag"]
             for file in files:
                 if file and store:
                     document_file = self.env["storage.file"].create(

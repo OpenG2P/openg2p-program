@@ -37,7 +37,7 @@ class BasePaymentManager(models.AbstractModel):
     name = fields.Char("Manager Name", required=True)
     program_id = fields.Many2one("g2p.program", string="Program", required=True)
 
-    def prepare_payments(self, entitlements):
+    def prepare_payments(self, cycle, entitlements):
         """
         This method is used to prepare the payment list of the entitlements.
         :param entitlements: The entitlements.
@@ -142,7 +142,7 @@ class DefaultFilePaymentManager(models.Model):
                 if rec.batch_tag_ids.sorted("order")[-1].domain != "[]":
                     raise ValidationError(_("Last tag in the Batch Tags list must contain empty domain."))
 
-    def prepare_payments(self, cycle, entitlements=None):
+    def prepare_payments(self, cycle, entitlements):
         if not entitlements:
             entitlements = cycle.entitlement_ids.filtered(lambda a: a.state == "approved")
         else:
