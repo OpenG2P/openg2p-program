@@ -16,7 +16,7 @@ from odoo.tools import misc
 class TestVCIIssuerProgram(TransactionCase):
     def setUp(self):
         super().setUp()
-        self.env["ir.config_parameter"].set_param("web.base.url", "http://openg2p.local")
+        self.env["ir.config_parameter"].sudo().set_param("web.base.url", "http://openg2p.local")
         self.id_type = self.env["g2p.id.type"].create(
             {
                 "name": "NATIONAL ID",
