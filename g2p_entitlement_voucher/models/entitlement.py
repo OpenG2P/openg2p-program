@@ -24,7 +24,7 @@ class G2PEntitlement(models.Model):
         for rec in self:
             rec.show_generate_voucher_button = False
             rec.show_print_voucher_button = False
-            entitlement_manager = self.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
+            entitlement_manager = rec.program_id.get_manager(constants.MANAGER_ENTITLEMENT)
             if rec.state in ("approved",):
                 if (
                     entitlement_manager
