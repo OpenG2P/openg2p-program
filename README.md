@@ -47,6 +47,8 @@ addon | version | maintainers | summary
 [g2p_program_registrant_info](g2p_program_registrant_info/) | 17.0.1.3.0 |  | G2P Program: Registrant Info
 [g2p_program_reimbursement](g2p_program_reimbursement/) | 17.0.1.3.0 |  | OpenG2P Programs: Reimbursement
 [g2p_programs](g2p_programs/) | 17.0.1.3.0 |  | OpenG2P Programs
+[g2p_programs_all](g2p_programs_all/) | 17.0.1.5.0 |  | G2P Programs All
+[g2p_programs_app_filter](g2p_programs_app_filter/) | 17.0.1.5.0 |  | G2P Programs App Filter
 [g2p_programs_priority_list](g2p_programs_priority_list/) | 17.0.1.3.0 |  | OpenG2P Programs Priority List
 [g2p_proxy_means_test](g2p_proxy_means_test/) | 17.0.1.3.0 |  | G2P: Proxy Means Test
 [g2p_reimbursement_portal](g2p_reimbursement_portal/) | 17.0.1.3.0 |  | G2P Reimbursement Portal
