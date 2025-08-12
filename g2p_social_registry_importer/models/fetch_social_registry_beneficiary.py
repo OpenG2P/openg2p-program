@@ -35,11 +35,9 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         "g2p.program",
         domain=("[('target_type', '=', target_registry)]"),
     )
-
-    query = fields.Text(
-        required=True,
-    )
-    output_mapping = fields.Text(required=True)
+    query_params = fields.Text(default="""{}""")
+    query = fields.Text(required=True, default="""{}""")
+    output_mapping = fields.Text(required=True, default="""{}""")
 
     last_sync_date = fields.Datetime(string="Last synced on", required=False)
 
@@ -148,6 +146,24 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         for rec in self:
             rec.target_program = None
 
+    @api.constrains("query_params")
+    def _validate_query_params(self):
+        for rec in self:
+            if rec.query_params:
+                try:
+                    json.loads(rec.query_params)
+                except json.JSONDecodeError as e:
+                    raise ValidationError(_("Query Parameters must be valid JSON. Error: %s") % str(e)) from e
+
+    def get_parsed_query_params(self):
+        """Parse query_params JSON and return as dict"""
+        self.ensure_one()
+        try:
+            return json.loads(self.query_params) if self.query_params else {}
+        except json.JSONDecodeError:
+            _logger.error("Invalid JSON in query_params for record %s", self.id)
+            return {}
+
     @api.constrains("output_mapping")
     def constraint_json_fields(self):
         for rec in self:
@@ -228,10 +244,12 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         else:
             raise ValidationError(_("{reason}: Unable to connect to API.").format(reason=response.reason))
 
-    def get_header_for_body(self, social_registry_version, today_isoformat, message_id):
+    def build_request_body(self, today_isoformat, message_id, transaction_id, reference_id, query):
+        """Build the request body for API call"""
         sender_id = self.env["ir.config_parameter"].sudo().get_param("web.base.url") or ""
         receiver_id = "Social Registry"
-        return {
+
+        header = {
             "version": "1.0.0",
             "message_id": message_id,
             "message_ts": today_isoformat,
@@ -240,9 +258,35 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             "sender_uri": "",
             "receiver_id": receiver_id,
             "total_count": 0,
+            "is_msg_encrypted": False,
+            "meta": {},
         }
 
-    def get_graphql_query(self):
+        search_request = {
+            "reference_id": reference_id,
+            "timestamp": today_isoformat,
+            "search_criteria": {
+                "version": "1.0.0",
+                "reg_type": "G2P:RegistryType:Individual",
+                "reg_sub_type": "Individual",
+                "query_type": "graphql",
+                "query": query,
+            },
+            "locale": "en",
+        }
+
+        message = {
+            "transaction_id": transaction_id,
+            "search_request": [search_request],
+        }
+
+        return {
+            "signature": "",
+            "header": header,
+            "message": message,
+        }
+
+    def get_graphql_query(self, limit=None, offset=None, order=None):
         query = self.query.strip()
 
         graphql_query = query[0:-1] + "totalRegistrantCount }"
@@ -283,38 +327,121 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                     + f'lastSyncDate: "{self.last_sync_date.strftime("%Y-%m-%dT%H:%M:%S.000Z")}",'
                     + graphql_query[index:]
                 )
+        # Add pagination parameters
+        if limit is not None or offset is not None:
+            index = graphql_query.find("(") + 1
+            pagination_params = []
+
+            if limit is not None:
+                pagination_params.append(f"limit: {limit}")
+            if offset is not None:
+                pagination_params.append(f"offset: {offset}")
+            if order is not None:
+                pagination_params.append(f'order: "{order}"')
+
+            pagination_str = ", ".join(pagination_params)
+
+            if index == 0:
+                get_registrants_index = graphql_query.find("getRegistrants") + 14
+                graphql_query = (
+                    graphql_query[:get_registrants_index] + "()" + graphql_query[get_registrants_index:]
+                )
+                index = graphql_query.find("(") + 1
+                graphql_query = graphql_query[:index] + pagination_str + graphql_query[index:]
+            else:
+                graphql_query = graphql_query[:index] + pagination_str + "," + graphql_query[index:]
 
         _logger.debug("updated graphql query", graphql_query)
         return graphql_query.strip()
 
-    def get_search_request(self, reference_id, today_isoformat):
-        search_requests = {
-            "reference_id": reference_id,
-            "timestamp": today_isoformat,
-            "search_criteria": {
-                "reg_type": "G2P:RegistryType:Individual",
-                "query_type": "graphql",
-                "query": self.get_graphql_query(),
-            },
-        }
+    def get_total_registrant_count(self):
+        self.ensure_one()
 
-        return search_requests
+        try:
+            # Get paths and auth
+            paths = self.get_data_source_paths()
+            auth_url = self.get_social_registry_auth_url(paths)
+            auth_token = self.get_auth_token(auth_url)
+            search_url = self.get_social_registry_search_url(paths)
 
-    def get_message(self, today_isoformat, transaction_id, reference_id):
-        # Define Search Requests
-        search_request = self.get_search_request(reference_id, today_isoformat)
+            # Prepare count query
+            today_isoformat = datetime.now(timezone.utc).isoformat()
+            message_id = str(uuid.uuid4())
+            transaction_id = str(uuid.uuid4())
+            reference_id = str(uuid.uuid4())
 
-        return {
-            "transaction_id": transaction_id,
-            "search_request": [search_request],
-        }
+            # Build count-only query
+            count_query = "{totalRegistrantCount}"
 
-    def get_data(self, signature, header, message):
-        return {
-            "sinature": signature,
-            "header": header,
-            "message": message,
-        }
+            # Create request body for count
+            data = self.build_request_body(
+                today_isoformat, message_id, transaction_id, reference_id, count_query
+            )
+
+            # Make request
+            response = requests.post(
+                search_url,
+                data=json.dumps(data),
+                headers={"Authorization": auth_token},
+                timeout=constants.REQUEST_TIMEOUT,
+            )
+
+            if response.ok:
+                search_responses = response.json().get("message", {}).get("search_response", [])
+                if search_responses:
+                    reg_record = search_responses[0].get("data", {}).get("reg_records", {})
+                    return reg_record.get("totalRegistrantCount", 0)
+
+            return 0
+
+        except Exception as e:
+            _logger.error("Error getting total registrant count: %s", str(e))
+            return 0
+
+    def fetch_registrants_batch(self, paginated_query):
+        """Fetch a batch of registrants with pagination"""
+        self.ensure_one()
+
+        try:
+            # Get paths and auth
+            paths = self.get_data_source_paths()
+            auth_url = self.get_social_registry_auth_url(paths)
+            auth_token = self.get_auth_token(auth_url)
+            search_url = self.get_social_registry_search_url(paths)
+
+            # Prepare paginated query
+            today_isoformat = datetime.now(timezone.utc).isoformat()
+            message_id = str(uuid.uuid4())
+            transaction_id = str(uuid.uuid4())
+            reference_id = str(uuid.uuid4())
+
+            data = self.build_request_body(
+                today_isoformat, message_id, transaction_id, reference_id, paginated_query
+            )
+
+            response = requests.post(
+                search_url,
+                data=json.dumps(data),
+                headers={"Authorization": auth_token},
+                timeout=constants.REQUEST_TIMEOUT,
+            )
+            if not response.ok:
+                _logger.error("Social Registry Search API response: %s", response.text)
+                response.raise_for_status()
+
+            # Process response
+            search_responses = response.json().get("message", {}).get("search_response", [])
+            if search_responses:
+                reg_record = search_responses[0].get("data", {}).get("reg_records", {})
+                registrants = reg_record.get("getRegistrants", [])
+
+                return registrants
+
+            return []
+
+        except Exception as e:
+            _logger.error("Error fetching registrant batch: %s", str(e))
+            raise
 
     def get_partner_and_clean_identifier(self, identifiers):
         clean_identifiers = []
@@ -560,111 +687,123 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         main_job.delay()
 
     def fetch_social_registry_beneficiary(self):
-        self.write({"job_status": "running", "start_datetime": fields.Datetime.now()})
+        """
+        Main method to fetch beneficiaries from Social Registry.
 
-        config_parameters = self.env["ir.config_parameter"].sudo()
-        today_isoformat = datetime.now(timezone.utc).isoformat()
-        social_registry_version = config_parameters.get_param("social_registry_version")
-        max_registrant = int(
-            config_parameters.get_param("g2p_import_social_registry.max_registrants_count_job_queue")
-        )
+        Supports both synchronous and asynchronous processing based on batch size.
+        Uses pagination to handle large datasets efficiently.
 
-        message_id = str(uuid.uuid4())
-        transaction_id = str(uuid.uuid4())
-        reference_id = str(uuid.uuid4())
-
-        # Define Data Source
-        paths = self.get_data_source_paths()
-
-        # Define Social Registry auth url
-
-        full_social_registry_auth_url = self.get_social_registry_auth_url(paths)
-
-        # Retrieve auth token
-
-        auth_token = self.get_auth_token(full_social_registry_auth_url)
-
-        # Define Social Registry search url
-        full_social_registry_search_url = self.get_social_registry_search_url(paths)
-
-        # Define header
-        header = self.get_header_for_body(
-            social_registry_version,
-            today_isoformat,
-            message_id,
-        )
-
-        # Define message
-        message = self.get_message(
-            today_isoformat,
-            transaction_id=transaction_id,
-            reference_id=reference_id,
-        )
-
-        signature = ""
-
-        # Define data
-        data = self.get_data(
-            signature,
-            header,
-            message,
-        )
-
-        data = json.dumps(data)
-
-        # POST Request
-        response = requests.post(
-            full_social_registry_search_url,
-            data=data,
-            headers={"Authorization": auth_token},
-            timeout=constants.REQUEST_TIMEOUT,
-        )
-
-        if not response.ok:
-            _logger.error("Social Registry Search API response: %s", response.text)
-        response.raise_for_status()
-
+        Returns:
+            dict: Action dictionary for UI notification
+        """
         sticky = False
+        kind = "info"
+        message = _("No registrants were processed.")
 
-        # Process response
-        if response.ok:
-            kind = "success"
-            message = _("Successfully Imported Social Registry Beneficiaries")
+        try:
+            self.write({"job_status": "running", "start_datetime": fields.Datetime.now()})
+            query_params = self.get_parsed_query_params()
+            limit = query_params.get("limit")
+            offset = query_params.get("offset", 0)
+            order = query_params.get("order", "id asc")
 
-            search_responses = response.json().get("message", {}).get("search_response", [])
-            if not search_responses:
-                kind = "warning"
-                message = _("No imported beneficiary")
+            current_offset = offset or 0
+            total_processed_records = 0
 
-            for search_response in search_responses:
-                reg_record = search_response.get("data", {}).get("reg_records", [])
-                registrants = reg_record.get("getRegistrants", [])
-                total_partners_count = reg_record.get("totalRegistrantCount", "")
+            # If the limit is not specified in query_params, use the total count as the limit
+            if not limit:
+                total_count = self.get_total_registrant_count()
+                if total_count == 0:
+                    message = _("No registrants found in the Social Registry.")
+                    kind = "warning"
+                    raise ValueError("Empty Social Registry")
+                limit = total_count
 
-                if total_partners_count:
-                    if total_partners_count < max_registrant:
-                        self.process_registrants(registrants)
+            # max_registrant is the batch size for pagination and queue
+            max_registrant_per_batch = int(
+                self.env["ir.config_parameter"]
+                .sudo()
+                .get_param("g2p_import_social_registry.max_registrants_count_job_queue", 100)
+            )
 
-                    else:
-                        self.process_registrants_async(registrants, total_partners_count)
-                        kind = "success"
-                        message = _("Fetching from Social Registry Started Asynchronously.")
-                        sticky = True
+            _logger.info(
+                "Starting Social Registry fetch - Limit: %s, Offset: %s, Batch size: %s",
+                limit,
+                current_offset,
+                max_registrant_per_batch,
+            )
 
-                else:
+            if max_registrant_per_batch >= limit:
+                # Fetch Records synchronously
+                paginated_query = self.get_graphql_query(limit, current_offset, order)
+                registrants = self.fetch_registrants_batch(paginated_query)
+
+                if registrants:
+                    sticky = True
+                    message = _("Successfully processed %s registrants synchronously.") % len(registrants)
                     kind = "success"
-                    message = _("No matching records found.")
+                    self.process_registrants(registrants)
+                    total_processed_records += len(registrants)
+                else:
+                    message = _(
+                        "No registrants found. "
+                        "Verify last sync date or "
+                        "check if Social Registry contains data."
+                    )
+                    kind = "warning"
+            else:
+                # Process asynchronously in batches
+                while total_processed_records < limit:
+                    # Calculate the number of records to fetch in this batch
+                    batch_size = min(max_registrant_per_batch, limit - total_processed_records)
+
+                    # Use batch_size as the limit in the paginated GraphQL query
+                    paginated_query = self.get_graphql_query(batch_size, current_offset, order)
+
+                    # Fetch the registrants from the Social Registry
+                    registrants = self.fetch_registrants_batch(paginated_query)
+
+                    if not registrants:
+                        message = (
+                            _("No more registrants to process. Processed %s total.") % total_processed_records
+                        )
+                        kind = "warning" if total_processed_records == 0 else "success"
+                        break
+
+                    # Process Records asynchronously
+                    sticky = True
+                    self.process_registrants_async(registrants, len(registrants))
+
+                    total_processed_records += len(registrants)
+                    current_offset += len(registrants)
+
+                    _logger.info(
+                        "Processed batch: %s registrants (total: %s/%s)",
+                        len(registrants),
+                        total_processed_records,
+                        limit,
+                    )
+
+                if total_processed_records > 0 and kind != "warning":
+                    message = (
+                        _("Successfully queued %s registrants for asynchronous processing.")
+                        % total_processed_records
+                    )
+                    kind = "success"
+
+            _logger.info("Completed Social Registry fetch. Processed %s registrants", total_processed_records)
 
             self.last_sync_date = fields.Datetime.now()
+            end_time = fields.Datetime.now()
+            self.write({"job_status": "completed", "end_datetime": end_time})
 
-        else:
-            self.write({"job_status": "failed", "end_datetime": fields.Datetime.now()})
+        except Exception as e:
+            _logger.exception("Failed to fetch registrants from Social Registry: %s", e)
+            end_time = fields.Datetime.now()
+            self.write({"job_status": "failed", "end_datetime": end_time})
+            message = _("Failed to fetch registrants: %s") % str(e)
             kind = "danger"
-            message = response.json().get("error", {}).get("message", "")
-            if not message:
-                message = _("{reason}: Unable to connect to API.").format(reason=response.reason)
-
-        self.write({"job_status": "completed", "end_datetime": fields.Datetime.now()})
+            sticky = True
 
         action = {
             "type": "ir.actions.client",

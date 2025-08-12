@@ -6,7 +6,7 @@
     "author": "OpenG2P",
     "website": "https://openg2p.org",
     "license": "LGPL-3",
-    "depends": ["g2p_program_reimbursement", "g2p_agent_portal_base", "g2p_program_cycleless"],
+    "depends": ["website", "g2p_program_reimbursement", "g2p_agent_portal_base", "g2p_program_cycleless"],
     "data": [
         "data/g2p_reimbursement_portal_form_data.xml",
         "views/g2p_portal_reimbursement.xml",
