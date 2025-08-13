@@ -13,7 +13,7 @@
         "views/mis_config_views.xml",
         "views/mis_menu.xml",
     ],
-    "application": True,
+    "application": False,
     "installable": True,
-    "auto_install": False,
+    "auto_install": True,
 }
