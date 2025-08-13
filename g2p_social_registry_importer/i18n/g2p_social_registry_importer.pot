@@ -148,6 +148,13 @@ msgid "Failed"
 msgstr ""
 
 #. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "Failed to fetch registrants: %s"
+msgstr ""
+
+#. module: g2p_social_registry_importer
 #: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_social_registry_imported_registrants__fetch_social_registry_id
 msgid "Fetch Social Registry"
 msgstr ""
@@ -155,13 +162,6 @@ msgstr ""
 #. module: g2p_social_registry_importer
 #: model:ir.model,name:g2p_social_registry_importer.model_g2p_fetch_social_registry_beneficiary
 msgid "Fetch Social Registry Beneficiary"
-msgstr ""
-
-#. module: g2p_social_registry_importer
-#. odoo-python
-#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
-#, python-format
-msgid "Fetching from Social Registry Started Asynchronously."
 msgstr ""
 
 #. module: g2p_social_registry_importer
@@ -285,14 +285,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
 #, python-format
-msgid "No imported beneficiary"
-msgstr ""
-
-#. module: g2p_social_registry_importer
-#. odoo-python
-#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
-#, python-format
-msgid "No matching records found."
+msgid "No more registrants to process. Processed %s total."
 msgstr ""
 
 #. module: g2p_social_registry_importer
@@ -301,6 +294,30 @@ msgstr ""
 #: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
 #, python-format
 msgid "No path in data source named {path} is configured!"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "No registrants found in the Social Registry."
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid ""
+"No registrants found. Verify last sync date or check if Social Registry "
+"contains data."
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "No registrants were processed."
 msgstr ""
 
 #. module: g2p_social_registry_importer
@@ -314,8 +331,20 @@ msgid "Previous Search Criterias"
 msgstr ""
 
 #. module: g2p_social_registry_importer
-#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__query
-msgid "Query"
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__query_fields
+msgid "Query Fields"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "Query Parameters must be valid JSON. Error: %s"
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#: model:ir.model.fields,field_description:g2p_social_registry_importer.field_g2p_fetch_social_registry_beneficiary__query_params
+msgid "Query Params"
 msgstr ""
 
 #. module: g2p_social_registry_importer
@@ -413,14 +442,21 @@ msgstr ""
 #. odoo-python
 #: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
 #, python-format
-msgid "Successfully Imported Social Registry Beneficiaries"
+msgid "Successfully connected to Social Registry API and authenticated"
 msgstr ""
 
 #. module: g2p_social_registry_importer
 #. odoo-python
 #: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
 #, python-format
-msgid "Successfully connected to Social Registry API and authenticated"
+msgid "Successfully processed %s registrants."
+msgstr ""
+
+#. module: g2p_social_registry_importer
+#. odoo-python
+#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
+#, python-format
+msgid "Successfully queued %s registrants for asynchronous processing."
 msgstr ""
 
 #. module: g2p_social_registry_importer
@@ -457,7 +493,6 @@ msgstr ""
 
 #. module: g2p_social_registry_importer
 #. odoo-python
-#: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
 #: code:addons/g2p_social_registry_importer/models/fetch_social_registry_beneficiary.py:0
 #, python-format
 msgid "{reason}: Unable to connect to API."

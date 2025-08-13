@@ -6,6 +6,12 @@
         <field name="import_registrant_without_id">False</field>
         <field name="target_registry">group</field>
         <field name="target_program" />
+        <field name="query_params">{
+                    "limit": 10000,
+                    "offset": 1000,
+                    "order": "id asc"
+                }
+        </field>
         <field name="output_mapping">{
 
             "name": .name,
@@ -68,8 +74,7 @@
             }
             </field>
 
-        <field name="query">{
-            getRegistrants(limit:2){
+        <field name="query_fields">{
                 name,
                 isGroup,
                 givenName,
@@ -119,7 +124,7 @@
                     expiryDate
                 }
             }
-        }
+
         </field>
     </record>
 </odoo>
