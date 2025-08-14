@@ -19,7 +19,7 @@ class SupportDeskTest(TransactionCase):
                 "name": "Test User 1",
                 "login": "test_user_1",
                 "email": "test_user_1@example.com",
-                "groups_id": [(4, cls.env.ref("support_desk.group_support_desk_user").id)],
+                "groups_id": [(4, cls.env.ref("g2p_support_desk.group_support_desk_user").id)],
             }
         )
         cls.user_2 = cls.env["res.users"].create(
@@ -27,7 +27,7 @@ class SupportDeskTest(TransactionCase):
                 "name": "Test User 2",
                 "login": "test_user_2",
                 "email": "test_user_2@example.com",
-                "groups_id": [(4, cls.env.ref("support_desk.group_support_desk_manager").id)],
+                "groups_id": [(4, cls.env.ref("g2p_support_desk.group_support_desk_manager").id)],
             }
         )
 
