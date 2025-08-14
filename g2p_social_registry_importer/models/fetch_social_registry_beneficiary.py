@@ -146,6 +146,24 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         for rec in self:
             rec.target_program = None
 
+    @api.constrains("query_params")
+    def _validate_query_params(self):
+        for rec in self:
+            if rec.query_params:
+                try:
+                    json.loads(rec.query_params)
+                except json.JSONDecodeError as e:
+                    raise ValidationError(_("Query Parameters must be valid JSON. Error: %s") % str(e)) from e
+
+    def get_parsed_query_params(self):
+        """Parse query_params JSON and return as dict"""
+        self.ensure_one()
+        try:
+            return json.loads(self.query_params) if self.query_params else {}
+        except json.JSONDecodeError:
+            _logger.error("Invalid JSON in query_params for record %s", self.id)
+            return {}
+
     @api.constrains("output_mapping")
     def constraint_json_fields(self):
         for rec in self:
@@ -226,10 +244,12 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         else:
             raise ValidationError(_("{reason}: Unable to connect to API.").format(reason=response.reason))
 
-    def get_header_for_body(self, social_registry_version, today_isoformat, message_id):
+    def build_request_body(self, today_isoformat, message_id, transaction_id, reference_id, query):
+        """Build the request body for API call"""
         sender_id = self.env["ir.config_parameter"].sudo().get_param("web.base.url") or ""
         receiver_id = "Social Registry"
-        return {
+
+        header = {
             "version": "1.0.0",
             "message_id": message_id,
             "message_ts": today_isoformat,
@@ -238,6 +258,8 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             "sender_uri": "",
             "receiver_id": receiver_id,
             "total_count": 0,
+            "is_msg_encrypted": False,
+            "meta": {},
         }
 
         search_request = {
@@ -314,22 +336,21 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         _logger.debug("updated graphql query: %s", graphql_query)
         return graphql_query.strip()
 
-    def get_search_request(self, reference_id, today_isoformat):
-        search_requests = {
-            "reference_id": reference_id,
-            "timestamp": today_isoformat,
-            "search_criteria": {
-                "reg_type": "G2P:RegistryType:Individual",
-                "query_type": "graphql",
-                "query": self.get_graphql_query(),
-            },
-        }
+    def get_total_registrant_count(self):
+        self.ensure_one()
 
-        return search_requests
+        try:
+            # Get paths and auth
+            paths = self.get_data_source_paths()
+            auth_url = self.get_social_registry_auth_url(paths)
+            auth_token = self.get_auth_token(auth_url)
+            search_url = self.get_social_registry_search_url(paths)
 
-    def get_message(self, today_isoformat, transaction_id, reference_id):
-        # Define Search Requests
-        search_request = self.get_search_request(reference_id, today_isoformat)
+            # Prepare count query
+            today_isoformat = datetime.now(timezone.utc).isoformat()
+            message_id = str(uuid.uuid4())
+            transaction_id = str(uuid.uuid4())
+            reference_id = str(uuid.uuid4())
 
             graphql_query = self.get_graphql_query()
             data = self.build_request_body(
@@ -645,71 +666,18 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
         main_job.delay()
 
     def fetch_social_registry_beneficiary(self):
-        self.write({"job_status": "running", "start_datetime": fields.Datetime.now()})
+        """
+        Main method to fetch beneficiaries from Social Registry.
 
-        config_parameters = self.env["ir.config_parameter"].sudo()
-        today_isoformat = datetime.now(timezone.utc).isoformat()
-        social_registry_version = config_parameters.get_param("social_registry_version")
-        max_registrant = int(
-            config_parameters.get_param("g2p_import_social_registry.max_registrants_count_job_queue")
-        )
+        Supports both synchronous and asynchronous processing based on batch size.
+        Uses pagination to handle large datasets efficiently.
 
-        message_id = str(uuid.uuid4())
-        transaction_id = str(uuid.uuid4())
-        reference_id = str(uuid.uuid4())
-
-        # Define Data Source
-        paths = self.get_data_source_paths()
-
-        # Define Social Registry auth url
-
-        full_social_registry_auth_url = self.get_social_registry_auth_url(paths)
-
-        # Retrieve auth token
-
-        auth_token = self.get_auth_token(full_social_registry_auth_url)
-
-        # Define Social Registry search url
-        full_social_registry_search_url = self.get_social_registry_search_url(paths)
-
-        # Define header
-        header = self.get_header_for_body(
-            social_registry_version,
-            today_isoformat,
-            message_id,
-        )
-
-        # Define message
-        message = self.get_message(
-            today_isoformat,
-            transaction_id=transaction_id,
-            reference_id=reference_id,
-        )
-
-        signature = ""
-
-        # Define data
-        data = self.get_data(
-            signature,
-            header,
-            message,
-        )
-
-        data = json.dumps(data)
-
-        # POST Request
-        response = requests.post(
-            full_social_registry_search_url,
-            data=data,
-            headers={"Authorization": auth_token},
-            timeout=constants.REQUEST_TIMEOUT,
-        )
-
-        if not response.ok:
-            _logger.error("Social Registry Search API response: %s", response.text)
-        response.raise_for_status()
-
+        Returns:
+            dict: Action dictionary for UI notification
+        """
         sticky = False
+        kind = "info"
+        message = _("No registrants were processed.")
 
         try:
             self.write({"job_status": "running", "start_datetime": fields.Datetime.now()})
@@ -844,15 +812,16 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
             )
 
             self.last_sync_date = fields.Datetime.now()
+            end_time = fields.Datetime.now()
+            self.write({"job_status": "completed", "end_datetime": end_time})
 
-        else:
-            self.write({"job_status": "failed", "end_datetime": fields.Datetime.now()})
+        except Exception as e:
+            _logger.exception("Failed to fetch registrants from Social Registry: %s", e)
+            end_time = fields.Datetime.now()
+            self.write({"job_status": "failed", "end_datetime": end_time})
+            message = _("Failed to fetch registrants: %s") % str(e)
             kind = "danger"
-            message = response.json().get("error", {}).get("message", "")
-            if not message:
-                message = _("{reason}: Unable to connect to API.").format(reason=response.reason)
-
-        self.write({"job_status": "completed", "end_datetime": fields.Datetime.now()})
+            sticky = True
 
         action = {
             "type": "ir.actions.client",
