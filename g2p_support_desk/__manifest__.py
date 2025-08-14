@@ -35,6 +35,6 @@
         "demo/helpdesk_demo.xml",
     ],
     "installable": True,
-    "application": True,
-    "auto_install": False,
+    "application": False,
+    "auto_install": True,
 }

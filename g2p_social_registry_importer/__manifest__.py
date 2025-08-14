@@ -21,7 +21,7 @@
         "views/fetch_social_registry_beneficiary_views.xml",
     ],
     "external_dependencies": {"python": ["jq"]},
-    "application": True,
-    "auto_install": False,
+    "application": False,
+    "auto_install": True,
     "installable": True,
 }
