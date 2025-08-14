@@ -37,7 +37,9 @@ class G2PCycle(models.Model):
                 "message": self.disbursement_envelope_id,
             }
 
-            token = payment_manager.create_jwt_token(json.dumps(data, separators=(",", ":")))
+            token = payment_manager.create_jwt_token(
+                json.dumps(data, indent=None, separators=(",", ":"), sort_keys=True)
+            )
             headers = {
                 "Accept": "application/json",
                 "Content-Type": "application/json",

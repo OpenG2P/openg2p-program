@@ -51,6 +51,7 @@ addon | version | maintainers | summary
 [g2p_proxy_means_test](g2p_proxy_means_test/) | 17.0.1.3.0 |  | G2P: Proxy Means Test
 [g2p_reimbursement_portal](g2p_reimbursement_portal/) | 17.0.1.3.0 |  | G2P Reimbursement Portal
 [g2p_social_registry_importer](g2p_social_registry_importer/) | 17.0.1.3.0 |  | Import records from Social Registry
+[g2p_support_desk](g2p_support_desk/) | 17.0.1.3.0 |  | OpenG2P Support Desk Management System
 [g2p_theme](g2p_theme/) | 17.0.1.3.0 |  | OpenG2P Theme
 
 

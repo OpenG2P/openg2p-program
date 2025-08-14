@@ -141,7 +141,7 @@ class G2PFetchSocialRegistryBeneficiary(models.Model):
                 },
             }
 
-    @api.onchange("registry")
+    @api.onchange("target_registry")
     def onchange_target_registry(self):
         for rec in self:
             rec.target_program = None
