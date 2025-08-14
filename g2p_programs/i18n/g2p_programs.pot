@@ -502,6 +502,11 @@ msgid "Add to Program"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__additional_g2p_info
+msgid "Additional Information"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__addl_name
 msgid "Additional Name"
 msgstr ""
@@ -2125,6 +2130,11 @@ msgid "Employee"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__encrypted_val
+msgid "Encrypted value"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_cycle__end_date
 #: model_terms:ir.ui.view,arch_db:g2p_programs.cycle_filter
 msgid "End Date"
@@ -2802,6 +2812,11 @@ msgid "Income"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__ind_service_points_ids
+msgid "Ind Service Points"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,help:g2p_programs.field_g2p_program_membership__mobile_blacklisted
 msgid ""
 "Indicates if a blacklisted sanitized phone number is a mobile number. Helps "
@@ -2880,6 +2895,11 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_coa_installed
 msgid "Is Coa Installed"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__is_encrypted
+msgid "Is Encrypted"
 msgstr ""
 
 #. module: g2p_programs
@@ -3629,6 +3649,16 @@ msgid "Number of messages with delivery error"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__odk_app_user
+msgid "ODK App User"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__odk_config_id
+msgid "ODK Config"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__occupation
 msgid "Occupation"
 msgstr ""
@@ -4108,6 +4138,16 @@ msgstr ""
 #. module: g2p_programs
 #: model_terms:ir.ui.view,arch_db:g2p_programs.print_summary
 msgid "Place:"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__portal_password
+msgid "Portal Password"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__portal_password_confirm
+msgid "Portal Password Confirm"
 msgstr ""
 
 #. module: g2p_programs
@@ -4931,6 +4971,11 @@ msgid "Service Fee Journal Entry"
 msgstr ""
 
 #. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__service_point_ids
+msgid "Service Points"
+msgstr ""
+
+#. module: g2p_programs
 #: model:ir.model.fields.selection,name:g2p_programs.selection__g2p_program_create_wizard__state__step1
 msgid "Set Defaults"
 msgstr ""
@@ -4980,6 +5025,11 @@ msgstr ""
 #. module: g2p_programs
 #: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__show_credit_limit
 msgid "Show Credit Limit"
+msgstr ""
+
+#. module: g2p_programs
+#: model:ir.model.fields,field_description:g2p_programs.field_g2p_program_membership__show_portal_password
+msgid "Show Portal Password"
 msgstr ""
 
 #. module: g2p_programs
