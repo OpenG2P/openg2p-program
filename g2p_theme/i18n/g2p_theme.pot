@@ -41,12 +41,14 @@ msgstr ""
 #. module: g2p_theme
 #. odoo-python
 #: code:addons/g2p_theme/models/res_user.py:0
+#: code:addons/g2p_theme/models/res_user.py:0
 #, python-format
 msgid "Incorrect email. Please enter the registered email address."
 msgstr ""
 
 #. module: g2p_theme
 #. odoo-python
+#: code:addons/g2p_theme/controllers/web_login.py:0
 #: code:addons/g2p_theme/controllers/web_login.py:0
 #, python-format
 msgid "Login failed due to Invalid credentials !"
@@ -70,6 +72,7 @@ msgstr ""
 
 #. module: g2p_theme
 #. odoo-python
+#: code:addons/g2p_theme/controllers/web_login.py:0
 #: code:addons/g2p_theme/controllers/web_login.py:0
 #, python-format
 msgid "Wrong login/password"
