@@ -43,29 +43,33 @@
                             <field name="name" required="1" />
                             <field name="team_id" />
                             <field name="user_id" />
-                            <field name="priority" widget="priority" />
                         </group>
                         <group>
-                            <field name="program_id" required="1" />
-                            <field
-                                name="beneficiary_id"
-                                required="1"
-                                domain="[('program_id', '=', program_id)]"
-                            />
-                            <!-- <field name="partner_email" readonly="1"/>
-                            <field name="partner_phone" readonly="1"/> -->
-                        </group>
-                        <group>
+                            <field name="stage_id" />
                             <field
                                 name="tag_ids"
                                 widget="many2many_tags"
                                 options="{'color_field': 'color'}"
                             />
-                            <field name="stage_id" />
+                            <field name="priority" widget="priority" />
                         </group>
+
+                        <group col="2">
+                            <field name="creator_name" />
+                            <field name="creator_email" />
+                            <field name="creator_phone" />
+                            <field name="creator_address" colspan="2" />
+                        </group>
+
+                        <group>
+                            <field name="category_id" />
+                            <field name="program_id" />
+                            <field name="ern" />
+                            <field name="application_id" />
+                        </group>
+
                         <group>
                             <field name="closed_date" />
-                            <field name="category_id" />
                         </group>
                     </group>
                     <notebook>
@@ -77,6 +81,20 @@
                                 <field name="resolution_message" placeholder="Add a resolution..." />
                                 <field name="resolution_time" />
                             </group>
+                        </page>
+                        <page string="IDs" name="ids">
+                            <field name="reg_ids">
+                                <tree editable="bottom">
+                                    <field name="id_type" />
+                                    <field name="value" />
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="id_type" />
+                                        <field name="value" />
+                                    </group>
+                                </form>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>
@@ -97,8 +115,6 @@
             <tree decoration-danger="priority=='3'" decoration-warning="priority=='2'">
                 <field name="number" />
                 <field name="name" />
-                <field name="program_id" />
-                <field name="beneficiary_id" />
                 <field name="team_id" />
                 <field name="user_id" />
                 <field name="stage_id" />
@@ -196,7 +212,6 @@
             <search>
                 <field name="name" />
                 <field name="number" />
-                <field name="beneficiary_id" />
                 <field name="user_id" />
                 <field name="team_id" />
                 <separator />
@@ -222,7 +237,7 @@
     <record id="action_support_ticket" model="ir.actions.act_window">
         <field name="name">Support Tickets</field>
         <field name="res_model">support.ticket</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">tree,kanban,form</field>
         <field name="context">{'search_default_my_tickets': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
