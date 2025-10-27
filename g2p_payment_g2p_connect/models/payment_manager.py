@@ -304,6 +304,9 @@ class G2PPaymentManagerG2PConnect(models.Model):
                                 "reversal_entry_sequence": recon["reversal_entry_sequence"],
                                 "reversal_entry_date": recon["reversal_entry_date"],
                                 "reversal_reason": recon["reversal_reason"],
+                                "status": "paid"
+                                if recon["remittance_statement_id"] and not recon["reversal_statement_id"]
+                                else "failed",
                             }
                         )
 
