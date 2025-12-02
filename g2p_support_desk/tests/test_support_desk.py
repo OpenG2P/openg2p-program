@@ -30,14 +30,6 @@ class SupportDeskTest(TransactionCase):
             }
         )
 
-        # Create test program with minimal required fields
-        cls.program = cls.env["g2p.program"].create(
-            {
-                "name": "Test Program",
-                "target_type": "individual",
-            }
-        )
-
         # Create test team
         cls.team = cls.env["support.team"].create(
             {
@@ -100,7 +92,6 @@ class SupportDeskTest(TransactionCase):
                 "category_id": self.category.id,
                 "tag_ids": [(4, self.tag.id)],
                 "priority": "1",  # Medium priority
-                "program_id": self.program.id,
                 "stage_id": default_stage.id,
             }
         )
@@ -111,7 +102,6 @@ class SupportDeskTest(TransactionCase):
         self.assertEqual(ticket.category_id, self.category)
         self.assertEqual(ticket.tag_ids, self.tag)
         self.assertEqual(ticket.priority, "1")
-        self.assertEqual(ticket.program_id, self.program)
         self.assertEqual(ticket.stage_id, default_stage)
         self.assertTrue(ticket.active)
 
@@ -323,86 +313,3 @@ class SupportDeskTest(TransactionCase):
         ticket.write({"stage_id": self.stage_done.id, "closed_date": self.env.cr.now()})
         self.assertIsNotNone(ticket.closed_date)
         self.assertIsNotNone(ticket.resolution_time)
-
-    def test_11_ticket_beneficiary_filter(self):
-        """Test ticket beneficiary filter"""
-        # Create a ticket with a program
-        ticket = self.env["support.ticket"].create(
-            {
-                "name": "Beneficiary Test Ticket",
-                "description": "Test Description",
-                "team_id": self.team.id,
-                "program_id": self.program.id,
-                "stage_id": self.stage_new.id,
-            }
-        )
-
-        # Test that no beneficiary is selected initially
-        self.assertFalse(ticket.beneficiary_id)
-
-        # Add a beneficiary to the program
-        partner = self.env["res.partner"].create(
-            {
-                "name": "Test Beneficiary",
-                "is_registrant": True,  # Required for program membership
-            }
-        )
-        membership = self.env["g2p.program_membership"].create(
-            {
-                "program_id": self.program.id,
-                "partner_id": partner.id,
-            }
-        )
-
-        # Test that beneficiary can be selected after adding to program
-        ticket.write({"beneficiary_id": membership.id})
-        self.assertEqual(ticket.beneficiary_id, membership)
-
-        # Remove the beneficiary from the program
-        membership.unlink()
-
-        # Test that beneficiary is cleared when removed from program
-        # We need to trigger the constraint check by writing to the program_id
-        ticket.write({"program_id": self.program.id})
-        self.assertFalse(ticket.beneficiary_id)
-
-    def test_13_ticket_onchange_program_id(self):
-        """Test ticket onchange program id"""
-        # Create a ticket with a program
-        ticket = self.env["support.ticket"].create(
-            {
-                "name": "Onchange Program Test Ticket",
-                "description": "Test Description",
-                "team_id": self.team.id,
-                "program_id": self.program.id,
-                "stage_id": self.stage_new.id,
-            }
-        )
-
-        # Test that no beneficiary is selected initially
-        self.assertFalse(ticket.beneficiary_id)
-
-        # Add a beneficiary to the program
-        partner = self.env["res.partner"].create(
-            {
-                "name": "Test Beneficiary",
-                "is_registrant": True,  # Required for program membership
-            }
-        )
-        membership = self.env["g2p.program_membership"].create(
-            {
-                "program_id": self.program.id,
-                "partner_id": partner.id,
-            }
-        )
-
-        # Test that beneficiary can be selected after adding to program
-        ticket.write({"beneficiary_id": membership.id})
-        self.assertEqual(ticket.beneficiary_id, membership)
-
-        # Remove the program
-        # ticket.write({"program_id": False})
-        ticket.write({"program_id": False, "beneficiary_id": False})
-
-        # Test that beneficiary is cleared when program is removed
-        self.assertFalse(ticket.beneficiary_id)

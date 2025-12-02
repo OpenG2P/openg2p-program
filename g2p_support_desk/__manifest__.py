@@ -12,8 +12,6 @@
         "mail",
         "portal",
         "web",
-        "g2p_programs",
-        "g2p_registry_base",
     ],
     "data": [
         "security/support_desk_security.xml",
